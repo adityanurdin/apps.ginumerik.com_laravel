@@ -61,8 +61,10 @@ Route::group(['middleware' => 'auth'], function() {
  * =====================
  * Additional Config Routing
  * - JS
+ * - Logs
  * =====================
  */
 Route::name('js.')->group(function() {
     Route::get('dynamic.js', 'JsController@dynamic')->name('dynamic');
 });
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs')->middleware('auth');
