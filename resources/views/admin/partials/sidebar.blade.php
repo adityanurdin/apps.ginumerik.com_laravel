@@ -12,13 +12,13 @@
   @if (Auth::user()->role == 'ADM' || Auth::user()->role == 'ADMIN')
   <ul class="sidebar-menu">
       <li class="menu-header">Administrasi</li>
-      <li class="{{ Request::route()->getName() == 'administrasi.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('dashboard.index')}}"><i class="fas fa-database"></i> <span>Data Administrasi</span></a></li>
+      <li class="{{ Request::route()->getName() == 'administrasi.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.index')}}"><i class="fas fa-database"></i> <span>Data Administrasi</span></a></li>
   </ul>
   @endif
   @if (Auth::user()->role == 'FIN' || Auth::user()->role == 'ADMIN')
   <ul class="sidebar-menu">
       <li class="menu-header">Finance</li>
-      <li class="{{ Request::route()->getName() == 'finance.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('dashboard.index')}}"><i class="fas fa-database"></i> <span>Data Finance</span></a></li>
+      <li class="{{ Request::route()->getName() == 'finance.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.index')}}"><i class="fas fa-database"></i> <span>Data Finance</span></a></li>
   </ul>
   @endif
   @if (Auth::user()->role == 'ADMIN')
