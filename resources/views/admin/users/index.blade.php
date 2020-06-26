@@ -39,8 +39,7 @@ Manage Users
 @push('scripts')
     <script>
 
-      $(document).ready( function () {
-          $('#myTable').DataTable({
+          var table = $('#myTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('user.data') }}",
@@ -52,7 +51,20 @@ Manage Users
               {data: 'status', name: 'status'},
             ]
           });
-      } );
+
+      function myConfirm(id) {
+        var r = confirm("Yakin ingin menghapus ?");
+        if (r) {
+          $.ajax({
+            url : "/users/"+id+"/delete",
+            type: 'GET',
+            success: function(result) {
+              // alert('User deleted successfully.')
+              table.draw();
+            }
+          })
+        }
+      }
 
     </script>
 @endpush

@@ -113,7 +113,7 @@ class UserController extends Controller
                             ->addIndexColumn()
                             ->editColumn('name', function($item) {
                                 $result = ucfirst($item->name). '<br>';
-                                $result .= '<a href='.route('users.edit', $item->id).'>Edit</a> <a href='.route('user.destroy', $item->id).'>Delete</a> ';
+                                $result .= '<a href='.route('users.edit', $item->id).'>Edit</a> <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
                                 return $result;
                             })
                             ->editColumn('role', function($item) {
