@@ -21,10 +21,16 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        $remember = $request->remember ? true : false ;
+        $remember = $request->remember ? true : false;
 
         if (Auth::attempt($credentials, $remember)) {
-            return redirect()->route('dashboard.index');
+            $user = User::whereEmail($request->email)->first();
+            if ($user->status == 'inactive') {
+                return redirect()->route('login')
+                                ->with('error' , 'Akun anda sudah tidak aktif, silahkan hubungi admin.');
+            } else {
+                return redirect()->route('dashboard.index');
+            }
         } else {
             return redirect()->route('login')
                                 ->with('error' , 'Email atau Password salah !');
@@ -44,11 +50,6 @@ class AuthController extends Controller
             'password'      => 'confirmed|required',
             'secret_code'   => 'required|min:6|max:6',
         ])->validate();
-
-        /* if ($validation->fails()) {
-            return redirect()->route('register')
-                                ->withErrors($validation);
-        } */
 
         $input = $request->all();
 
