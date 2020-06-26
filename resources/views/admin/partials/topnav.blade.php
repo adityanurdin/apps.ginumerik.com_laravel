@@ -13,8 +13,16 @@
         </div>
       </div>
       <div class="dropdown-list-content dropdown-list-icons">
-        
-    </div>
+        {{-- <a href="#" class="dropdown-item dropdown-item-unread">
+          <div class="dropdown-item-icon bg-primary text-white">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="dropdown-item-desc">
+            {{ ucfirst(App\User::latest()->first()->name) }} has been join to GINUMERIK
+            <div class="time text-primary">{{App\User::latest()->first()->created_at}}</div>
+          </div>
+        </a> --}}
+      </div>
   </li>
   <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
     <img alt="image" src="{{ asset('assets/Stisla/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
