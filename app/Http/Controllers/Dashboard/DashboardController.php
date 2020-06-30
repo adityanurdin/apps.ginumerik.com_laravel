@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Welcome to Labs Litecloud.id, Develop your project into The Labs
+ * 
+ * Start Date : 23/06/2020 22:01
+ * Developer  : Muhammad Aditya Nurdin
+ * Link       : https://labs.litecloud.id
+ * Project    : Internal App for PT. Gaya Instrumentasi Numerik
+ */
+
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
