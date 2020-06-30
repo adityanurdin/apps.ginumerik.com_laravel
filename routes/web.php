@@ -46,6 +46,7 @@ Route::get('logout', 'Auth\AuthController@logout')->name('logout');
  * - Dashboard
  * - Users
  * - Administrasi
+ *   - Customers
  * - Finance
  * =====================
  */
@@ -60,7 +61,13 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('users', 'Dashboard\UserController')->except(['destroy']);
 
     // Administrasi
-    Route::resource('administrasi', 'Dashboard\AdministrasiController');
+    Route::group(['middleware' => 'ADM'], function() {
+        
+        Route::get('administrasi/{id}/show', 'Dashboard\AdministrasiController')->name('administrasi.show');
+        Route::resource('administrasi', 'Dashboard\AdministrasiController')->except(['show']);
+
+        Route::resource('administrasi/customer' , 'Dashboard\CustomerController');
+    });
 
     // Finance
     Route::group(['middleware' => 'Finance'], function() {
