@@ -33,7 +33,7 @@ class AdministrasiController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.administrasi.create');
     }
 
     /**
@@ -53,9 +53,10 @@ class AdministrasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function __invoke($id)
     {
         //
+        return $id;
     }
 
     /**
