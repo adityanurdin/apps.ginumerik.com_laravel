@@ -12,7 +12,13 @@
   @if (Auth::user()->role == 'ADM' || Auth::user()->role == 'ADMIN')
   <ul class="sidebar-menu">
       <li class="menu-header">Administrasi</li>
-      <li class="{{ Request::route()->getName() == 'administrasi.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.index')}}"><i class="fas fa-database"></i> <span>Data Administrasi</span></a></li>
+      <li class="dropdown">
+        <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i>  <span>Administrasi</span></a>
+        <ul class="dropdown-menu">
+          <li class="{{ Request::route()->getName() == 'administrasi.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.index')}}"><span>Data Administrasi</span></a></li>
+          <li class="{{ Request::route()->getName() == 'customer.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('customer.index')}}"><span>Customers</span></a></li>
+        </ul>
+      </li>
   </ul>
   @endif
   @if (Auth::user()->role == 'FIN' || Auth::user()->role == 'ADMIN')
