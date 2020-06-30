@@ -13,6 +13,9 @@ Data Administrasi
       <div class="container-fluid">
         <div class="card">
           <div class="card-body">
+            <div class="mt-3 mb-5 float-right">
+              <a href="{{route('administrasi.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Data</a>
+            </div>
             <div class="table-responsive">
               <table class="table table-striped" id="myTable">
                 <thead>
