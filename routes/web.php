@@ -63,10 +63,18 @@ Route::group(['middleware' => 'auth'], function() {
     // Administrasi
     Route::group(['middleware' => 'ADM'], function() {
         
-        Route::get('administrasi/{id}/show', 'Dashboard\AdministrasiController')->name('administrasi.show');
-        Route::resource('administrasi', 'Dashboard\AdministrasiController')->except(['show']);
+        Route::get('administrasi/data', 'Dashboard\AdministrasiController@data')->name('administrasi.data');
+        Route::get('administrasi/{id}/show', 'Dashboard\AdministrasiController@show')->name('administrasi.show');
+        Route::post('administrasi/wizard/{next}', 'Dashboard\AdministrasiController@storeWizard')->name('administrasi.wizard');
+        Route::get('administrasi/create/{wizardID}', 'Dashboard\AdministrasiController@createWizard')->name('administrasi.create-wizard');
+        Route::resource('administrasi', 'Dashboard\AdministrasiController')->except(['show', 'destroy']);
 
-        Route::resource('administrasi/customer' , 'Dashboard\CustomerController');
+        Route::group(['prefix' => 'administrasi'], function() {
+            // Customer
+            Route::get('customer/data', 'Dashboard\CustomerController@data')->name('customer.data');
+            Route::get('customer/{id}/delete/', 'Dashboard\CustomerController@destroy')->name('customer.destroy');
+            Route::resource('customer' , 'Dashboard\CustomerController')->except(['destroy']);
+        });
     });
 
     // Finance
