@@ -14,6 +14,12 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Barang;
+use Validator;
+use DataTables;
+
 class AdministrasiController extends Controller
 {
     /**
@@ -31,9 +37,44 @@ class AdministrasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.administrasi.create');
+        $customer = Customer::all();
+        $wizardID = 1;
+
+        if (!is_null(session('wizardID'))) {
+            if (session('wizardID')  != $wizardID ) {
+                return redirect()->route('administrasi.create-wizard', session('wizardID'));
+            }
+        }
+
+
+        return view('admin.administrasi.create', compact('customer', 'wizardID'));
+    }
+    
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createWizard(Request $request, $wizardID)
+    {
+        
+        if ($wizardID == 1) {
+            
+            return redirect()->route('administrasi.create');
+
+        } else if ($request->session()->has('wizardID') == false) {
+
+            return redirect()->route('administrasi.create');
+
+        } else if ($wizardID == 3) {
+            $request->session()->forget('wizardID');
+            toast('Order has been finished.','success');
+            return redirect()->route('administrasi.index');
+        }
+
+        return view('admin.administrasi.create', compact('wizardID'));
     }
 
     /**
@@ -44,7 +85,58 @@ class AdministrasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valid = Validator::make($request->all(), [
+            'nama_barang' => 'required'
+        ]);
+
+        if ($valid->fails()) {
+            return response()->json([
+                'status' => false,
+                'msg'    => $valid->errors()
+            ]);
+        }
+
+        $barang = Barang::create($request->except(['wizardID']));
+        $order  = Order::where('no_order', session('no_order'))->first();
+        $barang->orders()->attach($order->id);
+
+        if ($barang) {
+            return response()->json([
+                'status' => true,
+                'msg'    => 'Barang created successfully.',
+                'data'   => $barang
+            ],200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'msg'    => 'Barang created failed.'
+            ],500);
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @param int $next
+     * @return \Illuminate\Http\Response
+     */
+    public function storeWizard(Request $request, $next)
+    {
+        
+        $request->session()->put('wizardID', $request->wizardID);
+        $request->session()->put('no_order', $request->no_order);
+
+        if (session('wizardID') == 2) {
+
+            $order = Order::create($request->except(['wizardID']));
+
+            toast('Order created successfully.','success');
+            return redirect()->route('administrasi.create-wizard', $next);
+            
+        }
+
+        return redirect()->route('administrasi.create-wizard', $next);
+
     }
 
     /**
@@ -53,7 +145,7 @@ class AdministrasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function __invoke($id)
+    public function show($id)
     {
         //
         return $id;
@@ -91,5 +183,36 @@ class AdministrasiController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+     /**
+     * Return data json for datatables serverside
+     */
+    public function data()
+    {
+        $data = Order::with('barangs', 'customer')->get();
+        // return $data;
+        return Datatables::of($data)
+                            ->addIndexColumn()
+                            ->editColumn('no_order', function($item) {
+                                $result = ucfirst($item->no_order). '<br>';
+                                $result .= '<a href='.route('administrasi.show', $item->id).'>View</a> <a href='.route('administrasi.edit', $item->id).'>Edit</a> <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
+                                return $result;
+                            })
+                            ->editColumn('tgl_masuk', function($item) {
+                                return date('d-M-y', strtotime($item->tgl_masuk));
+                            })
+                            ->addColumn('est_harga', function($item) {
+
+                                $nilai_satuan = [];
+                                foreach ($item->barangs as $row) {
+                                    array_push($nilai_satuan, [
+                                        (int)$row->harga_satuan
+                                    ]);
+                                }
+                                return $nilai_satuan;
+                            })
+                            ->escapeColumns([])
+                            ->make(true);
     }
 }

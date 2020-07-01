@@ -24,43 +24,10 @@ Data Administrasi
                     <th>No Order</th>
                     <th>Tanggal Masuk</th>
                     <th>Nama Perusahaan</th>
-                    <th>A-S</th>
-                    <th>Lag</th>
                   </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>19 G 000 04</td>
-                        <td>7-Jan-19</td>
-                        <td>Tester 1</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>19 G 000 04</td>
-                        <td>7-Jan-19</td>
-                        <td>Tester 1</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>19 G 000 04</td>
-                        <td>7-Jan-19</td>
-                        <td>Tester 1</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>19 G 000 04</td>
-                        <td>7-Jan-19</td>
-                        <td>Tester 1</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
+
                 </tbody>
               </table>
             </div>
@@ -75,9 +42,16 @@ Data Administrasi
 @push('scripts')
     <script>
 
-      $(document).ready( function () {
-          $('#myTable').DataTable();
-      } );
-
+          $('#myTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('administrasi.data') }}",
+            columns: [
+              {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+              {data: 'no_order', name: 'no_order'},
+              {data: 'tgl_masuk', name: 'tgl_masuk'},
+              {data: 'customer.nama_perusahaan', name: 'customer.nama_perusahaan'},
+            ]
+          });
     </script>
 @endpush
