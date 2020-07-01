@@ -115,10 +115,13 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Return data json for datatables serverside
+     */
     public function data()
     {
         $data = User::all();
-        return Datatables::of($data)
+        return DataTables::of($data)
                             ->addIndexColumn()
                             ->editColumn('name', function($item) {
                                 $result = ucfirst($item->name). '<br>';
