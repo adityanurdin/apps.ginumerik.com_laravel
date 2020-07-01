@@ -28,27 +28,7 @@ Data Administrasi
                   </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>TESTER 1</td>
-                        <td>021-7890180 / 082213296042</td>
-                        <td>purchasing.eldepe@gmail.com</td>
-                        <td>Ibu Nissa</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>TESTER 2</td>
-                        <td>021-7890180 / 082213296042</td>
-                        <td>purchasing.eldepe@gmail.com</td>
-                        <td>Ibu Nissa</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>TESTER 3</td>
-                        <td>021-7890180 / 082213296042</td>
-                        <td>purchasing.eldepe@gmail.com</td>
-                        <td>Ibu Nissa</td>
-                    </tr>
+                    <!-- DataTables -->
                 </tbody>
               </table>
             </div>
@@ -63,9 +43,31 @@ Data Administrasi
 @push('scripts')
     <script>
 
-      $(document).ready( function () {
-          $('#myTable').DataTable();
-      } );
+          var table = $('#myTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('customer.data') }}",
+            columns: [
+              {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+              {data: 'nama_perusahaan', name: 'nama_perusahaan'},
+              {data: 'no_tlp', name: 'no_tlp'},
+              {data: 'email', name: 'email'},
+              {data: 'kontak_personel', name: 'kontak_personel'},
+            ]
+          });
+
+          function myConfirm(id) {
+            var r = confirm("Yakin ingin menghapus ?");
+            if (r) {
+              $.ajax({
+                url : "/administrasi/customer/"+id+"/delete",
+                type: 'GET',
+                success: function(result) {
+                  table.draw();
+                }
+              })
+            }
+          }
 
     </script>
 @endpush
