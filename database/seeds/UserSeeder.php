@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'name'  => 'Muhammad Aditya Nurdin',
-                'email' => 'adityanurdin0@litecloud.id',
+                'email' => 'adityanurdin0@gmail.com',
                 'password' => Hash::make('@Password'),
                 'role'     => 'ADMIN',
                 'status'   => 'active'
