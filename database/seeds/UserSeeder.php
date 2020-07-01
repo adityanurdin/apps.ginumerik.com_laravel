@@ -3,7 +3,6 @@
 use Illuminate\Database\Seeder;
 
 use \App\User;
-use Hash;
 
 class UserSeeder extends Seeder
 {
@@ -18,14 +17,14 @@ class UserSeeder extends Seeder
             [
                 'name'  => 'Muhammad Aditya Nurdin',
                 'email' => 'adityanurdin0@gmail.com',
-                'password' => Hash::make('1q@w3e4r5t6y'),
+                'password' => \Hash::make('1q@w3e4r5t6y'),
                 'role'     => 'ADMIN',
                 'status'   => 'active'
             ],
             [
                 'name'  => 'Admin GINUMERIK',
                 'email' => 'admin@ginumerik.com',
-                'password' => Hash::make('1q@w3e4r5t6y'),
+                'password' => \Hash::make('1q@w3e4r5t6y'),
                 'role'     => 'ADMIN',
                 'status'   => 'active'
             ]
