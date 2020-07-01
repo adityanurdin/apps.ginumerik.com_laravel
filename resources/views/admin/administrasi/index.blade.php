@@ -18,15 +18,16 @@ Data Administrasi
             </div>
             <div class="table-responsive">
               <table class="table table-striped" id="myTable">
-                <thead>
+                <thead class="text-center">
                   <tr>
                     <th>ID</th>
                     <th>No Order</th>
                     <th>Tanggal Masuk</th>
                     <th>Nama Perusahaan</th>
+                    <th>Estimasi Biaya</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
 
                 </tbody>
               </table>
@@ -51,6 +52,7 @@ Data Administrasi
               {data: 'no_order', name: 'no_order'},
               {data: 'tgl_masuk', name: 'tgl_masuk'},
               {data: 'customer.nama_perusahaan', name: 'customer.nama_perusahaan'},
+              {data: 'est_biaya', name: 'est_biaya'},
             ]
           });
     </script>

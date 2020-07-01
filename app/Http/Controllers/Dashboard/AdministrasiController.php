@@ -19,6 +19,7 @@ use App\Models\Order;
 use App\Models\Barang;
 use Validator;
 use DataTables;
+use Arr;
 
 class AdministrasiController extends Controller
 {
@@ -202,7 +203,7 @@ class AdministrasiController extends Controller
                             ->editColumn('tgl_masuk', function($item) {
                                 return date('d-M-y', strtotime($item->tgl_masuk));
                             })
-                            ->addColumn('est_harga', function($item) {
+                            ->addColumn('est_biaya', function($item) {
 
                                 $nilai_satuan = [];
                                 foreach ($item->barangs as $row) {
@@ -210,7 +211,9 @@ class AdministrasiController extends Controller
                                         (int)$row->harga_satuan
                                     ]);
                                 }
-                                return $nilai_satuan;
+                                $collapse = Arr::collapse($nilai_satuan);
+                                $sum      = array_sum($collapse);
+                                return "Rp " . number_format($sum,2,',','.');
                             })
                             ->escapeColumns([])
                             ->make(true);
