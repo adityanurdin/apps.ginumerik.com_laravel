@@ -2,7 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
-use \App\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -13,7 +15,27 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+
         $users = [
+            [
+                'name'  => 'Muhammad Aditya Nurdin',
+                'email' => 'adityanurdin0@litecloud.id',
+                'password' => Hash::make('@Password'),
+                'role'     => 'ADMIN',
+                'status'   => 'active'
+            ],
+            [
+                'name'  => 'Admin GINUMERIK',
+                'email' => 'admin@ginumerik.com',
+                'password' => Hash::make('@Password'),
+                'role'     => 'ADMIN',
+                'status'   => 'active'
+            ]
+        ];
+
+        \DB::table('users')->insert($users);
+
+        /* $users = [
             [
                 'name'  => 'Muhammad Aditya Nurdin',
                 'email' => 'adityanurdin0@gmail.com',
@@ -30,6 +52,6 @@ class UserSeeder extends Seeder
             ]
         ];
 
-        User::create($users);
+        User::create($users); */
     }
 }
