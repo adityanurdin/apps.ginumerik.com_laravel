@@ -71,6 +71,7 @@ class AdministrasiController extends Controller
 
         } else if ($wizardID == 3) {
             $request->session()->forget('wizardID');
+            $request->session()->forget('no_order');
             toast('Order has been finished.','success');
             return redirect()->route('administrasi.index');
         }
