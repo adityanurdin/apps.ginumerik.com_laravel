@@ -65,6 +65,12 @@ Data Administrasi
                       </div>
                     </div>
                     <div class="form-group row align-items-center">
+                      <label class="col-md-4 text-md-right text-left">No PO</label>
+                      <div class="col-lg-4 col-md-6">
+                        <input type="text" id="no_PO" name="no_PO" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left">No Order</label>
                       <div class="col-lg-4 col-md-6">
                         <input type="text" id="no_order" name="no_order" class="form-control">
@@ -74,6 +80,12 @@ Data Administrasi
                       <label class="col-md-4 text-md-right text-left mt-2">Tanggal Masuk</label>
                       <div class="col-lg-4 col-md-6">
                         <input type="date" name="tgl_masuk" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label class="col-md-4 text-md-right text-left">Lama Hari Kerja</label>
+                      <div class="col-lg-4 col-md-6">
+                        <input type="number" id="hari_kerja" name="hari_kerja" class="form-control">
                       </div>
                     </div>
 
@@ -94,12 +106,12 @@ Data Administrasi
                         </div>
                       </div>
 
-                      <div class="form-group row align-items-center">
+                      {{-- <div class="form-group row align-items-center">
                         <label class="col-md-4 text-md-right text-left">No PO</label>
                         <div class="col-lg-4 col-md-6">
                           <input type="text" name="no_PO" class="form-control" id="" required>
                         </div>
-                      </div>
+                      </div> --}}
                       <div class="form-group row align-items-center">
                         <label class="col-md-4 text-md-right text-left">Nama Barang</label>
                         <div class="col-lg-4 col-md-6">
@@ -134,6 +146,24 @@ Data Administrasi
                         <label class="col-md-4 text-md-right text-left">Harga Satuan</label>
                         <div class="col-lg-4 col-md-6">
                           <input type="number" id="harga_satuan" name="harga_satuan" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group row align-items-center">
+                        <label class="col-md-4 text-md-right text-left">Lab</label>
+                        <div class="col-lg-4 col-md-6">
+                          <input type="text" id="lab" name="lab" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group row align-items-center">
+                        <label class="col-md-4 text-md-right text-left">Sub Lab</label>
+                        <div class="col-lg-4 col-md-6">
+                          <input type="text" id="sub_lab" name="sub_lab" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group row align-items-center">
+                        <label class="col-md-4 text-md-right text-left">No Sertifikat</label>
+                        <div class="col-lg-4 col-md-6">
+                          <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control">
                         </div>
                       </div>
 
