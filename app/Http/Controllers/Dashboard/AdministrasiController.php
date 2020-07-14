@@ -265,7 +265,7 @@ class AdministrasiController extends Controller
                             ->editColumn('tgl_masuk', function($item) {
                                 return date('d-M-y', strtotime($item->tgl_masuk));
                             })
-                            ->addColumn('est_biaya', function($item) {
+                            /* ->addColumn('est_biaya', function($item) {
 
                                 $nilai_satuan = [];
                                 foreach ($item->barangs as $row) {
@@ -276,7 +276,7 @@ class AdministrasiController extends Controller
                                 $collapse = Arr::collapse($nilai_satuan);
                                 $sum      = array_sum($collapse);
                                 return "Rp " . number_format($sum,2,',','.');
-                            })
+                            }) */
                             ->escapeColumns([])
                             ->make(true);
     }

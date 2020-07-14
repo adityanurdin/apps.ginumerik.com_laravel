@@ -24,7 +24,7 @@ Data Administrasi
                     <th>No Order</th>
                     <th>Tanggal Masuk</th>
                     <th>Nama Perusahaan</th>
-                    <th>Estimasi Biaya</th>
+                    {{-- <th>Estimasi Biaya</th> --}}
                   </tr>
                 </thead>
                 <tbody class="text-center">
@@ -52,7 +52,7 @@ Data Administrasi
               {data: 'no_order', name: 'no_order'},
               {data: 'tgl_masuk', name: 'tgl_masuk'},
               {data: 'customer.nama_perusahaan', name: 'customer.nama_perusahaan'},
-              {data: 'est_biaya', name: 'est_biaya'},
+              // {data: 'est_biaya', name: 'est_biaya'},
             ]
           });
     </script>
