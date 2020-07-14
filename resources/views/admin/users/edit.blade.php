@@ -28,8 +28,24 @@ Edit Profile ({{ $user->name }})
                 <input type="text" class="form-control" name="name" value="{{ $user->name }}">
               </div>
               <div class="form-group">
-                <label for="name">Email</label>
+                <label for="email">Email</label>
                 <input type="text" class="form-control" readonly value="{{ $user->email }}">
+              </div>
+              <div class="form-group">
+                <label for="NIK">NIK</label>
+                <input type="number" class="form-control" name="NIK" autocomplete="off"  value="{{isset($user->biodata) ? $user->biodata['NIK'] : ''}}">
+              </div>
+              <div class="form-group">
+                <label for="tempat_lahir">Tempat Lahir</label>
+                <input type="text" class="form-control" name="tempat_lahir" autocomplete="off"  value="{{isset($user->biodata) ? $user->biodata['tempat_lahir'] : ''}}">
+              </div>
+              <div class="form-group">
+                <label for="tgl_lahir">Tanggal Lahir</label>
+                <input type="date" class="form-control" name="tgl_lahir" autocomplete="off"  value="{{isset($user->biodata) ? $user->biodata['tgl_lahir'] : ''}}">
+              </div>
+              <div class="form-group">
+                <label for="alamat">Alamat</label>
+                <textarea name="alamat" id="" cols="30" rows="10" autocomplete="off" class="form-control">{{isset($user->biodata) ? $user->biodata['alamat'] : ''}}</textarea>
               </div>
               <div class="form-group">
                 <label for="name">Role</label>
