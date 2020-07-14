@@ -45,11 +45,11 @@
                         <div class="form-group">
                             <div class="d-block">
                                 <label for="password" class="control-label">Password</label>
-                                <div class="float-right">
+                                {{-- <div class="float-right">
                                 <a href="https://apps.ginumerik.com/password/reset" class="text-small">
                                     Forgot Password?
                                 </a>
-                                </div>
+                                </div> --}}
                             </div>
                             <input aria-describedby="passwordHelpBlock" id="password" type="password" placeholder="Password" class="form-control" name="password" tabindex="2">
                             <div class="invalid-feedback">
@@ -76,7 +76,7 @@
                 </div>
             </div>
           <div class="simple-footer">
-            Build with ❤ by <a href="https://labs.litecloud.id" target="__blank">labs.litecloud.id</a> 
+            {{-- Build with ❤ by <a href="https://labs.litecloud.id" target="__blank">labs.litecloud.id</a>  --}}
           </div>
         </div>
       </div>

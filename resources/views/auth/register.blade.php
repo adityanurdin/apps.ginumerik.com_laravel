@@ -95,7 +95,7 @@
         Already have an account? <a href="{{route('login')}}">Sign In</a>
         </div>
         <div class="simple-footer">
-          Build with ❤ by <a href="https://labs.litecloud.id" target="__blank">labs.litecloud.id</a> 
+          {{-- Build with ❤ by <a href="https://labs.litecloud.id" target="__blank">labs.litecloud.id</a>  --}}
         </div>
       </div>
     </div>
