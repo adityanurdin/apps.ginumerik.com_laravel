@@ -17,8 +17,8 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->integer('customer_id');
             $table->string('tgl_masuk');
-            $table->string('AS')->nullable();
-            $table->string('LAG')->nullable();
+            // $table->string('AS')->nullable();
+            // $table->string('LAG')->nullable();
             $table->string('jml_biaya')->nullable();
             $table->timestamps();
         });
