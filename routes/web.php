@@ -21,76 +21,106 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['prefix' => 'installations'], function() {
+    Route::get('/{steps}', 'Installations@index')->name('installations.index');
+    Route::post('/{steps}', 'Installations@store')->name('installations.store');
+});
 
-Route::get('/' , function() {  return redirect()->route('dashboard.index'); });
-
-/**
- * ======================
- * Authentication Routing
- * - Login
- * - Register
- * - Logout
- * ======================
- */
-Route::get('login' , 'Auth\AuthController@loginPage')->name('login');
-Route::post('login', 'Auth\AuthController@login')->name('login');
-
-Route::get('register' , 'Auth\AuthController@registerPage')->name('register');
-Route::post('register' , 'Auth\AuthController@register')->name('register');
-
-Route::get('logout', 'Auth\AuthController@logout')->name('logout');
-
-/**
- * =====================
- * Dashboard Admin Routing
- * - Dashboard
- * - Users
- * - Administrasi
- *   - Customers
- * - Finance
- * =====================
- */
-
-Route::group(['middleware' => 'auth'], function() {
-    // Dashboard
-    Route::resource('dashboard', 'Dashboard\DashboardController');
-
-    // Users
-    Route::get('users/data' , 'Dashboard\UserController@data')->name('user.data');
-    Route::get('users/{id}/delete/', 'Dashboard\UserController@destroy')->name('user.destroy');
-    Route::resource('users', 'Dashboard\UserController')->except(['destroy']);
-
-    // Administrasi
-    Route::group(['middleware' => 'ADM'], function() {
-        
-        Route::get('administrasi/data', 'Dashboard\AdministrasiController@data')->name('administrasi.data');
-        Route::get('administrasi/{id}/show', 'Dashboard\AdministrasiController@show')->name('administrasi.show');
-        Route::post('administrasi/wizard/{next}', 'Dashboard\AdministrasiController@storeWizard')->name('administrasi.wizard');
-        Route::get('administrasi/create/{wizardID}', 'Dashboard\AdministrasiController@createWizard')->name('administrasi.create-wizard');
-        Route::resource('administrasi', 'Dashboard\AdministrasiController')->except(['show', 'destroy']);
-
-        Route::group(['prefix' => 'administrasi'], function() {
-            // Customer
-            Route::get('customer/data', 'Dashboard\CustomerController@data')->name('customer.data');
-            Route::get('customer/{id}/delete/', 'Dashboard\CustomerController@destroy')->name('customer.destroy');
-            Route::resource('customer' , 'Dashboard\CustomerController')->except(['destroy']);
+Route::group(['middleware' => 'SETUP'], function() {
+    
+    Route::get('/' , function() {  return redirect()->route('dashboard.index'); });
+    
+    /**
+     * ======================
+     * Authentication Routing
+     * - Login
+     * - Register
+     * - Logout
+     * ======================
+     */
+    Route::get('login' , 'Auth\AuthController@loginPage')->name('login');
+    Route::post('login', 'Auth\AuthController@login')->name('login');
+    
+    Route::get('register' , 'Auth\AuthController@registerPage')->name('register');
+    Route::post('register' , 'Auth\AuthController@register')->name('register');
+    
+    Route::get('logout', 'Auth\AuthController@logout')->name('logout');
+    
+    /**
+     * =====================
+     * Dashboard Admin Routing
+     * - Dashboard
+     * - Users
+     * - Administrasi
+     *   - Customers
+     * - Finance
+     * =====================
+     */
+    
+    Route::group(['middleware' => 'auth'], function() {
+        // Dashboard
+        Route::resource('dashboard', 'Dashboard\DashboardController');
+    
+        // Users
+        Route::get('users/data' , 'Dashboard\UserController@data')->name('user.data');
+        Route::get('users/{id}/delete/', 'Dashboard\UserController@destroy')->name('user.destroy');
+        Route::resource('users', 'Dashboard\UserController')->except(['destroy']);
+    
+        // Settings
+        Route::resource('settings', 'Dashboard\SettingController');
+    
+        // Administrasi
+        Route::group(['middleware' => 'ADM'], function() {
+            
+            Route::get('administrasi/data', 'Dashboard\AdministrasiController@data')->name('administrasi.data');
+            Route::get('administrasi/{id}/show', 'Dashboard\AdministrasiController@show')->name('administrasi.show');
+            Route::post('administrasi/wizard/{next}', 'Dashboard\AdministrasiController@storeWizard')->name('administrasi.wizard');
+            Route::get('administrasi/create/{wizardID}', 'Dashboard\AdministrasiController@createWizard')->name('administrasi.create-wizard');
+            Route::resource('administrasi', 'Dashboard\AdministrasiController')->except(['show', 'destroy']);
+    
+            Route::group(['prefix' => 'administrasi'], function() {
+    
+                //Barang
+                Route::get('{order_id}/barang/{id}/edit', 'Dashboard\BarangController@edit')->name('barang.edit');
+                Route::get('{order_id}/barang/{id}/delete', 'Dashboard\BarangController@destroy')->name('barang.destroy');
+                Route::post('{order_id}/barang/store', 'Dashboard\BarangController@store')->name('barang.store');
+                Route::resource('barang', 'Dashboard\BarangController')->only(['index']);
+    
+                // Customer
+                Route::get('customer/data', 'Dashboard\CustomerController@data')->name('customer.data');
+                Route::get('customer/{id}/delete/', 'Dashboard\CustomerController@destroy')->name('customer.destroy');
+                Route::resource('customer' , 'Dashboard\CustomerController')->except(['destroy']);
+            });
+        });
+    
+        // Finance
+        Route::group(['middleware' => 'Finance'], function() {
+            Route::resource('finance', 'Dashboard\FinanceController');
         });
     });
-
-    // Finance
-    Route::group(['middleware' => 'Finance'], function() {
-        Route::resource('finance', 'Dashboard\FinanceController');
+    
+    /**
+     * =====================
+     * Additional Config Routing
+     * - JS
+     * - Logs
+     * =====================
+     */
+    Route::name('js.')->group(function() {
+        Route::get('dynamic.js', 'JsController@dynamic')->name('dynamic');
     });
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs')->middleware('auth');
+
 });
 
 /**
- * =====================
- * Additional Config Routing
- * - JS
- * - Logs
- * =====================
+ * Testing Routing
  */
-Route::name('js.')->group(function() {
-    Route::get('dynamic.js', 'JsController@dynamic')->name('dynamic');
-});
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs')->middleware('auth');
+Route::group(['prefix' => 'test'], function() {
+
+    Route::get('form-adm-2', function() {
+        return view('test.form-adm-2');
+    });
+
+}); 
+
