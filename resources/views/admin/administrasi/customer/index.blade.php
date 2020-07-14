@@ -15,6 +15,7 @@ Data Administrasi
           <div class="card-body">
             <div class="mt-3 mb-5 float-right">
               <a href="{{route('customer.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Data</a>
+              <a href="{{route('administrasi.create')}}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Buat Order</a>
             </div>
             <div class="table-responsive">
               <table class="table table-striped" id="myTable">

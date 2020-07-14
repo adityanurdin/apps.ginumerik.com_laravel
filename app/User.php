@@ -10,6 +10,11 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public function biodata()
+    {
+        return $this->hasOne('App\Models\Biodata', 'user_id', 'id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

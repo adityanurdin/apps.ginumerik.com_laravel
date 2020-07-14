@@ -65,6 +65,24 @@ Data Administrasi
                     @enderror
                 </div>
               </div>
+              <div class="form-group">
+                <label for="no_npwp">No NPWP</label>
+                <input type="no_npwp" name="no_npwp" value="{{$customer->no_npwp}}" id="no_npwp" class="form-control @error('no_npwp') is-invalid @enderror" autocomplete="off">
+                <div class="invalid-feedback">
+                  @error('no_npwp')
+                    {{ $message }}
+                  @enderror
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="alamat_npwp">Alamat NPWP</label>
+                <input type="alamat_npwp" name="alamat_npwp" value="{{$customer->alamat_npwp}}" id="alamat_npwp" class="form-control @error('alamat_npwp') is-invalid @enderror" autocomplete="off">
+                <div class="invalid-feedback">
+                  @error('alamat_npwp')
+                    {{ $message }}
+                  @enderror
+                </div>
+              </div>
 
               <div>
                 <a href="{{ url()->previous() }}" type="submit" class="btn btn-outline-primary">Kembali</a>

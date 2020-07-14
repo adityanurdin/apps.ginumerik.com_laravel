@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\Models\Biodata;
 use DataTables;
 Use Alert;
 
@@ -70,7 +71,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::with('biodata')->find($id);
         return view('admin.users.edit', compact('user'));
     }
 
@@ -85,6 +86,20 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->update($request->all());
+
+        $biodata = Biodata::find($user->id)->first();
+
+        if ($biodata) {
+            $biodata->update($request->all());
+        } else {
+            Biodata::create([
+                'user_id' => $user->id,
+                'NIK'     => $request->NIK,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tgl_lahir'    => $request->tgl_lahir,
+                'alamat'       => $request->alamat
+            ]);
+        }
         
         if ($user) {
             toast('User updated successfully.','success');
