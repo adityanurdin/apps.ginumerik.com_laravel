@@ -40,15 +40,17 @@ class CustomerController extends Controller
      */
     public function store(CustomerRequest $request)
     {
-     /*    $rule = [
+        $rule = [
             'nama_perusahaan' => 'required|string',
             'alamat'          => 'string',
             'no_tlp'          => 'required',
             'email'           => 'email',
             'kontak_personel' => 'string|required',
+            'no_npwp'         => 'required',
+            'alamat_npwp'     => 'required'
         ];
         
-        $validation = Validator::make($request->all(), $rule)->validate(); */
+        $validation = Validator::make($request->all(), $rule)->validate();
 
         $customer = Customer::create($request->all());
 
@@ -135,7 +137,7 @@ class CustomerController extends Controller
                             ->addIndexColumn()
                             ->editColumn('nama_perusahaan', function($item) {
                                 $result = $item->nama_perusahaan. '<br>';
-                                $result .= '<a href='.route('customer.edit', $item->id).'>Edit</a> <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
+                                $result .= '<a href='.route('customer.edit', $item->id).'>Edit</a> <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a>';
                                 return $result;
                             })
                             ->editColumn('email', function($item) {
