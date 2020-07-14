@@ -161,6 +161,21 @@ Data Administrasi
                         </div>
                       </div>
                       <div class="form-group row align-items-center">
+                        <label class="col-md-4 text-md-right text-left">KAN</label>
+                        <div class="col-lg-4 col-md-6">
+                          <div class="selectgroup w-100">
+                            <label class="selectgroup-item">
+                              <input type="radio" name="KAN" value="KAN" class="selectgroup-input">
+                              <span class="selectgroup-button">KAN</span>
+                            </label>
+                            <label class="selectgroup-item">
+                              <input type="radio" name="KAN" value="NON KAN" class="selectgroup-input">
+                              <span class="selectgroup-button">NON KAN</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row align-items-center">
                         <label class="col-md-4 text-md-right text-left">No Sertifikat</label>
                         <div class="col-lg-4 col-md-6">
                           <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control">
