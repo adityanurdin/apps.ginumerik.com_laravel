@@ -31,6 +31,7 @@
   <ul class="sidebar-menu">
       <li class="menu-header">Admin System</li>
       <li class="{{ Request::route()->getName() == 'users.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('users.index')}}"><i class="fas fa-users"></i> <span>Users</span></a></li>
+      <li class="{{ Request::route()->getName() == 'settings.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('settings.index')}}"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
       <li class="{{ Request::route()->getName() == 'logs' ? ' active' : '' }}"><a class="nav-link" href="{{route('logs')}}" target="__blink"><i class="fas fa-history"></i> <span>Engine Logs</span></a></li>
   </ul>
   @endif

@@ -30,7 +30,7 @@
     <div class="dropdown-menu dropdown-menu-right">
       <div class="dropdown-title">Welcome, {{ Auth::user()->name }}</div>
       <a href="{{ Auth::user()->profilelink }}" class="dropdown-item has-icon">
-        <i class="far fa-user"></i> Profile Settings
+        <i class="far fa-user"></i> Account Info
       </a>
       <div class="dropdown-divider"></div>
       <a href="{{ route('logout') }}" class="dropdown-item has-icon text-danger">
