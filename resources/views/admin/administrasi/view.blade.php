@@ -129,13 +129,13 @@ Data Administrasi
               </tr>
             <tr>
               <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 height="20" align="left" valign=bottom><font color="#000000">Nama</font></td>
-              <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 align="center" valign=bottom sdval="0" sdnum="1033;"><font color="#000000">#N/A</font></td>
+              <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 align="center" valign=bottom sdval="0" sdnum="1033;"><font color="#000000">{{$order->customer['nama_sertifikat']}}</font></td>
               <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="left" valign=bottom><font color="#000000">Diskon</font></td>
               <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=bottom sdval="0" sdnum="1033;"><font color="#000000">#N/A</font></td>
               </tr>
             <tr>
               <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 height="20" align="left" valign=bottom><font color="#000000">Alamat</font></td>
-              <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 align="center" valign=bottom sdval="0" sdnum="1033;"><font color="#000000">#N/A</font></td>
+              <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 align="center" valign=bottom sdval="0" sdnum="1033;"><font color="#000000">{{$order->customer['alamat_sertifikat']}}</font></td>
               <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="left" valign=bottom><font color="#000000">Sub Total</font></td>
               <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=bottom sdval="0" sdnum="1033;"><font color="#000000">{{$sum}}</font></td>
               </tr>
