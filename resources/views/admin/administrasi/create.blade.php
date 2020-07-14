@@ -142,7 +142,8 @@ Data Administrasi
                     <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left"></label>
                       <div class="col-lg-4 col-md-6">
-                        <button id="btnSimpan" class="btn btn-block btn-outline-primary"><i class="fas fa-save"></i> Simpan</button>
+                        <button id="btnSimpan" class="btn btn-outline-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
+                        {{-- <button class="btn btn-outline-primary float-right"  style="width: 48%"><i class="fas fa-save"></i> Preview</button> --}}
                       </div>
                     </div>
                         
@@ -177,12 +178,6 @@ Data Administrasi
 
 @push('scripts')
     <script>
-
-      $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-      });
 
       $('#btnSimpan').click(function(e) {
         e.preventDefault()
