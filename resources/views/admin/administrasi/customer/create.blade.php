@@ -65,6 +65,24 @@ Data Administrasi
                 </div>
               </div>
               <div class="form-group">
+                <label for="nama_sertifikat">Atas Nama Sertifikat</label>
+                <input type="nama_sertifikat" name="nama_sertifikat" value="{{ old('nama_sertifikat') }}" id="nama_sertifikat" class="form-control @error('nama_sertifikat') is-invalid @enderror" autocomplete="off">
+                <div class="invalid-feedback">
+                  @error('nama_sertifikat')
+                    {{ $message }}
+                  @enderror
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="alamat_sertifikat">Alamat Sertifikat</label>
+                <input type="alamat_sertifikat" name="alamat_sertifikat" value="{{ old('alamat_sertifikat') }}" id="alamat_sertifikat" class="form-control @error('alamat_sertifikat') is-invalid @enderror" autocomplete="off">
+                <div class="invalid-feedback">
+                  @error('alamat_sertifikat')
+                    {{ $message }}
+                  @enderror
+                </div>
+              </div>
+              <div class="form-group">
                 <label for="no_npwp">No NPWP</label>
                 <input type="no_npwp" name="no_npwp" value="{{ old('no_npwp') }}" id="no_npwp" class="form-control @error('no_npwp') is-invalid @enderror" autocomplete="off">
                 <div class="invalid-feedback">
