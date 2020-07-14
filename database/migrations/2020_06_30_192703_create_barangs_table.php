@@ -16,7 +16,7 @@ class CreateBarangsTable extends Migration
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
             // $table->integer('order_id');
-            $table->string('no_PO')->nullable();
+            // $table->string('no_PO')->nullable();
             $table->string('nama_barang')->nullable();
             $table->string('merk')->nullable();
             $table->string('no_seri')->nullable();
