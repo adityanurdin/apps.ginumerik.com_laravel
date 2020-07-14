@@ -54,6 +54,13 @@
   <script src="{{asset('assets/dataTables/js/dataTables.bootstrap4.min.js')}}"></script>
   <script src="{{asset('assets/js/select2.full.min.js')}}"></script>
   
+  <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+  </script>
   @stack('scripts')
   @include('sweetalert::alert')
 </body>
