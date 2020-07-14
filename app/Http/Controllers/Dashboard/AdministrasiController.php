@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Barang;
+use App\Setting;
 use Validator;
 use DataTables;
 use Arr;
@@ -42,6 +43,18 @@ class AdministrasiController extends Controller
     {
         $customer = Customer::all();
         $wizardID = 1;
+        
+        /* $order = Order::latest()->first();
+        if ($order == null) {
+            $get_order = Setting::where('key', 'no_order')->first();
+            $no_order  = $get_order->value;
+        } else {
+            $unique_number = (int)substr($order->no_order, 8);
+            $number = intval($unique_number) + 1;
+            $year = date('y');
+            $no_order = $year.' G '.str_pad($number, 4, 0, STR_PAD_LEFT);
+            return $no_order;
+        } */
 
         if (!is_null(session('wizardID'))) {
             if (session('wizardID')  != $wizardID ) {
@@ -141,6 +154,43 @@ class AdministrasiController extends Controller
 
     }
 
+    static function penyebut($nilai) {
+		$nilai = abs($nilai);
+		$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+		$temp = "";
+		if ($nilai < 12) {
+			$temp = " ". $huruf[$nilai];
+		} else if ($nilai <20) {
+			$temp = Self::penyebut($nilai - 10). " belas";
+		} else if ($nilai < 100) {
+			$temp = Self::penyebut($nilai/10)." puluh". Self::penyebut($nilai % 10);
+		} else if ($nilai < 200) {
+			$temp = " seratus" . Self::penyebut($nilai - 100);
+		} else if ($nilai < 1000) {
+			$temp = Self::penyebut($nilai/100) . " ratus" . Self::penyebut($nilai % 100);
+		} else if ($nilai < 2000) {
+			$temp = " seribu" . Self::penyebut($nilai - 1000);
+		} else if ($nilai < 1000000) {
+			$temp = Self::penyebut($nilai/1000) . " ribu" . Self::penyebut($nilai % 1000);
+		} else if ($nilai < 1000000000) {
+			$temp = Self::penyebut($nilai/1000000) . " juta" . Self::penyebut($nilai % 1000000);
+		} else if ($nilai < 1000000000000) {
+			$temp = Self::penyebut($nilai/1000000000) . " milyar" . Self::penyebut(fmod($nilai,1000000000));
+		} else if ($nilai < 1000000000000000) {
+			$temp = Self::penyebut($nilai/1000000000000) . " trilyun" . Self::penyebut(fmod($nilai,1000000000000));
+		}     
+		return $temp;
+	}
+ 
+	static function terbilang($nilai) {
+		if($nilai<0) {
+			$hasil = "minus ". trim(penyebut($nilai));
+		} else {
+			$hasil = trim(Self::penyebut($nilai));
+		}     		
+		return $hasil;
+	}
+
     /**
      * Display the specified resource.
      *
@@ -149,8 +199,19 @@ class AdministrasiController extends Controller
      */
     public function show($id)
     {
-        //
-        return $id;
+        $order = Order::find($id);
+
+        $nilai_satuan = [];
+        foreach ($order->barangs as $row) {
+            array_push($nilai_satuan, [
+                (int)$row->harga_satuan * $row->alt
+            ]);
+        }
+        $collapse = Arr::collapse($nilai_satuan);
+        $sum      = array_sum($collapse);
+        $terbilang = ucfirst(Self::terbilang($sum));
+
+        return view('admin.administrasi.view', compact('order', 'sum', 'terbilang'));
     }
 
     /**
@@ -198,7 +259,7 @@ class AdministrasiController extends Controller
                             ->addIndexColumn()
                             ->editColumn('no_order', function($item) {
                                 $result = ucfirst($item->no_order). '<br>';
-                                $result .= '<a href='.route('administrasi.show', $item->id).'>View</a> <a href='.route('administrasi.edit', $item->id).'>Edit</a> <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
+                                $result .= '<a href='.route('administrasi.show', $item->id).'>View</a> <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
                                 return $result;
                             })
                             ->editColumn('tgl_masuk', function($item) {
