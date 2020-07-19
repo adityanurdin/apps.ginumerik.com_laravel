@@ -68,8 +68,14 @@ class AuthController extends Controller
 
         if($request->secret_code == env('APP_SECRET_CODE')) {
             if (User::create($input)) {
-                return redirect()->route('login')
-                                ->with('info', 'User created successfully.');
+                $credentials = $request->only('email', 'password');
+                if(Auth::attempt($credentials)) {
+                    toast('User register successfully.','success');
+                    return redirect()->route('dashboard.index');
+                } else {
+                    return redirect()->route('login')
+                                    ->with('info', 'User created successfully.');
+                }
             } else {
                 return redirect()->route('register')
                                 ->with('error', 'User created failed, please try again leter.');
