@@ -203,7 +203,7 @@
   </div>
   <div class="card-footer">
     {{-- <a href="{{url()->previous()}}" class="btn btn-outline-primary float-left"><i class="fas fa-arrow-left"></i> Back</a> --}}
-    <a href="#" class="btn btn-primary float-right"><i class="fas fa-print"></i> Print</a>
+    <a href="{{route('print.form-adm-2', $order->id)}}" class="btn btn-primary float-right"><i class="fas fa-print"></i> Print</a>
   </div>
 
 </div>
