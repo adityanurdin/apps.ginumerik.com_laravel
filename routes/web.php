@@ -76,6 +76,7 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::get('administrasi/{id}/show', 'Dashboard\AdministrasiController@show')->name('administrasi.show');
             Route::post('administrasi/wizard/{next}', 'Dashboard\AdministrasiController@storeWizard')->name('administrasi.wizard');
             Route::get('administrasi/create/{wizardID}', 'Dashboard\AdministrasiController@createWizard')->name('administrasi.create-wizard');
+            Route::get('administrasi/{id}/delete', 'Dashboard\AdministrasiController@destroy')->name('administrasi.destroy');
             Route::resource('administrasi', 'Dashboard\AdministrasiController')->except(['show', 'destroy']);
     
             Route::group(['prefix' => 'administrasi'], function() {
@@ -84,7 +85,8 @@ Route::group(['middleware' => 'SETUP'], function() {
                 Route::get('{order_id}/barang/{id}/edit', 'Dashboard\BarangController@edit')->name('barang.edit');
                 Route::get('{order_id}/barang/{id}/delete', 'Dashboard\BarangController@destroy')->name('barang.destroy');
                 Route::post('{order_id}/barang/store', 'Dashboard\BarangController@store')->name('barang.store');
-                Route::resource('barang', 'Dashboard\BarangController')->only(['index']);
+                Route::get('{order_id}/barang/create', 'Dashboard\BarangController@create')->name('barang.create');
+                Route::resource('barang', 'Dashboard\BarangController')->only(['index', 'update']);
     
                 // Customer
                 Route::get('customer/data', 'Dashboard\CustomerController@data')->name('customer.data');

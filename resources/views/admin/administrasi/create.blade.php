@@ -73,19 +73,24 @@ Data Administrasi
                     <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left">No Order</label>
                       <div class="col-lg-4 col-md-6">
-                        <input type="text" id="no_order" name="no_order" class="form-control">
+                        <input type="text" id="no_order" name="no_order" class="form-control @error('no_order') is-invalid @enderror" required>
+                        <div class="invalid-feedback">
+                          @error('no_order')
+                            {{ $message }}
+                          @enderror
+                        </div>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-md-4 text-md-right text-left mt-2">Tanggal Masuk</label>
                       <div class="col-lg-4 col-md-6">
-                        <input type="date" name="tgl_masuk" class="form-control">
+                        <input type="date" name="tgl_masuk" class="form-control" required>
                       </div>
                     </div>
                     <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left">Lama Hari Kerja</label>
                       <div class="col-lg-4 col-md-6">
-                        <input type="number" id="hari_kerja" name="hari_kerja" class="form-control">
+                        <input type="number" id="hari_kerja" name="hari_kerja" class="form-control" required>
                       </div>
                     </div>
 
@@ -169,7 +174,7 @@ Data Administrasi
                               <span class="selectgroup-button">KAN</span>
                             </label>
                             <label class="selectgroup-item">
-                              <input type="radio" name="KAN" value="NON KAN" class="selectgroup-input">
+                              <input type="radio" name="KAN" value="NON KAN" class="selectgroup-input" checked>
                               <span class="selectgroup-button">NON KAN</span>
                             </label>
                           </div>

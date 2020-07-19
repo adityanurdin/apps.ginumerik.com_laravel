@@ -13,6 +13,11 @@ Manage Users
       <div class="container-fluid">
         <div class="card">
           <div class="card-body">
+
+            <div class="mt-3">
+              <a href="{{route('users.create')}}" class="btn btn-primary mb-5 float-right">Tambah Users</a>
+            </div>
+
             <div class="table-responsive">
               <table class="table table-striped" id="myTable">
                 <thead>

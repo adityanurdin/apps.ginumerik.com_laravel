@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Barang;
 use Validator;
 use DataTables;
+use Dit;
 
 class BarangController extends Controller
 {
@@ -28,9 +29,9 @@ class BarangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($order_id)
     {
-        //
+        return view('admin.administrasi.barang.create', compact('order_id'));
     }
 
     /**
@@ -41,9 +42,12 @@ class BarangController extends Controller
      */
     public function store(Request $request, $order_id)
     {
+        $order = Order::where('no_order', $order_id)->first();
 
         $valid = Validator::make($request->all(), [
-            'nama_barang' => 'required'
+            'nama_barang' => 'required',
+            'alt'         => 'required',
+            'harga_satuan' => 'required'
         ]);
         if ($valid->fails()) {
             return response()->json([
@@ -53,19 +57,14 @@ class BarangController extends Controller
         }
 
         $barang = Barang::create($request->all());
-        $barang->orders()->attach($order_id);
+        $barang->orders()->attach($order->id);
 
         if ($barang) {
-            return response()->json([
-                'status' => true,
-                'msg'    => 'Barang created successfully.',
-                'data'   => $barang
-            ],200);
+            toast('Barang create successfully.','success');
+            return redirect()->route('administrasi.show', $order->id);
         } else {
-            return response()->json([
-                'status' => false,
-                'msg'    => 'Barang created failed.'
-            ],500);
+            toast('Barang create failed.','success');
+            return redirect()->route('administrasi.show', $order->id);
         }
     }
 
@@ -89,8 +88,7 @@ class BarangController extends Controller
     public function edit($order_id, $id)
     {
         $barang = Barang::find($id);
-
-        return $barang;
+        return view('admin.administrasi.barang.edit', compact('barang'));
     }
 
     /**
@@ -102,7 +100,15 @@ class BarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $barang = Barang::find($id);
+        if ($barang) {
+            $barang->update($request->all());
+            toast('Barang update successfully.','success');
+            return redirect()->route('administrasi.show', $barang->orders[0]['id']);
+        } else {
+            toast('Barang update failed.','error');
+            return redirect()->route('administrasi.show', $barang->orders[0]['id']);
+        }
     }
 
     /**
@@ -114,20 +120,16 @@ class BarangController extends Controller
     public function destroy($order_id, $id)
     {
         $barang = Barang::find($id);
+
         $barang->delete();
         $barang->orders()->detach($order_id);
 
         if($barang) {
-            return response()->json([
-                'status' => true,
-                'msg'    => 'Barang deleted successfully.'
-            ],200);
+            toast('Barang delete successfully.','success');
+            return redirect()->route('administrasi.show', $order_id);
         } else {
-            return response()->json([
-                'status' => false,
-                'msg'    => 'Barang deleted failed.'
-            ],500);
+            toast('Barang delete failed.','error');
+            return redirect()->route('administrasi.index');
         }
-
     }
 }

@@ -21,6 +21,7 @@ use App\Setting;
 use Validator;
 use DataTables;
 use Arr;
+use Dit;
 
 class AdministrasiController extends Controller
 {
@@ -83,10 +84,11 @@ class AdministrasiController extends Controller
             return redirect()->route('administrasi.create');
 
         } else if ($wizardID == 3) {
+            $order = Order::where('no_order', session('no_order'))->first();
             $request->session()->forget('wizardID');
             $request->session()->forget('no_order');
             toast('Order has been finished.','success');
-            return redirect()->route('administrasi.index');
+            return redirect()->route('administrasi.show', $order->id);
         }
 
         return view('admin.administrasi.create', compact('wizardID'));
@@ -137,7 +139,11 @@ class AdministrasiController extends Controller
      */
     public function storeWizard(Request $request, $next)
     {
-        
+
+        Validator::make($request->all(), [
+            'no_order' => 'unique:orders'
+        ])->validate();
+
         $request->session()->put('wizardID', $request->wizardID);
         $request->session()->put('no_order', $request->no_order);
 
@@ -145,51 +151,16 @@ class AdministrasiController extends Controller
 
             $order = Order::create($request->except(['wizardID']));
 
-            toast('Order created successfully.','success');
-            return redirect()->route('administrasi.create-wizard', $next);
+            if ($order) {
+                toast('Order created successfully.','success');
+                return redirect()->route('administrasi.create-wizard', $next);
+            }
             
         }
 
         return redirect()->route('administrasi.create-wizard', $next);
 
     }
-
-    static function penyebut($nilai) {
-		$nilai = abs($nilai);
-		$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
-		$temp = "";
-		if ($nilai < 12) {
-			$temp = " ". $huruf[$nilai];
-		} else if ($nilai <20) {
-			$temp = Self::penyebut($nilai - 10). " belas";
-		} else if ($nilai < 100) {
-			$temp = Self::penyebut($nilai/10)." puluh". Self::penyebut($nilai % 10);
-		} else if ($nilai < 200) {
-			$temp = " seratus" . Self::penyebut($nilai - 100);
-		} else if ($nilai < 1000) {
-			$temp = Self::penyebut($nilai/100) . " ratus" . Self::penyebut($nilai % 100);
-		} else if ($nilai < 2000) {
-			$temp = " seribu" . Self::penyebut($nilai - 1000);
-		} else if ($nilai < 1000000) {
-			$temp = Self::penyebut($nilai/1000) . " ribu" . Self::penyebut($nilai % 1000);
-		} else if ($nilai < 1000000000) {
-			$temp = Self::penyebut($nilai/1000000) . " juta" . Self::penyebut($nilai % 1000000);
-		} else if ($nilai < 1000000000000) {
-			$temp = Self::penyebut($nilai/1000000000) . " milyar" . Self::penyebut(fmod($nilai,1000000000));
-		} else if ($nilai < 1000000000000000) {
-			$temp = Self::penyebut($nilai/1000000000000) . " trilyun" . Self::penyebut(fmod($nilai,1000000000000));
-		}     
-		return $temp;
-	}
- 
-	static function terbilang($nilai) {
-		if($nilai<0) {
-			$hasil = "minus ". trim(penyebut($nilai));
-		} else {
-			$hasil = trim(Self::penyebut($nilai));
-		}     		
-		return $hasil;
-	}
 
     /**
      * Display the specified resource.
@@ -209,7 +180,9 @@ class AdministrasiController extends Controller
         }
         $collapse = Arr::collapse($nilai_satuan);
         $sum      = array_sum($collapse);
-        $terbilang = ucfirst(Self::terbilang($sum));
+        $PPn      = $sum * 0.1;
+        $grand_total = $sum + $PPn;
+        $terbilang = ucfirst(Dit::terbilang($grand_total));
 
         return view('admin.administrasi.view', compact('order', 'sum', 'terbilang'));
     }
@@ -245,7 +218,18 @@ class AdministrasiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $order = Order::find($id);
+        $order->delete();
+        $order->barangs()->detach();
+
+        if ($order) {
+            return response()->json([
+                'status' => true,
+                'msg'    => 'Order deleted successfully.',
+                'data'   => $order
+            ],200);
+        }
+
     }
 
      /**

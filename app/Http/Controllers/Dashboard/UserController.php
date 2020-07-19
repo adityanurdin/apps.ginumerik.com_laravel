@@ -18,6 +18,8 @@ use App\User;
 use App\Models\Biodata;
 use DataTables;
 Use Alert;
+use Validator;
+use Hash;
 
 class UserController extends Controller
 {
@@ -38,7 +40,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -49,7 +51,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = Validator::make($request->all(), [
+            'name'          => 'string|required',
+            'email'         => 'email|unique:users|required',
+            'password'      => 'confirmed|required|min:6',
+        ])->validate();
+
+        $request->merge(['password' => Hash::make($request->password)]);
+        $user = User::create($request->all());
+        if ($user) {
+            toast('User created successfully.','success');
+            return redirect()->route('users.index');
+        } else {
+            toast('User created failed.','error');
+            return redirect()->route('users.index');
+        }
     }
 
     /**
@@ -87,19 +103,18 @@ class UserController extends Controller
         $user = User::find($id);
         $user->update($request->all());
 
-        $biodata = Biodata::find($user->id)->first();
-
-        if ($biodata) {
+        if ($request->NIK != NULL) {
+            $biodata = Biodata::find($user->id)->first();
             $biodata->update($request->all());
-        } else {
-            Biodata::create([
-                'user_id' => $user->id,
-                'NIK'     => $request->NIK,
-                'tempat_lahir' => $request->tempat_lahir,
-                'tgl_lahir'    => $request->tgl_lahir,
-                'alamat'       => $request->alamat
-            ]);
         }
+        
+        Biodata::create([
+            'user_id' => $user->id,
+            'NIK'     => $request->NIK,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tgl_lahir'    => $request->tgl_lahir,
+            'alamat'       => $request->alamat
+        ]);
         
         if ($user) {
             toast('User updated successfully.','success');
