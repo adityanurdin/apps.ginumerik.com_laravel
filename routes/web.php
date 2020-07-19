@@ -99,6 +99,13 @@ Route::group(['middleware' => 'SETUP'], function() {
         Route::group(['middleware' => 'Finance'], function() {
             Route::resource('finance', 'Dashboard\FinanceController');
         });
+
+
+
+
+        // PRINT Routing
+        Route::get('print-form-adm-2/{id}', 'PrintController@formAdm2')->name('print.form-adm-2');
+        Route::get('print-form-adm-1/{id}', 'PrintController@formAdm1')->name('print.form-adm-1');
     });
     
     /**
