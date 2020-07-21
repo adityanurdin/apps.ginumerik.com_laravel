@@ -81,12 +81,7 @@ Data Administrasi
                         </div>
                       </div>
                     </div>
-                    <div class="form-group row">
-                      <label class="col-md-4 text-md-right text-left mt-2">Tanggal Masuk</label>
-                      <div class="col-lg-4 col-md-6">
-                        <input type="date" name="tgl_masuk" class="form-control" required>
-                      </div>
-                    </div>
+                        <input type="date" hidden name="tgl_masuk" class="form-control" value="{{date('Y-m-d')}}" required>
                     <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left">Lama Hari Kerja</label>
                       <div class="col-lg-4 col-md-6">
