@@ -73,7 +73,7 @@ Route::group(['middleware' => 'SETUP'], function() {
         Route::group(['middleware' => 'ADM'], function() {
             
             Route::get('administrasi/data', 'Dashboard\AdministrasiController@data')->name('administrasi.data');
-            Route::get('administrasi/{id}/show', 'Dashboard\AdministrasiController@show')->name('administrasi.show');
+            Route::get('administrasi/{id}/detail', 'Dashboard\AdministrasiController@show')->name('administrasi.show');
             Route::post('administrasi/wizard/{next}', 'Dashboard\AdministrasiController@storeWizard')->name('administrasi.wizard');
             Route::get('administrasi/create/{wizardID}', 'Dashboard\AdministrasiController@createWizard')->name('administrasi.create-wizard');
             Route::get('administrasi/{id}/delete', 'Dashboard\AdministrasiController@destroy')->name('administrasi.destroy');
@@ -97,6 +97,7 @@ Route::group(['middleware' => 'SETUP'], function() {
     
         // Finance
         Route::group(['middleware' => 'Finance'], function() {
+            Route::get('finance/data', 'Dashboard\FinanceController@data')->name('finance.data');
             Route::resource('finance', 'Dashboard\FinanceController');
         });
 
