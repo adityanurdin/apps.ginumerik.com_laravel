@@ -195,7 +195,9 @@ class AdministrasiController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order = Order::find($id);
+
+        return view('admin.administrasi.edit', compact('order'));
     }
 
     /**
@@ -207,7 +209,15 @@ class AdministrasiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order = Order::find($id);
+        $order->update($request->all());
+        if ($order) {
+            toast('Order updated successfully.','success');
+            return redirect()->route('administrasi.index');
+        } else {
+            toast('Order updated failed.','error');
+            return redirect()->route('administrasi.index');
+        }
     }
 
     /**
@@ -243,24 +253,12 @@ class AdministrasiController extends Controller
                             ->addIndexColumn()
                             ->editColumn('no_order', function($item) {
                                 $result = ucfirst($item->no_order). '<br>';
-                                $result .= '<a href='.route('administrasi.show', $item->id).'>View</a> <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
+                                $result .= '<a href='.route('administrasi.show', $item->id).'>View</a> <a href="'.route('administrasi.edit', $item->id).'">Edit</a>  <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
                                 return $result;
                             })
                             ->editColumn('tgl_masuk', function($item) {
                                 return date('d-M-y', strtotime($item->tgl_masuk));
                             })
-                            /* ->addColumn('est_biaya', function($item) {
-
-                                $nilai_satuan = [];
-                                foreach ($item->barangs as $row) {
-                                    array_push($nilai_satuan, [
-                                        (int)$row->harga_satuan
-                                    ]);
-                                }
-                                $collapse = Arr::collapse($nilai_satuan);
-                                $sum      = array_sum($collapse);
-                                return "Rp " . number_format($sum,2,',','.');
-                            }) */
                             ->escapeColumns([])
                             ->make(true);
     }
