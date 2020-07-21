@@ -1,7 +1,7 @@
 @extends('layouts.admin-master')
 
 @section('title')
-Data Administrasi
+Data Customer
 @endsection
 
 @section('content')
