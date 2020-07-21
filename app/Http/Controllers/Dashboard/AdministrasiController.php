@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Barang;
+use App\Models\Finance;
 use App\Setting;
 use Validator;
 use DataTables;
@@ -117,6 +118,15 @@ class AdministrasiController extends Controller
         $order  = Order::where('no_order', session('no_order'))->first();
         $barang->orders()->attach($order->id);
 
+        
+        $finance = Finance::where('order_id', $order->id)->first();
+
+        $total_harga_barang = $request->harga_satuan * $request->alt;
+        $total_bayar        = $total_harga_barang + $finance->total_bayar;
+        $finance->update([
+            'total_bayar' => $total_bayar
+        ]);
+
         if ($barang) {
             return response()->json([
                 'status' => true,
@@ -150,8 +160,9 @@ class AdministrasiController extends Controller
         if (session('wizardID') == 2) {
 
             $order = Order::create($request->except(['wizardID']));
+            $finance = Finance::create(['order_id' => $order->id]);
 
-            if ($order) {
+            if ($order && $finance) {
                 toast('Order created successfully.','success');
                 return redirect()->route('administrasi.create-wizard', $next);
             }
@@ -170,7 +181,7 @@ class AdministrasiController extends Controller
      */
     public function show($id)
     {
-        $order = Order::find($id);
+        $order = Order::findOrFail($id);
 
         $nilai_satuan = [];
         foreach ($order->barangs as $row) {
@@ -247,13 +258,13 @@ class AdministrasiController extends Controller
      */
     public function data()
     {
-        $data = Order::with('barangs', 'customer')->get();
+        $data = Order::with('customer')->get();
         // return $data;
         return Datatables::of($data)
                             ->addIndexColumn()
                             ->editColumn('no_order', function($item) {
                                 $result = ucfirst($item->no_order). '<br>';
-                                $result .= '<a href='.route('administrasi.show', $item->id).'>View</a> <a href="'.route('administrasi.edit', $item->id).'">Edit</a>  <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
+                                $result .= '<a href='.route('administrasi.show', $item->id).'>Detail</a> <a href="'.route('administrasi.edit', $item->id).'">Edit</a>  <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
                                 return $result;
                             })
                             ->editColumn('tgl_masuk', function($item) {

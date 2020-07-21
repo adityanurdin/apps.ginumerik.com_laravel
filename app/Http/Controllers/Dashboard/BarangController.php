@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Barang;
+use App\Models\Finance;
 use Validator;
 use DataTables;
 use Dit;
@@ -58,6 +59,14 @@ class BarangController extends Controller
 
         $barang = Barang::create($request->all());
         $barang->orders()->attach($order->id);
+
+        $finance = Finance::where('order_id', $order->id)->first();
+
+        $total_harga_barang = $request->harga_satuan * $request->alt;
+        $total_bayar        = $total_harga_barang + $finance->total_bayar;
+        $finance->update([
+            'total_bayar' => $total_bayar
+        ]);
 
         if ($barang) {
             toast('Barang create successfully.','success');
