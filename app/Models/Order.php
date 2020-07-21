@@ -20,4 +20,9 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\Customer');
     }
+
+    public function finance()
+    {
+        return $this->belongsTo('App\Models\Finance', 'id', 'order_id');
+    }
 }
