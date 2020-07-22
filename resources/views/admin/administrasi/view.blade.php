@@ -24,7 +24,7 @@ Data Administrasi
           </div>
           <div class="card-body">
             <div class="mt-3">
-              <a href="{{route('barang.create', $order->no_order)}}" class="btn btn-primary float-right mb-3">Tambah Data</a>
+              <a href="{{route('barang.create', $order->no_order)}}" class="btn btn-primary float-right mb-3"><i class="fas fa-plus"></i> Tambah Data</a>
             </div>
             <table class="table table-striped table-bordered">
               <thead>

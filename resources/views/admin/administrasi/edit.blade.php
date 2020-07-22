@@ -40,8 +40,8 @@ Edit Data Administrasi
                             <input type="number" name="hari_kerja" id="hari_kerja" value="{{$order->hari_kerja}}" class="form-control">
                         </div>
 
-                        <a href="{{url()->previous()}}" class="btn btn-outline-primary float-left">Back</a>
-                        <button type="submit" class="btn btn-primary float-right">Simpan</button>
+                        <a href="{{url()->previous()}}" class="btn btn-outline-primary float-left"><i class="fas fa-arrow-left"></i> Back</a>
+                        <button type="submit" class="btn btn-primary float-right">Simpan <i class="fas fa-save"></i> </button>
                     </form>
 
                   </div>

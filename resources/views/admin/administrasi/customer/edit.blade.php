@@ -103,8 +103,8 @@ Edit Data Customer
               </div>
 
               <div>
-                <a href="{{ url()->previous() }}" type="submit" class="btn btn-outline-primary">Kembali</a>
-                <button type="submit" class="btn btn-primary float-right">Simpan</button>
+                <a href="{{url()->previous()}}" class="btn btn-outline-primary float-left"><i class="fas fa-arrow-left"></i> Back</a>
+                <button type="submit" class="btn btn-primary float-right">Simpan <i class="fas fa-save"></i> </button>
               </div>
             </form>
 
