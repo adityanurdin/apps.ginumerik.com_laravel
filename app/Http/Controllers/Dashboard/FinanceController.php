@@ -126,10 +126,8 @@ class FinanceController extends Controller
                 ->addColumn('status', function($item) {
                     if ($item->finance['status'] == NULL) {
                         $status = 'Belum Bayar';
-                    } else if ($item->finance['sisa_bayar'] != 0) {
-                        $status = 'Belum Lunas';
                     } else {
-                        $status = 'Sudah Bayar';
+                        $status = $item->finance['status'];
                     }
                     return $status;
                 })
