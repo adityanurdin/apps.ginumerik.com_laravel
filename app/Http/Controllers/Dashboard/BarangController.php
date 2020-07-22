@@ -132,6 +132,15 @@ class BarangController extends Controller
 
         $barang->delete();
         $barang->orders()->detach($order_id);
+        
+        $finance = Finance::where('order_id', $order_id)->first();
+
+        $total_harga_barang = $barang->harga_satuan * $barang->alt;
+        $total_bayar        = $finance->total_bayar - $total_harga_barang;
+
+        $finance->update([
+            'total_bayar' => $total_bayar
+        ]);
 
         if($barang) {
             toast('Barang delete successfully.','success');
