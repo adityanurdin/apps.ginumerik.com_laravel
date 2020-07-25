@@ -107,7 +107,7 @@ class LogController extends Controller
 
     public function data()
     {
-        $log = Log::with('user')->get();
+        $log = Log::with('user')->orderBy('created_at', 'DESC')->get();
 
         return Datatables::of($log)
                     ->addIndexColumn()
