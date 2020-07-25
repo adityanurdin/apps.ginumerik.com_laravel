@@ -46,7 +46,7 @@ class AdministrasiController extends Controller
         $customer = Customer::all();
         $wizardID = 1;
         
-        /* $order = Order::latest()->first();
+        $order = Order::latest()->first();
         if ($order == null) {
             $get_order = Setting::where('key', 'no_order')->first();
             $no_order  = $get_order->value;
@@ -54,9 +54,12 @@ class AdministrasiController extends Controller
             $unique_number = (int)substr($order->no_order, 8);
             $number = intval($unique_number) + 1;
             $year = date('y');
-            $no_order = $year.' G '.str_pad($number, 4, 0, STR_PAD_LEFT);
-            return $no_order;
-        } */
+            $no_order = $year.' G '.str_pad($number, 6, 0, STR_PAD_LEFT);
+            // return $no_order;
+            
+        }
+
+        // 20 G 000 01
 
         if (!is_null(session('wizardID'))) {
             if (session('wizardID')  != $wizardID ) {
@@ -65,7 +68,7 @@ class AdministrasiController extends Controller
         }
 
 
-        return view('admin.administrasi.create', compact('customer', 'wizardID'));
+        return view('admin.administrasi.create', compact('customer', 'wizardID', 'no_order'));
     }
     
     /**
