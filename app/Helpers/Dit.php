@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 
+use Auth;
+use \App\Log;
+
 
 class Dit 
 {
@@ -63,6 +66,36 @@ class Dit
 		$parsing = explode('/', $decode);
 		$data = $parsing[1];
 		return $data;
+	}
+
+	public static function Log($status, $msg, $status_log)
+	{
+		$user_id = Auth::user()->id;
+
+		$log = Log::create([
+			'user_id' => $user_id,
+			'status'  => $status,
+			'msg'	  => $msg,
+			'status_log'  => $status_log,
+		]);
+
+		if ($log) {
+            $result = [
+                'status' => true,
+                'msg'    => 'Success create logs',
+                'data'   => $log
+            ];
+            $code   = 200;
+        } else {
+            $result = [
+                'status' => false,
+                'msg'    => 'Failed create logs',
+                'data'   => $log
+            ];
+            $code   = 500;
+        }
+        
+        return response()->json($result, $code);
 	}
 
 }
