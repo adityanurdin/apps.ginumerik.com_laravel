@@ -20,6 +20,7 @@ use DataTables;
 Use Alert;
 use Validator;
 use Hash;
+use Dit;
 
 class UserController extends Controller
 {
@@ -53,16 +54,18 @@ class UserController extends Controller
     {
         $validation = Validator::make($request->all(), [
             'name'          => 'string|required',
-            'email'         => 'email|unique:users|required',
+            'email'         => 'unique:users|required',
             'password'      => 'confirmed|required|min:6',
         ])->validate();
 
-        $request->merge(['password' => Hash::make($request->password)]);
+        $request->merge(['password' => Hash::make($request->password), 'email' => $request->email.'@ginumerik.com']);
         $user = User::create($request->all());
         if ($user) {
+            Dit::Log(1,'Membuat user '.$user->name, 'Success');
             toast('User created successfully.','success');
             return redirect()->route('users.index');
         } else {
+            Dit::Log(0,'Membuat user '.$user->name, 'Error');
             toast('User created failed.','error');
             return redirect()->route('users.index');
         }
@@ -122,9 +125,11 @@ class UserController extends Controller
         ]);
         
         if ($user) {
+            Dit::Log(1,'Mengedit user '.$user->name, 'Success');
             toast('User updated successfully.','success');
             return redirect()->route('users.index');
         } else {
+            Dit::Log(0,'Mengedit user '.$user->name, 'Error');
             toast('something wrong, please try again.','error');
             return redirect()->route('users.edit', $id);
         }
@@ -142,9 +147,11 @@ class UserController extends Controller
         $user->delete();
 
         if ($user) {
+            Dit::Log(1,'Menghapus user '.$user->name, 'Success');
             return redirect()->route('users.index')
                                 ->with('info', 'User deleted successfully.');
         } else {
+            Dit::Log(0,'Menghapus user '.$user->name, 'Error');
             return redirect()->route('users.edit', $id)
                                 ->with('error', 'something wrong, please try again.');
         }

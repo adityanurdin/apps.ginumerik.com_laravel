@@ -29,11 +29,16 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $new_mail    = $request->email.'@ginumerik.com';
+        $credentials = [
+            'email' => $new_mail,
+            'password' => $request->password
+        ];
+        
         $remember = $request->remember ? true : false;
 
         if (Auth::attempt($credentials, $remember)) {
-            $user = User::whereEmail($request->email)->first();
+            $user = Auth::user();
             if ($user->status == 'inactive') {
                 return redirect()->route('login')
                                 ->with('error' , 'Akun anda sudah tidak aktif, silahkan hubungi admin.');
@@ -55,13 +60,14 @@ class AuthController extends Controller
     {
         $validation = Validator::make($request->all(), [
             'name'          => 'string|required',
-            'email'         => 'email|unique:users|required',
+            'email'         => 'unique:users|required',
             'password'      => 'confirmed|required',
             'secret_code'   => 'required|min:6|max:6',
         ])->validate();
 
         $input = $request->all();
 
+        $input['email']    = $request->email.'@ginumerik.com';
         $input['password'] = Hash::make($request->password);
         $input['role']     = 'guest';
         $input['status']   = 'active';

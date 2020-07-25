@@ -28,15 +28,15 @@
             </div>
             @endif
             <div class="card card-primary">
-                <div class="card-header">
+                {{-- <div class="card-header">
                     <h4>Login</h4>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     <form method="POST" action="">
                         @csrf  
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input aria-describedby="emailHelpBlock" autocomplete="off" id="email" type="email" class="form-control" name="email" placeholder="Email address" tabindex="1" value="" autofocus>
+                            <label for="email">Username</label>
+                            <input aria-describedby="emailHelpBlock" autocomplete="off" id="email" type="text" class="form-control" name="email" placeholder="Username" tabindex="1" value="" autofocus>
                             <div class="invalid-feedback">
                                 
                             </div>
