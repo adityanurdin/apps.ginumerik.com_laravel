@@ -119,7 +119,7 @@ class FinanceController extends Controller
                 ->addIndexColumn()
                 ->editColumn('no_order', function($item) {
                     $result = ucfirst($item->no_order). '<br>';
-                    $result .= '<a href='.route('finance.show', $item->id).'>Edit</a>';
+                    $result .= '<a href='.route('finance.show', $item->id).'>Edit</a> <a href='.route('finance.show', $item->id).'>Detail</a>';
                     return $result;
                 })
                 ->addColumn('tgl_tagihan', function($item) {
