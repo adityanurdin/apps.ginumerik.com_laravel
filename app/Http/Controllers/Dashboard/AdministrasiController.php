@@ -128,12 +128,15 @@ class AdministrasiController extends Controller
         ]);
 
         if ($barang) {
+            $msg = 'Menambahkan Barang '.$barang->nama_barang.' pada order '. $order->no_order;
+            Dit::Log(1,$msg, 'success');
             return response()->json([
                 'status' => true,
                 'msg'    => 'Barang created successfully.',
                 'data'   => $barang
             ],200);
         } else {
+            Dit::Log(0,'Menambahkan Barang gagal', 'success');
             return response()->json([
                 'status' => false,
                 'msg'    => 'Barang created failed.'
@@ -163,8 +166,12 @@ class AdministrasiController extends Controller
             $finance = Finance::create(['order_id' => $order->id]);
 
             if ($order && $finance) {
+                $msg = 'Membuat order '. $order->no_order. ' sukses';
+                Dit::Log(1,$msg, 'success');
                 toast('Order created successfully.','success');
                 return redirect()->route('administrasi.create-wizard', $next);
+            } else {
+                Dit::Log(0,'Order created failed', 'error');
             }
             
         }

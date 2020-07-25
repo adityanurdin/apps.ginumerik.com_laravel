@@ -22,6 +22,7 @@ Data Finance
                     <th>Tanggal Tagihan</th>
                     <th>Nama Perusahaan</th>
                     <th>Total Bayar (+ PPn)</th>
+                    <th>Sisa Bayar</th>
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -51,6 +52,7 @@ Data Finance
           {data: 'tgl_tagihan', name: 'tgl_tagihan'},
           {data: 'customer.nama_perusahaan', name: 'customer.nama_perusahaan'},
           {data: 'total_bayar', name: 'total_bayar'},
+          {data: 'sisa_bayar', name: 'sisa_bayar'},
           {data: 'status', name: 'status'},
         ]
       });

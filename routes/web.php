@@ -114,12 +114,16 @@ Route::group(['middleware' => 'SETUP'], function() {
      * Additional Config Routing
      * - JS
      * - Logs
+     * - System-log
      * =====================
      */
     Route::name('js.')->group(function() {
         Route::get('dynamic.js', 'JsController@dynamic')->name('dynamic');
     });
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs')->middleware('auth');
+    
+    Route::get('system-log/data', 'LogController@data')->name('system-log.data')->middleware('auth');
+    Route::resource('system-log', 'LogController')->only(['index', 'store'])->middleware('auth');
 
 });
 

@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Barang;
+use App\Models\Finance;
 use Validator;
 use DataTables;
 use Dit;
@@ -63,7 +64,9 @@ class FinanceController extends Controller
     public function show($id)
     {
         $order = Order::findOrFail($id);
-        return $order->finance;
+        $PPn   = $order->finance['total_bayar'] * 0.1;
+        $total_bayar = $order->finance['total_bayar'] + $PPn;
+        return view('admin.finance.edit', compact('order', 'total_bayar'));
     }
 
     /**
@@ -86,7 +89,16 @@ class FinanceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $finance = Finance::findOrFail($id);
+        $finance->update($request->all());
+
+        if ($finance) {
+            toast('Finance edit successfully.','success');
+            return redirect()->route('finance.index');
+        } else {
+            toast('Finance edit failed.','error');
+            return redirect()->route('finance.show', $id);
+        }
     }
 
     /**
@@ -107,7 +119,7 @@ class FinanceController extends Controller
                 ->addIndexColumn()
                 ->editColumn('no_order', function($item) {
                     $result = ucfirst($item->no_order). '<br>';
-                    $result .= '<a href='.route('finance.show', $item->id).'>Detail</a> <a href='.route('finance.edit', $item->id).'>Edit</a>';
+                    $result .= '<a href='.route('finance.show', $item->id).'>Edit</a>';
                     return $result;
                 })
                 ->addColumn('tgl_tagihan', function($item) {
@@ -122,6 +134,14 @@ class FinanceController extends Controller
                     $PPn = $item->finance['total_bayar'] * 0.1;
                     $total_bayar = $item->finance['total_bayar'] + $PPn;
                     return Dit::Rupiah($total_bayar);
+                })
+                ->addColumn('sisa_bayar', function($item) {
+                    if ($item->finance['sisa_bayar'] == NULL) {
+                        $sisa_bayar = 0;
+                    } else {
+                        $sisa_bayar = $item->finance['sisa_bayar'];
+                    }
+                    return Dit::Rupiah($sisa_bayar);
                 })
                 ->addColumn('status', function($item) {
                     if ($item->finance['status'] == NULL) {
