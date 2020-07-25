@@ -29,8 +29,8 @@ Create User
               </div>
               </div>
               <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{old('email')}}" required>
+                <label for="email">Username</label>
+                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{old('email')}}" required>
                 <div class="invalid-feedback">
                   @error('email')
                       {{ $message }}
@@ -72,6 +72,7 @@ Create User
                   <option value="ADMIN">Admin System</option>
                   <option value="ADM">ADM</option>
                   <option value="FIN">FIN</option>
+                  <option value="TEK">TEK</option>
                   <option value="guest" selected>Guest</option>
                 </select>
               </div>

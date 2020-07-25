@@ -53,6 +53,7 @@ Edit Profile ({{ $user->name }})
                   <option value="ADMIN" {{ $user->role == 'ADMIN' ? 'selected' : '' }} >Admin System</option>
                   <option value="ADM" {{ $user->role == 'ADM' ? 'selected' : '' }}>ADM</option>
                   <option value="FIN" {{ $user->role == 'FIN' ? 'selected' : '' }}>FIN</option>
+                  <option value="TEK" {{ $user->role == 'TEK' ? 'selected' : '' }}>TEK</option>
                   <option value="guest" {{ $user->role == 'guest' ? 'selected' : '' }}>Guest</option>
                 </select>
               </div>
