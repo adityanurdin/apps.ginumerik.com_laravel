@@ -11,71 +11,19 @@ Dashboard
   </div>
 
   <div class="section-body">
-    @if (Auth::user()->role == 'guest')
-        Hallo {{ Auth::user()->name }}, silahkan mengubungi admin untuk mendapatkan role agar mendapatkan
-        akses ke aplikasi.
-    @else
     <div class="row">
-      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-        <div class="card card-statistic-1">
-          <div class="card-icon bg-primary">
-            <i class="far fa-user"></i>
-          </div>
-          <div class="card-wrap">
-            <div class="card-header">
-              <h4>Total Users</h4>
-            </div>
-            <div class="card-body">
-              {{ $users->count() }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-        <div class="card card-statistic-1">
-          <div class="card-icon bg-danger">
-            <i class="fas fa-money-bill-wave-alt"></i>
-          </div>
-          <div class="card-wrap">
-            <div class="card-header">
-              <h4>Income</h4>
-            </div>
-            <div class="card-body">
-              Rp. 400JT
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-        <div class="card card-statistic-1">
-          <div class="card-icon bg-warning">
-            <i class="far fa-file"></i>
-          </div>
-          <div class="card-wrap">
-            <div class="card-header">
-              <h4>Requests</h4>
-            </div>
-            <div class="card-body">
-              1,201
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-        <div class="card card-statistic-1">
-          <div class="card-icon bg-success">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="card-wrap">
-            <div class="card-header">
-              <h4>Company</h4>
-            </div>
-            <div class="card-body">
-              47
-            </div>
-          </div>
-        </div>
-      </div>                  
+      @if (Auth::user()->role == 'guest')
+          Hallo {{ Auth::user()->name }}, silahkan mengubungi admin untuk mendapatkan role agar mendapatkan
+          akses ke aplikasi.
+      @elseif(Auth::user()->role == 'TEK')
+        @include('admin.dashboard.role.teknis')
+      @elseif(Auth::user()->role == 'ADM')
+        @include('admin.dashboard.role.admininstrasi')
+      @elseif(Auth::user()->role == 'FIN')
+        @include('admin.dashboard.role.finance')
+      @else 
+        @include('admin.dashboard.role.adminsystem')
+                        
     </div>
     
     @endif
