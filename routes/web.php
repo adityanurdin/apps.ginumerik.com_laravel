@@ -54,6 +54,7 @@ Route::group(['middleware' => 'SETUP'], function() {
      * - Administrasi
      *   - Customers
      * - Finance
+     * - Teknis
      * =====================
      */
     
@@ -61,14 +62,17 @@ Route::group(['middleware' => 'SETUP'], function() {
         // Dashboard
         Route::resource('dashboard', 'Dashboard\DashboardController');
     
-        // Users
-        Route::get('users/data' , 'Dashboard\UserController@data')->name('user.data');
-        Route::get('users/{id}/delete/', 'Dashboard\UserController@destroy')->name('user.destroy');
-        Route::resource('users', 'Dashboard\UserController')->except(['destroy']);
-    
-        // Settings
-        Route::resource('settings', 'Dashboard\SettingController');
-    
+        Route::group(['middleware' => 'Admin'], function() {
+
+            // Users
+            Route::get('users/data' , 'Dashboard\UserController@data')->name('user.data');
+            Route::get('users/{id}/delete/', 'Dashboard\UserController@destroy')->name('user.destroy');
+            Route::resource('users', 'Dashboard\UserController')->except(['destroy']);
+        
+            // Settings
+            Route::resource('settings', 'Dashboard\SettingController');
+        });
+        
         // Administrasi
         Route::group(['middleware' => 'ADM'], function() {
             
@@ -101,7 +105,10 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::resource('finance', 'Dashboard\FinanceController');
         });
 
-
+        // Teknis
+        Route::group(['middleware' => 'Teknis'], function() {
+            Route::resource('teknis', 'Dashboard\TeknisController');
+        });
 
 
         // PRINT Routing
@@ -120,10 +127,15 @@ Route::group(['middleware' => 'SETUP'], function() {
     Route::name('js.')->group(function() {
         Route::get('dynamic.js', 'JsController@dynamic')->name('dynamic');
     });
-    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs')->middleware('auth');
     
-    Route::get('system-log/data', 'LogController@data')->name('system-log.data')->middleware('auth');
-    Route::resource('system-log', 'LogController')->only(['index', 'store'])->middleware('auth');
+    Route::group(['middleware' => 'Admin'], function() {
+
+        Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs');
+
+        Route::get('system-log/data', 'LogController@data')->name('system-log.data');
+        Route::resource('system-log', 'LogController')->only(['index', 'store']);
+        
+    });
 
 });
 
