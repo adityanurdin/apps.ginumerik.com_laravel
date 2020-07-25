@@ -104,8 +104,13 @@ class UserController extends Controller
         $user->update($request->all());
 
         if ($request->NIK != NULL) {
-            $biodata = Biodata::find($user->id)->first();
-            $biodata->update($request->all());
+            $biodata = Biodata::where('user_id',$user->id)->first();
+            $biodata->update([
+                'NIK' => $request->NIK,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tgl_lahir' => $request->tgl_lahir,
+                'alamat'    => $request->alamat
+            ]);
         }
         
         Biodata::create([
