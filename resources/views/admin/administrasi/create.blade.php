@@ -73,7 +73,7 @@ Data Administrasi
                     <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left">No Order</label>
                       <div class="col-lg-4 col-md-6">
-                        <input type="text" id="no_order" name="no_order" class="form-control @error('no_order') is-invalid @enderror" required>
+                        <input type="text" id="no_order" name="no_order" value="{{$no_order}}" readonly class="form-control @error('no_order') is-invalid @enderror" required>
                         <div class="invalid-feedback">
                           @error('no_order')
                             {{ $message }}
