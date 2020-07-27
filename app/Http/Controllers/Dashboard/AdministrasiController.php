@@ -54,9 +54,9 @@ class AdministrasiController extends Controller
             $unique_number = (int)substr($order->no_order, 8);
             $number = intval($unique_number) + 1;
             $year = date('y');
-            $no_order = $year.' G '.str_pad($number, 6, 0, STR_PAD_LEFT);
+            $no_order = $year.' G '.str_pad($number, 5, 0, STR_PAD_LEFT);
+            $no_order = substr_replace($no_order, ' ', 8).str_pad($number, 2, 0, STR_PAD_LEFT);
             // return $no_order;
-            
         }
 
         // 20 G 000 01
@@ -166,7 +166,13 @@ class AdministrasiController extends Controller
         if (session('wizardID') == 2) {
 
             $order = Order::create($request->except(['wizardID']));
-            $finance = Finance::create(['order_id' => $order->id]);
+
+            $lama_kerja = $order->hari_kerja + 7;
+            $tgl_tagihan = strtotime($order->created_at);
+            $tgl_tagihan = strtotime("+".$lama_kerja." day", $tgl_tagihan);
+            $tgl_tagihan = date('Y-m-d', $tgl_tagihan);
+            
+            $finance = Finance::create(['order_id' => $order->id, 'tgl_tagihan' => $tgl_tagihan]);
 
             if ($order && $finance) {
                 $msg = 'Membuat order '. $order->no_order. ' sukses';
