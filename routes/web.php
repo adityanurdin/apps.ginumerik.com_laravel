@@ -128,7 +128,7 @@ Route::group(['middleware' => 'SETUP'], function() {
         Route::get('dynamic.js', 'JsController@dynamic')->name('dynamic');
     });
     
-    Route::group(['middleware' => 'Admin'], function() {
+    Route::group(['middleware' => ['Admin', 'auth']], function() {
 
         Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs');
 
