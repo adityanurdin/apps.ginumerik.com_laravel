@@ -18,6 +18,7 @@ use App\User;
 use Auth;
 use Validator;
 use Hash;
+use Dit;
 
 class AuthController extends Controller
 {
@@ -40,9 +41,11 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
             if ($user->status == 'inactive') {
+                Dit::Log(0,'Mencoba login, user status inactive.', 'Error');
                 return redirect()->route('login')
                                 ->with('error' , 'Akun anda sudah tidak aktif, silahkan hubungi admin.');
             } else {
+                Dit::Log(1,'Berhasil login ke dashboard', 'Success');
                 return redirect()->route('dashboard.index');
             }
         } else {
