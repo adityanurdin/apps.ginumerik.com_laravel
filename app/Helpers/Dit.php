@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use Auth;
 use \App\Log;
+use \App\Models\Finance;
 
 
 class Dit 
@@ -11,8 +12,11 @@ class Dit
 
     public static function Rupiah($value) 
     {
-
-        return "Rp. " . number_format($value,2,',','.');
+		if ($value > 0) {
+			return "Rp. " . number_format($value,2,',','.');
+		} else {
+			return "Rp. #N/A";
+		}
 
     }
 
@@ -51,7 +55,7 @@ class Dit
 		} else {
 			$hasil = trim(Self::penyebut($nilai));
 		}     		
-		return $hasil;
+		return ucfirst($hasil);
 	}
 
 	public static function encode($value)
@@ -96,6 +100,56 @@ class Dit
         }
         
         return response()->json($result, $code);
+	}
+
+	public static function GrandTotal($id)
+	{
+		$finance = Finance::find($id);
+		if ($finance) {
+			// $pre_grand_total = $finance->total_bayar - $finance->discount + $finance->tat;
+			$pre_grand_total = $finance->total_bayar + $finance->pph - $finance->discount;
+			$ppn			 = $pre_grand_total * 0.1;
+			$grand_total 	 = $pre_grand_total + $ppn + $finance->tat;
+
+			return $grand_total;
+		}else {
+			exit();
+		}
+	}
+
+	public static function PPn($id)
+	{
+		$finance = Finance::find($id);
+		if($finance) {
+			// $subtotal = $finance->total_bayar - $finance->discount + $finance->tat;
+			$subtotal = $finance->total_bayar + $finance->pph - $finance->discount;
+			$ppn	  = $subtotal * 0.1;
+			return $ppn;
+		} else {
+			exit();
+		}
+	}
+
+	public static function Roman($num) 
+	{
+		$n = intval($num);
+		$result = ''; 
+	 
+		$lookup = array(
+			'M' => 1000, 'CM' => 900, 'D' => 500, 'CD' => 400, 
+			'C' => 100, 'XC' => 90, 'L' => 50, 'XL' => 40, 
+			'X' => 10, 'IX' => 9, 'V' => 5, 'IV' => 4, 'I' => 1
+		); 
+	 
+		foreach ($lookup as $roman => $value)  
+		{
+			$matches = intval($n / $value);
+			$result .= str_repeat($roman, $matches);
+			$n = $n % $value; 
+		} 
+	
+		return $result;
+
 	}
 
 }
