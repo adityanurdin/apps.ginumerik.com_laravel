@@ -9,6 +9,7 @@ use Validator;
 use App\Models\Customer;
 use DataTables;
 use App\Http\Requests\CustomerRequest;
+use Dit;
 
 class CustomerController extends Controller
 {
@@ -55,9 +56,11 @@ class CustomerController extends Controller
         $customer = Customer::create($request->all());
 
         if ($customer) {
+            Dit::Log(1,'Membuat customer '.$customer->nama_perusahaan, 'success');
             toast('Customer Created Successfully.','success');
             return redirect()->route('customer.index');
         } else {
+            Dit::Log(0,'Gagal Membuat customer', 'error');
             toast('something wrong, please try again.','success');
             return redirect()->route('customer.create');
         }
@@ -99,9 +102,11 @@ class CustomerController extends Controller
         $customer->update($request->all());
 
         if ($customer) {
+            Dit::Log(1,'Merubah customer '.$customer->nama_perusahaan, 'success');
             toast('Customer updated successfully.','success');
             return redirect()->route('customer.index');
         } else {
+            Dit::Log(0,'Gagal merubah customer '.$customer->nama_perusahaan, 'error');
             toast('something wrong, please try again.','success');
             return redirect()->route('customer.edit', $id);
         }
@@ -119,9 +124,11 @@ class CustomerController extends Controller
         $customer->delete();
 
         if ($customer) {
+            Dit::Log(1,'Menghapus customer '.$customer->nama_perusahaan, 'success');
             toast('Customer deleted successfully.','success');
             return redirect()->route('customer.index');
         } else {
+            Dit::Log(0,'Gagal menghapus customer '.$customer->nama_perusahaan, 'error');
             toast('something wrong, please try again.','error');
             return redirect()->route('customer.index');
         }

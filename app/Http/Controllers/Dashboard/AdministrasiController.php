@@ -91,6 +91,11 @@ class AdministrasiController extends Controller
             $order = Order::where('no_order', session('no_order'))->first();
             $request->session()->forget('wizardID');
             $request->session()->forget('no_order');
+
+            // $finance = Finance::where('order_id', $order->id)->first();
+            // $total_bayar     = $finance->total_bayar + ($finance->total_bayar * 0.1);
+            // $finance->update(['total_bayar' => $total_bayar]);
+
             toast('Order has been finished.','success');
             return redirect()->route('administrasi.show', $order->id);
         }
@@ -131,7 +136,7 @@ class AdministrasiController extends Controller
         ]);
 
         if ($barang) {
-            $msg = 'Menambahkan Barang '.$barang->nama_barang.' pada order '. $order->no_order;
+            $msg = 'Menambahkan barang '.$barang->nama_barang.' pada order '. $order->no_order;
             Dit::Log(1,$msg, 'success');
             return response()->json([
                 'status' => true,
@@ -139,7 +144,7 @@ class AdministrasiController extends Controller
                 'data'   => $barang
             ],200);
         } else {
-            Dit::Log(0,'Menambahkan Barang gagal', 'success');
+            Dit::Log(0,'Menambahkan barang '.$barang->nama_barang.' pada order '. $order->no_order, 'error');
             return response()->json([
                 'status' => false,
                 'msg'    => 'Barang created failed.'
@@ -175,7 +180,7 @@ class AdministrasiController extends Controller
             $finance = Finance::create(['order_id' => $order->id, 'tgl_tagihan' => $tgl_tagihan]);
 
             if ($order && $finance) {
-                $msg = 'Membuat order '. $order->no_order. ' sukses';
+                $msg = 'Membuat order '. $order->no_order;
                 Dit::Log(1,$msg, 'success');
                 toast('Order created successfully.','success');
                 return redirect()->route('administrasi.create-wizard', $next);
@@ -208,10 +213,10 @@ class AdministrasiController extends Controller
         $collapse = Arr::collapse($nilai_satuan);
         $sum      = array_sum($collapse);
         $PPn      = $sum * 0.1;
-        $grand_total = $sum + $PPn;
+        $grand_total = Dit::GrandTotal($order->finance['id']);
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
-        return view('admin.administrasi.view', compact('order', 'sum', 'terbilang'));
+        return view('admin.administrasi.view', compact('order', 'sum', 'terbilang', 'grand_total'));
     }
 
     /**
@@ -239,6 +244,7 @@ class AdministrasiController extends Controller
         $order = Order::find($id);
         $order->update($request->all());
         if ($order) {
+            Dit::Log(1,'Merubah data administrasi pada order '.$order->no_order, 'Success');
             toast('Order updated successfully.','success');
             return redirect()->route('administrasi.index');
         } else {
@@ -260,12 +266,14 @@ class AdministrasiController extends Controller
         $order->barangs()->detach();
 
         if ($order) {
+            Dit::Log(1,'Menghapus order '.$order->no_order, 'success');
             return response()->json([
                 'status' => true,
                 'msg'    => 'Order deleted successfully.',
                 'data'   => $order
             ],200);
         }
+        Dit::Log(0,'Menghapus order '.$order->no_order, 'error');
 
     }
 
@@ -274,7 +282,7 @@ class AdministrasiController extends Controller
      */
     public function data()
     {
-        $data = Order::with('customer')->get();
+        $data = Order::with('customer')->orderBy('created_at', 'DESC')->get();
         // return $data;
         return Datatables::of($data)
                             ->addIndexColumn()

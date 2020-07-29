@@ -69,9 +69,13 @@ class BarangController extends Controller
         ]);
 
         if ($barang) {
+            $msg = 'Menambahkan barang '.$barang->nama_barang.' pada order '. $order->no_order;
+            Dit::Log(1,$msg, 'success');
+
             toast('Barang create successfully.','success');
             return redirect()->route('administrasi.show', $order->id);
         } else {
+            Dit::Log(0,'Menambah barang '.$request->nama_barang, 'Error');
             toast('Barang create failed.','success');
             return redirect()->route('administrasi.show', $order->id);
         }
@@ -110,8 +114,14 @@ class BarangController extends Controller
     public function update(Request $request, $id)
     {
         $barang = Barang::find($id);
+        $order  = Order::find($barang->orders[0]['id']);
+        
         if ($barang) {
             $barang->update($request->all());
+
+            $msg = 'Merubah barang '.$barang->nama_barang.' pada order '. $order->no_order;
+            Dit::Log(1,$msg, 'success');
+
             toast('Barang update successfully.','success');
             return redirect()->route('administrasi.show', $barang->orders[0]['id']);
         } else {
@@ -134,6 +144,7 @@ class BarangController extends Controller
         $barang->orders()->detach($order_id);
         
         $finance = Finance::where('order_id', $order_id)->first();
+        $order   = Order::find($order_id);
 
         $total_harga_barang = $barang->harga_satuan * $barang->alt;
         $total_bayar        = $finance->total_bayar - $total_harga_barang;
@@ -143,9 +154,14 @@ class BarangController extends Controller
         ]);
 
         if($barang) {
+            $msg = 'Menghapus barang '.$barang->nama_barang.' pada order '. $order->no_order;
+            Dit::Log(1,$msg, 'success');
+
             toast('Barang delete successfully.','success');
             return redirect()->route('administrasi.show', $order_id);
         } else {
+            $msg = 'Gagal menghapus barang '.$barang->nama_barang.' pada order '. $order->no_order;
+            Dit::Log(1,$msg, 'error');
             toast('Barang delete failed.','error');
             return redirect()->route('administrasi.index');
         }
