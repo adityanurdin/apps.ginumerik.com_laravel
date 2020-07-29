@@ -21,7 +21,7 @@ Data Finance
                     <th>No Order</th>
                     <th>Tanggal Tagihan</th>
                     <th>Nama Perusahaan</th>
-                    <th>Total Bayar (+ PPn)</th>
+                    <th>Total Bayar</th>
                     <th>Sisa Bayar</th>
                     <th>Status</th>
                   </tr>

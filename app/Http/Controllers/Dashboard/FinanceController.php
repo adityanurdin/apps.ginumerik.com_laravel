@@ -18,6 +18,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Barang;
 use App\Models\Finance;
+use App\Setting;
 use Validator;
 use DataTables;
 use Dit;
@@ -64,9 +65,10 @@ class FinanceController extends Controller
     public function show($id)
     {
         $order = Order::findOrFail($id);
-        $PPn   = $order->finance['total_bayar'] * 0.1;
-        $total_bayar = $order->finance['total_bayar'] + $PPn;
-        return view('admin.finance.edit', compact('order', 'total_bayar'));
+        $roman =  Dit::Roman(date('m'));
+        $no_kwitansi = Setting::where('key', 'no_kwitansi')->first();
+        $no_kwitansi = 'G'.date('m').'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
+        return view('admin.finance.show', compact('order', 'no_kwitansi'));
     }
 
     /**
@@ -77,7 +79,10 @@ class FinanceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order = Order::findOrFail($id);
+        $PPn   = $order->finance['total_bayar'] * 0.1;
+        $total_bayar = Dit::GrandTotal($order->finance['id']);
+        return view('admin.finance.edit', compact('order', 'total_bayar'));
     }
 
     /**
@@ -90,12 +95,15 @@ class FinanceController extends Controller
     public function update(Request $request, $id)
     {
         $finance = Finance::findOrFail($id);
+        $order   = Order::findOrFail($finance->order_id);
         $finance->update($request->all());
 
         if ($finance) {
+            Dit::Log(1,'Merubah data finance pada order '.$order->no_order, 'Success');
             toast('Finance edit successfully.','success');
             return redirect()->route('finance.index');
         } else {
+            Dit::Log(0,'Merubah data finance pada order '.$order->no_order, 'Error');
             toast('Finance edit failed.','error');
             return redirect()->route('finance.show', $id);
         }
@@ -114,12 +122,12 @@ class FinanceController extends Controller
 
     public function data()
     {
-        $data = Order::with('customer')->get();
+        $data = Order::with('customer')->orderBy('created_at', 'DESC')->get();
         return Datatables::of($data)
                 ->addIndexColumn()
                 ->editColumn('no_order', function($item) {
                     $result = ucfirst($item->no_order). '<br>';
-                    $result .= '<a href='.route('finance.show', $item->id).'>Edit</a> <a href='.route('finance.show', $item->id).'>Detail</a>';
+                    $result .= '<a href='.route('finance.edit', $item->id).'>Edit</a> <a href='.route('finance.show', $item->id).'>Detail</a>';
                     return $result;
                 })
                 ->addColumn('tgl_tagihan', function($item) {
@@ -131,8 +139,7 @@ class FinanceController extends Controller
                     return $result;
                 })
                 ->addColumn('total_bayar', function($item) {
-                    $PPn = $item->finance['total_bayar'] * 0.1;
-                    $total_bayar = $item->finance['total_bayar'] + $PPn;
+                    $total_bayar = Dit::GrandTotal($item->finance['id']);
                     return Dit::Rupiah($total_bayar);
                 })
                 ->addColumn('sisa_bayar', function($item) {

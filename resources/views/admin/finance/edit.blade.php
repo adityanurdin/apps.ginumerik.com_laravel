@@ -43,9 +43,24 @@ Edit Data Finance
                             <input type="text"  id="total_bayar" value="{{ Dit::Rupiah($total_bayar) }}" readonly class="form-control">
                         </div>
                         <div class="form-group">
+                            <label for="discount">Discount</label>
+                            <input type="number" name="discount" id="discount" value="{{is_null($order->finance['discount']) ? 0 : $order->finance['discount']}}" class="form-control">
+                            <small>Note: Contoh format penulisan angka adalah 1000</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="pph">PPh</label>
+                            <input type="number" name="pph" id="pph" value="{{is_null($order->finance['pph']) ? 0 : $order->finance['pph']}}" class="form-control">
+                            <small>Note: Contoh format penulisan angka adalah 1000</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="tat">Transportasi dan Akomodasi Teknisi</label>
+                            <input type="number" name="tat" id="tat" value="{{is_null($order->finance['tat']) ? 0 : $order->finance['tat']}}" class="form-control">
+                            <small>Note: Contoh format penulisan angka adalah 1000</small>
+                        </div>
+                        <div class="form-group">
                             <label for="sisa_bayar">Sisa Bayar</label>
                             <input type="number" name="sisa_bayar" id="sisa_bayar" value="{{$order->finance['sisa_bayar']}}" class="form-control">
-                            <small>Note: Contoh format penulisan angka adalah 1000000</small>
+                            <small>Note: Contoh format penulisan angka adalah 1000</small>
                         </div>
                         <div class="form-group">
                             <label for="tgl_bayar">Tanggal Bayar</label>
