@@ -43,6 +43,12 @@
   <ul class="sidebar-menu">
       <li class="menu-header">Admin System</li>
       <li class="dropdown">
+        <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i> <span>Master Data</span></a>
+        <ul class="dropdown-menu">
+          <li class="{{ Request::route()->getName() == 'labs.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('labs.index')}}"><span>Internal Lab</span></a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-cog"></i> <span>System Menus</span></a>
         <ul class="dropdown-menu">
           <li class="{{ Request::route()->getName() == 'users.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('users.index')}}"><span>Data Users</span></a></li>

@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Barang;
 use App\Models\Finance;
+use App\MsLab;
 use Validator;
 use DataTables;
 use Dit;
@@ -32,7 +33,8 @@ class BarangController extends Controller
      */
     public function create($order_id)
     {
-        return view('admin.administrasi.barang.create', compact('order_id'));
+        $labs = MsLab::all();
+        return view('admin.administrasi.barang.create', compact('order_id', 'labs'));
     }
 
     /**
@@ -101,7 +103,8 @@ class BarangController extends Controller
     public function edit($order_id, $id)
     {
         $barang = Barang::find($id);
-        return view('admin.administrasi.barang.edit', compact('barang'));
+        $labs = MsLab::all();
+        return view('admin.administrasi.barang.edit', compact('barang', 'labs'));
     }
 
     /**

@@ -18,7 +18,7 @@ Dashboard
       @elseif(Auth::user()->role == 'TEK')
         @include('admin.dashboard.role.teknis')
       @elseif(Auth::user()->role == 'ADM')
-        @include('admin.dashboard.role.admininstrasi')
+        @include('admin.dashboard.role.administrasi')
       @elseif(Auth::user()->role == 'FIN')
         @include('admin.dashboard.role.finance')
       @else 

@@ -71,6 +71,9 @@ Route::group(['middleware' => 'SETUP'], function() {
         
             // Settings
             Route::resource('settings', 'Dashboard\SettingController');
+
+            // Master Data
+            Route::resource('labs', 'LabController')->except(['view']);
         });
         
         // Administrasi

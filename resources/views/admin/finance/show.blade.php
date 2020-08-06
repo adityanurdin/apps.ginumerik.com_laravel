@@ -64,7 +64,7 @@ Data Finance
                 <td></td>
                 <td colspan="2">Refer To Number of Tax</td>
                 <td>:</td>
-                <td colspan="2">_________________________</td>
+                <td colspan="2" id="no_pajak"> {{ is_null($order->finance['no_pajak']) ? '_________________________' : $order->finance['no_pajak'] }}</td>
               </tr>
             </table>
 

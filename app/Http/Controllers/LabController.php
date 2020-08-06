@@ -1,20 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-use App\Models\Customer;
-use App\Models\Order;
-use App\Models\Barang;
-use App\Models\Finance;
 use App\MsLab;
-use Validator;
-use DataTables;
-use Dit;
 
-class TeknisController extends Controller
+class LabController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +14,8 @@ class TeknisController extends Controller
      */
     public function index()
     {
-        return view('admin.teknis.index');
+        $labs = MsLab::all();
+        return view('admin.labs.index', compact('labs'));
     }
 
     /**
@@ -33,7 +25,7 @@ class TeknisController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.labs.create_edit');
     }
 
     /**
@@ -44,7 +36,11 @@ class TeknisController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $labs = MsLab::create($request->all());
+        if ($labs) {
+            toast('Sub Lab created successfully.','success');
+            return redirect()->route('labs.index');
+        }
     }
 
     /**
@@ -66,7 +62,8 @@ class TeknisController extends Controller
      */
     public function edit($id)
     {
-        //
+        $labs = MsLab::findOrFail($id);
+        return view('admin.labs.create_edit', compact('labs'));
     }
 
     /**
@@ -78,7 +75,12 @@ class TeknisController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $labs = MsLab::findOrFail($id);
+        $labs->update($request->all());
+        if ($labs) {
+            toast('Sub Lab updated successfully.','success');
+            return redirect()->route('labs.index');
+        }
     }
 
     /**
@@ -89,11 +91,16 @@ class TeknisController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
-
-    public function data()
-    {
-        // 
+        $labs = MsLab::findOrFail($id);
+        $labs->delete();
+        if ($labs) {
+            return response()->json([
+                'status' => 200
+            ],200);
+        } else {
+            return response()->json([
+                'status' => 500
+            ],500);
+        }
     }
 }

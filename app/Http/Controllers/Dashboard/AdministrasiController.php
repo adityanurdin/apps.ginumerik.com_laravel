@@ -19,6 +19,7 @@ use App\Models\Order;
 use App\Models\Barang;
 use App\Models\Finance;
 use App\Setting;
+use App\MsLab;
 use Validator;
 use DataTables;
 use Arr;
@@ -100,7 +101,9 @@ class AdministrasiController extends Controller
             return redirect()->route('administrasi.show', $order->id);
         }
 
-        return view('admin.administrasi.create', compact('wizardID'));
+        $labs = MsLab::all();
+
+        return view('admin.administrasi.create', compact('wizardID', 'labs'));
     }
 
     /**

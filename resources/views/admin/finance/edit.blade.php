@@ -63,6 +63,10 @@ Edit Data Finance
                             <small>Note: Contoh format penulisan angka adalah 1000</small>
                         </div>
                         <div class="form-group">
+                            <label for="no_pajak">Nomer Pajak</label>
+                            <input type="text" name="no_pajak" id="no_pajak" value="{{$order->finance['no_pajak']}}" class="form-control">
+                        </div>
+                        <div class="form-group">
                             <label for="tgl_bayar">Tanggal Bayar</label>
                             <input type="date" name="tgl_bayar" id="tgl_bayar" value="{{$order->finance['tgl_bayar']}}" class="form-control">
                         </div>

@@ -101,7 +101,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="sub_lab">Sub Lab</label>
-                                    <input type="text" name="sub_lab" id="sub_lab" class="form-control @error('sub_lab') is-invalid @enderror">
+                                    {{-- <input type="text" name="sub_lab" id="sub_lab" class="form-control @error('sub_lab') is-invalid @enderror"> --}}
+                                    <select class="form-control select2" name="sub_lab">
+                                        @foreach ($labs as $item)
+                                          <option value="{{$item->sub_lab}}">{{$item->sub_lab}}</option>
+                                        @endforeach
+                                      </select>
                                     <div class="invalid-feedback">
                                         @error('sub_lab')
                                             {{ $message }}
