@@ -110,7 +110,8 @@ Route::group(['middleware' => 'SETUP'], function() {
 
         // Teknis
         Route::group(['middleware' => 'Teknis'], function() {
-            Route::resource('teknis', 'Dashboard\TeknisController');
+            Route::get('teknis/data', 'Dashboard\TeknisController@data')->name('teknis.data');
+            Route::resource('teknis', 'Dashboard\TeknisController')->except(['destroy']);
         });
 
 

@@ -94,6 +94,26 @@ class TeknisController extends Controller
 
     public function data()
     {
-        // 
+        // $data = Order::with('barangs')->orderBy('created_at', 'ASC')->get();
+        $data = Barang::with('orders')->where('AS', NULL)->get();
+        // return $data;
+        return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('no_order', function($item) {
+                        $no_order = $item->orders[0]['no_order'];
+                        $option = '<br> <a href="'.route('teknis.edit', $item->id).'">Edit</a>';
+                        return  $no_order.$option;
+                    })
+                    ->editColumn('created_at', function($item) {
+                        return date('d-M-y', strtotime($item->orders[0]['created_at']));
+                    })
+                    ->addColumn('target_selesai', function($item) {
+                        $tgl_masuk = strtotime($item->orders[0]['tgl_masuk']);
+                        $tgl_selesai = strtotime("+".$item->orders[0]['hari_kerja']." day", $tgl_masuk);
+                        $tgl_selesai = date('d-M-y', $tgl_selesai); 
+                        return $tgl_selesai;
+                    })
+                    ->escapeColumns([])
+                    ->make(true);
     }
 }

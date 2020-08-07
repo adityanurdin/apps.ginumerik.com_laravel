@@ -47,16 +47,18 @@ Data Teknis
     <script>
 
           var table = $('#myTable').DataTable({
-           /*  processing: true,
+            processing: true,
             serverSide: true,
-            ajax: "{{ route('user.data') }}",
+            ajax: "{{ route('teknis.data') }}",
             columns: [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-              {data: 'name', name: 'name'},
-              {data: 'email', name: 'email'},
-              {data: 'role', name: 'role'},
-              {data: 'status', name: 'status'},
-            ] */
+              {data: 'no_order', name: 'no_order'},
+              {data: 'nama_barang', name: 'nama_barang'},
+              {data: 'lab', name: 'lab'},
+              {data: 'sub_lab', name: 'sub_lab'},
+              {data: 'created_at', name: 'created_at'},
+              {data: 'target_selesai', name: 'target_selesai'},
+            ]
           });
 
     </script>
