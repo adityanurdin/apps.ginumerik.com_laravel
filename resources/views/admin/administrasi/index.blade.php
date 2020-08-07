@@ -65,6 +65,7 @@ Data Administrasi
                 url : "/administrasi/"+id+"/delete",
                 type: 'GET',
                 success: function(result) {
+                  // console.log(result)
                   if (result.status == true) {
                     table.draw();
                     alert(result.msg)

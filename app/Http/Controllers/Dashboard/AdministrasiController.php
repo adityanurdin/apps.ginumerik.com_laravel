@@ -102,8 +102,10 @@ class AdministrasiController extends Controller
         }
 
         $labs = MsLab::all();
+        $order = Order::where('no_order', session('no_order'))->first();
+        // return $order->barangs;
 
-        return view('admin.administrasi.create', compact('wizardID', 'labs'));
+        return view('admin.administrasi.create', compact('wizardID', 'labs', 'order'));
     }
 
     /**
@@ -265,8 +267,16 @@ class AdministrasiController extends Controller
     public function destroy($id)
     {
         $order = Order::find($id);
+        $id_barang = [];
+        foreach($order->barangs as $item) {
+            array_push($id_barang, [
+                'id' => $item->id
+            ]);
+        }
         $order->delete();
         $order->barangs()->detach();
+
+        Barang::destroy(collect($id_barang));
 
         if ($order) {
             Dit::Log(1,'Menghapus order '.$order->no_order, 'success');
