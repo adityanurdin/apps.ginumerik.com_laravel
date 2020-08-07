@@ -160,7 +160,6 @@ Data Administrasi
                           {{-- <input type="text" id="sub_lab" name="sub_lab" class="form-control"> --}}
                           <select class="form-control select2" name="sub_lab">
                             @foreach ($labs as $item)
-                              <option value="EXTERNAL">EXTERNAL</option>
                               <option value="{{$item->sub_lab}}">{{$item->sub_lab}}</option>
                             @endforeach
                           </select>
@@ -209,7 +208,7 @@ Data Administrasi
                         @if (session('wizardID') < 2)
                         <button type="submit" class="btn btn-icon icon-right btn-primary">Next <i class="fas fa-arrow-right"></i></button>
                         @else
-                        <a href="{{route('administrasi.create-wizard' , 3)}}" class="btn btn-icon icon-right btn-primary">Finish <i class="fas fa-check"></i></a>
+                        <a href="{{route('administrasi.create-wizard' , 3)}}" id="finish" class="btn btn-icon icon-right btn-primary">Finish <i class="fas fa-check"></i></a>
                         @endif
                       </div>
                     </div>
@@ -228,6 +227,13 @@ Data Administrasi
 @endsection
 
 @push('scripts')
+
+    @if ( isset($order) ? count($order->barangs) < 1 : '')
+        <script>
+          $('#finish').hide();
+        </script>
+    @endif
+
     <script>
 
       $('#btnSimpan').click(function(e) {
@@ -247,6 +253,7 @@ Data Administrasi
                 $('#formSimpan').trigger("reset");
                 $('#btnSimpan').html('<i class="fas fa-save"></i> Simpan');
                 alert(res.msg)
+                $('#finish').show();
               } else {
                 $.each( res.msg, function( key, value ) {
                   alert( key + ": " + value );
