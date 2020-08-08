@@ -105,7 +105,7 @@ Data Finance
               <tr>
                 <td class="pr-5 pb-3">No Invoice</td>
                 <td class="pr-2 pb-3">:</td>
-                <td class="pb-3">G07-421/INV/VII/20</td>
+                <td class="pb-3">{{$no_invoice}}</td>
               </tr>
               <tr>
                 <td class="pr-5 pb-3">No PO</td>

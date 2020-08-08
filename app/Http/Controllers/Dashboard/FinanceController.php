@@ -67,8 +67,10 @@ class FinanceController extends Controller
         $order = Order::findOrFail($id);
         $roman =  Dit::Roman(date('m'));
         $no_kwitansi = Setting::where('key', 'no_kwitansi')->first();
+        $no_invoice = Setting::where('key', 'no_invoice')->first();
         $no_kwitansi = 'G'.date('m').'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
-        return view('admin.finance.show', compact('order', 'no_kwitansi'));
+        $no_invoice = 'G'.date('m').'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y');
+        return view('admin.finance.show', compact('order', 'no_kwitansi', 'no_invoice'));
     }
 
     /**
