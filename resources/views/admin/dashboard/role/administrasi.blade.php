@@ -1,15 +1,16 @@
 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
     <div class="card card-statistic-1">
       <div class="card-icon bg-primary">
-        <i class="fas fa-shopping-cart"></i>
+        <i class="fas fa-box"></i>
       </div>
       <div class="card-wrap">
         <div class="card-header">
-          <h4>Tagihan</h4>
+          <h4>Today's Order</h4>
         </div>
         <div class="card-body">
-          {{-- {{ $users->count() }} --}}
-          10
+          @isset($data['ADM'])
+              {{$data['ADM']['today_order']}}
+          @endisset
         </div>
       </div>
     </div>
@@ -17,15 +18,16 @@
   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
     <div class="card card-statistic-1">
       <div class="card-icon bg-danger">
-        <i class="fas fa-money-bill-wave-alt"></i>
+        <i class="fas fa-boxes"></i>
       </div>
       <div class="card-wrap">
         <div class="card-header">
-          <h4>Belum Bayar</h4>
+          <h4>Today's Item</h4>
         </div>
         <div class="card-body">
-          {{-- Rp. 400JT --}}
-          4
+          @isset($data['ADM'])
+              {{$data['ADM']['today_item']}}
+          @endisset
         </div>
       </div>
     </div>

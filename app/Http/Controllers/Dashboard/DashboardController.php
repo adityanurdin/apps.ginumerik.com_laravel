@@ -49,6 +49,9 @@ class DashboardController extends Controller
             $sudah_bayar = Finance::where('status', 'Sudah Bayar')
                                     ->count();
             
+        } else if ($user->role == 'ADM') {
+            $today_order = Order::where('created_at', Carbon::today())->count();
+            $today_item  = Barang::where('created_at', Carbon::today())->count();
         }
 
         $data = array(
@@ -63,6 +66,10 @@ class DashboardController extends Controller
                 'belum_lunas'     => isset($belum_lunas) ? $belum_lunas : '',
                 'sudah_bayar'     => isset($sudah_bayar) ? $sudah_bayar : '',
 
+            ],
+            'ADM' => [
+                'today_order' => isset($today_order) ? $today_order : '',
+                'today_item' => isset($today_item) ? $today_item : '',
             ]
         );
 
