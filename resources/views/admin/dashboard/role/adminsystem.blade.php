@@ -8,7 +8,7 @@
           <h4>Users</h4>
         </div>
         <div class="card-body">
-          {{ $users->count() }}
+          {{-- {{ $users->count() }} --}}
         </div>
       </div>
     </div>
