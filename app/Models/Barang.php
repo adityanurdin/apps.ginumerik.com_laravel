@@ -16,4 +16,9 @@ class Barang extends Model
         return $this->belongsToMany('App\Models\Order');
     }
 
+    public function KartuAlat()
+    {
+        return $this->hasOne('App\Models\KartuAlat', 'barang_id');
+    }
+
 }

@@ -71,6 +71,12 @@ Data Administrasi
                       </div>
                     </div>
                     <div class="form-group row align-items-center">
+                      <label class="col-md-4 text-md-right text-left">No Penawaran</label>
+                      <div class="col-lg-4 col-md-6">
+                        <input type="text" id="no_penawaran" name="no_penawaran" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left">No Order</label>
                       <div class="col-lg-4 col-md-6">
                         <input type="text" id="no_order" name="no_order" value="{{$no_order}}" readonly class="form-control @error('no_order') is-invalid @enderror" required>
@@ -105,13 +111,6 @@ Data Administrasi
                           </div>
                         </div>
                       </div>
-
-                      {{-- <div class="form-group row align-items-center">
-                        <label class="col-md-4 text-md-right text-left">No PO</label>
-                        <div class="col-lg-4 col-md-6">
-                          <input type="text" name="no_PO" class="form-control" id="" required>
-                        </div>
-                      </div> --}}
                       <div class="form-group row align-items-center">
                         <label class="col-md-4 text-md-right text-left">Nama Barang</label>
                         <div class="col-lg-4 col-md-6">
@@ -149,43 +148,90 @@ Data Administrasi
                         </div>
                       </div>
                       <div class="form-group row align-items-center">
-                        <label class="col-md-4 text-md-right text-left">Lab</label>
+                        <label class="col-md-4 text-md-right text-left">Pengerjaan</label>
                         <div class="col-lg-4 col-md-6">
-                          <input type="text" id="lab" name="lab" class="form-control">
-                        </div>
-                      </div>
-                      <div class="form-group row align-items-center">
-                        <label class="col-md-4 text-md-right text-left">Sub Lab</label>
-                        <div class="col-lg-4 col-md-6">
-                          {{-- <input type="text" id="sub_lab" name="sub_lab" class="form-control"> --}}
-                          <select class="form-control select2" name="sub_lab">
-                            @foreach ($labs as $item)
-                              <option value="{{$item->sub_lab}}">{{$item->sub_lab}}</option>
-                            @endforeach
+                          {{-- <input type="text" id="lab" name="lab" class="form-control"> --}}
+                          <select class="form-control select2" name="lab" id="lab">
+                            <option value="in_lab">In-Lab</option>
+                            <option value="on_site">On-Site</option>
+                            <option value="sub_con">Sub Contractor</option>
                           </select>
                         </div>
                       </div>
-                      <div class="form-group row align-items-center">
-                        <label class="col-md-4 text-md-right text-left">KAN</label>
-                        <div class="col-lg-4 col-md-6">
-                          <div class="selectgroup w-100">
-                            <label class="selectgroup-item">
-                              <input type="radio" name="KAN" value="KAN" class="selectgroup-input">
-                              <span class="selectgroup-button">KAN</span>
-                            </label>
-                            <label class="selectgroup-item">
-                              <input type="radio" name="KAN" value="NON KAN" class="selectgroup-input" checked>
-                              <span class="selectgroup-button">NON KAN</span>
-                            </label>
+
+                      <div class="sub_con">
+
+                        <div class="form-group row align-items-center">
+                          <label class="col-md-4 text-md-right text-left">Sub Lab</label>
+                          <div class="col-lg-4 col-md-6">
+                            {{-- <input type="text" id="sub_lab" name="sub_lab" class="form-control"> --}}
+                            <select class="form-control select2" name="sub_lab">
+                              @foreach ($labs as $item)
+                                <option value="{{$item->sub_lab}}">{{$item->sub_lab}}</option>
+                              @endforeach
+                            </select>
                           </div>
                         </div>
-                      </div>
-                      <div class="form-group row align-items-center">
-                        <label class="col-md-4 text-md-right text-left">No Sertifikat</label>
-                        <div class="col-lg-4 col-md-6">
-                          <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control">
+                        <div class="form-group row align-items-center">
+                          <label class="col-md-4 text-md-right text-left">KAN</label>
+                          <div class="col-lg-4 col-md-6">
+                            <div class="selectgroup w-100">
+                              <label class="selectgroup-item">
+                                <input type="radio" name="KAN" value="KAN" class="selectgroup-input">
+                                <span class="selectgroup-button">KAN</span>
+                              </label>
+                              <label class="selectgroup-item">
+                                <input type="radio" name="KAN" value="NON KAN" class="selectgroup-input" checked>
+                                <span class="selectgroup-button">NON KAN</span>
+                              </label>
+                            </div>
+                          </div>
                         </div>
+                        <div class="form-group row align-items-center">
+                          <label class="col-md-4 text-md-right text-left">Status Alat</label>
+                          <div class="col-lg-4 col-md-6">
+                            <div class="selectgroup w-100">
+                              <label class="selectgroup-item">
+                                <input type="radio" name="status_alat" value="alat_datang" class="selectgroup-input" checked>
+                                <span class="selectgroup-button">Alat Datang</span>
+                              </label>
+                              <label class="selectgroup-item">
+                                <input type="radio" name="status_alat" value="belum_datang" class="selectgroup-input">
+                                <span class="selectgroup-button">Belum Datang</span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                          <label class="col-md-4 text-md-right text-left">Review Alat</label>
+                          <div class="col-lg-4 col-md-6">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="fisik" name="fisik" value="fisik">
+                              <label class="form-check-label" for="fisik">Fisik</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="fungsi" name="fungsi" value="fungsi">
+                              <label class="form-check-label" for="fungsi">Fungsi</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="sdm" name="sdm" value="sdm">
+                              <label class="form-check-label" for="sdm">SDM</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="std" name="std" value="std">
+                              <label class="form-check-label" for="std">STD</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                          <label class="col-md-4 text-md-right text-left">No Sertifikat</label>
+                          <div class="col-lg-4 col-md-6">
+                            <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control" readonly>
+                          </div>
+                        </div>
+
                       </div>
+
 
                     </div>
 
@@ -236,10 +282,24 @@ Data Administrasi
 
     <script>
 
+      $('#lab').change(function() {
+        var selectedLab = $(this).children("option:selected").val()
+        if ( selectedLab == 'sub_con' ) {
+          $('.sub_con').hide();
+        } else {
+          $('.sub_con').show();
+        }
+      })
+
+      var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;
+      $('#no_sertifikat').val(no_sertifikat)
+
       $('#btnSimpan').click(function(e) {
         e.preventDefault()
         $(this).html('Menyimpan..');
         var form = $('#formSimpan').serialize()
+
+        
 
         $.ajax({
             type: "POST",
@@ -251,7 +311,11 @@ Data Administrasi
               console.log(res)
               if (res.status == true) {
                 $('#formSimpan').trigger("reset");
-                $('#btnSimpan').html('<i class="fas fa-save"></i> Simpan');
+                
+                var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;
+                $('#no_sertifikat').val(no_sertifikat)
+
+                $('#btnSimpan').html('<i class="fas fa-save"></i> Simpan')
                 alert(res.msg)
                 $('#finish').show();
               } else {

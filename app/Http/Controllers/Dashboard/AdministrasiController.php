@@ -18,7 +18,10 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Barang;
 use App\Models\Finance;
+use App\Models\KartuAlat;
 use App\Setting;
+use App\SerahTerima;
+use App\User;
 use App\MsLab;
 use Validator;
 use DataTables;
@@ -127,6 +130,15 @@ class AdministrasiController extends Controller
             ]);
         }
 
+        if ($request->lab == 'sub_con') {
+            $request->merge([
+                'user_id'       => \Auth::user()->id,
+                'no_sertifikat' => '-',
+                'sub_lab'       => '-'
+            ]);
+        }
+
+        $request->merge(['user_id' => \Auth::user()->id]);
         $barang = Barang::create($request->except(['wizardID']));
         $order  = Order::where('no_order', session('no_order'))->first();
         $barang->orders()->attach($order->id);
@@ -134,13 +146,20 @@ class AdministrasiController extends Controller
         
         $finance = Finance::where('order_id', $order->id)->first();
 
-        $total_harga_barang = $request->harga_satuan * $request->alt;
-        $total_bayar        = $total_harga_barang + $finance->total_bayar;
-        $finance->update([
-            'total_bayar' => $total_bayar
-        ]);
+        
 
         if ($barang) {
+            $total_harga_barang = $request->harga_satuan * $request->alt;
+            $total_bayar        = $total_harga_barang + $finance->total_bayar;
+            $finance->update([
+                'total_bayar' => $total_bayar,
+                'sisa_bayar'  => $total_bayar
+            ]);
+
+            $kartu_alat = KartuAlat::create([
+                'barang_id' => $barang->id
+            ]);
+            
             $msg = 'Menambahkan barang '.$barang->nama_barang.' pada order '. $order->no_order;
             Dit::Log(1,$msg, 'success');
             return response()->json([
@@ -177,12 +196,13 @@ class AdministrasiController extends Controller
 
             $order = Order::create($request->except(['wizardID']));
 
-            $lama_kerja = $order->hari_kerja + 7;
+            /* $lama_kerja = $order->hari_kerja + 7;
             $tgl_tagihan = strtotime($order->created_at);
             $tgl_tagihan = strtotime("+".$lama_kerja." day", $tgl_tagihan);
-            $tgl_tagihan = date('Y-m-d', $tgl_tagihan);
+            $tgl_tagihan = date('Y-m-d', $tgl_tagihan); */
             
-            $finance = Finance::create(['order_id' => $order->id, 'tgl_tagihan' => $tgl_tagihan]);
+            // $finance = Finance::create(['order_id' => $order->id, 'tgl_tagihan' => $tgl_tagihan]);
+            $finance = Finance::create(['order_id' => $order->id, 'status' => 'dalam_proses']);
 
             if ($order && $finance) {
                 $msg = 'Membuat order '. $order->no_order;
@@ -207,7 +227,7 @@ class AdministrasiController extends Controller
      */
     public function show($id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::with('serahterima')->findOrFail($id);
 
         $nilai_satuan = [];
         foreach ($order->barangs as $row) {
@@ -221,7 +241,18 @@ class AdministrasiController extends Controller
         $grand_total = Dit::GrandTotal($order->finance['id']);
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
-        return view('admin.administrasi.view', compact('order', 'sum', 'terbilang', 'grand_total'));
+        // Kartu Alat
+        $kartu_alat = array();
+        foreach($order->barangs as $item) {
+            $barang = KartuAlat::with('barang')->where('barang_id', $item->id)->get();
+            array_push($kartu_alat, [
+                'kartu_alat' => $barang
+            ]);
+        }
+        $auth_id = \Auth::user()->id;
+        $user = User::get();
+
+        return view('admin.administrasi.view', compact('order', 'sum', 'terbilang', 'grand_total', 'kartu_alat', 'user'));
     }
 
     /**
@@ -288,6 +319,52 @@ class AdministrasiController extends Controller
         }
         Dit::Log(0,'Menghapus order '.$order->no_order, 'error');
 
+    }
+
+    public function sertifikat()
+    {
+        $barang = Barang::latest()->first();
+
+    
+        if ($barang === NULL) {
+            $no_urut = Dit::Setting('no_sertifikat');
+            $no_sertifikat = $no_urut.'.G.Sert/'.date('m/y');
+        } else {
+            if ($barang->no_sertifikat == '-') {
+                $new_barang = Barang::where('no_sertifikat', 'like' , '%.G.Sert%')->latest()->first();
+                $number = $new_barang->no_sertifikat;
+                $number = substr($number, 0, 4);
+                // return $number;
+                $no_urut = str_pad($number + 1, 4, 0, STR_PAD_LEFT);
+                $no_sertifikat = $no_urut.'.G.Sert/'.date('m/y');
+                return $no_sertifikat;
+            } else {
+                $number = $barang->no_sertifikat;
+                $number = substr($number, 0, 4);
+                // return $number;
+                $no_urut = str_pad($number + 1, 4, 0, STR_PAD_LEFT);
+                $no_sertifikat = $no_urut.'.G.Sert/'.date('m/y');
+            }
+
+        }
+
+        return $no_sertifikat;
+    }
+
+    public function serahterima(Request $request, $id)
+    {
+
+        $serahterima = SerahTerima::where('id_order', $id)->first();
+        if ($serahterima) {
+            $serahterima->update($request->all());
+        } else {
+            $request->merge(['id_order' => $id]);
+            $serahterima = SerahTerima::create($request->all());
+        }
+
+        // Dit::Log(1,'Merubah data administrasi pada order '.$order->no_order, 'Success');
+        toast('Kartu Alat updated successfully.','success');
+        return back();
     }
 
      /**

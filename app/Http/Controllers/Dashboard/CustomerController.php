@@ -47,8 +47,6 @@ class CustomerController extends Controller
             'no_tlp'          => 'required',
             'email'           => 'email',
             'kontak_personel' => 'string|required',
-            'no_npwp'         => 'required',
-            'alamat_npwp'     => 'required'
         ];
         
         $validation = Validator::make($request->all(), $rule)->validate();

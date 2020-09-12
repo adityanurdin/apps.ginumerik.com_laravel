@@ -18,21 +18,26 @@ Data Administrasi
                 
                 <div class="form-group">
                     <label for="no_order">Set Nomer Order</label>
-                    <input type="text" name="no_order" id="no_order" value="{{ isset($no_order->value) ? $no_order->value : '' }}" class="form-control" required>
+                    <input type="text" name="no_order" id="no_order" value="{{ isset($data['no_order']) ? $data['no_order'] : '' }}" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="no_invoice">Set Nomer Invoice</label>
-                    <input type="text" name="no_invoice" id="no_invoice" value="{{ isset($no_invoice->value) ? $no_invoice->value : '' }}" class="form-control" required>
+                    <input type="text" name="no_invoice" id="no_invoice" value="{{ isset($data['no_invoice']) ? $data['no_invoice'] : '' }}" class="form-control" required>
                     <small>note: cukup mengisi nomor nya saja, contoh : 421 hasilnya akan G08-421/INV/VIII/20</small>
                 </div>
                 <div class="form-group">
                     <label for="no_kwitansi">Set Nomer Kwitansi</label>
-                    <input type="text" name="no_kwitansi" id="no_kwitansi" value="{{ isset($no_kwitansi->value) ? $no_kwitansi->value : ''}}" class="form-control" required>
+                    <input type="text" name="no_kwitansi" id="no_kwitansi" value="{{ isset($data['no_kwitansi']) ? $data['no_kwitansi'] : ''}}" class="form-control" required>
                     <small>note: cukup mengisi nomor nya saja, contoh : 421 hasilnya akan G08-421/KWI/VIII/20</small>
                 </div>
                 <div class="form-group">
+                    <label for="no_sertifikat">Set Nomer Setifikat</label>
+                    <input type="text" name="no_sertifikat" id="no_sertifikat" value="{{ isset($data['no_sertifikat']) ? $data['no_sertifikat'] : ''}}" class="form-control" required>
+                    <small>note: cukup mengisi nomor nya saja, contoh : 0001 hasilnya akan  0001.G.Sert/08/20</small>
+                </div>
+                <div class="form-group">
                     <label for="secret_code">Set Secret Code</label>
-                    <input type="text" name="secret_code" id="secret_code" minlength="6" maxlength="6" value="{{ isset($secret_code->value) ? $secret_code->value : '' }}" class="form-control" required>
+                    <input type="text" name="secret_code" id="secret_code" minlength="6" maxlength="6" value="{{ isset($data['secret_code']) ? $data['secret_code'] : '' }}" class="form-control" required>
                 </div>
 
 

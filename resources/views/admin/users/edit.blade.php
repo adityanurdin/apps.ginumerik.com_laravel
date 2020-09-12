@@ -58,6 +58,25 @@ Edit Profile ({{ $user->name }})
                 </select>
               </div>
               <div class="form-group">
+                <label for="sub_role">Sub Role / Jabatan</label>
+                <select class="form-control selectric" name="sub_role">
+                  <option value="Direktur" {{Dit::Selected('Direktur', $user->sub_role)}}>Direktur</option>
+                  <option value="Manager Mutu" {{Dit::Selected('Manager Mutu', $user->sub_role)}}>Manager Mutu</option>
+                  <option value="Staff Mutu" {{Dit::Selected('Staff Mutu', $user->sub_role)}}>Staff Mutu</option>
+                  <option value="Manager Teknis" {{Dit::Selected('Manager Teknis', $user->sub_role)}}>Manager Teknis</option>
+                  <option value="Administrasi Teknis" {{Dit::Selected('Administrasi Teknis', $user->sub_role)}}>Adminstrasi Teknis</option>
+                  <option value="Teknis" {{Dit::Selected('Teknis', $user->sub_role)}}>Teknis</option>
+                  <option value="KA Unit Teknis" {{Dit::Selected('KA Unit Teknis', $user->sub_role)}}>KA Unit Teknis</option>
+                  <option value="Staff Teknis" {{Dit::Selected('Staff Teknis', $user->sub_role)}}>Staff Teknis</option>
+                  <option value="Manager Keuangan" {{Dit::Selected('Manager Keuangan', $user->sub_role)}}>Manager Keuangan</option>
+                  <option value="KA Keuangan" {{Dit::Selected('KA Keuangan', $user->sub_role)}}>KA Keuangan</option>
+                  <option value="Staff Keuangan" {{Dit::Selected('Staff Keuangan', $user->sub_role)}}>Staff Keuangan</option>
+                  <option value="Manager Oprational" {{Dit::Selected('Manager Oprational', $user->sub_role)}}>Manager Oprational</option>
+                  <option value="KA BAG Umum" {{Dit::Selected('KA BAG Umum', $user->sub_role)}}>KA BAG Umum</option>
+                  <option value="Staff Umum" {{Dit::Selected('Staff Umum', $user->sub_role)}}>Staff Umum</option>
+                </select>
+              </div>
+              <div class="form-group">
                 <label for="name">Status</label>
                 <select class="form-control selectric" name="status">
                   <option value="active" {{ $user->status == 'active' ? 'selected' : '' }}>Active</option>

@@ -5,6 +5,7 @@ namespace App\Helpers;
 use Auth;
 use \App\Log;
 use \App\Models\Finance;
+use \App\Setting;
 
 
 class Dit 
@@ -67,8 +68,7 @@ class Dit
 	public static function decode($value)
 	{
 		$decode = base64_decode($value);
-		$parsing = explode('/', $decode);
-		$data = $parsing[1];
+		$data = substr($decode, 5);
 		return $data;
 	}
 
@@ -107,7 +107,9 @@ class Dit
 		$finance = Finance::find($id);
 		if ($finance) {
 			// $pre_grand_total = $finance->total_bayar - $finance->discount + $finance->tat;
-			$pre_grand_total = $finance->total_bayar + $finance->pph - $finance->discount;
+
+			//remove PPH
+			$pre_grand_total = $finance->total_bayar - $finance->discount;
 			$ppn			 = $pre_grand_total * 0.1;
 			$grand_total 	 = $pre_grand_total + $ppn + $finance->tat;
 
@@ -122,7 +124,9 @@ class Dit
 		$finance = Finance::find($id);
 		if($finance) {
 			// $subtotal = $finance->total_bayar - $finance->discount + $finance->tat;
-			$subtotal = $finance->total_bayar + $finance->pph - $finance->discount;
+
+			//remove PPH
+			$subtotal = $finance->total_bayar - $finance->discount;
 			$ppn	  = $subtotal * 0.1;
 			return $ppn;
 		} else {
@@ -150,6 +154,96 @@ class Dit
 	
 		return $result;
 
+	}
+
+	public static function Checked($name, $value)
+	{
+		if ($name == $value) {
+			return 'checked';
+		} else {
+			return '';
+		}
+	}
+	
+	public static function Selected($name, $value)
+	{
+		if ($name == $value) {
+			return 'Selected';
+		} else {
+			return '';
+		}
+	}
+
+	public static function Setting($value)
+	{
+		$setting = Setting::where('key', $value)->first('value');
+		if ($setting) {
+			return $setting->value;
+		} else {
+			$setting = Setting::where('key', $value)->first();
+			return $setting;
+		}
+
+	}
+
+	public static function setSetting($request, $value)
+	{
+		if (Self::Setting($value)) {
+            Setting::where('key', $value)->update([
+                'value' => $request->$value
+            ]);
+        } else {
+            Setting::create([
+                'key'   => $value,
+                'value' => $request->$value
+            ]);
+        }
+	}
+
+	public static function getUser($id)
+	{
+		$user = \App\User::find($id);
+
+		return $user;
+	}
+
+	public static function getRole($id)
+	{
+		$user = \App\User::find($id);
+		$role = $user->role;
+
+		if ( $role == 'TEK') {
+			$role = 'Teknis';
+		} else if ($role == 'ADMIN') {
+			$role = 'Admin System';
+		} else if ($role == 'FIN') {
+			$role = 'Finance';
+		} else if ($role == 'ADM'){
+			$role = 'Administrasi';
+		}
+		return $role;
+	}
+
+	public static function getLab($lab)
+	{
+		if ($lab == 'in_lab') {
+			$lab = 'In-Lab';
+		} else if ($lab == 'on_site') {
+			$lab = 'On-Site';
+		} else if ($lab == 'sub_con') {
+			$lab = 'Sub-Contractor';
+		}
+
+		return $lab;
+	}
+
+	public static function getStatusTeknis($sub_role_block)
+	{
+		$sub_role = Auth::user()->sub_role;
+		
+		if ($sub_role == $sub_role_block) {
+			return 'disabled';
+		}
 	}
 
 }

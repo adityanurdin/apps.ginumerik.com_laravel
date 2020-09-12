@@ -77,6 +77,25 @@ Create User
                 </select>
               </div>
               <div class="form-group">
+                <label for="sub_role">Sub Role / Jabatan</label>
+                <select class="form-control selectric" name="sub_role">
+                  <option value="Direktur">Direktur</option>
+                  <option value="Manager Mutu">Manager Mutu</option>
+                  <option value="Staff Mutu">Staff Mutu</option>
+                  <option value="Manager Teknis">Manager Teknis</option>
+                  <option value="Administrasi Teknis">Adminstrasi Teknis</option>
+                  <option value="Teknis">Teknis</option>
+                  <option value="KA Unit Teknis">KA Unit Teknis</option>
+                  <option value="Staff Teknis">Staff Teknis</option>
+                  <option value="Manager Keuangan">Manager Keuangan</option>
+                  <option value="KA Keuangan">KA Keuangan</option>
+                  <option value="Staff Keuangan">Staff Keuangan</option>
+                  <option value="Manager Oprational">Manager Oprational</option>
+                  <option value="KA BAG Umum">KA BAG Umum</option>
+                  <option value="Staff Umum">Staff Umum</option>
+                </select>
+              </div>
+              <div class="form-group">
                 <label for="name">Status</label>
                 <select class="form-control selectric" name="status">
                   <option value="active" selected>Active</option>

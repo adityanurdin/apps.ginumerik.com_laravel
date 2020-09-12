@@ -79,6 +79,9 @@ Route::group(['middleware' => 'SETUP'], function() {
         // Administrasi
         Route::group(['middleware' => 'ADM'], function() {
             
+            Route::post('administrasi/serahterima/{id}', 'Dashboard\AdministrasiController@serahterima')->name('administrasi.serahterima');
+            Route::get('administrasi/sertifikat', 'Dashboard\AdministrasiController@sertifikat')->name('administrasi.sertifikat');
+            
             Route::get('administrasi/data', 'Dashboard\AdministrasiController@data')->name('administrasi.data');
             Route::get('administrasi/{id}/detail', 'Dashboard\AdministrasiController@show')->name('administrasi.show');
             Route::post('administrasi/wizard/{next}', 'Dashboard\AdministrasiController@storeWizard')->name('administrasi.wizard');
@@ -105,11 +108,19 @@ Route::group(['middleware' => 'SETUP'], function() {
         // Finance
         Route::group(['middleware' => 'Finance'], function() {
             Route::get('finance/data', 'Dashboard\FinanceController@data')->name('finance.data');
-            Route::resource('finance', 'Dashboard\FinanceController');
+            Route::get('finance/{finance}/pembayaran', 'Dashboard\FinanceController@edit')->name('finance.edit');
+            Route::get('finance/{finance}/edit/pembayaran', 'Dashboard\FinanceController@editPembayaran')->name('finance.editPembayaran');
+            Route::put('finance/{id}/pembayaran', 'Dashboard\FinanceController@ProsesBayar')->name('finance.bayar');
+            Route::resource('finance', 'Dashboard\FinanceController')->except(['edit']);
         });
 
         // Teknis
         Route::group(['middleware' => 'Teknis'], function() {
+            Route::get('teknis/sertifikat', 'Dashboard\SertifikatController@index')->name('sertifikat.index');
+            Route::get('teknis/sertifikat/{id}', 'Dashboard\SertifikatController@show')->name('sertifikat.show');
+
+            Route::post('teknis/serahterima/{id}', 'Dashboard\TeknisController@serahterima')->name('teknis.serahterima');
+            Route::get('teknis/checked/{check}/{id}/{order_id}', 'Dashboard\TeknisController@checked')->name('teknis.checked');
             Route::get('teknis/data', 'Dashboard\TeknisController@data')->name('teknis.data');
             Route::resource('teknis', 'Dashboard\TeknisController')->except(['destroy']);
         });

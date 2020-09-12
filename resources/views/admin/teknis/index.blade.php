@@ -24,11 +24,8 @@ Data Teknis
                   <tr>
                     <th>ID</th>
                     <th>No Order</th>
-                    <th>Nama Barang</th>
-                    <th>LAB</th>
-                    <th>Sub LAB</th>
-                    <th>Masuk LAB</th>
-                    <th>Target Selesai</th>
+                    <th>Tanggal Order</th>
+                    <th>Waktu Pengerjaan</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -53,11 +50,13 @@ Data Teknis
             columns: [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
               {data: 'no_order', name: 'no_order'},
-              {data: 'nama_barang', name: 'nama_barang'},
+              // {data: 'customer.nama_perusahaan', name: 'customer.nama_perusahaan'},
+              /* {data: 'nama_barang', name: 'nama_barang'},
               {data: 'lab', name: 'lab'},
-              {data: 'sub_lab', name: 'sub_lab'},
+              {data: 'sub_lab', name: 'sub_lab'}, */
               {data: 'created_at', name: 'created_at'},
-              {data: 'target_selesai', name: 'target_selesai'},
+              {data: 'hari_kerja', name: 'hari_kerja'},
+              // {data: 'target_selesai', name: 'target_selesai'},
             ]
           });
 

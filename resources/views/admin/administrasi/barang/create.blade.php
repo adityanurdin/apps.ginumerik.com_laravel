@@ -131,6 +131,25 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="kan">Review</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="fisik" name="fisik" value="fisik">
+                                        <label class="form-check-label" for="fisik">Fisik</label>
+                                      </div>
+                                      <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="fungsi" name="fungsi" value="fungsi">
+                                        <label class="form-check-label" for="fungsi">Fungsi</label>
+                                      </div>
+                                      <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="sdm" name="sdm" value="sdm">
+                                        <label class="form-check-label" for="sdm">SDM</label>
+                                      </div>
+                                      <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="std" name="std" value="std">
+                                        <label class="form-check-label" for="std">STD</label>
+                                      </div>
+                                </div>
                             </div>
 
                         </div>

@@ -13,15 +13,18 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Barang;
 use App\Models\Finance;
+use App\Models\HistoryPembayaran;
 use App\Setting;
 use Validator;
 use DataTables;
 use Dit;
+use Arr;
 
 class FinanceController extends Controller
 {
@@ -64,13 +67,21 @@ class FinanceController extends Controller
      */
     public function show($id)
     {
-        $order = Order::findOrFail($id);
+        /* $order = Order::findOrFail($id);
         $roman =  Dit::Roman(date('m'));
         $no_kwitansi = Setting::where('key', 'no_kwitansi')->first();
         $no_invoice = Setting::where('key', 'no_invoice')->first();
         $no_kwitansi = 'G'.date('m').'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
-        $no_invoice = 'G'.date('m').'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y');
-        return view('admin.finance.show', compact('order', 'no_kwitansi', 'no_invoice'));
+        $no_invoice = 'G'.date('m').'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y'); */
+        // return view('admin.finance.show', compact('order', 'no_kwitansi', 'no_invoice'));
+
+        $finance = Finance::where('order_id', $id)->first();
+        if (!$finance) {
+            abort(404);
+        }
+        $history_pembayaran = HistoryPembayaran::where('finance_id', $finance->id)->get();
+        $order = Order::find($id);
+        return view('admin.finance.show', compact('history_pembayaran', 'order'));
     }
 
     /**
@@ -87,6 +98,36 @@ class FinanceController extends Controller
         return view('admin.finance.edit', compact('order', 'total_bayar'));
     }
 
+    public function ProsesBayar(Request $request, $id)
+    {
+        $pembayaran = HistoryPembayaran::find($id);
+        $finance    = Finance::find($pembayaran->finance_id);
+        
+
+        if ($request->tanggal_bayar) {
+
+            $sisa_bayar = $finance->sisa_bayar - $request->jumlah_bayar;
+
+            if ($sisa_bayar == 0) {
+                $status = 'sudah_bayar';
+            } else {
+                $status = 'tagih';
+            }
+            
+            $finance->update(['sisa_bayar' => $sisa_bayar, 'status' => $status]);
+
+
+            $request->merge(['status' => 'Lunas']);
+            $pembayaran->update($request->all());
+        } else {
+            $pembayaran->update($request->all());
+        }
+
+        return $pembayaran;
+        
+        
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -97,8 +138,77 @@ class FinanceController extends Controller
     public function update(Request $request, $id)
     {
         $finance = Finance::findOrFail($id);
+        if($finance->sisa_bayar == 0) {
+            toast('Gagal, Pembayaran sudah lunas','error');
+            return back();
+        }
+        $roman =  Dit::Roman(date('m'));
+        
+        if (!HistoryPembayaran::first()) {
+            $no_kwitansi = Setting::where('key', 'no_kwitansi')->first();
+            $no_invoice  = Setting::where('key', 'no_invoice')->first();
+            
+            $no_kwitansi = 'G'.date('m').'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
+            $no_invoice = 'G'.date('m').'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y');
+        } else {
+            $history_pembayaran = HistoryPembayaran::where('finance_id', $id)->get();
+
+            $data_finance = HistoryPembayaran::where('finance_id', $id)->first();
+            $last_number  = HistoryPembayaran::latest()->first();
+
+            
+
+            if (count($history_pembayaran) < 1) {
+
+                //new invoce number
+                $slice_invoice = explode('/', $last_number->no_invoice);
+                $new_no_invoice = substr($slice_invoice[0], 4) + 1;
+                $no_invoice  = 'G'.date('m').'-'.$new_no_invoice.'/INV/'.$roman.'/'.date('y');
+
+                //new kwitansi number
+                $slice_kwitansi = explode('/', $last_number->no_kwitansi);
+                $new_no_kwitansi = substr($slice_kwitansi[0], 4) + 1;
+                $no_kwitansi  = 'G'.date('m').'-'.$new_no_kwitansi.'/KWI/'.$roman.'/'.date('y');
+            } else {
+                $part_number = count($history_pembayaran) + 1;
+                $no_invoice = $data_finance->no_invoice.'-['.$part_number.']';
+                $no_kwitansi= $data_finance->no_kwitansi.'-['.$part_number.']';
+            }
+        }
+
+        HistoryPembayaran::create([
+            'finance_id'        => $id,
+            'jumlah_bayar'      => $request->bayar == NULL ? 0 : $request->bayar,
+            'tanggal_tagihan'   => $request->tgl_tagihan,
+            'tanggal_bayar'     => $request->bayar == NULL ? NULL : $request->tgl_bayar,
+            'no_invoice'        => $no_invoice,
+            'no_kwitansi'       => $no_kwitansi,
+            'status'            => 'Belum Lunas', #$request->bayar == NULL ? 'Belum Lunas' : 'Lunas',
+            'keterangan'        => $request->keterangan
+        ]);
+
+        /* if ($request->bayar) {
+            $jumlah_bayar = [];
+            $pembayaran = HistoryPembayaran::where('finance_id', $id)->get();
+            foreach($pembayaran as $item) {
+                array_push($jumlah_bayar, [
+                    (int)$item->jumlah_bayar
+                ]);
+            }
+            $collapse = Arr::collapse($jumlah_bayar);
+            $sum = array_sum($collapse);
+            $total_bayar = $sum;
+            $sisa_bayar  = Dit::GrandTotal($finance->id) - $total_bayar;
+            $request->merge(['sisa_bayar' => $sisa_bayar]);
+        } */
+
         $order   = Order::findOrFail($finance->order_id);
-        $finance->update($request->all());
+
+        $finance->update(['status' => 'siap_tagih']);
+        $finance->update($request->except('keterangan'));
+        if ($finance->sisa_bayar == 0) {
+            $finance->update(['status' => 'sudah_bayar']);
+        }
 
         if ($finance) {
             Dit::Log(1,'Merubah data finance pada order '.$order->no_order, 'Success');
@@ -124,12 +234,18 @@ class FinanceController extends Controller
 
     public function data()
     {
-        $data = Order::with('customer')->orderBy('created_at', 'DESC')->get();
+        $data = Order::with('customer', 'finance')
+                        ->orderBy('created_at', 'DESC')
+                        ->whereHas('finance', function(Builder $query) {
+                            $query->where('status', '!=' , 'sudah_bayar');
+                        })
+                        ->get();
+
         return Datatables::of($data)
                 ->addIndexColumn()
                 ->editColumn('no_order', function($item) {
                     $result = ucfirst($item->no_order). '<br>';
-                    $result .= '<a href='.route('finance.edit', $item->id).'>Edit</a> <a href='.route('finance.show', $item->id).'>Detail</a>';
+                    $result .= '<a href='.route('finance.edit', $item->id).'>Pembayaran</a> <a href='.route('finance.show', $item->id).'>History</a>';
                     return $result;
                 })
                 ->addColumn('tgl_tagihan', function($item) {
@@ -142,21 +258,29 @@ class FinanceController extends Controller
                 })
                 ->addColumn('total_bayar', function($item) {
                     $total_bayar = Dit::GrandTotal($item->finance['id']);
-                    return Dit::Rupiah($total_bayar);
+                    $total_bayar = Dit::Rupiah($total_bayar);
+                    $edit = '<br> <a href="'.route('finance.editPembayaran', $item->finance['id']).'">Edit</a>';
+
+                    return $total_bayar.$edit;
                 })
                 ->addColumn('sisa_bayar', function($item) {
                     if ($item->finance['sisa_bayar'] == NULL) {
                         $sisa_bayar = 0;
                     } else {
-                        $sisa_bayar = $item->finance['sisa_bayar'];
+                        $ppn_sisa_bayar = $item->finance['sisa_bayar'] * 0.1;
+                        $sisa_bayar = $item->finance['sisa_bayar'] + $ppn_sisa_bayar;
                     }
                     return Dit::Rupiah($sisa_bayar);
                 })
                 ->addColumn('status', function($item) {
-                    if ($item->finance['status'] == NULL) {
-                        $status = 'Belum Bayar';
-                    } else {
-                        $status = $item->finance['status'];
+                    if ($item->finance['status'] == 'dalam_proses') {
+                        $status = 'Dalam Proses';
+                    } else if ($item->finance['status'] == 'siap_tagih') {
+                        $status = 'Siap Tagih';
+                    } else if ($item->finance['status'] == 'tagih'){
+                        $status = 'Tagih';
+                    } else if ($item->finance['status'] == 'sudah_bayar') {
+                        $status = 'Sudah Bayar';
                     }
                     return $status;
                 })

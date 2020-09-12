@@ -25,4 +25,9 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\Finance', 'id', 'order_id');
     }
+
+    public function serahterima()   
+    {
+        return $this->hasOne('App\SerahTerima', 'id_order', 'id');
+    }
 }

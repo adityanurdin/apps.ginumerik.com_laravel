@@ -48,6 +48,8 @@ Data Administrasi
             processing: true,
             serverSide: true,
             ajax: "{{ route('administrasi.data') }}",
+            "bLengthChange": false,
+            "iDisplayLength": 25,
             columns: [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
               {data: 'no_order', name: 'no_order'},

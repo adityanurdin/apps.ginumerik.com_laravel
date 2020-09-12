@@ -46,13 +46,14 @@ class Installations extends Controller
 
             $validation = Validator::make($request->all(), [
                 'name'          => 'string|required',
-                'email'         => 'email|unique:users|required',
+                // 'email'         => 'unique:users|required',
                 'password'      => 'confirmed|required',
             ])->validate();
             
 
             $input = $request->all();
 
+            $input['email']    = 'admin@ginumerik.com';
             $input['password'] = Hash::make($request->password);
             $input['role']     = 'ADMIN';
             $input['status']   = 'active';

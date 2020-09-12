@@ -9,7 +9,9 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Barang;
 use App\Models\Finance;
+use App\Models\KartuAlat;
 use App\MsLab;
+use App\SerahTerima;
 use Validator;
 use DataTables;
 use Dit;
@@ -61,6 +63,9 @@ class BarangController extends Controller
 
         $barang = Barang::create($request->all());
         $barang->orders()->attach($order->id);
+        $kartu_alat = KartuAlat::create([
+            'barang_id' => $barang->id
+        ]);
 
         $finance = Finance::where('order_id', $order->id)->first();
 
@@ -142,9 +147,11 @@ class BarangController extends Controller
     public function destroy($order_id, $id)
     {
         $barang = Barang::find($id);
+        $SerahTerima = SerahTerima::find($id);
 
         $barang->delete();
         $barang->orders()->detach($order_id);
+        $SerahTerima->delete();
         
         $finance = Finance::where('order_id', $order_id)->first();
         $order   = Order::find($order_id);

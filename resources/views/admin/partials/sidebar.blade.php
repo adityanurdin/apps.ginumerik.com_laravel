@@ -28,7 +28,6 @@
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i>  <span>Finance</span></a>
         <ul class="dropdown-menu">
           <li class="{{ Request::route()->getName() == 'finance.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.index')}}"><span>Data Finance</span></a></li>
-          <li class="{{ Request::route()->getName() == 'finance.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.index')}}"><span>Sertifikat</span></a></li>
         </ul>
       </li>
   </ul>
@@ -36,7 +35,13 @@
   @if (Auth::user()->role == 'TEK' || Auth::user()->role == 'ADMIN')
   <ul class="sidebar-menu">
       <li class="menu-header">Teknis</li>
-      <li class="{{ Request::route()->getName() == 'teknis.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('teknis.index')}}"><i class="fas fa-database"></i> <span>Data Teknis</span></a></li>
+      <li class="dropdown">
+        <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i> <span>Teknis</span></a>
+        <ul class="dropdown-menu">
+          <li class="{{ Request::route()->getName() == 'teknis.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('teknis.index')}}"><span>Data Teknis</span></a></li>
+          <li class="{{ Request::route()->getName() == 'sertifikat.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('sertifikat.index')}}"><span>Sertifikat</span></a></li>
+        </ul>
+      </li>
   </ul>
   @endif
   @if (Auth::user()->role == 'ADMIN')

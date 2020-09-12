@@ -19,10 +19,10 @@ Data Finance
                   <tr>
                     <th>ID</th>
                     <th>No Order</th>
-                    <th>Tanggal Tagihan</th>
-                    <th>Nama Perusahaan</th>
-                    <th>Total Bayar</th>
-                    <th>Sisa Bayar</th>
+                    {{-- <th>Tanggal Tagihan</th> --}}
+                    {{-- <th>Nama Perusahaan</th> --}}
+                    <th>Total Bayar (+PPn)</th>
+                    <th>Sisa Bayar (+PPn)</th>
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -46,11 +46,11 @@ Data Finance
         processing: true,
         serverSide: true,
         ajax: "{{ route('finance.data') }}",
+        "bLengthChange": false,
+        "iDisplayLength": 25,
         columns: [
           {data: 'DT_RowIndex', name: 'DT_RowIndex'},
           {data: 'no_order', name: 'no_order'},
-          {data: 'tgl_tagihan', name: 'tgl_tagihan'},
-          {data: 'customer.nama_perusahaan', name: 'customer.nama_perusahaan'},
           {data: 'total_bayar', name: 'total_bayar'},
           {data: 'sisa_bayar', name: 'sisa_bayar'},
           {data: 'status', name: 'status'},

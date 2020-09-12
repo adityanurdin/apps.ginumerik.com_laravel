@@ -24,8 +24,7 @@ Manage Users
                   <tr>
                     <th>No</th>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
+                    <th>Jabatan</th>
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -51,7 +50,6 @@ Manage Users
             columns: [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
               {data: 'name', name: 'name'},
-              {data: 'email', name: 'email'},
               {data: 'role', name: 'role'},
               {data: 'status', name: 'status'},
             ]

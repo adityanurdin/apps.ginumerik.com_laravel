@@ -171,11 +171,12 @@ class UserController extends Controller
                                 return $result;
                             })
                             ->editColumn('role', function($item) {
-                                if ($item->role == 'ADMIN') {
-                                    return 'Admin System';
-                                } else {
-                                    return ucfirst($item->role);
-                                }
+                                // if ($item->role == 'ADMIN') {
+                                //     return 'Admin System';
+                                // } else {
+                                //     return ucfirst($item->role);
+                                // }
+                                return $item->sub_role;
                             })
                             ->editColumn('status', function($item){
                                 return ucfirst($item->status);

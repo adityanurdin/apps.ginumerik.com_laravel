@@ -58,12 +58,12 @@
                         <input type="text" name="name" class="form-control" autocomplete="off">
                       </div>
                     </div>
-                    <div class="form-group row align-items-center">
+                    {{-- <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left">Email</label>
                       <div class="col-lg-4 col-md-6">
-                        <input type="email" name="email" class="form-control"  autocomplete="off">
+                        <input type="text" name="email" class="form-control"  autocomplete="off">
                       </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                       <label class="col-md-4 text-md-right text-left mt-2">Password</label>
                       <div class="col-lg-4 col-md-6">

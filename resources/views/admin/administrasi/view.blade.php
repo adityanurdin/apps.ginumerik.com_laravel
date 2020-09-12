@@ -62,6 +62,18 @@ Data Administrasi
                   <td>{{Dit::Rupiah($item->harga_satuan)}}</td>
                   <td sdval="250000" sdnum="1033;">{{Dit::Rupiah($item->harga_satuan * $item->alt)}}</td>
                 </tr>
+
+                <script>
+
+                function myConfirm(id) {
+                  var r = confirm("Yakin ingin menghapus ?")
+                  if (r) {
+                
+                  window.location.href = "{{route('barang.destroy', [$order->id, $item->id])}}"
+                  }
+                }
+                
+                </script>
                 @endforeach
               </tbody>
             </table>
@@ -70,26 +82,11 @@ Data Administrasi
         </div>
 
         @include('admin.administrasi.form.form-adm-2')
-        @include('admin.administrasi.form.form-adm-1')
+        {{-- @include('admin.administrasi.form.form-adm-1') --}}
+        @include('admin.administrasi.kartu_alat.kartu_alat')
+        @include('admin.administrasi.kartu_alat.serah_terima')
         
       </div>
   </div>
 </section>
 @endsection
-
-@push('scripts')
-
-
-<script>
-
-function myConfirm(id) {
-  var r = confirm("Yakin ingin menghapus ?")
-  if (r) {
-
-  window.location.href = "{{route('barang.destroy', [$order->id, $item->id])}}"
-  }
-}
-
-</script>
-
-@endpush
