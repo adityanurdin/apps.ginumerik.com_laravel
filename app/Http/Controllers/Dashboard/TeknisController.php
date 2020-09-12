@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 use App\Models\Customer;
 use App\Models\Order;
@@ -201,7 +202,12 @@ class TeknisController extends Controller
                     ->escapeColumns([])
                     ->make(true); */
 
-        $data = Order::with('customer')->orderBy('created_at', 'ASC')->get();
+        $data = Order::with('customer')
+                        ->whereHas('finance', function(Builder $query) {
+                            $query->where('status', '!=' , 'sudah_bayar');
+                        })
+                        ->orderBy('created_at', 'ASC')
+                        ->get();
         return Datatables::of($data)
                     ->addIndexColumn()
                     ->editColumn('no_order', function($item) {
