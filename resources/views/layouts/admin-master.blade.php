@@ -6,8 +6,8 @@
   <title>@yield('title', 'Stisla Laravel') &mdash; {{ env('APP_NAME') }}</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- General CSS Files -->
-  <link rel="stylesheet" href="{{asset('assets/bootstrap/css/bootstrap.min.css')}}" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{asset('assets/bootstrap/css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
 
   <!-- CSS Libraries -->
   <link rel="stylesheet" href="{{asset('assets/dataTables/css/jquery.dataTables.min.css')}}">
@@ -41,7 +41,7 @@
     </div>
   </div>
 
-  <script src="{{asset('assets/bootstrap/js/jquery-3.3.1.min.js')}}" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="{{asset('assets/bootstrap/js/jquery-3.3.1.min.js')}}"></script>
   <script src="{{ route('js.dynamic') }}"></script>
   <script src="{{ asset('assets/js/app.js') }}?{{ uniqid() }}"></script>
   <script src="{{asset('assets/bootstrap/js/jquery.nicescroll.min.js')}}"></script>
