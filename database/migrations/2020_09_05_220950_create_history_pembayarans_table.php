@@ -21,7 +21,7 @@ class CreateHistoryPembayaransTable extends Migration
             $table->string('tanggal_tagihan');
             $table->string('no_invoice');
             $table->string('no_kwitansi');
-            $table->enum('status', ['Lunas', 'Belum Lunas']);
+            $table->enum('status', ['Lunas', 'Belum Lunas', 'Batal']);
             $table->string('keterangan')->nullable();
             $table->timestamps();
         });

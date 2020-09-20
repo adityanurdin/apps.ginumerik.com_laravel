@@ -19,7 +19,9 @@ use App\Models\Order;
 use App\Models\Barang;
 use App\Models\Finance;
 use App\Models\KartuAlat;
+use App\Models\HistoryPembayaran;
 use App\Setting;
+use App\TransferOfDoc;
 use App\SerahTerima;
 use App\User;
 use App\MsLab;
@@ -132,13 +134,13 @@ class AdministrasiController extends Controller
 
         if ($request->lab == 'sub_con') {
             $request->merge([
-                'user_id'       => \Auth::user()->id,
+                // 'user_id'       => \Auth::user()->id,
                 'no_sertifikat' => '-',
                 'sub_lab'       => '-'
             ]);
         }
 
-        $request->merge(['user_id' => \Auth::user()->id]);
+        // $request->merge(['user_id' => \Auth::user()->id]);
         $barang = Barang::create($request->except(['wizardID']));
         $order  = Order::where('no_order', session('no_order'))->first();
         $barang->orders()->attach($order->id);
@@ -237,7 +239,6 @@ class AdministrasiController extends Controller
         }
         $collapse = Arr::collapse($nilai_satuan);
         $sum      = array_sum($collapse);
-        $PPn      = $sum * 0.1;
         $grand_total = Dit::GrandTotal($order->finance['id']);
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
@@ -386,5 +387,88 @@ class AdministrasiController extends Controller
                             })
                             ->escapeColumns([])
                             ->make(true);
+    }
+
+    // Input
+
+    public function inputIndex()
+    {
+        return view('admin.administrasi.input.index');
+    }
+
+    public function showInput($id)
+    {
+        $data       = Order::with('customer', 'barangs', 'finance')->find($id);
+
+        $nilai_satuan = [];
+        foreach ($data->barangs as $row) {
+            array_push($nilai_satuan, [
+                (int)$row->harga_satuan * $row->alt
+            ]);
+        }
+        $collapse = Arr::collapse($nilai_satuan);
+        $sum      = array_sum($collapse);
+        $grand_total = Dit::GrandTotal($data->finance['id']);
+
+        $pembayaran = HistoryPembayaran::where('finance_id', $data->finance['id'])
+                                        ->first();
+        return view('admin.administrasi.input.show', compact('data', 'pembayaran', 'sum', 'grand_total'));
+    }
+
+    public function dataInput()
+    {
+        $data = Order::with('customer')->orderBy('created_at', 'DESC')->get();
+        // return $data;
+        return Datatables::of($data)
+                            ->addIndexColumn()
+                            ->editColumn('no_order', function($item) {
+                                $result = ucfirst($item->no_order). '<br>';
+                                $result .= '<a href='.route('administrasi.show.input', $item->id).'>Lihat</a> <a href="#">Print</a>';
+                                return $result;
+                            })
+                            ->editColumn('tgl_masuk', function($item) {
+                                return date('d-M-y', strtotime($item->tgl_masuk));
+                            })
+                            ->escapeColumns([])
+                            ->make(true);
+    }
+
+    // ToD
+    public function indexTD()
+    {
+        return view('admin.administrasi.ToD.index');
+    }
+
+    public function dataTD()
+    {
+        $data = Order::with('customer')->orderBy('created_at', 'DESC')->get();
+        return Datatables::of($data)
+                            ->addIndexColumn()
+                            ->editColumn('no_order', function($item) {
+                                $result = ucfirst($item->no_order). '<br>';
+                                $result .= '<a href='.route('administrasi.show.tod', $item->id).'>Lihat</a> <a href="#">Print</a>';
+                                return $result;
+                            })
+                            ->editColumn('tgl_masuk', function($item) {
+                                return date('d-M-y', strtotime($item->tgl_masuk));
+                            })
+                            ->escapeColumns([])
+                            ->make(true);
+    }
+
+    public function showTD($id)
+    {
+        $data = Order::with('tod')->findOrFail($id);
+        return view('admin.administrasi.ToD.show', compact('data'));
+    }
+
+    public function storeTD(Request $request, $order_id)
+    {
+        $request->merge(['order_id' => $order_id]);
+        $data = TransferOfDoc::create($request->all());
+        if ($data) {
+            toast('Berhasil menambahkan Transfer of Doc.','success');
+            return redirect()->route('administrasi.show.tod', $order_id);
+        }
     }
 }

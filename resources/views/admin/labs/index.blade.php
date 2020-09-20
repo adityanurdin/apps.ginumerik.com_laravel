@@ -23,7 +23,7 @@ Labs
           
                       <div class="table-responsive">
                       
-                        <table class="table table-striped table-sm" id="tablelab">
+                        <table class="table table-striped" id="myTable">
                           <thead>
                             <tr>
                               <th>ID</th>
@@ -60,6 +60,12 @@ Labs
 
 @push('scripts')
 <script>
+
+    $('#myTable').DataTable({
+      "bLengthChange": false,
+      "iDisplayLength": 25,
+    })
+
     function myConfirm(id) {
         var r = confirm("Yakin ingin menghapus ?");
         if (r) {

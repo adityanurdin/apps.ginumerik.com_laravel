@@ -179,7 +179,12 @@ class UserController extends Controller
                                 return $item->sub_role;
                             })
                             ->editColumn('status', function($item){
-                                return ucfirst($item->status);
+                                if ($item->status === 'inactive') {
+                                    $status = 'Non Active';
+                                } else {
+                                    $status = 'Active';
+                                }
+                                return $status;
                             })
                             ->escapeColumns([])
                             ->make(true);

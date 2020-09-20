@@ -8,22 +8,21 @@
           <h4>Users</h4>
         </div>
         <div class="card-body">
-          {{-- {{ $users->count() }} --}}
+          {{ $data['users']->count() }}
         </div>
       </div>
     </div>
   </div>
   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
     <div class="card card-statistic-1">
-      <div class="card-icon bg-danger">
-        <i class="fas fa-money-bill-wave-alt"></i>
+      <div class="card-icon bg-primary">
+        <i class="fas fa-user-tie"></i>
       </div>
       <div class="card-wrap">
         <div class="card-header">
-          <h4>Belum Bayar</h4>
+          <h4>Customers</h4>
         </div>
         <div class="card-body">
-          {{-- Rp. 400JT --}}
           4
         </div>
       </div>
@@ -31,32 +30,95 @@
   </div>
   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
     <div class="card card-statistic-1">
-      <div class="card-icon bg-warning">
-        <i class="far fa-file"></i>
+      <div class="card-icon bg-primary">
+        <i class="fas fa-box"></i>
       </div>
       <div class="card-wrap">
         <div class="card-header">
-          <h4>Belum Lunas</h4>
+          <h4>Orders</h4>
         </div>
         <div class="card-body">
-          {{-- 1,201 --}}
-          6
+          {{$data['orders']->count()}}
         </div>
       </div>
     </div>
   </div>
   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
     <div class="card card-statistic-1">
-      <div class="card-icon bg-success">
-        <i class="fas fa-circle"></i>
+      <div class="card-icon bg-primary">
+        <i class="fas fa-cog"></i>
+      </div>
+      <div class="card-wrap">
+        <div class="card-header">
+          <h4>Alat</h4>
+        </div>
+        <div class="card-body">
+          {{$data['alat']->count()}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+<div class="col-lg-3 col-md-6 col-sm-6 col-12">
+    <div class="card card-statistic-1">
+      <div class="card-icon bg-primary">
+        <i class="fas fa-spinner"></i>
+      </div>
+      <div class="card-wrap">
+        <div class="card-header">
+          <h4>Dalam Proses</h4>
+        </div>
+        <div class="card-body">
+          {{ $data['dalam_proses']->count() }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+    <div class="card card-statistic-1">
+      <div class="card-icon bg-primary">
+        <i class="fas fa-file-invoice"></i>
+      </div>
+      <div class="card-wrap">
+        <div class="card-header">
+          <h4>Siap Tagih</h4>
+        </div>
+        <div class="card-body">
+          {{$data['siap_tagih']->count()}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+    <div class="card card-statistic-1">
+      <div class="card-icon bg-primary">
+        <i class="fas fa-money-bill-wave"></i>
+      </div>
+      <div class="card-wrap">
+        <div class="card-header">
+          <h4>Tagih</h4>
+        </div>
+        <div class="card-body">
+          {{$data['tagih']->count()}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+    <div class="card card-statistic-1">
+      <div class="card-icon bg-primary">
+        <i class="fas fa-money-bill"></i>
       </div>
       <div class="card-wrap">
         <div class="card-header">
           <h4>Sudah Bayar</h4>
         </div>
         <div class="card-body">
-          47
+          {{$data['sudah_bayar']->count()}}
         </div>
       </div>
     </div>
   </div>
+
+  

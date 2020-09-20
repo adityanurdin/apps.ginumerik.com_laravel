@@ -13,17 +13,27 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 use App\User;
 use App\Models\Barang;
 use App\Models\Order;
 use App\Models\Finance;
+use App\Log;
 use Carbon\Carbon;
 
 use Auth;
 
 class DashboardController extends Controller
 {
+
+
+    public static function financeStatus($value)
+    {
+        $finance = finance::where('status', $value);
+        return $finance;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,49 +41,98 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        if ($user->role == 'TEK') {
-            $today_order = Order::where('created_at', Carbon::today())->count();
-            $kan         = Barang::where('KAN', 'KAN')->count('KAN');
-            $non_kan         = Barang::where('KAN', 'NON KAN')->count('KAN');
-        } else if ($user->role == 'FIN') {
-            $tagihan     = Finance::where('status', NULL)
-                                    ->orWhere('status', 'Belum Bayar')
-                                    ->orWhere('status', 'Belum Lunas')
-                                    ->count();
-            $belum_bayar = Finance::where('status', NULL)
-                                    ->orWhere('status', 'Belum Bayar')
-                                    ->count();
-            $belum_lunas = Finance::where('status', 'Belum Lunas')
-                                    ->count();
-            $sudah_bayar = Finance::where('status', 'Sudah Bayar')
-                                    ->count();
-            
-        } else if ($user->role == 'ADM') {
-            $today_order = Order::where('created_at', Carbon::today())->count();
-            $today_item  = Barang::where('created_at', Carbon::today())->count();
-        }
+        
+        $logs   = Log::with('user')->orderBy('created_at', 'DESC')->limit(5)->get();
+
+        $query  = '
+        select 
+        count(*) AS jumlah_order, customers.nama_perusahaan AS nama_perusahaan
+        from orders
+        inner join customers on orders.customer_id = customers.id where year(orders.created_at) = '.date('Y').' group by orders.customer_id
+        ORDER BY jumlah_order DESC
+        LIMIT 10;
+         ';
+        $rank = \DB::select(\DB::raw($query));
+
+        Carbon::setWeekStartsAt(Carbon::MONDAY);
+        Carbon::setWeekEndsAt(Carbon::SUNDAY);
 
         $data = array(
-            'TEK' => [
-                'today_order' => isset($today_order) ? $today_order : '',
-                'kan'         => isset($kan) ? $kan : '',
-                'non_kan'     => isset($non_kan) ? $non_kan : ''
-            ],
-            'FIN' => [
-                'tagihan'     => isset($tagihan) ? $tagihan : '',
-                'belum_bayar'     => isset($belum_bayar) ? $belum_bayar : '',
-                'belum_lunas'     => isset($belum_lunas) ? $belum_lunas : '',
-                'sudah_bayar'     => isset($sudah_bayar) ? $sudah_bayar : '',
+            'logs'      => $logs,
+            'rank'      => $rank,
+            'users'     => User::all(),
+            'orders'    => Order::all(),
+            'alat'      => Barang::where('status_alat', 'alat_datang')->get(),
 
-            ],
-            'ADM' => [
-                'today_order' => isset($today_order) ? $today_order : '',
-                'today_item' => isset($today_item) ? $today_item : '',
+            
+            'dalam_proses'  => self::financeStatus('dalam_proses')->get(),
+            'siap_tagih'    => self::financeStatus('siap_tagih')->get(),
+            'tagih'         => self::financeStatus('tagih')->get(),
+            'sudah_bayar'   => self::financeStatus('sudah_bayar')->get(),
+
+            
+            'sudah_bayar_minggu'   => self::financeStatus('sudah_bayar')
+                                            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get(),
+            'siap_tagih_minggu'   => self::financeStatus('siap_tagih')
+                                            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get(),
+            'tagih_minggu'   => self::financeStatus('tagih')
+                                            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get(),
+            'all_minggu'   => Finance::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get(),
+            
+            
+            'today_order'   => Order::with('customer')->whereDay('created_at',date('d'))->orderBy('created_at', 'DESC')->get(),
+            'monthly_order'   => Order::with('customer')->whereMonth('created_at',date('m'))->get(),
+            'yearly_order'   => Order::with('customer')->whereYear('created_at',date('Y'))->get(),
+            
+            'FIN'   => [
+                'siap_tagih' => Order::with('finance')
+                                        ->whereHas('finance', function(Builder $query) {
+                                            $query->where('status', '!=' , 'sudah_bayar');
+                                            $query->where('status', '!=' , 'dalam_proses');
+                                            $query->where('status', '!=' , 'sudah_bayar');
+                                        })
+                                        ->get(),
             ]
         );
+        // return $data['yearly_order'];
 
         return view('admin.dashboard.index', compact('data'));
+    }
+
+    public function account()
+    {
+        $user   = Auth::user();
+        $barang = Barang::where('user_id', $user->id)->get();
+
+        return view('auth.account', compact('user', 'barang'));
+    }
+
+    public function updateAccount(Request $request)
+    {
+        if ($request->password != NULL) {
+            $validation = \Validator::make($request->all(), [
+                'name'          => 'string',
+                'password'      => 'confirmed',
+            ])->validate();
+        }
+
+        $user   = Auth::user();
+        $users  = User::find($user->id);
+
+        if (\Hash::check($request->old_password, $users->password)) {
+            if ($request->password != NULL) {
+                $request->merge(['password' => \Hash::make($request->password)]);
+                $users->update($request->except(['password_confirmation', 'old_password']));
+            } else {
+                $users->update($request->only(['name']));
+            }
+
+            toast('Berhasil memperbaharui profil','success');
+            return redirect()->route('account-info');
+        } else {
+            toast('Gagal memperberharui profil','error');
+            return redirect()->route('account-info');
+        }
     }
 
     /**

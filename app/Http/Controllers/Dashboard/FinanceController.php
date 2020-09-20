@@ -98,15 +98,66 @@ class FinanceController extends Controller
         return view('admin.finance.edit', compact('order', 'total_bayar'));
     }
 
+    public function editPembayaran($id)
+    {
+        $finance = Finance::findOrFail($id);
+        $pembayaran = HistoryPembayaran::where('finance_id', $finance->id)->first();
+        return view('admin.finance.edit-pembayaran', compact('finance', 'pembayaran'));
+    }
+
+    public function prosesEditPembayaran(Request $request, $id)
+    {
+        $finance = Finance::findOrFail($id);
+        $order   = Order::findOrFail($finance->id);
+        if ($finance) {
+            $finance->update($request->all());
+            Dit::Log(1,'Merubah data pembayaran pada order '.$order->no_order, 'Success');
+            toast('Berhasil merubah data pembayaran.','success');
+            return redirect()->route('finance.index');
+        } else {
+            Dit::Log(0,'Merubah data pembayaran pada order '.$order->no_order, 'Error');
+            toast('Gagal merubah data pembayaran.','error');
+            return redirect()->route('finance.editPembayaran', $finance->id);
+        }
+    }
+
     public function ProsesBayar(Request $request, $id)
     {
-        $pembayaran = HistoryPembayaran::find($id);
-        $finance    = Finance::find($pembayaran->finance_id);
+        $pembayaran = HistoryPembayaran::findOrFail($id);
+        $finance    = Finance::findOrFail($pembayaran->finance_id);
         
 
         if ($request->tanggal_bayar) {
+            
+            // $pra_sisa_bayar = $finance->sisa_bayar - $finance->discount;
+            // $ppn_sisa_bayar = $pra_sisa_bayar * 0.1;
+            // $sisa_bayar = ($pra_sisa_bayar + $ppn_sisa_bayar + $finance->tat) - $request->jumlah_bayar;
+            // $ppn        = $sisa_bayar * 0.1;
+            // $sisa_bayar = $sisa_bayar - $ppn;
+
+            /* if (isset($finance->discount) OR isset($finance->tat)) {
+                $bayar = $finance->sisa_bayar - $finance->discount;
+                $sisa_bayar = $bayar - $request->jumlah_bayar;
+            } else {
+
+            } */
+
+            if ($request->jumlah_bayar > ($finance->sisa_bayar * 0.1) + $finance->sisa_bayar) {
+                return response()->json([
+                    'status' => false,
+                    'msg'    => 'Gagal, Jumlah bayar melebihi sisa bayar'
+                ]);
+            }
 
             $sisa_bayar = $finance->sisa_bayar - $request->jumlah_bayar;
+            // $ppn_sisa_bayar = $sisa_bayar * 0.1;
+            // $total = $sisa_bayar + $ppn_sisa_bayar + $finance->tat;
+
+            // return $total;
+
+
+            // $ppn_sisa_bayar = $finance->sisa_bayar * 0.1;
+            // $sisa_bayar = ($finance->sisa_bayar + $ppn_sisa_bayar) - $request->jumlah_bayar;
 
             if ($sisa_bayar == 0) {
                 $status = 'sudah_bayar';
@@ -123,7 +174,20 @@ class FinanceController extends Controller
             $pembayaran->update($request->all());
         }
 
-        return $pembayaran;
+        if ( $pembayaran->status == 'Lunas' ) {
+            $status = true;
+            $msg    = $pembayaran->no_invoice.' Berhasil Dibayarkan';
+        } else {
+            $status = true;
+            $msg    = 'Data Finance Berhasil di Simpan';
+        }
+
+        
+        return response()->json([
+            'status' => $status,
+            'msg'    => $msg
+        ]);
+            
         
         
     }
@@ -138,8 +202,15 @@ class FinanceController extends Controller
     public function update(Request $request, $id)
     {
         $finance = Finance::findOrFail($id);
+        $financeSubtotal = $finance->sisa_bayar - $finance->discount;
+        $financePpn      = $financeSubtotal * 0.1;
+        $financeTotal    = $financeSubtotal + $financePpn + $finance->tat;
+        // return $financeTotal;
         if($finance->sisa_bayar == 0) {
             toast('Gagal, Pembayaran sudah lunas','error');
+            return back();
+        } elseif ($request->bayar > $financeTotal ) {
+            toast('Gagal, Jumlah bayar melebihi sisa bayar','error');
             return back();
         }
         $roman =  Dit::Roman(date('m'));
@@ -221,6 +292,18 @@ class FinanceController extends Controller
         }
     }
 
+    public function cancelHistory($id) 
+    {
+        $data = HistoryPembayaran::find($id);
+        if ($data->status === 'Belum Lunas') {
+            $data->update(['status' => 'Batal']);
+            return redirect()->route('finance.show', $data->finance_id);
+        } else {
+            return back();
+            toast('Status pembayaran ' . $data->status,'error');
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -245,7 +328,7 @@ class FinanceController extends Controller
                 ->addIndexColumn()
                 ->editColumn('no_order', function($item) {
                     $result = ucfirst($item->no_order). '<br>';
-                    $result .= '<a href='.route('finance.edit', $item->id).'>Pembayaran</a> <a href='.route('finance.show', $item->id).'>History</a>';
+                    $result .= '<a href='.route('finance.edit', $item->id).'>Cetak Invoice</a> <a href='.route('finance.show', $item->id).'>Pembayaran</a>';
                     return $result;
                 })
                 ->addColumn('tgl_tagihan', function($item) {
@@ -259,7 +342,7 @@ class FinanceController extends Controller
                 ->addColumn('total_bayar', function($item) {
                     $total_bayar = Dit::GrandTotal($item->finance['id']);
                     $total_bayar = Dit::Rupiah($total_bayar);
-                    $edit = '<br> <a href="'.route('finance.editPembayaran', $item->finance['id']).'">Edit</a>';
+                    $edit = '<br> <a href="'.route('finance.editPembayaran', $item->finance['id']).'">Edit Pembayaran</a>';
 
                     return $total_bayar.$edit;
                 })
@@ -267,8 +350,17 @@ class FinanceController extends Controller
                     if ($item->finance['sisa_bayar'] == NULL) {
                         $sisa_bayar = 0;
                     } else {
-                        $ppn_sisa_bayar = $item->finance['sisa_bayar'] * 0.1;
-                        $sisa_bayar = $item->finance['sisa_bayar'] + $ppn_sisa_bayar;
+                        $pembayaran = HistoryPembayaran::where('finance_id', $item->finance['id'])
+                                                        ->where('status', 'Lunas')
+                                                        ->get();
+                        // if (count($pembayaran) >= 1) {
+                        //     $sisa_bayar = $item->finance['sisa_bayar'] * 0.1;
+                        //     $sisa_bayar = $item->finance['sisa_bayar'] + $sisa_bayar;   
+                        // } else {
+                            $pra_sisa_bayar = $item->finance['sisa_bayar'] - $item->finance['discount'];
+                            $ppn_sisa_bayar = $pra_sisa_bayar * 0.1;
+                            $sisa_bayar = $pra_sisa_bayar + $ppn_sisa_bayar + $item->finance['tat'];
+                        // }
                     }
                     return Dit::Rupiah($sisa_bayar);
                 })

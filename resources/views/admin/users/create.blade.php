@@ -99,7 +99,7 @@ Create User
                 <label for="name">Status</label>
                 <select class="form-control selectric" name="status">
                   <option value="active" selected>Active</option>
-                  <option value="inactive">Inactive</option>
+                  <option value="inactive">Non Active</option>
                 </select>
               </div>
               <a href="{{ url()->previous() }}" class="btn btn-outline-primary float-left">Kembali</a>

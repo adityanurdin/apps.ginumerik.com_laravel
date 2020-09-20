@@ -30,4 +30,13 @@ class Order extends Model
     {
         return $this->hasOne('App\SerahTerima', 'id_order', 'id');
     }
+
+    public function tod()
+    {
+        return $this->hasMany('App\TransferOfDoc');
+    }
+
+    protected $hidden = [
+        'perjanjian_kerja',
+    ];
 }

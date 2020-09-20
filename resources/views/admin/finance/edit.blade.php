@@ -1,7 +1,7 @@
 @extends('layouts.admin-master')
 
 @section('title')
-Pembayaran
+Invoice
 @endsection
 
 @section('css')
@@ -26,6 +26,16 @@ Pembayaran
                     Buat Invoice {{$order->no_order}}
                 </div>
                   <div class="card-body">
+
+                    <div class="alert alert-warning alert-dismissible show fade">
+                        <div class="alert-body">
+                          <button class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                          </button>
+                          <strong>Peringatan!!</strong> <br>
+                          Pastikan edit pembayaran (jika diperlukan) sebelum membuat invoice
+                        </div>
+                      </div>
                     
                     <form action="{{route('finance.update', $order->id)}}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -44,7 +54,7 @@ Pembayaran
                         </div> --}}
                         <div class="form-group">
                             <label for="tgl_tagihan">Tanggal Tagihan</label>
-                            <input type="date" name="tgl_tagihan" id="tgl_tagihan" class="form-control">
+                            <input type="date" name="tgl_tagihan" id="tgl_tagihan" class="form-control" required>
                         </div>
                         {{-- <div class="form-group">
                             <label for="no_pajak">Nomor Pajak</label>
@@ -71,14 +81,14 @@ Pembayaran
                             <small>Note: Contoh format penulisan angka adalah 1000</small>
                         </div> --}}
                         <div class="form-group">
-                            <label for="bayar">Bayar</label>
-                            <input type="number" name="bayar" id="bayar" class="form-control">
+                            <label for="bayar">Nominal</label>
+                            <input type="number" name="bayar" id="bayar" class="form-control" required>
                             <small>Note: Contoh format penulisan angka adalah 1000</small>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="tgl_bayar">Tanggal Bayar</label>
                             <input type="date" name="tgl_bayar" id="tgl_bayar" class="form-control">
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label for="keterangan">Keterangan</label>
                             <textarea name="keterangan" id="keterangan" cols="30" rows="10" class="form-control"></textarea>

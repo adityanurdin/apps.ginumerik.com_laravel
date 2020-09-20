@@ -12,10 +12,13 @@
   @if (Auth::user()->role == 'ADM' || Auth::user()->role == 'ADMIN')
   <ul class="sidebar-menu">
       <li class="menu-header">Administrasi</li>
-      <li class="dropdown">
+      <li class="dropdown {{ Auth::user()->role == 'ADM' ? 'active' : ''}}">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i>  <span>Administrasi</span></a>
         <ul class="dropdown-menu">
+          <li class="{{ Request::route()->getName() == 'administrasi.create' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.create')}}"><span>Buat Order</span></a></li>
           <li class="{{ Request::route()->getName() == 'administrasi.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.index')}}"><span>Data Administrasi</span></a></li>
+          <li class="{{ Request::route()->getName() == 'administrasi.input' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.input')}}"><span>Input</span></a></li>
+          <li class="{{ Request::route()->getName() == 'administrasi.tod' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.tod')}}"><span>Transfer of Doc</span></a></li>
           <li class="{{ Request::route()->getName() == 'customer.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('customer.index')}}"><span>Customers</span></a></li>
         </ul>
       </li>
@@ -24,10 +27,12 @@
   @if (Auth::user()->role == 'FIN' || Auth::user()->role == 'ADMIN')
   <ul class="sidebar-menu">
       <li class="menu-header">Finance</li>
-      <li class="dropdown">
+      <li class="dropdown  {{ Auth::user()->role == 'FIN' ? 'active' : ''}}">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i>  <span>Finance</span></a>
         <ul class="dropdown-menu">
           <li class="{{ Request::route()->getName() == 'finance.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.index')}}"><span>Data Finance</span></a></li>
+          <li class="{{ Request::route()->getName() == 'finance.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.index')}}"><span>Pembayaran Selesai</span></a></li>
+          <li class="{{ Request::route()->getName() == 'finance.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.index')}}"><span>Pembayaran Batal</span></a></li>
         </ul>
       </li>
   </ul>
@@ -35,7 +40,10 @@
   @if (Auth::user()->role == 'TEK' || Auth::user()->role == 'ADMIN')
   <ul class="sidebar-menu">
       <li class="menu-header">Teknis</li>
-      <li class="dropdown">
+      @if (Auth::user()->role == 'ADMIN')
+        <li><a href="{{route('teknis.summary')}}" class="nav-link"><i class="fas fa-desktop"></i> <span>Summary Teknis</span></a></li>
+      @endif
+      <li class="dropdown  {{ Auth::user()->role == 'TEK' ? 'active' : ''}}">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i> <span>Teknis</span></a>
         <ul class="dropdown-menu">
           <li class="{{ Request::route()->getName() == 'teknis.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('teknis.index')}}"><span>Data Teknis</span></a></li>

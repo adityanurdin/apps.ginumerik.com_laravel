@@ -47,8 +47,6 @@ class BarangController extends Controller
      */
     public function store(Request $request, $order_id)
     {
-        $order = Order::where('no_order', $order_id)->first();
-
         $valid = Validator::make($request->all(), [
             'nama_barang' => 'required',
             'alt'         => 'required',
@@ -61,19 +59,35 @@ class BarangController extends Controller
             ]);
         }
 
+        if ($request->lab == 'sub_con') {
+            $request->merge([
+                // 'user_id'       => \Auth::user()->id,
+                'no_sertifikat' => '-',
+                'sub_lab'       => '-'
+            ]);
+        }
+
         $barang = Barang::create($request->all());
+        $order  = Order::where('no_order', $order_id)->first();
         $barang->orders()->attach($order->id);
-        $kartu_alat = KartuAlat::create([
-            'barang_id' => $barang->id
-        ]);
 
         $finance = Finance::where('order_id', $order->id)->first();
 
-        $total_harga_barang = $request->harga_satuan * $request->alt;
-        $total_bayar        = $total_harga_barang + $finance->total_bayar;
-        $finance->update([
-            'total_bayar' => $total_bayar
-        ]);
+        if ($barang) {
+            $total_harga_barang = $request->harga_satuan * $request->alt;
+            $total_bayar = $total_harga_barang + $finance->total_bayar;
+            $finance->update([
+                'total_bayar' => $total_bayar,
+                'sisa_bayar'  => $total_bayar
+            ]);
+
+            $kartu_alat = KartuAlat::create([
+                'barang_id' => $barang->id
+            ]);
+        }
+
+
+
 
         if ($barang) {
             $msg = 'Menambahkan barang '.$barang->nama_barang.' pada order '. $order->no_order;

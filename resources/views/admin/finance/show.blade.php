@@ -21,13 +21,13 @@ Data Finance
             <h4>History Pembayaran No: {{$order->no_order}}</h4>
           </div>
           <div class="card-body">
-            <table class="table table-sm table-striped" id="table-pembayaran">
+            <table class="table table-sm" id="table-pembayaran">
               <thead>
                 <tr class="text-center">
                   <th>No</th>
                   <th>Tagihan (+PPn)</th>
                   <th>Tanggal Tagihan</th>
-                  {{-- <th>Tanggal Bayar</th> --}} 
+                  <th>No Invoice & Kwitansi</th> 
                   <th>Status</th>
                   <th>Keterangan</th>
                   <th>Action</th>
@@ -45,18 +45,19 @@ Data Finance
                       $no = 1;
                   @endphp
                   @foreach ($history_pembayaran as $item)
-                    <tr class="text-center">
+                    <tr class="text-center {{$item->status == 'Batal' ? 'bg-light' : ''}}">
                       <td>{{$no++}}</td>
                       <td>
-                        {{Dit::Rupiah($item->jumlah_bayar)}} <br>
-                        <a href="" {!!$item->status == 'Lunas' ? 'style="display:none;"' : ''!!}  id="pembayaran-{{$item->id}}">Edit</a>
+                        {{Dit::Rupiah($item->jumlah_bayar + ($item->jumlah_bayar * 0.1))}} <br>
+                        <a href="" {!!$item->status == 'Lunas' ? 'style="display:none;"' : '' !!} {!!$item->status == 'Batal' ? 'style="display:none;"' : '' !!}  id="pembayaran-{{$item->id}}">Edit</a>
+                        <a href="{{route('finance.cancel', $item->id)}}" {!!$item->status == 'Batal' ? 'style="display:none;"' : '' !!}>Batalkan</a>
                       </td>
                       <td>{{ is_null($item->tanggal_tagihan) ? '-' : date('d-m-Y', strtotime($item->tanggal_tagihan))}}</td>
-                      {{-- <td>{{ is_null($item->tanggal_bayar) ? '-' : date('d-m-Y', strtotime($item->tanggal_bayar))}}</td> --}}
+                      <td>{!! $item->no_invoice.'<br>'. $item->no_kwitansi !!}</td>
                       <td>{{$item->status}}</td>
                       <td>{{$item->keterangan}}</td>
                       <td>
-                        <a href="#" class="btn btn-sm btn-outline-primary"><i class="fas fa-print"></i> Invoice</a> 
+                        <a href="#" class="btn btn-sm btn-outline-primary {{$item->status == 'Batal' ? 'disabled' : ''}}"><i class="fas fa-print"></i> Invoice</a> 
                         <a href="#" class="btn btn-sm btn-outline-primary {{$item->status != 'Lunas' ? 'disabled' : ''}}" ><i class="fas fa-print"></i> Kwitansi</a> 
                       </td>
                     </tr>
@@ -241,7 +242,7 @@ Data Finance
 
   <div class="form-group">
     <label for="tanggal_tagihan-{{$item->id}}">Tanggal Tagihan</label>
-    <input type="date" name="tanggal_tagihan" value="{{$item->tanggal_tagihan}}" id="tanggal_tagihan-{{$item->id}}" class="form-control">
+    <input type="date" name="tanggal_tagihan" readonly value="{{$item->tanggal_tagihan}}" id="tanggal_tagihan-{{$item->id}}" class="form-control">
   </div>
   <div class="form-group">
     <label for="tanggal_bayar-{{$item->id}}">Tanggal Bayar</label>
@@ -249,8 +250,9 @@ Data Finance
   </div>
 
   <div class="form-group">
-    <label for="jumlah_bayar-{{$item->id}}">Jumlah Bayar</label>
-    <input type="number" name="jumlah_bayar" value="{{$item->jumlah_bayar}}" id="jumlah_bayar-{{$item->id}}" class="form-control">
+    <label for="jumlah_bayar-{{$item->id}}">Nominal</label>
+    <input type="number" name="jumlah_bayar" readonly value="{{$item->jumlah_bayar}}" id="jumlah_bayar-{{$item->id}}" class="form-control">
+    <small>{{Dit::Rupiah($item->jumlah_bayar + ($item->jumlah_bayar * 0.1))}} *Jika sudah termasuk PPN</small>
   </div>
 
   <div class="form-group">
@@ -305,16 +307,16 @@ Data Finance
                 success: function(res) {
                   form.stopProgress();
                   console.log(res)
-                  if (res.status == 'Lunas') {
-                    //show alert telah bayar
-                    modal.find('.modal-message').prepend('<div class="alert alert-info"><b>{{$item->no_invoice}}</b> Telah Dibayarkan</div>')
+
+                  if (res.status === true) {
+                    modal.find('.modal-message').prepend('<div class="alert alert-info">'+ res.msg +'</div>')
+                    setTimeout(function() {
+                      window.location.href = "{{route('finance.show', $item->finance_id)}}";
+                    }, 500)
                   } else {
-                    modal.find('.modal-message').prepend('<div class="alert alert-info">Data Berhasil di Simpan</div>')
+                    modal.find('.modal-message').prepend('<div class="alert alert-danger">'+ res.msg +'</div>')
                   }
 
-                  setTimeout(function() {
-                    window.location.href = "{{route('finance.show', $item->finance_id)}}";
-                  }, 1000)
 
                 },
                 error: function(err) {

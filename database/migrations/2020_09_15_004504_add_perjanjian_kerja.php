@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMoreFieldsToBarangs extends Migration
+class AddPerjanjianKerja extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddMoreFieldsToBarangs extends Migration
      */
     public function up()
     {
-        Schema::table('barangs', function (Blueprint $table) {
-            $table->integer('user_id')->after('id')->nullable();
-            $table->enum('status_alat', ['alat_datang', 'belum_datang'])->after('LAG');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->text('perjanjian_kerja')->nullable();
         });
     }
 
@@ -26,7 +25,7 @@ class AddMoreFieldsToBarangs extends Migration
      */
     public function down()
     {
-        Schema::table('barangs', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             //
         });
     }

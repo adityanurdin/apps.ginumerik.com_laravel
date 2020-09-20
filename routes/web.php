@@ -38,11 +38,13 @@ Route::group(['middleware' => 'SETUP'], function() {
      * - Logout
      * ======================
      */
-    Route::get('login' , 'Auth\AuthController@loginPage')->name('login');
-    Route::post('login', 'Auth\AuthController@login')->name('login');
-    
-    Route::get('register' , 'Auth\AuthController@registerPage')->name('register');
-    Route::post('register' , 'Auth\AuthController@register')->name('register');
+    Route::group(['middleware' => 'guest'], function() {
+        Route::get('login' , 'Auth\AuthController@loginPage')->name('login');
+        Route::post('login', 'Auth\AuthController@login')->name('login');
+        
+        Route::get('register' , 'Auth\AuthController@registerPage')->name('register');
+        Route::post('register' , 'Auth\AuthController@register')->name('register');
+    });
     
     Route::get('logout', 'Auth\AuthController@logout')->name('logout');
     
@@ -52,6 +54,7 @@ Route::group(['middleware' => 'SETUP'], function() {
      * - Dashboard
      * - Users
      * - Administrasi
+     *   - Input
      *   - Customers
      * - Finance
      * - Teknis
@@ -61,6 +64,10 @@ Route::group(['middleware' => 'SETUP'], function() {
     Route::group(['middleware' => 'auth'], function() {
         // Dashboard
         Route::resource('dashboard', 'Dashboard\DashboardController');
+
+        // Account Info
+        Route::get('account-info', 'Dashboard\DashboardController@account')->name('account-info');
+        Route::put('account-info', 'Dashboard\DashboardController@updateAccount')->name('account-info');
     
         Route::group(['middleware' => 'Admin'], function() {
 
@@ -78,6 +85,15 @@ Route::group(['middleware' => 'SETUP'], function() {
         
         // Administrasi
         Route::group(['middleware' => 'ADM'], function() {
+
+            Route::get('administrasi/input', 'Dashboard\AdministrasiController@inputIndex')->name('administrasi.input');
+            Route::get('administrasi/input/{id}', 'Dashboard\AdministrasiController@showInput')->name('administrasi.show.input');
+            Route::get('administrasi/data-input', 'Dashboard\AdministrasiController@dataInput')->name('administrasi.data.input');
+
+            Route::get('administrasi/transfer-of-doc', 'Dashboard\AdministrasiController@indexTD')->name('administrasi.tod');
+            Route::get('administrasi/transfer-of-doc/{id}/show', 'Dashboard\AdministrasiController@showTD')->name('administrasi.show.tod');
+            Route::post('administrasi/transfer-of-doc/{id}', 'Dashboard\AdministrasiController@storeTD')->name('administrasi.store.tod');
+            Route::get('administrasi/transfer-of-doc/data', 'Dashboard\AdministrasiController@dataTD')->name('administrasi.data.tod');
             
             Route::post('administrasi/serahterima/{id}', 'Dashboard\AdministrasiController@serahterima')->name('administrasi.serahterima');
             Route::get('administrasi/sertifikat', 'Dashboard\AdministrasiController@sertifikat')->name('administrasi.sertifikat');
@@ -108,7 +124,9 @@ Route::group(['middleware' => 'SETUP'], function() {
         // Finance
         Route::group(['middleware' => 'Finance'], function() {
             Route::get('finance/data', 'Dashboard\FinanceController@data')->name('finance.data');
-            Route::get('finance/{finance}/pembayaran', 'Dashboard\FinanceController@edit')->name('finance.edit');
+            Route::get('finance/{finance}/cancel', 'Dashboard\FinanceController@cancelHistory')->name('finance.cancel');
+            Route::get('finance/{finance}/invoice', 'Dashboard\FinanceController@edit')->name('finance.edit');
+            Route::put('finance/{finance}/edit/pembayaran', 'Dashboard\FinanceController@prosesEditPembayaran')->name('finance.do.editPembayaran');
             Route::get('finance/{finance}/edit/pembayaran', 'Dashboard\FinanceController@editPembayaran')->name('finance.editPembayaran');
             Route::put('finance/{id}/pembayaran', 'Dashboard\FinanceController@ProsesBayar')->name('finance.bayar');
             Route::resource('finance', 'Dashboard\FinanceController')->except(['edit']);
@@ -116,8 +134,13 @@ Route::group(['middleware' => 'SETUP'], function() {
 
         // Teknis
         Route::group(['middleware' => 'Teknis'], function() {
+
+            Route::get('teknis/summary', 'Dashboard\TeknisController@summary')->name('teknis.summary')->middleware('Admin');
+
             Route::get('teknis/sertifikat', 'Dashboard\SertifikatController@index')->name('sertifikat.index');
             Route::get('teknis/sertifikat/{id}', 'Dashboard\SertifikatController@show')->name('sertifikat.show');
+            Route::post('teknis/sertifikat/upload', 'Dashboard\SertifikatController@upload')->name('sertifikat.upload');
+            Route::get('teknis/sertifikat/{id}/download', 'Dashboard\SertifikatController@download')->name('sertifikat.download');
 
             Route::post('teknis/serahterima/{id}', 'Dashboard\TeknisController@serahterima')->name('teknis.serahterima');
             Route::get('teknis/checked/{check}/{id}/{order_id}', 'Dashboard\TeknisController@checked')->name('teknis.checked');

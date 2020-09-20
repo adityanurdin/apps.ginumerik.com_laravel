@@ -40,8 +40,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
-            if ($user->status == 'inactive') {
+            if ($user->status === 'inactive') {
                 Dit::Log(0,'Mencoba login, user status inactive.', 'Error');
+                Auth::logout();
                 return redirect()->route('login')
                                 ->with('error' , 'Akun anda sudah tidak aktif, silahkan hubungi admin.');
             } else {

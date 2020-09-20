@@ -141,55 +141,55 @@
       <td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=bottom sdval="0" sdnum="1033;"><font color="#000000">{{Dit::Rupiah($grand_total)}}</font></td>
       </tr>
     <tr>
-      <td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 rowspan=2 height="40" align="left" valign=middle><b><font color="#000000">Perjanjian Kerja</font></b></td>
+      <td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 rowspan=2 height="40" align="left" valign=middle><b><font color="#000000">Perjanjian Kerja <br><br> {!!$order->perjanjian_kerja!!}</font></b></td>
       <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 rowspan=2 align="center" valign=middle><font color="#000000">Pemohon /                                                                                                                              Request By</font></td>
       </tr>
     <tr>
       </tr>
     <tr>
-      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=middle><font color="#000000">1. Kalibrasi dilakukan di :  </font></td>
+      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=middle><font color="#000000"></font></td>
       <td style="border-top: 1px solid #000000; border-left: 1px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font color="#000000">Ttd /                                               Sign</font></td>
       <td style="border-top: 1px solid #000000; border-right: 1px solid #000000" colspan=5 rowspan=2 align="left" valign=bottom><font color="#000000">: __________________________________</font></td>
       </tr>
     <tr>
-      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=middle><font color="#000000">2. Waktu penyelesaian pekerjaan :  {{$order->hari_kerja}}  Hari Kerja</font></td>
+      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=middle><font color="#000000"></font></td>
       </tr>
     <tr>
-      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=bottom><font color="#000000">3. Formulir ini mohon dibawa pada saat pengambilan alat dan sertifikat yang sudah selesai.</font></td>
+      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=bottom><font color="#000000"></font></td>
       <td style="border-left: 1px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font color="#000000">Nama /                                            Name</font></td>
       <td style="border-right: 1px solid #000000" colspan=5 rowspan=2 align="left" valign=bottom><font color="#000000">: __________________________________</font></td>
       </tr>
     <tr>
-      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 rowspan=2 height="40" align="left" valign=middle><font color="#000000">4. Laboratorium Kalibrasi PT. Gaya Instrumentasi Numerik tidak bertanggung jawab atas kerusakan    ataupun atas ketidaksesuaian jumlah alat yang dikirim atau diterima melalui Kiriman paket/POS.</font></td>
+      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 rowspan=2 height="40" align="left" valign=middle><font color="#000000"></font></td>
       </tr>
     <tr>
       <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font color="#000000">Tgl /                                                     Date</font></td>
       <td style="border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=5 rowspan=2 align="left" valign=bottom><font color="#000000">: __________________________________</font></td>
       </tr>
     <tr>
-      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 rowspan=2 height="40" align="left" valign=middle><font color="#000000">5. Alat yang tidak diambil dalam 3 bulan sejak JO ini diterbitkan bukan merupakan tanggung jawab PT. Gaya Instrumentasi Numerik.</font></td>
+      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 rowspan=2 height="40" align="left" valign=middle><font color="#000000"></font></td>
       </tr>
     <tr>
       <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 rowspan=2 align="center" valign=middle><font color="#000000">Petugas Adminstrasi /<br>Administrative Officer </font></td>
       </tr>
     <tr>
-      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=middle><font color="#000000">6. Cara pembayaran sesuai dengan SPK/PO yang telah diterbitkan atas persetujuan kedua belah pihak.</font></td>
+      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=middle><font color="#000000"></font></td>
       </tr>
     <tr>
-      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=bottom><font color="#000000">7. Biaya total kalibrasi / transaksi dibawah Rp. 3.000.000 dibayar tunai pada saat pengambilan sertifikat.</font></td>
+      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=bottom><font color="#000000"></font></td>
       <td style="border-top: 1px solid #000000; border-left: 1px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font color="#000000">Ttd /                                               Sign</font></td>
       <td style="border-top: 1px solid #000000; border-right: 1px solid #000000" colspan=5 rowspan=2 align="left" valign=bottom><font color="#000000">: __________________________________</font></td>
       </tr>
     <tr>
-      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=bottom><font color="#000000">8. Invoice dikirimkan paling lambat 1 minggu setelah pengerjaan selesai.</font></td>
+      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=bottom><font color="#000000"></font></td>
       </tr>
     <tr>
-      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=bottom><font color="#000000">9. Pembayaran dilakukan paling lambat 3 hari kerja sejak invoice diterima.</font></td>
+      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 height="20" align="left" valign=bottom><font color="#000000"></font></td>
       <td style="border-left: 1px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font color="#000000">Nama /                                            Name</font></td>
       <td style="border-right: 1px solid #000000" colspan=5 rowspan=2 align="left" valign=middle><font color="#000000">: {{ucfirst(Auth::user()->name)}}</font></td>
       </tr>
     <tr>
-      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 rowspan=2 height="40" align="left" valign=middle><font color="#000000">10. Pembayaran transfer : Bank Mandiri KCP Bandung Pasteur,                                                                                ACC NUMBER :  132-00-1705362-1, AN: PT. Gaya Instrumentasi Numerik</font></td>
+      <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 rowspan=2 height="40" align="left" valign=middle><font color="#000000"></font></td>
       </tr>
     <tr>
       <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font color="#000000">Tgl /                                                     Date</font></td>

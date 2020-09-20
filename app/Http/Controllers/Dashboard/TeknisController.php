@@ -17,6 +17,7 @@ use App\MsLab;
 use Validator;
 use DataTables;
 use Dit;
+use Auth;
 
 class TeknisController extends Controller
 {
@@ -132,6 +133,11 @@ class TeknisController extends Controller
             ]);
         }
 
+        if ($kartu_alat->paraf_alat !== NULL) {
+            $user = Auth::user();
+            $barang->update(['user_id' => $user->id]);
+        }
+
         if($kartu_alat->paraf_administrasi != NULL) {
             if ($kartu_alat->paraf_sertifikat != NULL) {
                 $barang->update([
@@ -224,5 +230,19 @@ class TeknisController extends Controller
                     })
                     ->escapeColumns([])
                     ->make(true);
+    }
+
+    public function summary()
+    {
+        $query  = '
+        SELECT
+        count(*) AS jumlah_alat, users.*
+        from barangs
+        inner join users on barangs.user_id = users.id where year(barangs.created_at) = '.date('Y').' group by barangs.user_id
+        ORDER BY jumlah_alat DESC;
+         ';
+        $teknis = \DB::select(\DB::raw($query));
+
+        return view('admin.teknis.summary.index', compact('teknis'));
     }
 }

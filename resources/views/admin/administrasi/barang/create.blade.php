@@ -17,7 +17,7 @@
           <div class="section-body">
             <div class="card">
                 <div class="card-header">
-                    <h4>Edit Data Barang</h4>
+                    <h4>Create Data Barang</h4>
                 </div>
                 <div class="card-body">
                     <form action="{{route('barang.store', $order_id)}}" method="POST" enctype="multipart/form-data">
@@ -82,73 +82,86 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="no_sertifikat">No Sertifikat</label>
-                                    <input type="text" name="no_sertifikat" id="no_sertifikat" class="form-control @error('no_sertifikat') is-invalid @enderror">
-                                    <div class="invalid-feedback">
-                                        @error('no_sertifikat')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lab">Lab</label>
-                                    <input type="text" name="lab" id="lab" class="form-control @error('lab') is-invalid @enderror">
-                                    <div class="invalid-feedback">
-                                        @error('lab')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="sub_lab">Sub Lab</label>
-                                    {{-- <input type="text" name="sub_lab" id="sub_lab" class="form-control @error('sub_lab') is-invalid @enderror"> --}}
-                                    <select class="form-control select2" name="sub_lab">
-                                        @foreach ($labs as $item)
-                                          <option value="{{$item->sub_lab}}">{{$item->sub_lab}}</option>
-                                        @endforeach
+                                    <label for="">Pengerjaan</label>
+                                    <select class="form-control select2" name="lab" id="lab">
+                                        <option value="in_lab">In-Lab</option>
+                                        <option value="on_site">On-Site</option>
+                                        <option value="sub_con">Sub Contractor</option>
                                       </select>
-                                    <div class="invalid-feedback">
-                                        @error('sub_lab')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="kan">KAN</label>
-                                    <div class="selectgroup w-100">
-                                        <label class="selectgroup-item">
-                                          <input type="radio" name="KAN" value="KAN" class="selectgroup-input" checked>
-                                          <span class="selectgroup-button">KAN</span>
-                                        </label>
-                                        <label class="selectgroup-item">
-                                          <input type="radio" name="KAN" value="NON KAN" class="selectgroup-input">
-                                          <span class="selectgroup-button">NON KAN</span>
-                                        </label>
-                                      </div>
-                                    <div class="invalid-feedback">
-                                        @error('sub_lab')
-                                            {{ $message }}
-                                        @enderror
+                                <div class="sub_con">
+                                    {{-- <div class="form-group">
+                                        <label for="lab">Lab</label>
+                                        <input type="text" name="lab" id="lab" class="form-control @error('lab') is-invalid @enderror">
+                                        <div class="invalid-feedback">
+                                            @error('lab')
+                                                {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div> --}}
+                                    <div class="form-group">
+                                        <label for="sub_lab">Sub Lab</label>
+                                        {{-- <input type="text" name="sub_lab" id="sub_lab" class="form-control @error('sub_lab') is-invalid @enderror"> --}}
+                                        <select class="form-control select2" name="sub_lab">
+                                            @foreach ($labs as $item)
+                                              <option value="{{$item->sub_lab}}">{{$item->sub_lab}}</option>
+                                            @endforeach
+                                          </select>
+                                        <div class="invalid-feedback">
+                                            @error('sub_lab')
+                                                {{ $message }}
+                                            @enderror
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="kan">Review</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="fisik" name="fisik" value="fisik">
-                                        <label class="form-check-label" for="fisik">Fisik</label>
-                                      </div>
-                                      <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="fungsi" name="fungsi" value="fungsi">
-                                        <label class="form-check-label" for="fungsi">Fungsi</label>
-                                      </div>
-                                      <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="sdm" name="sdm" value="sdm">
-                                        <label class="form-check-label" for="sdm">SDM</label>
-                                      </div>
-                                      <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="std" name="std" value="std">
-                                        <label class="form-check-label" for="std">STD</label>
-                                      </div>
+                                    <div class="form-group">
+                                        <label for="no_sertifikat">No Sertifikat</label>
+                                        {{-- <input type="text" name="no_sertifikat" id="no_sertifikat" class="form-control @error('no_sertifikat') is-invalid @enderror"> --}}
+                                        <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control" readonly>
+                                        <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small>
+                                        
+                                        <div class="invalid-feedback">
+                                            @error('no_sertifikat')
+                                                {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="kan">KAN</label>
+                                        <div class="selectgroup w-100">
+                                            <label class="selectgroup-item">
+                                              <input type="radio" name="KAN" value="KAN" class="selectgroup-input" checked>
+                                              <span class="selectgroup-button">KAN</span>
+                                            </label>
+                                            <label class="selectgroup-item">
+                                              <input type="radio" name="KAN" value="NON KAN" class="selectgroup-input">
+                                              <span class="selectgroup-button">NON KAN</span>
+                                            </label>
+                                          </div>
+                                        <div class="invalid-feedback">
+                                            @error('sub_lab')
+                                                {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="kan">Review</label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="fisik" name="fisik" value="fisik">
+                                            <label class="form-check-label" for="fisik">Fisik</label>
+                                          </div>
+                                          <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="fungsi" name="fungsi" value="fungsi">
+                                            <label class="form-check-label" for="fungsi">Fungsi</label>
+                                          </div>
+                                          <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="sdm" name="sdm" value="sdm">
+                                            <label class="form-check-label" for="sdm">SDM</label>
+                                          </div>
+                                          <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="std" name="std" value="std">
+                                            <label class="form-check-label" for="std">STD</label>
+                                          </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -164,3 +177,35 @@
           </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+
+        $('#lab').change(function() {
+            var selectedLab = $(this).children("option:selected").val()
+            if ( selectedLab == 'sub_con' ) {
+            $('.sub_con').hide();
+            } else {
+            $('.sub_con').show();
+            }
+        })
+
+        function sert() {
+            var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;
+            return no_sertifikat
+        }
+
+        $('#no_sertifikat').val(sert())
+
+        $('#refresh_sert').on('click', function(e) {
+            $('#no_sertifikat').val(sert())
+            alert('Nomer sertifikat telah update menjadi ' + sert())
+        })
+
+        
+
+
+         
+
+    </script>
+@endpush

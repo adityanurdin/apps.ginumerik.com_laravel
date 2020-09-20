@@ -4,6 +4,10 @@
 Data Administrasi
 @endsection
 
+@section('css')
+    <link rel="stylesheet" href="{{asset('assets/css/summernote-bs4.css')}}">
+@endsection
+
 @section('content')
 <section class="section">
   <div class="section-header">
@@ -87,11 +91,28 @@ Data Administrasi
                         </div>
                       </div>
                     </div>
-                        <input type="date" hidden name="tgl_masuk" class="form-control" value="{{date('Y-m-d')}}" required>
+                    <input type="date" hidden name="tgl_masuk" class="form-control" value="{{date('Y-m-d')}}" required>
                     <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left">Lama Hari Kerja</label>
                       <div class="col-lg-4 col-md-6">
                         <input type="number" id="hari_kerja" name="hari_kerja" class="form-control" required>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label class="col-md-4 text-md-right text-left">Perjanjian Kerja</label>
+                      <div class="col-lg-4 col-md-6">
+                        <textarea name="perjanjian_kerja" id="" class="summernote-simple">
+                          1. Kalibrasi dilakukan di : <br>
+                          2. Waktu penyelesaian pekerjaan : 5 Hari Kerja <br>
+                          3. Formulir ini mohon dibawa pada saat pengambilan alat dan sertifikat yang sudah selesai. <br>
+                          4. Laboratorium Kalibrasi PT. Gaya Instrumentasi Numerik tidak bertanggung jawab atas kerusakan ataupun atas ketidaksesuaian jumlah alat yang dikirim atau diterima melalui Kiriman paket/POS. <br>
+                          5. Alat yang tidak diambil dalam 3 bulan sejak JO ini diterbitkan bukan merupakan tanggung jawab PT. Gaya Instrumentasi Numerik. <br>
+                          6. Cara pembayaran sesuai dengan SPK/PO yang telah diterbitkan atas persetujuan kedua belah pihak. <br>
+                          7. Biaya total kalibrasi / transaksi dibawah Rp. 3.000.000 dibayar tunai pada saat pengambilan sertifikat. <br>
+                          8. Invoice dikirimkan paling lambat 1 minggu setelah pengerjaan selesai. <br>
+                          9. Pembayaran dilakukan paling lambat 3 hari kerja sejak invoice diterima. <br>
+                          10. Pembayaran transfer : Bank Mandiri KCP Bandung Pasteur, ACC NUMBER : 132-00-1705362-1, AN: PT. Gaya Instrumentasi Numerik <br>
+                        </textarea>
                       </div>
                     </div>
 
@@ -227,6 +248,7 @@ Data Administrasi
                           <label class="col-md-4 text-md-right text-left">No Sertifikat</label>
                           <div class="col-lg-4 col-md-6">
                             <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control" readonly>
+                            <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small>
                           </div>
                         </div>
 
@@ -273,6 +295,7 @@ Data Administrasi
 @endsection
 
 @push('scripts')
+<script src=" {{asset('assets/js/summernote-bs4.js')}}"></script>
 
     @if ( isset($order) ? count($order->barangs) < 1 : '')
         <script>
@@ -291,8 +314,21 @@ Data Administrasi
         }
       })
 
-      var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;
-      $('#no_sertifikat').val(no_sertifikat)
+      // var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;
+      // $('#no_sertifikat').val(no_sertifikat)
+      // setInterval(no_sertifikat, 1000)
+
+      function sert() {
+            var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;
+            return no_sertifikat
+        }
+
+        $('#no_sertifikat').val(sert())
+
+        $('#refresh_sert').on('click', function(e) {
+            $('#no_sertifikat').val(sert())
+            alert('Nomer sertifikat telah update menjadi ' + sert())
+        })
 
       $('#btnSimpan').click(function(e) {
         e.preventDefault()

@@ -1,15 +1,42 @@
 <?php
 
 namespace App\Helpers;
+use Illuminate\Http\Request;
 
 use Auth;
 use \App\Log;
 use \App\Models\Finance;
 use \App\Setting;
+use Str;
+use Carbon\Carbon;
+use Storage;
+
 
 
 class Dit 
 {
+
+	/* public static function ImageName($path, $extension)
+    {
+        $fileName = Carbon::now()->timestamp;
+        while (Storage::disk('public')->exists($path . $fileName . $extension)) {
+            $fileName = Carbon::now()->timestamp;
+        }
+
+        return $path . $fileName . '.' . $extension;
+	}
+	
+	public static function UploadImage(Request $request, $field, $path)
+    {
+        $file = $request->file($field);
+        $path = $path . '/'. date('Y') . '/' . date('F') . '/';
+        $full_path = Self::ImageName($path, $file->getClientOriginalExtension());
+
+        $image = Image::make($file)->encode($file->getClientOriginalExtension(), 75);
+        Storage::disk('public')->put($full_path, $image, 'public');
+
+        return $full_path;
+    } */
 
     public static function Rupiah($value) 
     {
