@@ -224,7 +224,7 @@ Data Administrasi
                           </div>
                         </div>
                         <div class="form-group row align-items-center">
-                          <label class="col-md-4 text-md-right text-left">Review Alat</label>
+                          <label class="col-md-4 text-md-right text-left">Acceptance</label>
                           <div class="col-lg-4 col-md-6">
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" id="fisik" name="fisik" value="fisik">

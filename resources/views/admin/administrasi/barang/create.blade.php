@@ -144,7 +144,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kan">Review</label>
+                                        <label for="kan" class="mr-5">Acceptance</label>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="fisik" name="fisik" value="fisik">
                                             <label class="form-check-label" for="fisik">Fisik</label>

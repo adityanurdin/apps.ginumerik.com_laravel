@@ -458,17 +458,57 @@ class AdministrasiController extends Controller
 
     public function showTD($id)
     {
-        $data = Order::with('tod')->findOrFail($id);
-        return view('admin.administrasi.ToD.show', compact('data'));
+        $data = Order::with('tod', 'barangs')->findOrFail($id);
+        $select = session('select_tod'.$id);
+        return view('admin.administrasi.ToD.show', compact('data', 'select'));
     }
 
     public function storeTD(Request $request, $order_id)
     {
-        $request->merge(['order_id' => $order_id]);
-        $data = TransferOfDoc::create($request->all());
-        if ($data) {
-            toast('Berhasil menambahkan Transfer of Doc.','success');
-            return redirect()->route('administrasi.show.tod', $order_id);
+        $data = session('select_tod'.$order_id);
+
+        $select = [];
+        $no     = 1;
+
+        if (isset($data)) {
+            foreach($data['select_tod'] as $item) {
+                array_push($select, [
+                    'id'            => $item['id'],
+                    'nama_doc'      => $item['nama_doc'],
+                    'spesifikasi'   => $request->spesifikasi[$item['id'] - 1],
+                    'volume'        => $request->volume[$item['id'] - 1],
+                    'keterangan'    => $request->keterangan[$item['id'] - 1]  
+                ]);
+            }
+
+        } else {
+        
+            foreach($request->select_tod as $item) {
+                array_push($select, [
+                    'id'            => $no++,
+                    'nama_doc'      => $item,
+                    'spesifikasi'   => '-',
+                    'volume'        => '-',
+                    'keterangan'    => '-'  
+                ]);
+            }
+
         }
+
+        // return $select;
+        
+        $payload = [
+            'order_id' => $order_id,
+            'select_tod' => $select
+        ];
+        $request->session()->put('select_tod'.$order_id, $payload);
+        return back();
     }
+
+    public function destroyTD(Request $request, $order_id)
+    {
+        $request->session()->forget('select_tod'.$order_id);
+        return back();
+    }
+
 }

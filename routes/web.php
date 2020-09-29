@@ -68,6 +68,7 @@ Route::group(['middleware' => 'SETUP'], function() {
         // Account Info
         Route::get('account-info', 'Dashboard\DashboardController@account')->name('account-info');
         Route::put('account-info', 'Dashboard\DashboardController@updateAccount')->name('account-info');
+
     
         Route::group(['middleware' => 'Admin'], function() {
 
@@ -82,6 +83,12 @@ Route::group(['middleware' => 'SETUP'], function() {
             // Master Data
             Route::resource('labs', 'LabController')->except(['view']);
         });
+
+        // Route Khusus
+        Route::get('administrasi/transfer-of-doc/{id}/show', 'Dashboard\AdministrasiController@showTD')->name('administrasi.show.tod');
+        Route::post('administrasi/transfer-of-doc/{id}', 'Dashboard\AdministrasiController@storeTD')->name('administrasi.store.tod');
+        Route::get('administrasi/transfer-of-doc/{id}/destroy', 'Dashboard\AdministrasiController@destroyTD')->name('administrasi.destroy.tod');
+
         
         // Administrasi
         Route::group(['middleware' => 'ADM'], function() {
@@ -91,8 +98,9 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::get('administrasi/data-input', 'Dashboard\AdministrasiController@dataInput')->name('administrasi.data.input');
 
             Route::get('administrasi/transfer-of-doc', 'Dashboard\AdministrasiController@indexTD')->name('administrasi.tod');
-            Route::get('administrasi/transfer-of-doc/{id}/show', 'Dashboard\AdministrasiController@showTD')->name('administrasi.show.tod');
-            Route::post('administrasi/transfer-of-doc/{id}', 'Dashboard\AdministrasiController@storeTD')->name('administrasi.store.tod');
+            // Route::get('administrasi/transfer-of-doc/{id}/show', 'Dashboard\AdministrasiController@showTD')->name('administrasi.show.tod');
+            // Route::post('administrasi/transfer-of-doc/{id}', 'Dashboard\AdministrasiController@storeTD')->name('administrasi.store.tod');
+            // Route::get('administrasi/transfer-of-doc/{id}/destroy', 'Dashboard\AdministrasiController@destroyTD')->name('administrasi.destroy.tod');
             Route::get('administrasi/transfer-of-doc/data', 'Dashboard\AdministrasiController@dataTD')->name('administrasi.data.tod');
             
             Route::post('administrasi/serahterima/{id}', 'Dashboard\AdministrasiController@serahterima')->name('administrasi.serahterima');
@@ -129,6 +137,11 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::put('finance/{finance}/edit/pembayaran', 'Dashboard\FinanceController@prosesEditPembayaran')->name('finance.do.editPembayaran');
             Route::get('finance/{finance}/edit/pembayaran', 'Dashboard\FinanceController@editPembayaran')->name('finance.editPembayaran');
             Route::put('finance/{id}/pembayaran', 'Dashboard\FinanceController@ProsesBayar')->name('finance.bayar');
+
+            Route::get('finance/pembayaran-selesai', 'Dashboard\FinanceController@pembayaranSelesai')->name('finance.selesai');
+            Route::get('finance/pembayaran-selesai/data', 'Dashboard\FinanceController@dataSelesai')->name('finance.selesai.data');
+            Route::get('finance/pembayaran-batal', 'Dashboard\FinanceController@pembayaranBatal')->name('finance.batal');
+            Route::get('finance/pembayaran-batal/data', 'Dashboard\FinanceController@dataBatal')->name('finance.batal.data');
             Route::resource('finance', 'Dashboard\FinanceController')->except(['edit']);
         });
 
@@ -152,6 +165,11 @@ Route::group(['middleware' => 'SETUP'], function() {
         // PRINT Routing
         Route::get('print-form-adm-2/{id}', 'PrintController@formAdm2')->name('print.form-adm-2');
         Route::get('print-form-adm-1/{id}', 'PrintController@formAdm1')->name('print.form-adm-1');
+
+        Route::get('print-transfer-of-doc/{id}', 'PrintController@TodPrint')->name('print.tod');
+
+        Route::get('print-invoice/{id}', 'PrintController@invoice')->name('print.invoice');
+        Route::get('print-kwitansi/{id}', 'PrintController@kwitansi')->name('print.kwitansi');
     });
     
     /**

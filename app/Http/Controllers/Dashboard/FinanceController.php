@@ -202,6 +202,7 @@ class FinanceController extends Controller
     public function update(Request $request, $id)
     {
         $finance = Finance::findOrFail($id);
+        
         $financeSubtotal = $finance->sisa_bayar - $finance->discount;
         $financePpn      = $financeSubtotal * 0.1;
         $financeTotal    = $financeSubtotal + $financePpn + $finance->tat;
@@ -222,9 +223,13 @@ class FinanceController extends Controller
             $no_kwitansi = 'G'.date('m').'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
             $no_invoice = 'G'.date('m').'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y');
         } else {
-            $history_pembayaran = HistoryPembayaran::where('finance_id', $id)->get();
+            $history_pembayaran = HistoryPembayaran::where('finance_id', $id)
+                                                    ->where('status', '!=', 'Batal')
+                                                    ->get();
 
-            $data_finance = HistoryPembayaran::where('finance_id', $id)->first();
+            $data_finance = HistoryPembayaran::where('finance_id', $id)
+                                            ->where('status', '!=', 'Batal')
+                                            ->first();
             $last_number  = HistoryPembayaran::latest()->first();
 
             
@@ -250,7 +255,8 @@ class FinanceController extends Controller
         HistoryPembayaran::create([
             'finance_id'        => $id,
             'jumlah_bayar'      => $request->bayar == NULL ? 0 : $request->bayar,
-            'tanggal_tagihan'   => $request->tgl_tagihan,
+            'tanggal_tagihan'   => date('Y-m-d'),
+            'target_tagih'      => $request->target_tagih,
             'tanggal_bayar'     => $request->bayar == NULL ? NULL : $request->tgl_bayar,
             'no_invoice'        => $no_invoice,
             'no_kwitansi'       => $no_kwitansi,
@@ -276,7 +282,7 @@ class FinanceController extends Controller
         $order   = Order::findOrFail($finance->order_id);
 
         $finance->update(['status' => 'siap_tagih']);
-        $finance->update($request->except('keterangan'));
+        $finance->update($request->except('keterangan','target_tagih'));
         if ($finance->sisa_bayar == 0) {
             $finance->update(['status' => 'sudah_bayar']);
         }
@@ -328,7 +334,7 @@ class FinanceController extends Controller
                 ->addIndexColumn()
                 ->editColumn('no_order', function($item) {
                     $result = ucfirst($item->no_order). '<br>';
-                    $result .= '<a href='.route('finance.edit', $item->id).'>Cetak Invoice</a> <a href='.route('finance.show', $item->id).'>Pembayaran</a>';
+                    $result .= '<a href='.route('finance.edit', $item->id).'>Cetak Invoice</a> <a href='.route('finance.show', $item->id).'>Pembayaran</a> <a href='.route('administrasi.show.tod', $item->id).'>Documment</a>';
                     return $result;
                 })
                 ->addColumn('tgl_tagihan', function($item) {
@@ -378,5 +384,54 @@ class FinanceController extends Controller
                 })
                 ->escapeColumns([])
                 ->make(true);
+    }
+
+    public function pembayaranSelesai(Request $request)
+    {
+            return view('admin.finance.selesai');
+    }
+
+    public function dataSelesai()
+    {
+        // $data = Finance::whereHas('HistoryPembayaran', function(Builder $query) {
+        //                     $query->where('status', 'Lunas');                
+        //                 })->get();
+        $data = HistoryPembayaran::where('status', 'Lunas')
+                                ->get();
+                        
+            return DataTables::of($data)
+                        ->addIndexColumn()
+                        ->editColumn('no_invoice', function($item) {
+                            $result = $item->no_invoice;
+                            $result .= '<br> <a href='.route('print.invoice', $item->id).'>Print</a>';
+                            return $result;
+                        })
+                        ->editColumn('no_kwitansi', function($item) {
+                            $result = $item->no_kwitansi;
+                            $result .= '<br> <a href='.route('print.kwitansi', $item->id).'>Print</a>';
+                            return $result;
+                        })
+                        ->escapeColumns([])
+                        ->make(true);
+    }
+    
+    public function dataBatal()
+    {
+        // $data = Finance::with('historyPembayaran')
+        //                 ->whereHas('HistoryPembayaran', function(Builder $query) {
+        //                     $query->where('status', 'Batal');                
+        //                 })->get();
+        $data = HistoryPembayaran::where('status', 'Batal')
+                                ->get();
+
+            return DataTables::of($data)
+                        ->addIndexColumn()
+                        ->escapeColumns([])
+                        ->make(true);
+    }
+
+    public function pembayaranBatal()
+    {
+        return view('admin.finance.batal');
     }
 }

@@ -57,8 +57,8 @@ Data Finance
                       <td>{{$item->status}}</td>
                       <td>{{$item->keterangan}}</td>
                       <td>
-                        <a href="#" class="btn btn-sm btn-outline-primary {{$item->status == 'Batal' ? 'disabled' : ''}}"><i class="fas fa-print"></i> Invoice</a> 
-                        <a href="#" class="btn btn-sm btn-outline-primary {{$item->status != 'Lunas' ? 'disabled' : ''}}" ><i class="fas fa-print"></i> Kwitansi</a> 
+                        <a href="{{route('print.invoice', $item->finance_id)}}" class="btn btn-sm btn-outline-primary {{$item->status === 'Batal' ? 'disabled' : ''}}"><i class="fas fa-print"></i> Invoice</a> 
+                        <a href="{{route('print.kwitansi', $item->finance_id)}}" class="btn btn-sm btn-outline-primary {{$item->status === 'Batal' ? 'disabled' : ''}}" ><i class="fas fa-print"></i> Kwitansi</a> 
                       </td>
                     </tr>
                   @endforeach
@@ -245,13 +245,17 @@ Data Finance
     <input type="date" name="tanggal_tagihan" readonly value="{{$item->tanggal_tagihan}}" id="tanggal_tagihan-{{$item->id}}" class="form-control">
   </div>
   <div class="form-group">
+    <label for="target_tagih-{{$item->id}}">Target Tagihan</label>
+    <input type="date" name="target_tagih" readonly value="{{$item->target_tagih}}" id="target_tagih-{{$item->id}}" class="form-control">
+  </div>
+  <div class="form-group">
     <label for="tanggal_bayar-{{$item->id}}">Tanggal Bayar</label>
     <input type="date" name="tanggal_bayar" value="{{$item->tanggal_bayar}}" id="tanggal_bayar-{{$item->id}}" class="form-control">
   </div>
 
   <div class="form-group">
     <label for="jumlah_bayar-{{$item->id}}">Nominal</label>
-    <input type="number" name="jumlah_bayar" readonly value="{{$item->jumlah_bayar}}" id="jumlah_bayar-{{$item->id}}" class="form-control">
+    <input type="number" name="jumlah_bayar" value="{{$item->jumlah_bayar}}" id="jumlah_bayar-{{$item->id}}" class="form-control">
     <small>{{Dit::Rupiah($item->jumlah_bayar + ($item->jumlah_bayar * 0.1))}} *Jika sudah termasuk PPN</small>
   </div>
 

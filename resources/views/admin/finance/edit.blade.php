@@ -47,15 +47,20 @@ Invoice
                         <div class="form-group">
                             <label for="total_bayar">Total Bayar (+PPn)</label>
                             <input type="text"  id="total_bayar" value="{{ Dit::Rupiah($total_bayar) }}" readonly class="form-control">
+                            <small>Biaya Pokok : {{ Dit::Rupiah($order->finance['total_bayar']) }} </small>
                         </div>
                         {{-- <div class="form-group">
                             <label for="total_bayar">Sisa Bayar (+PPn)</label>
                             <input type="text"  id="total_bayar" value="{{ Dit::Rupiah(($order->finance['sisa_bayar'] * 0.1) + $order->finance['sisa_bayar']) }}" readonly class="form-control">
                         </div> --}}
                         <div class="form-group">
+                            <label for="target_tagih">Target Tagih</label>
+                            <input type="date" name="target_tagih" id="target_tagih" class="form-control" required>
+                        </div>
+                        {{-- <div class="form-group">
                             <label for="tgl_tagihan">Tanggal Tagihan</label>
                             <input type="date" name="tgl_tagihan" id="tgl_tagihan" class="form-control" required>
-                        </div>
+                        </div> --}}
                         {{-- <div class="form-group">
                             <label for="no_pajak">Nomor Pajak</label>
                             <input type="text" name="no_pajak" id="no_pajak" value="{{$order->finance['no_pajak']}}" class="form-control">

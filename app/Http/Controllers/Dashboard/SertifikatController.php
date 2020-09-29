@@ -35,7 +35,7 @@ class SertifikatController extends Controller
     public function upload(Request $request)
     {
         $validasi = Validator::make($request->all(), [
-            'file' => 'required|mimes:pdf|max:2048',
+            'file' => 'required|mimes:pdf|max:5120',
         ]);
 
         $barang  = Barang::findOrFail($request->barang_id);

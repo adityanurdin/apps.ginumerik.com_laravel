@@ -24,8 +24,8 @@ Data Administrasi
           </div>
           <div class="card-body">
             <div class="mt-3">
-              <a href="{{route('administrasi.show.input', $order->id)}}" class="btn btn-outline-primary">Transfer of Doc</a>
-              <a href="{{route('administrasi.show.tod', $order->id)}}" class="btn btn-outline-primary">Data Input</a>
+              <a href="{{route('administrasi.show.tod', $order->id)}}" class="btn btn-outline-primary">Transfer of Document & Equipment</a>
+              <a href="{{route('administrasi.show.input', $order->id)}}" class="btn btn-outline-primary">Data Input</a>
               <a href="{{route('barang.create', $order->no_order)}}" class="btn btn-primary float-right mb-3"><i class="fas fa-plus"></i> Tambah Data</a>
             </div>
             <table class="table table-striped table-bordered">
@@ -84,7 +84,7 @@ Data Administrasi
         </div>
 
         @include('admin.administrasi.form.form-adm-2')
-        @include('admin.administrasi.form.form-adm-1')
+        {{-- @include('admin.administrasi.form.form-adm-1') --}}
         @include('admin.administrasi.kartu_alat.kartu_alat')
         @include('admin.administrasi.kartu_alat.serah_terima')
         

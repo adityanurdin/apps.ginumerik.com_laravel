@@ -1,18 +1,18 @@
 @extends('layouts.admin-master')
 
 @section('title')
-    Transfer of Doc
+    Transfer of Doc & Equipment
 @endsection
 
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Transfer of Doc</h1>
+            <h1>Transfer of Doc & Equipment</h1>
         </div>
         <div class="section-body">
             <div class="card">
                 <div class="card-header">
-                    <h4>List Transfer of Doc</h4>
+                    <h4>List Transfer of Doc & Equipment</h4>
                 </div>
                 <div class="card-body">
                     <table class="table" id="tableTOD">
