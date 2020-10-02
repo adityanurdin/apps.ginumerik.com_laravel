@@ -47,18 +47,18 @@
                   @foreach ($kartu_alat as $item)
                   <tr>
                       <td height="20" align="center" valign=middle sdval="1" sdnum="1033;">{{$no++}}</td>
-                      <td align="center" valign=middle>{{$item['kartu_alat'][0]['barang']['nama_barang']}}</td>
-                      <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item['kartu_alat'][0]['barang']['alt']}}</td>
-                      <td align="center" valign=middle>{{$item['kartu_alat'][0]['barang']['no_sertifikat']}}</td>
-                      <td align="center" valign=middle>{{Dit::getLab($item['kartu_alat'][0]['barang']['lab'])}}</td>
-                      <td align="center" valign=middle><input type="checkbox" disabled  {!! Dit::Checked('*', $item['kartu_alat'][0]['paraf_alat']) !!} id="check_alat_{{$item['kartu_alat'][0]['id']}}"></td>
-                      <td align="center" valign=middle id="tgl_alat_{{$item['kartu_alat'][0]['id']}}">{{$item['kartu_alat'][0]['tgl_alat']}}</td>
-                      <td align="center" valign=middle><input type="checkbox" disabled {!! Dit::Checked('*', $item['kartu_alat'][0]['paraf_selesai']) !!} id="check_selesai_{{$item['kartu_alat'][0]['id']}}"></td>
-                      <td align="center" valign=middle id="tgl_selesai_{{$item['kartu_alat'][0]['id']}}">{{$item['kartu_alat'][0]['tgl_selesai']}}</td>
-                      <td align="center" valign=middle><input type="checkbox" disabled {!! Dit::Checked('*', $item['kartu_alat'][0]['paraf_sertifikat']) !!} id="check_sertifikat_{{$item['kartu_alat'][0]['id']}}"></td>
-                      <td align="center" valign=middle id="tgl_sertifikat_{{$item['kartu_alat'][0]['id']}}">{{$item['kartu_alat'][0]['tgl_sertifikat']}}</td>
-                      <td align="center" valign=middle><input type="checkbox" disabled {!! Dit::Checked('*', $item['kartu_alat'][0]['paraf_administrasi']) !!} id="check_administrasi_{{$item['kartu_alat'][0]['id']}}"></td>
-                      <td align="center" valign=middle id="tgl_administrasi_{{$item['kartu_alat'][0]['id']}}">{{$item['kartu_alat'][0]['tgl_administrasi']}}</td>
+                      <td align="center" valign=middle>{{$item->barang['nama_barang']}}</td>
+                      <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item->barang['alt']}}</td>
+                      <td align="center" valign=middle>{{$item->barang['no_sertifikat']}}</td>
+                      <td align="center" valign=middle>{{Dit::getLab($item->barang['lab'])}}</td>
+                      <td align="center" valign=middle><input type="checkbox" disabled  {!! Dit::Checked('*', $item['paraf_alat']) !!} id="check_alat_{{$item['id']}}"></td>
+                      <td align="center" valign=middle id="tgl_alat_{{$item['id']}}">{{$item['tgl_alat']}}</td>
+                      <td align="center" valign=middle><input type="checkbox" disabled {!! Dit::Checked('*', $item['paraf_selesai']) !!} id="check_selesai_{{$item['id']}}"></td>
+                      <td align="center" valign=middle id="tgl_selesai_{{$item['id']}}">{{$item['tgl_selesai']}}</td>
+                      <td align="center" valign=middle><input type="checkbox" disabled {!! Dit::Checked('*', $item['paraf_sertifikat']) !!} id="check_sertifikat_{{$item['id']}}"></td>
+                      <td align="center" valign=middle id="tgl_sertifikat_{{$item['id']}}">{{$item['tgl_sertifikat']}}</td>
+                      <td align="center" valign=middle><input type="checkbox" {!! Dit::Checked('*', $item['paraf_administrasi']) !!} id="check_administrasi_{{$item['id']}}"></td>
+                      <td align="center" valign=middle id="tgl_administrasi_{{$item['id']}}">{{$item['tgl_administrasi']}}</td>
                   </tr>
                   @endforeach
               </tbody>

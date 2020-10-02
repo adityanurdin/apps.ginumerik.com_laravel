@@ -44,7 +44,7 @@ class DashboardController extends Controller
         
         $logs   = Log::with('user')->orderBy('created_at', 'DESC')->limit(5)->get();
 
-        $query  = '
+        /* $query  = '
         select 
         count(*) AS jumlah_order, customers.nama_perusahaan AS nama_perusahaan
         from orders
@@ -52,7 +52,17 @@ class DashboardController extends Controller
         ORDER BY jumlah_order DESC
         LIMIT 10;
          ';
-        $rank = \DB::select(\DB::raw($query));
+        $rank = \DB::select(\DB::raw($query)); */
+
+        $rank = Order::select('*', \DB::raw('SUM(total_bayar) as total_sales'))
+                ->join('finances', 'orders.id', '=', 'finances.order_id')
+                ->join('customers', 'orders.customer_id', '=', 'customers.id')
+                ->where('status', 'sudah_bayar')
+                ->whereYear('orders.created_at', '=', date('Y'))
+                ->groupBy('orders.customer_id')
+                ->orderBy('total_sales', 'DESC')
+                ->limit(10)
+                ->get();
 
         Carbon::setWeekStartsAt(Carbon::MONDAY);
         Carbon::setWeekEndsAt(Carbon::SUNDAY);
@@ -71,30 +81,40 @@ class DashboardController extends Controller
             'sudah_bayar'   => self::financeStatus('sudah_bayar')->get(),
 
             
-            'sudah_bayar_minggu'   => self::financeStatus('sudah_bayar')
-                                            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get(),
-            'siap_tagih_minggu'   => self::financeStatus('siap_tagih')
-                                            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get(),
-            'tagih_minggu'   => self::financeStatus('tagih')
-                                            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get(),
-            'all_minggu'   => Finance::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get(),
+            'sudah_bayar_minggu'    => self::financeStatus('sudah_bayar')
+                                            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                                            ->get(),
+            'siap_tagih_minggu'     => self::financeStatus('siap_tagih')
+                                            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                                            ->get(),
+            'tagih_minggu'          => self::financeStatus('tagih')
+                                            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                                            ->get(),
+            'all_minggu'            => Finance::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                                            ->get(),
             
             
-            'today_order'   => Order::with('customer')->whereDay('created_at',date('d'))->orderBy('created_at', 'DESC')->get(),
-            'monthly_order'   => Order::with('customer')->whereMonth('created_at',date('m'))->get(),
-            'yearly_order'   => Order::with('customer')->whereYear('created_at',date('Y'))->get(),
+            'today_order'       => Order::with('customer')
+                                    ->whereDay('created_at',date('d'))
+                                    ->orderBy('created_at', 'DESC')
+                                    ->get(),
+            'monthly_order'     => Order::with('customer')
+                                    ->whereMonth('created_at',date('m'))
+                                    ->get(),
+            'yearly_order'      => Order::with('customer')
+                                    ->whereYear('created_at',date('Y'))
+                                    ->get(),
             
             'FIN'   => [
-                'siap_tagih' => Order::with('finance')
-                                        ->whereHas('finance', function(Builder $query) {
-                                            $query->where('status', '!=' , 'sudah_bayar');
-                                            $query->where('status', '!=' , 'dalam_proses');
-                                            $query->where('status', '!=' , 'sudah_bayar');
-                                        })
-                                        ->get(),
+                'siap_tagih'    => Order::with('finance')
+                                ->whereHas('finance', function(Builder $query) {
+                                    $query->where('status', '!=' , 'sudah_bayar');
+                                    $query->where('status', '!=' , 'dalam_proses');
+                                    $query->where('status', '!=' , 'sudah_bayar');
+                                })
+                                ->get(),
             ]
         );
-        // return $data['yearly_order'];
 
         return view('admin.dashboard.index', compact('data'));
     }

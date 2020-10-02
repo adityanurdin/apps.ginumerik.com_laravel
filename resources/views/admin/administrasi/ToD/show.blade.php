@@ -28,6 +28,9 @@
                             <form action="{{route('administrasi.store.tod', $data->id)}}" method="POST" id="form2">
                                 @csrf
                             </form>
+                            <form action="{{route('administrasi.store.tod', $data->id)}}" method="POST" id="form3">
+                                @csrf
+                            </form>
                             @isset($select)
                             <a href="{{route('administrasi.destroy.tod', $data->id)}}" class="btn btn-danger btn-sm float-right mr-4 mb-4"><i class="fas fa-trash"></i>  <span>Hapus Data</span></a>
         
@@ -60,23 +63,24 @@
                                     </tr>
                                     @endforeach
                                     <tr>
+                                        <td>#</td>
+                                        <td><input type="text" form="form3" name="nama_doc" placeholder="..." class="form-control form-control-sm"></td>
+                                        <td><input type="text" form="form3" name="spesifikasi" placeholder="..." class="form-control form-control-sm"></td>
+                                        <td><input type="text" form="form3" name="volume" placeholder="..." class="form-control form-control-sm"></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" form="form3" name="keterangan" placeholder="..." class="form-control form-control-sm" placeholder="" aria-label="">
+                                                <div class="input-group-append">
+                                                <button type="submit" form="form3" class="btn btn-primary btn-sm">Simpan</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="4" class="text-right"></td>
                                         <td><button type="submit" form="form2" class="btn btn-primary btn-block">Simpan</button></td>
                                     </tr>
-                                    {{-- <tr>
-                                            <td>#</td>
-                                            <td><input type="text" form="form" name="nama_doc" placeholder="..." class="form-control form-control-sm"></td>
-                                            <td><input type="text" form="form" name="spesifikasi" placeholder="..." class="form-control form-control-sm"></td>
-                                            <td><input type="text" form="form" name="volume" placeholder="..." class="form-control form-control-sm"></td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <input type="text" form="form" name="keterangan" placeholder="..." class="form-control form-control-sm" placeholder="" aria-label="">
-                                                    <div class="input-group-append">
-                                                    <button type="submit" form="form" class="btn btn-primary btn-sm">Simpan</button>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                    </tr> --}}
+                                    
                                 </tbody>
                             </table>
                             @endisset

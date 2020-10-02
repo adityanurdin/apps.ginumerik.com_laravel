@@ -13,6 +13,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+
 
 use App\Models\Customer;
 use App\Models\Order;
@@ -141,6 +143,7 @@ class AdministrasiController extends Controller
         }
 
         // $request->merge(['user_id' => \Auth::user()->id]);
+        // $request->merge(['ket_subcon', '-']);
         $barang = Barang::create($request->except(['wizardID']));
         $order  = Order::where('no_order', session('no_order'))->first();
         $barang->orders()->attach($order->id);
@@ -242,16 +245,22 @@ class AdministrasiController extends Controller
         $grand_total = Dit::GrandTotal($order->finance['id']);
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
-        // Kartu Alat
-        $kartu_alat = array();
-        foreach($order->barangs as $item) {
-            $barang = KartuAlat::with('barang')->where('barang_id', $item->id)->get();
-            array_push($kartu_alat, [
-                'kartu_alat' => $barang
-            ]);
-        }
         $auth_id = \Auth::user()->id;
         $user = User::get();
+
+        $barang_id = [];
+        foreach($order->barangs as $item) {
+            array_push($barang_id, [
+                $item->id
+            ]);
+        }
+
+        $kartu_alat =  KartuAlat::with('barang')
+                        ->whereIn('barang_id', $barang_id)
+                        ->whereHas('barang', function(Builder $query) {
+                            $query->where('status_batal' , '0');
+                        })
+                        ->get();
 
         return view('admin.administrasi.view', compact('order', 'sum', 'terbilang', 'grand_total', 'kartu_alat', 'user'));
     }
@@ -467,20 +476,41 @@ class AdministrasiController extends Controller
     {
         $data = session('select_tod'.$order_id);
 
-        $select = [];
+        if(isset($data)) {
+            if ($request->nama_doc) {
+                $select = $data['select_tod'];
+            } else {
+                $select = [];
+            }
+        } else {
+            $select = [];
+        }
+
         $no     = 1;
 
         if (isset($data)) {
-            foreach($data['select_tod'] as $item) {
-                array_push($select, [
-                    'id'            => $item['id'],
-                    'nama_doc'      => $item['nama_doc'],
-                    'spesifikasi'   => $request->spesifikasi[$item['id'] - 1],
-                    'volume'        => $request->volume[$item['id'] - 1],
-                    'keterangan'    => $request->keterangan[$item['id'] - 1]  
-                ]);
-            }
 
+            if ($request->nama_doc) {
+                // return $select;
+                array_push($select, [
+                    'id'            => count($data['select_tod']) + 1,
+                    'nama_doc'      => $request->nama_doc,
+                    'spesifikasi'   => $request->spesifikasi,
+                    'volume'        => $request->volume,
+                    'keterangan'    => $request->keterangan
+                ]);
+                
+            } else {
+                foreach($data['select_tod'] as $item) {
+                    array_push($select, [
+                        'id'            => $item['id'],
+                        'nama_doc'      => $item['nama_doc'],
+                        'spesifikasi'   => $request->spesifikasi[$item['id'] - 1],
+                        'volume'        => $request->volume[$item['id'] - 1],
+                        'keterangan'    => $request->keterangan[$item['id'] - 1]  
+                    ]);
+                }
+            }
         } else {
         
             foreach($request->select_tod as $item) {
@@ -494,8 +524,6 @@ class AdministrasiController extends Controller
             }
 
         }
-
-        // return $select;
         
         $payload = [
             'order_id' => $order_id,

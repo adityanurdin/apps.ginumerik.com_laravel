@@ -1,13 +1,13 @@
 @extends('layouts.admin-master')
 
 @section('title')
-Data Administrasi | Input
+Data Finance | Input
 @endsection
 
 @section('content')
 <section class="section">
   <div class="section-header">
-    <h1>Data Administrasi - Input</h1>
+    <h1>Data Finance - Input</h1>
   </div>
   <div class="section-body">
       <div class="container-fluid">

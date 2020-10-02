@@ -17,7 +17,6 @@
         <ul class="dropdown-menu">
           <li class="{{ Request::route()->getName() == 'administrasi.create' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.create')}}"><span>Buat Order</span></a></li>
           <li class="{{ Request::route()->getName() == 'administrasi.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.index')}}"><span>Data Administrasi</span></a></li>
-          <li class="{{ Request::route()->getName() == 'administrasi.input' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.input')}}"><span>Input</span></a></li>
           <li class="{{ Request::route()->getName() == 'administrasi.tod' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.tod')}}"><span>Transfer of Doc</span></a></li>
           <li class="{{ Request::route()->getName() == 'customer.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('customer.index')}}"><span>Customers</span></a></li>
         </ul>
@@ -31,6 +30,7 @@
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i>  <span>Finance</span></a>
         <ul class="dropdown-menu">
           <li class="{{ Request::route()->getName() == 'finance.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.index')}}"><span>Data Finance</span></a></li>
+          <li class="{{ Request::route()->getName() == 'administrasi.input' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.input')}}"><span>Data Input</span></a></li>
           <li class="{{ Request::route()->getName() == 'finance.selesai' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.selesai')}}"><span>Pembayaran Selesai</span></a></li>
           <li class="{{ Request::route()->getName() == 'finance.batal' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.batal')}}"><span>Pembayaran Batal</span></a></li>
         </ul>

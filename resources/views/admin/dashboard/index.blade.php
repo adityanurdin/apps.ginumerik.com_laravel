@@ -113,7 +113,7 @@ Dashboard
                   <tr class="text-center">
                     <th>Rank No</th>
                     <th>Nama Perusahaan</th>
-                    <th>Order tahun ini</th>
+                    <th>Total Belanja</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -125,7 +125,7 @@ Dashboard
                     <td>#{{$no++}}</td>
                     <td>{{$item->nama_perusahaan}}</td>
                     <td>
-                      {{$item->jumlah_order}}x
+                      {{Dit::Rupiah($item->total_sales)}}
                     </td>
                   </tr>
                   @endforeach
@@ -209,7 +209,7 @@ Dashboard
 
       <div class="col-8">
 
-        <div class="card  card-statistic-2">
+        {{-- <div class="card  card-statistic-2">
           <div class="card-stats">
             <div class="card-stats-title">Order Statistics - 
               <div class="dropdown d-inline">
@@ -236,7 +236,7 @@ Dashboard
           <div class="card-body">
             <canvas id="myChart"></canvas>
           </div>
-        </div>
+        </div> --}}
 
       </div>
 

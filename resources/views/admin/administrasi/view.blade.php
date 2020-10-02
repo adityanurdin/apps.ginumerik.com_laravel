@@ -25,7 +25,6 @@ Data Administrasi
           <div class="card-body">
             <div class="mt-3">
               <a href="{{route('administrasi.show.tod', $order->id)}}" class="btn btn-outline-primary">Transfer of Document & Equipment</a>
-              <a href="{{route('administrasi.show.input', $order->id)}}" class="btn btn-outline-primary">Data Input</a>
               <a href="{{route('barang.create', $order->no_order)}}" class="btn btn-primary float-right mb-3"><i class="fas fa-plus"></i> Tambah Data</a>
             </div>
             <table class="table table-striped table-bordered">
@@ -33,7 +32,7 @@ Data Administrasi
                 <tr class="text-center text-dark" style="font-weight: 800;">
                   <td rowspan=2>No</td>
                   <td colspan=2>Status</td>
-                  <td rowspan=2>Nama Alat / Barang</td>
+                  <td rowspan=2>Nama Alat</td>
                   <td colspan=2>Jumlah</td>
                   <td colspan=2>Biaya (Rp.)</td>
                 </tr>
@@ -51,13 +50,15 @@ Data Administrasi
                     $no = 1;
                 @endphp
                 @foreach ($order->barangs as $item)
-                <tr>
+                <tr class="{{$item->status_batal === '1' ? 'bg-warning text-dark' : ''}}" >
                   <td>{{$no++}}</td>
                   <td>{{$item->AS}}</td>
                   <td>{{$item->LAG}}</td>
                   <td>
                     {{$item->nama_barang .' ('. $item->KAN .')'}} <br>
-                    <a href="{{route('barang.edit', [$order->no_order, $item->id])}}">Edit</a> <a href="javascript:void(0)" onclick="myConfirm()">Delete</a>
+                    <div style="{{ $item->status_batal === '1' ? 'display: none;' : '' }}">
+                      <a href="{{route('barang.edit', [$order->no_order, $item->id])}}">Edit</a> <a href="javascript:void(0)" onclick="myConfirm()">Batal</a>
+                    </div>
                   </td>
                   <td>{{$item->alt}}</td>
                   <td>{{ucfirst($item->st)}}</td>
@@ -79,6 +80,12 @@ Data Administrasi
                 @endforeach
               </tbody>
             </table>
+            <small>Note: </small>
+            <div class="row ml-3 text-dark">
+              <div class="col-sm-1 bg-warning">
+                Alat Batal
+              </div>
+            </div>
 
           </div>
         </div>
@@ -92,3 +99,31 @@ Data Administrasi
   </div>
 </section>
 @endsection
+
+@push('scripts')
+@foreach ($kartu_alat as $item)    
+    <script>
+
+        $('#check_administrasi_{{$item['id']}}').on('click', function() {
+          $.ajax({
+              type: 'GET',
+              enctype: 'multipart/form-data',
+              url: "{{route('teknis.checked', ['administrasi', $item['id'], $order->id])}}",
+              success: function(res) {
+                  if(res.status === true) {
+                      console.log(res.msg)
+                      $('#tgl_administrasi_{{$item['id']}}').load(location.href + " #tgl_administrasi_{{$item['id']}}")
+                  } else {
+                      alert(res.msg)
+                      console.log(res.data)
+                  }
+              },
+              error: function(err) {
+                  console.log(err)
+              }
+          })
+      })
+
+    </script>
+@endforeach
+@endpush

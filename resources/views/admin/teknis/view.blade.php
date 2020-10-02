@@ -103,33 +103,33 @@ Data Teknis
                         @foreach ($kartu_alat as $item)
                         <tr>
                             <td height="20" align="center" valign=middle sdval="1" sdnum="1033;">{{$no++}}</td>
-                            <td align="center" valign=middle>{{$item['kartu_alat'][0]['barang']['nama_barang']}}</td>
-                            <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item['kartu_alat'][0]['barang']['alt']}}</td>
+                            <td align="center" valign=middle>{{$item->barang['nama_barang']}}</td>
+                            <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item->barang['alt']}}</td>
                             <td align="center" valign=middle>
-                                {{$item['kartu_alat'][0]['barang']['no_sertifikat']}} <br>
-                                <div id="link_sertifikat_{{$item['kartu_alat'][0]['id']}}">
-                                    @if ($item['kartu_alat'][0]['paraf_selesai'] != NULL)
-                                    <a href="{{ route('sertifikat.show', Dit::encode($item['kartu_alat'][0]['barang']['no_sertifikat'], 0, 4)) }}">Lihat</a>
+                                {{$item->barang['no_sertifikat']}} <br>
+                                <div id="link_sertifikat_{{$item['id']}}">
+                                    @if ($item['paraf_selesai'] != NULL)
+                                    <a href="{{ route('sertifikat.show', Dit::encode($item->barang['no_sertifikat'], 0, 4)) }}">Upload</a>
                                     @endif
                                 </div>
                             </td>
-                            <td align="center" valign=middle>{{Dit::getLab($item['kartu_alat'][0]['barang']['lab'])}}</td>
+                            <td align="center" valign=middle>{{Dit::getLab($item->barang['lab'])}}</td>
                             <td align="center" valign=middle>
-                                <input type="checkbox" {!! Dit::Checked('*', $item['kartu_alat'][0]['paraf_alat']) !!} id="check_alat_{{$item['kartu_alat'][0]['id']}}">
+                                <input type="checkbox" {!! Dit::Checked('*', $item['paraf_alat']) !!} id="check_alat_{{$item['id']}}">
                             </td>
-                            <td align="center" valign=middle id="tgl_alat_{{$item['kartu_alat'][0]['id']}}">{{$item['kartu_alat'][0]['tgl_alat']}}</td>
+                            <td align="center" valign=middle id="tgl_alat_{{$item['id']}}">{{$item['tgl_alat']}}</td>
                             <td align="center" valign=middle>
-                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['kartu_alat'][0]['paraf_selesai']) !!} id="check_selesai_{{$item['kartu_alat'][0]['id']}}">
+                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['paraf_selesai']) !!} id="check_selesai_{{$item['id']}}">
                             </td>
-                            <td align="center" valign=middle id="tgl_selesai_{{$item['kartu_alat'][0]['id']}}">{{$item['kartu_alat'][0]['tgl_selesai']}}</td>
+                            <td align="center" valign=middle id="tgl_selesai_{{$item['id']}}">{{$item['tgl_selesai']}}</td>
                             <td align="center" valign=middle>
-                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['kartu_alat'][0]['paraf_sertifikat']) !!} id="check_sertifikat_{{$item['kartu_alat'][0]['id']}}">
+                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['paraf_sertifikat']) !!} id="check_sertifikat_{{$item['id']}}">
                             </td>
-                            <td align="center" valign=middle id="tgl_sertifikat_{{$item['kartu_alat'][0]['id']}}">{{$item['kartu_alat'][0]['tgl_sertifikat']}}</td>
+                            <td align="center" valign=middle id="tgl_sertifikat_{{$item['id']}}">{{$item['tgl_sertifikat']}}</td>
                             <td align="center" valign=middle>
-                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['kartu_alat'][0]['paraf_administrasi']) !!} id="check_administrasi_{{$item['kartu_alat'][0]['id']}}">
+                                <input type="checkbox" disabled {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['paraf_administrasi']) !!} id="check_administrasi_{{$item['id']}}">
                             </td>
-                            <td align="center" valign=middle id="tgl_administrasi_{{$item['kartu_alat'][0]['id']}}">{{$item['kartu_alat'][0]['tgl_administrasi']}}</td>
+                            <td align="center" valign=middle id="tgl_administrasi_{{$item['id']}}">{{$item['tgl_administrasi']}}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -343,15 +343,15 @@ Data Teknis
     @foreach ($kartu_alat as $item)
     <script>
 
-        $('#check_alat_{{$item['kartu_alat'][0]['id']}}').on('click', function() {
+        $('#check_alat_{{$item['id']}}').on('click', function() {
             $.ajax({
                 type: 'GET',
                 enctype: 'multipart/form-data',
-                url: "{{route('teknis.checked', ['alat', $item['kartu_alat'][0]['id'], $order->id])}}",
+                url: "{{route('teknis.checked', ['alat', $item['id'], $order->id])}}",
                 success: function(res) {
                     if(res.status === true) {
                         console.log(res.msg)
-                        $('#tgl_alat_{{$item['kartu_alat'][0]['id']}}').load(location.href + " #tgl_alat_{{$item['kartu_alat'][0]['id']}}")
+                        $('#tgl_alat_{{$item['id']}}').load(location.href + " #tgl_alat_{{$item['id']}}")
                     } else {
                         alert(res.msg)
                         console.log(res.data)
@@ -362,11 +362,11 @@ Data Teknis
                 }
             })
         })
-        $('#check_selesai_{{$item['kartu_alat'][0]['id']}}').on('click', function() {
+        $('#check_selesai_{{$item['id']}}').on('click', function() {
             $.ajax({
                 type: 'GET',
                 enctype: 'multipart/form-data',
-                url: "{{route('teknis.checked', ['selesai', $item['kartu_alat'][0]['id'], $order->id])}}",
+                url: "{{route('teknis.checked', ['selesai', $item['id'], $order->id])}}",
                 success: function(res) {
                     if(res.status === true) {
                         console.log(res)
@@ -379,8 +379,8 @@ Data Teknis
                                 timer: 3000
                             })
                         }
-                        $('#tgl_selesai_{{$item['kartu_alat'][0]['id']}}').load(location.href + " #tgl_selesai_{{$item['kartu_alat'][0]['id']}}")
-                        $('#link_sertifikat_{{$item['kartu_alat'][0]['id']}}').load(location.href + " #link_sertifikat_{{$item['kartu_alat'][0]['id']}}")
+                        $('#tgl_selesai_{{$item['id']}}').load(location.href + " #tgl_selesai_{{$item['id']}}")
+                        $('#link_sertifikat_{{$item['id']}}').load(location.href + " #link_sertifikat_{{$item['id']}}")
                     } else {
                         alert(res.msg)
                         console.log(res.data)
@@ -391,15 +391,15 @@ Data Teknis
                 }
             })
         })
-        $('#check_sertifikat_{{$item['kartu_alat'][0]['id']}}').on('click', function() {
+        $('#check_sertifikat_{{$item['id']}}').on('click', function() {
             $.ajax({
                 type: 'GET',
                 enctype: 'multipart/form-data',
-                url: "{{route('teknis.checked', ['sertifikat', $item['kartu_alat'][0]['id'], $order->id])}}",
+                url: "{{route('teknis.checked', ['sertifikat', $item['id'], $order->id])}}",
                 success: function(res) {
                     if(res.status === true) {
                         console.log(res.msg)
-                        $('#tgl_sertifikat_{{$item['kartu_alat'][0]['id']}}').load(location.href + " #tgl_sertifikat_{{$item['kartu_alat'][0]['id']}}")
+                        $('#tgl_sertifikat_{{$item['id']}}').load(location.href + " #tgl_sertifikat_{{$item['id']}}")
                     } else {
                         alert(res.msg)
                         console.log(res.data)
@@ -410,15 +410,15 @@ Data Teknis
                 }
             })
         })
-        $('#check_administrasi_{{$item['kartu_alat'][0]['id']}}').on('click', function() {
+        $('#check_administrasi_{{$item['id']}}').on('click', function() {
             $.ajax({
                 type: 'GET',
                 enctype: 'multipart/form-data',
-                url: "{{route('teknis.checked', ['administrasi', $item['kartu_alat'][0]['id'], $order->id])}}",
+                url: "{{route('teknis.checked', ['administrasi', $item['id'], $order->id])}}",
                 success: function(res) {
                     if(res.status === true) {
                         console.log(res.msg)
-                        $('#tgl_administrasi_{{$item['kartu_alat'][0]['id']}}').load(location.href + " #tgl_administrasi_{{$item['kartu_alat'][0]['id']}}")
+                        $('#tgl_administrasi_{{$item['id']}}').load(location.href + " #tgl_administrasi_{{$item['id']}}")
                     } else {
                         alert(res.msg)
                         console.log(res.data)

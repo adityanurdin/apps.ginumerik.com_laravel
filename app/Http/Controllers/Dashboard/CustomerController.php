@@ -42,7 +42,7 @@ class CustomerController extends Controller
     public function store(CustomerRequest $request)
     {
         $rule = [
-            'nama_perusahaan' => 'required|string',
+            'nama_perusahaan' => 'required|string|unique:customers',
             'alamat'          => 'string',
             'no_tlp'          => 'required',
             'email'           => 'email',

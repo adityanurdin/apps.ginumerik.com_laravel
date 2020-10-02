@@ -151,7 +151,7 @@ Data Administrasi
                         </div>
                       </div>
                       <div class="form-group row align-items-center">
-                        <label class="col-md-4 text-md-right text-left">Alt</label>
+                        <label class="col-md-4 text-md-right text-left">Jumlah Alat</label>
                         <div class="col-lg-4 col-md-6">
                           <input type="text" id="alt" name="alt" class="form-control">
                         </div>
@@ -177,6 +177,12 @@ Data Administrasi
                             <option value="on_site">On-Site</option>
                             <option value="sub_con">Sub Contractor</option>
                           </select>
+                        </div>
+                      </div>
+                      <div class="form-group row align-items-center" style="display: none;" id="block-subcon">
+                        <label class="col-md-4 text-md-right text-left">Ket. Sub Con</label>
+                        <div class="col-lg-4 col-md-6">
+                          <input type="text" id="ket_subcon" name="ket_subcon" class="form-control">
                         </div>
                       </div>
 
@@ -309,14 +315,12 @@ Data Administrasi
         var selectedLab = $(this).children("option:selected").val()
         if ( selectedLab == 'sub_con' ) {
           $('.sub_con').hide();
+          $('#block-subcon').show();
         } else {
           $('.sub_con').show();
+          $('#block-subcon').hide();
         }
       })
-
-      // var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;
-      // $('#no_sertifikat').val(no_sertifikat)
-      // setInterval(no_sertifikat, 1000)
 
       function sert() {
             var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;

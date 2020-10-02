@@ -61,13 +61,20 @@ class TeknisController extends Controller
     public function show($id)
     {
         $order = Order::with('barangs', 'serahterima')->findOrFail($id);
-        $kartu_alat = [];
+        $barang_id = [];
         foreach($order->barangs as $item) {
-            $barang = KartuAlat::with('barang')->where('barang_id', $item->id)->get();
-            array_push($kartu_alat, [
-                'kartu_alat' => $barang
+            array_push($barang_id, [
+                $item->id
             ]);
         }
+
+        $kartu_alat =  KartuAlat::with('barang')
+                    ->whereIn('barang_id', $barang_id)
+                    ->whereHas('barang', function(Builder $query) {
+                        $query->where('status_batal' , '0');
+                    })
+                    ->get();
+                    // return $kartu_alat;
         $auth_id = \Auth::user()->id;
         $user = User::where('id', '!=', $auth_id)->get();
 

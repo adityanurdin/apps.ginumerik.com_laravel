@@ -51,8 +51,8 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="email">Email</label>
-                  <input id="email" type="email" autocomplete="off" class="form-control" placeholder="Email address" name="email" tabindex="1" value="" autofocus required>
+                  <label for="email">Username</label>
+                  <input id="email" type="username" autocomplete="off" class="form-control" placeholder="Username" name="email" tabindex="1" value="" autofocus required>
                   <div class="invalid-feedback">
                     
                   </div>
