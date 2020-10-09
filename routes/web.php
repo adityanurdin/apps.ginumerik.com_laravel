@@ -79,6 +79,12 @@ Route::group(['middleware' => 'SETUP'], function() {
         
             // Settings
             Route::resource('settings', 'Dashboard\SettingController');
+            
+            //Report
+            Route::group(['prefix' => 'system-reports'], function() {
+                Route::get('/', 'Dashboard\SystemReportController@index')->name('system-report.index');
+                Route::post('/', 'Dashboard\SystemReportController@export')->name('system-report.export');
+            });
 
             // Master Data
             Route::resource('labs', 'LabController')->except(['view']);

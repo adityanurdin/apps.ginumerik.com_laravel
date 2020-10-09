@@ -107,7 +107,7 @@ Data Teknis
                             <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item->barang['alt']}}</td>
                             <td align="center" valign=middle>
                                 {{$item->barang['no_sertifikat']}} <br>
-                                <div id="link_sertifikat_{{$item['id']}}">
+                                <div id="link_sertifikat_{{$item->id}}">
                                     @if ($item['paraf_selesai'] != NULL)
                                     <a href="{{ route('sertifikat.show', Dit::encode($item->barang['no_sertifikat'], 0, 4)) }}">Upload</a>
                                     @endif
@@ -115,21 +115,21 @@ Data Teknis
                             </td>
                             <td align="center" valign=middle>{{Dit::getLab($item->barang['lab'])}}</td>
                             <td align="center" valign=middle>
-                                <input type="checkbox" {!! Dit::Checked('*', $item['paraf_alat']) !!} id="check_alat_{{$item['id']}}">
+                                <input type="checkbox" {{ $item->barang['lab'] == 'sub_con' ? 'disabled' : '' }} {!! Dit::Checked('*', $item['paraf_alat']) !!} id="check_alat_{{$item->id}}">
                             </td>
-                            <td align="center" valign=middle id="tgl_alat_{{$item['id']}}">{{$item['tgl_alat']}}</td>
+                            <td align="center" valign=middle id="tgl_alat_{{$item->id}}">{{$item['tgl_alat']}}</td>
                             <td align="center" valign=middle>
-                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['paraf_selesai']) !!} id="check_selesai_{{$item['id']}}">
+                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['paraf_selesai']) !!} id="check_selesai_{{$item->id}}">
                             </td>
-                            <td align="center" valign=middle id="tgl_selesai_{{$item['id']}}">{{$item['tgl_selesai']}}</td>
+                            <td align="center" valign=middle id="tgl_selesai_{{$item->id}}">{{$item['tgl_selesai']}}</td>
                             <td align="center" valign=middle>
-                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['paraf_sertifikat']) !!} id="check_sertifikat_{{$item['id']}}">
+                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['paraf_sertifikat']) !!} id="check_sertifikat_{{$item->id}}">
                             </td>
-                            <td align="center" valign=middle id="tgl_sertifikat_{{$item['id']}}">{{$item['tgl_sertifikat']}}</td>
+                            <td align="center" valign=middle id="tgl_sertifikat_{{$item->id}}">{{$item['tgl_sertifikat']}}</td>
                             <td align="center" valign=middle>
-                                <input type="checkbox" disabled {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['paraf_administrasi']) !!} id="check_administrasi_{{$item['id']}}">
+                                <input type="checkbox" disabled {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['paraf_administrasi']) !!} id="check_administrasi_{{$item->id}}">
                             </td>
-                            <td align="center" valign=middle id="tgl_administrasi_{{$item['id']}}">{{$item['tgl_administrasi']}}</td>
+                            <td align="center" valign=middle id="tgl_administrasi_{{$item->id}}">{{$item['tgl_administrasi']}}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -338,20 +338,19 @@ Data Teknis
 @endsection
 
 @push('scripts')
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     @foreach ($kartu_alat as $item)
     <script>
 
-        $('#check_alat_{{$item['id']}}').on('click', function() {
+
+        $('#check_alat_{{$item->id}}').on('click', function() {
             $.ajax({
                 type: 'GET',
                 enctype: 'multipart/form-data',
-                url: "{{route('teknis.checked', ['alat', $item['id'], $order->id])}}",
+                url: "{{route('teknis.checked', ['alat', $item->id, $order->id])}}",
                 success: function(res) {
                     if(res.status === true) {
                         console.log(res.msg)
-                        $('#tgl_alat_{{$item['id']}}').load(location.href + " #tgl_alat_{{$item['id']}}")
+                        $('#tgl_alat_{{$item->id}}').load(location.href + " #tgl_alat_{{$item->id}}")
                     } else {
                         alert(res.msg)
                         console.log(res.data)
@@ -362,11 +361,11 @@ Data Teknis
                 }
             })
         })
-        $('#check_selesai_{{$item['id']}}').on('click', function() {
+        $('#check_selesai_{{$item->id}}').on('click', function() {
             $.ajax({
                 type: 'GET',
                 enctype: 'multipart/form-data',
-                url: "{{route('teknis.checked', ['selesai', $item['id'], $order->id])}}",
+                url: "{{route('teknis.checked', ['selesai', $item->id, $order->id])}}",
                 success: function(res) {
                     if(res.status === true) {
                         console.log(res)
@@ -379,8 +378,8 @@ Data Teknis
                                 timer: 3000
                             })
                         }
-                        $('#tgl_selesai_{{$item['id']}}').load(location.href + " #tgl_selesai_{{$item['id']}}")
-                        $('#link_sertifikat_{{$item['id']}}').load(location.href + " #link_sertifikat_{{$item['id']}}")
+                        $('#tgl_selesai_{{$item->id}}').load(location.href + " #tgl_selesai_{{$item->id}}")
+                        $('#link_sertifikat_{{$item->id}}').load(location.href + " #link_sertifikat_{{$item->id}}")
                     } else {
                         alert(res.msg)
                         console.log(res.data)
@@ -391,15 +390,15 @@ Data Teknis
                 }
             })
         })
-        $('#check_sertifikat_{{$item['id']}}').on('click', function() {
+        $('#check_sertifikat_{{$item->id}}').on('click', function() {
             $.ajax({
                 type: 'GET',
                 enctype: 'multipart/form-data',
-                url: "{{route('teknis.checked', ['sertifikat', $item['id'], $order->id])}}",
+                url: "{{route('teknis.checked', ['sertifikat', $item->id, $order->id])}}",
                 success: function(res) {
                     if(res.status === true) {
                         console.log(res.msg)
-                        $('#tgl_sertifikat_{{$item['id']}}').load(location.href + " #tgl_sertifikat_{{$item['id']}}")
+                        $('#tgl_sertifikat_{{$item->id}}').load(location.href + " #tgl_sertifikat_{{$item->id}}")
                     } else {
                         alert(res.msg)
                         console.log(res.data)
@@ -410,15 +409,15 @@ Data Teknis
                 }
             })
         })
-        $('#check_administrasi_{{$item['id']}}').on('click', function() {
+        $('#check_administrasi_{{$item->id}}').on('click', function() {
             $.ajax({
                 type: 'GET',
                 enctype: 'multipart/form-data',
-                url: "{{route('teknis.checked', ['administrasi', $item['id'], $order->id])}}",
+                url: "{{route('teknis.checked', ['administrasi', $item->id, $order->id])}}",
                 success: function(res) {
                     if(res.status === true) {
                         console.log(res.msg)
-                        $('#tgl_administrasi_{{$item['id']}}').load(location.href + " #tgl_administrasi_{{$item['id']}}")
+                        $('#tgl_administrasi_{{$item->id}}').load(location.href + " #tgl_administrasi_{{$item->id}}")
                     } else {
                         alert(res.msg)
                         console.log(res.data)

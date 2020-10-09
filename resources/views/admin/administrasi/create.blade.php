@@ -176,6 +176,7 @@ Data Administrasi
                             <option value="in_lab">In-Lab</option>
                             <option value="on_site">On-Site</option>
                             <option value="sub_con">Sub Contractor</option>
+                            <option value="lainnya">Lainnya</option>
                           </select>
                         </div>
                       </div>
@@ -230,27 +231,6 @@ Data Administrasi
                           </div>
                         </div>
                         <div class="form-group row align-items-center">
-                          <label class="col-md-4 text-md-right text-left">Acceptance</label>
-                          <div class="col-lg-4 col-md-6">
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="fisik" name="fisik" value="fisik">
-                              <label class="form-check-label" for="fisik">Fisik</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="fungsi" name="fungsi" value="fungsi">
-                              <label class="form-check-label" for="fungsi">Fungsi</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="sdm" name="sdm" value="sdm">
-                              <label class="form-check-label" for="sdm">SDM</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="std" name="std" value="std">
-                              <label class="form-check-label" for="std">STD</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-group row align-items-center">
                           <label class="col-md-4 text-md-right text-left">No Sertifikat</label>
                           <div class="col-lg-4 col-md-6">
                             <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control" readonly>
@@ -258,6 +238,28 @@ Data Administrasi
                           </div>
                         </div>
 
+                      </div>
+
+                      <div class="form-group row align-items-center" id="acceptance">
+                        <label class="col-md-4 text-md-right text-left">Acceptance</label>
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="fisik" name="fisik" value="fisik">
+                            <label class="form-check-label" for="fisik">Fisik</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="fungsi" name="fungsi" value="fungsi">
+                            <label class="form-check-label" for="fungsi">Fungsi</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="sdm" name="sdm" value="sdm">
+                            <label class="form-check-label" for="sdm">SDM</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="std" name="std" value="std">
+                            <label class="form-check-label" for="std">STD</label>
+                          </div>
+                        </div>
                       </div>
 
 
@@ -313,16 +315,22 @@ Data Administrasi
 
       $('#lab').change(function() {
         var selectedLab = $(this).children("option:selected").val()
-        if ( selectedLab == 'sub_con' ) {
+        if ( selectedLab === 'sub_con' || selectedLab === 'lainnya') {
           $('.sub_con').hide();
-          $('#block-subcon').show();
+          if (selectedLab === 'sub_con') {
+            $('#block-subcon').show();
+            $('#acceptance').show();
+          } else {
+            $('#block-subcon').hide();
+            $('#acceptance').hide();
+          }
         } else {
           $('.sub_con').show();
           $('#block-subcon').hide();
         }
       })
 
-      function sert() {
+        function sert() {
             var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;
             return no_sertifikat
         }

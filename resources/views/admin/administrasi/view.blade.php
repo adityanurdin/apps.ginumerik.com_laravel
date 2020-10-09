@@ -50,7 +50,16 @@ Data Administrasi
                     $no = 1;
                 @endphp
                 @foreach ($order->barangs as $item)
-                <tr class="{{$item->status_batal === '1' ? 'bg-warning text-dark' : ''}}" >
+                @php
+                    if ( $item->status_batal === '1' ) {
+                      $status = 'bg-danger text-dark';
+                    } elseif ($item->status_alat === 'belum_datang') {
+                      $status = 'bg-warning text-dark';
+                    } else {
+                      $status = '';
+                    }
+                @endphp
+                <tr class="{{$status}}" >
                   <td>{{$no++}}</td>
                   <td>{{$item->AS}}</td>
                   <td>{{$item->LAG}}</td>
@@ -69,10 +78,9 @@ Data Administrasi
                 <script>
 
                 function myConfirm(id) {
-                  var r = confirm("Yakin ingin menghapus ?")
+                  var r = confirm("Yakin ingin membatalkan alat ? pastikan sudah merubah keterangan terlebih dahulu")
                   if (r) {
-                
-                  window.location.href = "{{route('barang.destroy', [$order->id, $item->id])}}"
+                    window.location.href = "{{route('barang.destroy', [$order->id, $item->id])}}"
                   }
                 }
                 
@@ -81,9 +89,12 @@ Data Administrasi
               </tbody>
             </table>
             <small>Note: </small>
-            <div class="row ml-3 text-dark">
-              <div class="col-sm-1 bg-warning">
+            <div class="row ml-3 text-dark text-center">
+              <div class="col-sm-1 bg-danger">
                 Alat Batal
+              </div>
+              <div class="col-sm-2 bg-warning">
+                Belum Datang
               </div>
             </div>
 
@@ -103,6 +114,26 @@ Data Administrasi
 @push('scripts')
 @foreach ($kartu_alat as $item)    
     <script>
+
+        $('#check_alat_{{$item->id}}').on('click', function() {
+            $.ajax({
+                type: 'GET',
+                enctype: 'multipart/form-data',
+                url: "{{route('teknis.checked', ['alat', $item->id, $order->id])}}",
+                success: function(res) {
+                    if(res.status === true) {
+                        console.log(res.msg)
+                        $('#tgl_alat_{{$item->id}}').load(location.href + " #tgl_alat_{{$item->id}}")
+                    } else {
+                        alert(res.msg)
+                        console.log(res.data)
+                    }
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
+        })
 
         $('#check_administrasi_{{$item['id']}}').on('click', function() {
           $.ajax({

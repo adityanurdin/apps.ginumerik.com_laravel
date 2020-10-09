@@ -65,6 +65,7 @@
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-cog"></i> <span>System Menus</span></a>
         <ul class="dropdown-menu">
           <li class="{{ Request::route()->getName() == 'users.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('users.index')}}"><span>Data Users</span></a></li>
+          <li class="{{ Request::route()->getName() == 'system-report.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('system-report.index')}}"><span>System Reports</span></a></li>
           <li class="{{ Request::route()->getName() == 'settings.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('settings.index')}}"><span>Settings</span></a></li>
           <li class="{{ Request::route()->getName() == 'system-log.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('system-log.index')}}"><span>System Logs</span></a></li>
           <li class="{{ Request::route()->getName() == 'logs' ? ' active' : '' }}"><a class="nav-link" href="{{route('logs')}}" target="__blink"><span>Engine Logs</span></a></li>
