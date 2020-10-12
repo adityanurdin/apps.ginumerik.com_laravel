@@ -18,9 +18,10 @@ Data Finance
 
         <div class="card">
           <div class="card-header">
-            <h4>History Pembayaran No: {{$order->no_order}}</h4>
+            <h4>Tagihan No Order: {{$order->no_order}}</h4>
           </div>
           <div class="card-body">
+            <a href="{{route('finance.edit', $order->id)}}" class="btn btn-primary float-right mb-4">Buat Invoice</a> 
             <table class="table table-sm" id="table-pembayaran">
               <thead>
                 <tr class="text-center">
@@ -37,7 +38,7 @@ Data Finance
                 @if (count($history_pembayaran) < 1 )
                     <tr>
                       <td colspan="7" class="text-center">
-                        Belum ada pembayaran.
+                        Belum ada Tagihan.
                       </td>
                     </tr>
                 @else 
@@ -48,7 +49,7 @@ Data Finance
                     <tr class="text-center {{$item->status == 'Batal' ? 'bg-light' : ''}}">
                       <td>{{$no++}}</td>
                       <td>
-                        {{Dit::Rupiah($item->jumlah_bayar + ($item->jumlah_bayar * 0.1))}} <br>
+                        {{Dit::Rupiah($item->jumlah_bayar)}} <br>
                         <a href="" {!!$item->status == 'Lunas' ? 'style="display:none;"' : '' !!} {!!$item->status == 'Batal' ? 'style="display:none;"' : '' !!}  id="pembayaran-{{$item->id}}">Edit</a>
                         <a href="{{route('finance.cancel', $item->id)}}" {!!$item->status == 'Batal' ? 'style="display:none;"' : '' !!}>Batalkan</a>
                       </td>
@@ -256,7 +257,7 @@ Data Finance
   <div class="form-group">
     <label for="jumlah_bayar-{{$item->id}}">Nominal</label>
     <input type="number" name="jumlah_bayar" value="{{$item->jumlah_bayar}}" id="jumlah_bayar-{{$item->id}}" class="form-control">
-    <small>{{Dit::Rupiah($item->jumlah_bayar + ($item->jumlah_bayar * 0.1))}} *Jika sudah termasuk PPN</small>
+    {{-- <small>{{Dit::Rupiah($item->jumlah_bayar + ($item->jumlah_bayar * 0.1))}} *Jika sudah termasuk PPN</small> --}}
   </div>
 
   <div class="form-group">

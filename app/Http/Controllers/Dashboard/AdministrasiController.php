@@ -86,7 +86,6 @@ class AdministrasiController extends Controller
      */
     public function createWizard(Request $request, $wizardID)
     {
-        
         if ($wizardID == 1) {
             
             return redirect()->route('administrasi.create');
@@ -99,6 +98,7 @@ class AdministrasiController extends Controller
             $order = Order::where('no_order', session('no_order'))->first();
             $request->session()->forget('wizardID');
             $request->session()->forget('no_order');
+            $request->session()->forget('customer');
 
             // $finance = Finance::where('order_id', $order->id)->first();
             // $total_bayar     = $finance->total_bayar + ($finance->total_bayar * 0.1);
@@ -110,7 +110,7 @@ class AdministrasiController extends Controller
 
         $labs = MsLab::all();
         $order = Order::where('no_order', session('no_order'))->first();
-        // return $order->barangs;
+        // return $order;
 
         return view('admin.administrasi.create', compact('wizardID', 'labs', 'order'));
     }
@@ -124,7 +124,10 @@ class AdministrasiController extends Controller
     public function store(Request $request)
     {
         $valid = Validator::make($request->all(), [
-            'nama_barang' => 'required'
+            'nama_barang' => 'required',
+            'alt'         => 'required|integer',
+            'st'          => 'required',
+            'harga_satuan' => 'required'
         ]);
 
         if ($valid->fails()) {
@@ -150,21 +153,24 @@ class AdministrasiController extends Controller
 
         
         $finance = Finance::where('order_id', $order->id)->first();
-
-        
-
         if ($barang) {
             $total_harga_barang = $request->harga_satuan * $request->alt;
             $total_bayar        = $total_harga_barang + $finance->total_bayar;
+
+            $subtotal = $total_bayar - $finance->discount;
+            $ppn      = $subtotal * 0.1;
+            $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
+            $tat      = $finance->tat;
+            $grand_total = $subtotal + $ppn + $pph + $tat;
+
             $finance->update([
                 'total_bayar' => $total_bayar,
-                'sisa_bayar'  => $total_bayar
+                'sisa_bayar'  => $grand_total,
+                'grand_total' => $grand_total,
             ]);
-
             $kartu_alat = KartuAlat::create([
                 'barang_id' => $barang->id
             ]);
-            
             $msg = 'Menambahkan barang '.$barang->nama_barang.' pada order '. $order->no_order;
             Dit::Log(1,$msg, 'success');
             return response()->json([
@@ -189,17 +195,21 @@ class AdministrasiController extends Controller
      */
     public function storeWizard(Request $request, $next)
     {
+        // return $request->all();
 
         Validator::make($request->all(), [
             'no_order' => 'unique:orders'
         ])->validate();
 
+        $customer = Customer::find($request->customer_id);
+
         $request->session()->put('wizardID', $request->wizardID);
         $request->session()->put('no_order', $request->no_order);
+        $request->session()->put('customer', $customer);
 
         if (session('wizardID') == 2) {
 
-            $order = Order::create($request->except(['wizardID']));
+            $order = Order::create($request->except(['wizardID', 'pph', 'discount', 'tat']));
 
             /* $lama_kerja = $order->hari_kerja + 7;
             $tgl_tagihan = strtotime($order->created_at);
@@ -207,7 +217,13 @@ class AdministrasiController extends Controller
             $tgl_tagihan = date('Y-m-d', $tgl_tagihan); */
             
             // $finance = Finance::create(['order_id' => $order->id, 'tgl_tagihan' => $tgl_tagihan]);
-            $finance = Finance::create(['order_id' => $order->id, 'status' => 'dalam_proses']);
+            $finance = Finance::create([
+                    'order_id'  => $order->id,
+                    'status'    => 'dalam_proses',
+                    'pph'       => $request->has('pph') ? $request->pph : NULL,
+                    'discount'  => $request->has('discount') ? $request->discount : NULL,
+                    'tat'       => $request->has('tat') ? $request->tat : NULL,
+            ]);
 
             if ($order && $finance) {
                 $msg = 'Membuat order '. $order->no_order;

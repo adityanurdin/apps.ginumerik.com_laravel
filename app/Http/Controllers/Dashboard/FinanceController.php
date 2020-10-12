@@ -93,9 +93,29 @@ class FinanceController extends Controller
     public function edit($id)
     {
         $order = Order::findOrFail($id);
+        $alat  = Order::with('barangs')
+                        ->whereId($id)
+                        ->whereHas('barangs', function(Builder $query) {
+                            $query->where('AS', '!=', NULL);
+                        })
+                        ->first();
+        // return $alat;
         $PPn   = $order->finance['total_bayar'] * 0.1;
         $total_bayar = Dit::GrandTotal($order->finance['id']);
-        return view('admin.finance.edit', compact('order', 'total_bayar'));
+        return view('admin.finance.edit', compact('order', 'total_bayar', 'alat'));
+    }
+
+    public function checkAlat(Request $request, $id)
+    {
+        if (!$request->has('check_alat')) {
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+        $data = implode(',', $request->check_alat);
+        return response()->json([
+            'data' => $data
+        ],200);
     }
 
     public function editPembayaran($id)
@@ -123,6 +143,7 @@ class FinanceController extends Controller
 
     public function ProsesBayar(Request $request, $id)
     {
+        // return $request->all();
         $pembayaran = HistoryPembayaran::findOrFail($id);
         $finance    = Finance::findOrFail($pembayaran->finance_id);
         
@@ -142,22 +163,25 @@ class FinanceController extends Controller
 
             } */
 
-            if ($request->jumlah_bayar > ($finance->sisa_bayar * 0.1) + $finance->sisa_bayar) {
+            /* if ($request->jumlah_bayar > ($finance->sisa_bayar * 0.1) + $finance->sisa_bayar) {
+                return response()->json([
+                    'status' => false,
+                    'msg'    => 'Gagal, Jumlah bayar melebihi sisa bayar'
+                ]);
+            } */
+
+            if ($request->jumlah_bayar > $finance->sisa_bayar) {
                 return response()->json([
                     'status' => false,
                     'msg'    => 'Gagal, Jumlah bayar melebihi sisa bayar'
                 ]);
             }
 
+
+
             $sisa_bayar = $finance->sisa_bayar - $request->jumlah_bayar;
-            // $ppn_sisa_bayar = $sisa_bayar * 0.1;
-            // $total = $sisa_bayar + $ppn_sisa_bayar + $finance->tat;
 
-            // return $total;
-
-
-            // $ppn_sisa_bayar = $finance->sisa_bayar * 0.1;
-            // $sisa_bayar = ($finance->sisa_bayar + $ppn_sisa_bayar) - $request->jumlah_bayar;
+            // return $sisa_bayar;
 
             if ($sisa_bayar == 0) {
                 $status = 'sudah_bayar';
@@ -201,27 +225,30 @@ class FinanceController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->merge(['barang_ids' => implode(',', $request->barang_ids)]);
+        // return $request->all();
         $finance = Finance::findOrFail($id);
+        $order   = Order::findOrFail($finance->order_id);
         
-        $financeSubtotal = $finance->sisa_bayar - $finance->discount;
+        /* $financeSubtotal = $finance->sisa_bayar - $finance->discount;
         $financePpn      = $financeSubtotal * 0.1;
         $financeTotal    = $financeSubtotal + $financePpn + $finance->tat;
-        // return $financeTotal;
         if($finance->sisa_bayar == 0) {
             toast('Gagal, Pembayaran sudah lunas','error');
             return back();
         } elseif ($request->bayar > $financeTotal ) {
             toast('Gagal, Jumlah bayar melebihi sisa bayar','error');
             return back();
-        }
+        } */
+
         $roman =  Dit::Roman(date('m'));
         
         if (!HistoryPembayaran::first()) {
             $no_kwitansi = Setting::where('key', 'no_kwitansi')->first();
             $no_invoice  = Setting::where('key', 'no_invoice')->first();
             
-            $no_kwitansi = 'G'.date('m').'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
-            $no_invoice = 'G'.date('m').'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y');
+            $no_kwitansi = 'G'.date('m', strtotime($order->created_at)).'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
+            $no_invoice = 'G'.date('m', strtotime($order->created_at)).'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y');
         } else {
             $history_pembayaran = HistoryPembayaran::where('finance_id', $id)
                                                     ->where('status', '!=', 'Batal')
@@ -254,6 +281,7 @@ class FinanceController extends Controller
 
         HistoryPembayaran::create([
             'finance_id'        => $id,
+            'barang_ids'        => $request->barang_ids,
             'jumlah_bayar'      => $request->bayar == NULL ? 0 : $request->bayar,
             'tanggal_tagihan'   => date('Y-m-d'),
             'target_tagih'      => $request->target_tagih,
@@ -261,7 +289,7 @@ class FinanceController extends Controller
             'no_invoice'        => $no_invoice,
             'no_kwitansi'       => $no_kwitansi,
             'status'            => 'Belum Lunas', #$request->bayar == NULL ? 'Belum Lunas' : 'Lunas',
-            'keterangan'        => $request->keterangan
+            'keterangan'        => $request->keterangan,
         ]);
 
         /* if ($request->bayar) {
@@ -279,10 +307,8 @@ class FinanceController extends Controller
             $request->merge(['sisa_bayar' => $sisa_bayar]);
         } */
 
-        $order   = Order::findOrFail($finance->order_id);
-
         $finance->update(['status' => 'siap_tagih']);
-        $finance->update($request->except('keterangan','target_tagih'));
+        $finance->update($request->except('keterangan','target_tagih', 'barang_ids'));
         if ($finance->sisa_bayar == 0) {
             $finance->update(['status' => 'sudah_bayar']);
         }
@@ -325,16 +351,16 @@ class FinanceController extends Controller
     {
         $data = Order::with('customer', 'finance')
                         ->orderBy('created_at', 'DESC')
-                        ->whereHas('finance', function(Builder $query) {
-                            $query->where('status', '!=' , 'sudah_bayar');
-                        })
+                        // ->whereHas('finance', function(Builder $query) {
+                        //     $query->where('status', '!=' , 'sudah_bayar');
+                        // })
                         ->get();
 
         return Datatables::of($data)
                 ->addIndexColumn()
                 ->editColumn('no_order', function($item) {
                     $result = ucfirst($item->no_order). '<br>';
-                    $result .= '<a href='.route('finance.edit', $item->id).'>Cetak Invoice</a> <a href='.route('finance.show', $item->id).'>Pembayaran</a> <a href='.route('administrasi.show.tod', $item->id).'>Documment</a>';
+                    $result .= '<a href='.route('finance.show', $item->id).'>Pembayaran</a> <a href='.route('administrasi.show.tod', $item->id).'>Documment</a>';
                     return $result;
                 })
                 ->addColumn('tgl_tagihan', function($item) {
@@ -346,28 +372,30 @@ class FinanceController extends Controller
                     return $result;
                 })
                 ->addColumn('total_bayar', function($item) {
-                    $total_bayar = Dit::GrandTotal($item->finance['id']);
+                    // $total_bayar = Dit::GrandTotal($item->finance['id']);
+                    $total_bayar = $item->finance['grand_total'];
                     $total_bayar = Dit::Rupiah($total_bayar);
                     $edit = '<br> <a href="'.route('finance.editPembayaran', $item->finance['id']).'">Edit Pembayaran</a>';
 
                     return $total_bayar.$edit;
                 })
                 ->addColumn('sisa_bayar', function($item) {
-                    if ($item->finance['sisa_bayar'] == NULL) {
-                        $sisa_bayar = 0;
-                    } else {
-                        $pembayaran = HistoryPembayaran::where('finance_id', $item->finance['id'])
-                                                        ->where('status', 'Lunas')
-                                                        ->get();
-                        // if (count($pembayaran) >= 1) {
-                        //     $sisa_bayar = $item->finance['sisa_bayar'] * 0.1;
-                        //     $sisa_bayar = $item->finance['sisa_bayar'] + $sisa_bayar;   
-                        // } else {
-                            $pra_sisa_bayar = $item->finance['sisa_bayar'] - $item->finance['discount'];
-                            $ppn_sisa_bayar = $pra_sisa_bayar * 0.1;
-                            $sisa_bayar = $pra_sisa_bayar + $ppn_sisa_bayar + $item->finance['tat'];
-                        // }
-                    }
+                    // if ($item->finance['sisa_bayar'] == NULL) {
+                    //     $sisa_bayar = 0;
+                    // } else {
+                    //     $pembayaran = HistoryPembayaran::where('finance_id', $item->finance['id'])
+                    //                                     ->where('status', 'Lunas')
+                    //                                     ->get();
+                    //     // if (count($pembayaran) >= 1) {
+                    //     //     $sisa_bayar = $item->finance['sisa_bayar'] * 0.1;
+                    //     //     $sisa_bayar = $item->finance['sisa_bayar'] + $sisa_bayar;   
+                    //     // } else {
+                    //         $pra_sisa_bayar = $item->finance['sisa_bayar'] - $item->finance['discount'];
+                    //         $ppn_sisa_bayar = $pra_sisa_bayar * 0.1;
+                    //         $sisa_bayar = $pra_sisa_bayar + $ppn_sisa_bayar + $item->finance['tat'];
+                    //     // }
+                    // }
+                    $sisa_bayar = $item->finance['sisa_bayar'];
                     return Dit::Rupiah($sisa_bayar);
                 })
                 ->addColumn('status', function($item) {
@@ -403,7 +431,7 @@ class FinanceController extends Controller
                         ->addIndexColumn()
                         ->editColumn('no_invoice', function($item) {
                             $result = $item->no_invoice;
-                            $result .= '<br> <a href='.route('print.invoice', $item->id).'>Print</a>';
+                            $result .= '<br> <a href='.route('print.invoice', $item->id).'>Print</a> ';
                             return $result;
                         })
                         ->editColumn('no_kwitansi', function($item) {

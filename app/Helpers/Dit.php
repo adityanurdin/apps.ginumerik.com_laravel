@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use \App\Log;
 use \App\Models\Finance;
+use \App\Models\HistoryPembayaran;
 use \App\Setting;
 use Str;
 use Carbon\Carbon;
@@ -133,17 +134,34 @@ class Dit
 	{
 		$finance = Finance::find($id);
 		if ($finance) {
-			// $pre_grand_total = $finance->total_bayar - $finance->discount + $finance->tat;
-
-			//remove PPH
-			$pre_grand_total = $finance->total_bayar - $finance->discount;
-			$ppn			 = $pre_grand_total * 0.1;
-			$grand_total 	 = $pre_grand_total + $ppn + $finance->tat;
-
+			// new 
+			$total 		= $finance->total_bayar;
+			$discount 	= $finance->discount;
+			$subtotal	= $total - $discount;
+			$ppn		= $subtotal * 0.1;
+			$pph		= $subtotal * 0.02;
+			$tat		= $finance->tat;
+			
+			if($finance->pph === 'on') {
+				$grand_total = ( $subtotal + $ppn ) + $pph + $tat;
+			} else {
+				$grand_total = ( $subtotal + $ppn ) + $tat;
+			}
+			
 			return $grand_total;
 		}else {
 			exit();
 		}
+	}
+
+	public static function sisaBayar($id)
+	{
+		$finance = Finance::find($id);
+
+		$sisa_bayar = $finance->sisa_bayar;
+		// $discount	= 
+		
+		return $result;
 	}
 
 	public static function PPn($id)
@@ -248,7 +266,7 @@ class Dit
 		} else if ($role == 'ADM'){
 			$role = 'Administrasi';
 		}
-		return $role;
+		return $user->sub_role;
 	}
 
 	public static function getLab($lab)

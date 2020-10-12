@@ -9,6 +9,7 @@ use Dit;
 use PDF;
 use Arr;
 use App\Models\Order;
+use App\Models\Barang;
 use App\Models\Finance;
 use App\Models\HistoryPembayaran;
 
@@ -74,7 +75,13 @@ class PrintController extends Controller
                         ->whereId($finance->order_id)
                         ->first();
 
-        $pdf    = Pdf::loadView('pdf.invoice', compact('finance', 'order', 'pembayaran'));
+        $barang_ids = explode(',', $pembayaran->barang_ids);
+        $barangs = Barang::whereIn('id', $barang_ids)->get();
+
+        $total = $barangs->sum('harga_satuan');
+
+        // return $total;
+        $pdf    = Pdf::loadView('pdf.invoice', compact('finance', 'order', 'pembayaran', 'barangs', 'total'));
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).'-'.date('his').'.pdf' );
     }
 

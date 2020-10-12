@@ -186,7 +186,7 @@
         @php
             $no = 1;
         @endphp
-        @foreach ($order->barangs as $item)
+        @foreach ($barangs as $item)
         <tr>
             <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 height="19" align="center" valign=middle sdval="1" sdnum="1033;"><font color="#000000">{{$no++}}</font></td>
             <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 align="left" valign=middle><font color="#000000">{{$item->nama_barang}} </font></td>
@@ -228,27 +228,27 @@
         </tr>
         <tr>
             <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=22 height="19" align="right" valign=middle><b><font color="#000000">Total</font></b></td>
-            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="12350000" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> Rp12,350,000.00 </font></b></td>
+            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="12350000" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> {{Dit::Rupiah($total)}} </font></b></td>
             </tr>
         <tr>
             <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=22 height="19" align="right" valign=middle><b><font color="#000000">Discount</font></b></td>
-            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="0" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> Rp-   </font></b></td>
+            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="0" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> {{Dit::Rupiah($finance->discount)}}   </font></b></td>
             </tr>
         <tr>
             <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=22 height="19" align="right" valign=middle><b><font color="#000000">Sub Total</font></b></td>
-            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="12350000" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> Rp12,350,000.00 </font></b></td>
+            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="12350000" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> {{Dit::Rupiah($total - $finance->discount)}} </font></b></td>
             </tr>
         <tr>
             <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=22 height="19" align="right" valign=middle><b><font color="#000000">PPN</font></b></td>
-            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="1235000" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> Rp1,235,000.00 </font></b></td>
+            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="1235000" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> {{Dit::Rupiah(Dit::PPn($finance->id))}} </font></b></td>
             </tr>
         <tr>
             <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=22 height="19" align="right" valign=middle><b><font color="#000000">Transportasi dan Akomodasi Teknisi</font></b></td>
-            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="1250000" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> Rp1,250,000.00 </font></b></td>
+            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="1250000" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> {{Dit::Rupiah($finance->tat)}} </font></b></td>
             </tr>
         <tr>
             <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=22 height="19" align="right" valign=middle><b><font color="#000000">Grand Total</font></b></td>
-            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="14835000" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> Rp14,835,000.00 </font></b></td>
+            <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdval="14835000" sdnum="1033;0;_([$Rp-421]* #,##0.00_);_([$Rp-421]* \(#,##0.00\);_([$Rp-421]* &quot;-&quot;??_);_(@_)"><b><font color="#000000"> {{Dit::Rupiah($finance->grand_total)}} </font></b></td>
             </tr>
         <tr>
             <td height="19" align="left" valign=bottom><font color="#000000"><br></font></td>

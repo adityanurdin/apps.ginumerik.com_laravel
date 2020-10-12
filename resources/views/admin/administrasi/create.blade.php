@@ -115,6 +115,41 @@ Data Administrasi
                         </textarea>
                       </div>
                     </div>
+                    <div class="form-group row align-items-center">
+                      <label class="col-md-4 text-md-right text-left">Additional</label>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-check">
+                          <input name="pph" class="form-check-input" type="checkbox" id="pph">
+                          <label class="form-check-label" for="pph">
+                            Include PPh
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="discount">
+                          <label class="form-check-label" for="discount">
+                            Include Discount
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="tat">
+                          <label class="form-check-label" for="tat">
+                            Include Transportasi & Akomodasi
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center" id="discount-form" style="display: none;">
+                      <label class="col-md-4 text-md-right text-left">Discount</label>
+                      <div class="col-lg-4 col-md-6">
+                        <input type="number" id="discount" name="discount" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center" id="tat-form" style="display: none;">
+                      <label class="col-md-4 text-md-right text-left">Transportasi & Akomodasi</label>
+                      <div class="col-lg-4 col-md-6">
+                        <input type="number" id="tat" name="tat" class="form-control">
+                      </div>
+                    </div>
 
                     @elseif($wizardID == 2)
                     <div id="dynamicForm">
@@ -240,6 +275,19 @@ Data Administrasi
 
                       </div>
 
+                      <div class="form-group row align-items-center">
+                        <label class="col-md-4 text-md-right text-left">Nama Perusahaan</label>
+                        <div class="col-lg-4 col-md-6">
+                          <input type="text" id="nama_perusahaan" name="nama_perusahaan" value="{{ session('customer')->nama_perusahaan }}" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group row align-items-center">
+                        <label class="col-md-4 text-md-right text-left">Alamat Perusahaan</label>
+                        <div class="col-lg-4 col-md-6">
+                          <input type="text" id="alamat_perusahaan" name="alamat_perusahaan" value="{{ session('customer')->alamat }}" class="form-control">
+                        </div>
+                      </div>
+
                       <div class="form-group row align-items-center" id="acceptance">
                         <label class="col-md-4 text-md-right text-left">Acceptance</label>
                         <div class="col-lg-4 col-md-6">
@@ -329,6 +377,21 @@ Data Administrasi
           $('#block-subcon').hide();
         }
       })
+
+      $("#discount").on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#discount-form').show();
+          } else {
+            $('#discount-form').hide();
+          }
+      });
+      $("#tat").on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#tat-form').show();
+          } else {
+            $('#tat-form').hide();
+          }
+      });
 
         function sert() {
             var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;

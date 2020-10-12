@@ -44,15 +44,43 @@ Invoice
                             <label for="nama_perusahaan">Nama Perusahaan</label>
                             <input type="text" id="nama_perusahaan" value="{{$order->customer['nama_perusahaan']}}" readonly class="form-control">
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="total_bayar">Total Bayar (+PPn)</label>
                             <input type="text"  id="total_bayar" value="{{ Dit::Rupiah($total_bayar) }}" readonly class="form-control">
                             <small>Biaya Pokok : {{ Dit::Rupiah($order->finance['total_bayar']) }} </small>
-                        </div>
+                        </div> --}}
                         {{-- <div class="form-group">
                             <label for="total_bayar">Sisa Bayar (+PPn)</label>
                             <input type="text"  id="total_bayar" value="{{ Dit::Rupiah(($order->finance['sisa_bayar'] * 0.1) + $order->finance['sisa_bayar']) }}" readonly class="form-control">
                         </div> --}}
+                        <div class="form-group">
+                            <label for="">Check Alat</label>
+                            <select name="barang_ids[]" class="form-control selectric" multiple id="barang_ids">
+                                @if(isset($alat->barangs))
+                                        <option value="" disabled selected> -Pilih Alat- </option>
+                                    @foreach ($alat->barangs as $item)
+                                        <option value="{{$item->id}}">{{$item->nama_barang}} - ({{Dit::Rupiah($item->harga_satuan)}})</option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled selected> -Belum ada alat yang selesai-</option>
+                                @endif
+                            </select>
+                            {{-- <div class="input-group"  style="width: 100%;">
+                                <select name="check_alat[]" class="form-control select2" multiple id="check_alat">
+                                    @if(isset($alat->barangs))
+                                        @foreach ($alat->barangs as $item)
+                                            <option value="{{$item->id}}">{{$item->nama_barang}} - ({{Dit::Rupiah($item->harga_satuan)}})</option>
+                                        @endforeach
+                                    @else
+                                        <option value="" disabled selected> -Belum ada alat yang selesai-</option>
+                                    @endif
+                                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" id="simpanalat" type="button">Simpan</button>
+                                </div>
+                            </div> --}}
+                            <small>Note: Hanya alat dengan status "A" / "A-S" yang akan ditampilkan</small>
+                        </div>
                         <div class="form-group">
                             <label for="target_tagih">Target Tagih</label>
                             <input type="date" name="target_tagih" id="target_tagih" class="form-control" required>
@@ -88,7 +116,8 @@ Invoice
                         <div class="form-group">
                             <label for="bayar">Nominal</label>
                             <input type="number" name="bayar" id="bayar" class="form-control" required>
-                            <small>Note: Contoh format penulisan angka adalah 1000</small>
+                            <small>Note: Contoh format penulisan angka adalah 1000</small><br>
+                            <small>Total nominal yang harus dibayarkan : {{Dit::Rupiah($order->finance['grand_total'])}} (Grand Total)</small>
                         </div>
                         {{-- <div class="form-group">
                             <label for="tgl_bayar">Tanggal Bayar</label>
@@ -126,4 +155,21 @@ Invoice
 
 @push('scripts')
     <script src="{{ asset('assets/js/jquery.selectric.min.js') }}"></script>
+    {{-- <script>
+
+        $('#simpanalat').on('click', function() {
+            var data = $('#check_alat').serialize()
+            $.ajax({
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                url: "{{ route('finance.checkalat', $order->id) }}",
+                data: data,
+                dataType: 'json',
+                success: function(res) {
+                    console.log(res)
+                }
+            })
+        })
+
+    </script> --}}
 @endpush

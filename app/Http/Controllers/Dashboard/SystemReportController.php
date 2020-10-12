@@ -125,6 +125,5 @@ class SystemReportController extends Controller
                 break;
         }
     }
-
     
 }
