@@ -23,6 +23,7 @@ use App\Models\Finance;
 use App\Models\KartuAlat;
 use App\Models\HistoryPembayaran;
 use App\Setting;
+use App\Log;
 use App\TransferOfDoc;
 use App\SerahTerima;
 use App\User;
@@ -553,6 +554,26 @@ class AdministrasiController extends Controller
     {
         $request->session()->forget('select_tod'.$order_id);
         return back();
+    }
+
+    public function lacak()
+    {
+        return view('admin.administrasi.lacak.index');
+    }
+
+    public function letsLacak(Request $request)
+    {
+        $log = Log::where('status', 1)
+                    ->where('msg', 'LIKE', '%'.$request->no_order)
+                    ->orderBy('created_at', 'DESC')
+                    ->limit(5)
+                    ->get();
+
+        return response()->json([
+            'status' => true,
+            'msg'    => 'Berhasil mencari data',
+            'data'   => $log->toArray()
+        ]);
     }
 
 }

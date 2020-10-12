@@ -18,6 +18,7 @@
           <li class="{{ Request::route()->getName() == 'administrasi.create' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.create')}}"><span>Buat Order</span></a></li>
           <li class="{{ Request::route()->getName() == 'administrasi.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.index')}}"><span>Data Administrasi</span></a></li>
           <li class="{{ Request::route()->getName() == 'administrasi.tod' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.tod')}}"><span>Transfer of Doc</span></a></li>
+          <li class="{{ Request::route()->getName() == 'administrasi.lacak' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.lacak')}}"><span>Lacak Order</span></a></li>
           <li class="{{ Request::route()->getName() == 'customer.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('customer.index')}}"><span>Customers</span></a></li>
         </ul>
       </li>

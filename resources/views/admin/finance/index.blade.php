@@ -12,15 +12,42 @@ Data Finance
   <div class="section-body">
       <div class="container-fluid">
         <div class="card">
+          <div class="card-header">
+            Finance on progress
+          </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-striped" id="myTable">
+              <table class="table table-striped" id="finance_onprogress">
                 <thead>
                   <tr>
                     <th>ID</th>
                     <th>No Order</th>
                     {{-- <th>Tanggal Tagihan</th> --}}
                     {{-- <th>Nama Perusahaan</th> --}}
+                    <th>Total Bayar (+PPn)</th>
+                    <th>Sisa Bayar (+PPn)</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            Finance finish
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped" id="finance_finish">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>No Order</th>
                     <th>Total Bayar (+PPn)</th>
                     <th>Sisa Bayar (+PPn)</th>
                     <th>Status</th>
@@ -42,10 +69,25 @@ Data Finance
 @push('scripts')
     <script>
 
-      var table = $('#myTable').DataTable({
+      var table = $('#finance_onprogress').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('finance.data') }}",
+        ajax: "{{ route('finance.data', 'on_progress') }}",
+        "bLengthChange": false,
+        "iDisplayLength": 25,
+        columns: [
+          {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+          {data: 'no_order', name: 'no_order'},
+          {data: 'total_bayar', name: 'total_bayar'},
+          {data: 'sisa_bayar', name: 'sisa_bayar'},
+          {data: 'status', name: 'status'},
+        ]
+      });
+
+      $('#finance_finish').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('finance.data', 'finish') }}",
         "bLengthChange": false,
         "iDisplayLength": 25,
         columns: [

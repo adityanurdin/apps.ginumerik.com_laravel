@@ -101,6 +101,9 @@ Route::group(['middleware' => 'SETUP'], function() {
         // Administrasi
         Route::group(['middleware' => 'ADM'], function() {
 
+            Route::get('administrasi/lacak', 'Dashboard\AdministrasiController@lacak')->name('administrasi.lacak');
+            Route::post('administrasi/lacak', 'Dashboard\AdministrasiController@letsLacak')->name('administrasi.lacak');
+
             Route::get('administrasi/transfer-of-doc', 'Dashboard\AdministrasiController@indexTD')->name('administrasi.tod');
             // Route::get('administrasi/transfer-of-doc/{id}/show', 'Dashboard\AdministrasiController@showTD')->name('administrasi.show.tod');
             // Route::post('administrasi/transfer-of-doc/{id}', 'Dashboard\AdministrasiController@storeTD')->name('administrasi.store.tod');
@@ -142,7 +145,7 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::get('finance/input/{id}', 'Dashboard\AdministrasiController@showInput')->name('administrasi.show.input');
             Route::get('finance/data-input', 'Dashboard\AdministrasiController@dataInput')->name('administrasi.data.input');
 
-            Route::get('finance/data', 'Dashboard\FinanceController@data')->name('finance.data');
+            Route::get('finance/data/{status}', 'Dashboard\FinanceController@data')->name('finance.data');
             Route::get('finance/{finance}/cancel', 'Dashboard\FinanceController@cancelHistory')->name('finance.cancel');
             Route::get('finance/{finance}/invoice', 'Dashboard\FinanceController@edit')->name('finance.edit');
             Route::put('finance/{finance}/edit/pembayaran', 'Dashboard\FinanceController@prosesEditPembayaran')->name('finance.do.editPembayaran');
