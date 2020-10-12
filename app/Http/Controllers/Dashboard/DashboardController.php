@@ -54,7 +54,7 @@ class DashboardController extends Controller
          ';
         $rank = \DB::select(\DB::raw($query)); */
 
-        $rank = Order::select('*', \DB::raw('SUM(total_bayar) as total_sales'))
+        $rank = Order::select('*', \DB::raw('SUM(grand_total) as total_sales'))
                 ->join('finances', 'orders.id', '=', 'finances.order_id')
                 ->join('customers', 'orders.customer_id', '=', 'customers.id')
                 ->where('status', 'sudah_bayar')
