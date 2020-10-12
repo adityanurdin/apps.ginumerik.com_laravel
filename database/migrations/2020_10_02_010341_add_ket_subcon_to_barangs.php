@@ -14,7 +14,7 @@ class AddKetSubconToBarangs extends Migration
     public function up()
     {
         Schema::table('barangs', function (Blueprint $table) {
-            $table->string('ket_subcon')->after('sub_lab');
+            $table->string('ket_subcon')->nullable()->after('sub_lab');
             $table->enum('status_batal', [0, 1])->default(0)->after('status_alat');
         });
     }
