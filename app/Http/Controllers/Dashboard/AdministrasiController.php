@@ -399,7 +399,12 @@ class AdministrasiController extends Controller
      */
     public function data()
     {
-        $data = Order::with('customer')->orderBy('created_at', 'DESC')->get();
+        $data = Order::with('customer', )
+                    ->whereHas('finance', function(Builder $query) {
+                        $query->where('status', '!=', 'sudah_bayar');
+                    })
+                    ->orderBy('created_at', 'DESC')
+                    ->get();
         // return $data;
         return Datatables::of($data)
                             ->addIndexColumn()
@@ -574,6 +579,21 @@ class AdministrasiController extends Controller
             'msg'    => 'Berhasil mencari data',
             'data'   => $log->toArray()
         ]);
+    }
+
+    public function lag()
+    {
+        // $lag = Barang::where('LAG', '>=', 1)
+        //                 ->limit(5)
+        //                 ->get();
+
+        $lag = Order::with('barangs')
+                    ->whereHas('barangs', function(Builder $query) {
+                            $query->where('LAG', '>=', 1);
+                        })
+        ->get();
+                        return $lag;
+        return view('admin.administrasi.lag', compact('lag'));
     }
 
 }

@@ -67,9 +67,15 @@ class DashboardController extends Controller
         Carbon::setWeekStartsAt(Carbon::MONDAY);
         Carbon::setWeekEndsAt(Carbon::SUNDAY);
 
+        $lag = Barang::where('LAG', '>', 1)
+                        ->limit(5)
+                        ->get();
+        // return $lag;
+
         $data = array(
             'logs'      => $logs,
             'rank'      => $rank,
+            'lag'       => $lag,
             'users'     => User::all(),
             'orders'    => Order::all(),
             'alat'      => Barang::where('status_alat', 'alat_datang')->get(),

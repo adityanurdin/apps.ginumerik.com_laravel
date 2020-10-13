@@ -99,43 +99,50 @@ Dashboard
         </div>
       </div>
     </div>
+
     <div class="row">
-      <div class="col-8">
+      <div class="col-lg-8 col-md-4 col-sm-12">
         
         <div class="card">
           <div class="card-header">
-            <h4>Top 10 Customer of The Year</h4>
+            <h4>List alat dengan status LAG</h4>
           </div>
           <div class="card-body">
             <div class="table-responsive table-invoice">
               <table class="table table-striped">
                 <thead>
-                  <tr class="text-center">
-                    <th>Rank No</th>
-                    <th>Nama Perusahaan</th>
-                    <th>Total Belanja</th>
+                  <tr>
+                    <th>No</th>
+                    <th>Nama Alat</th>
+                    <th>Bidang</th>
+                    <th>LAG</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @php
-                      $no = 1;
-                  @endphp 
-                  @foreach ($data['rank'] as $item)
-                  <tr class="text-center">
-                    <td>#{{$no++}}</td>
-                    <td>{{$item->nama_perusahaan}}</td>
-                    <td>
-                      {{Dit::Rupiah($item->total_sales)}}
-                    </td>
-                  </tr>
-                  @endforeach
+                  @forelse ($data['lag'] as $item)
+                    <tr>
+                      <td>{{$loop->iteration}}</td>
+                      <td>{{$item->nama_barang}}</td>
+                      <td>{{$item->sub_lab}}</td>
+                      <td>{{$item->LAG}}</td>
+                    </tr>
+                  @empty
+                      <tr class="text-center">
+                        <td colspan="4">Tidak ada data.</td>
+                      </tr>
+                  @endforelse
                 </tbody>
               </table>
             </div>
+            <small class="mt-4">Note: Jika pada kolom bidang berisi "-", itu menandakan alat tsb pengerjaan sub con</small>
           </div>
+            <div class="card-footer">
+              <a href="{{route('administrasi.lag')}}" class="float-right">Lihat lebih banyak</a>
+            </div>
         </div>
+        
 
-        <div class="card">
+        {{-- <div class="card">
           <div class="card-header">
             <h4>Live Server Monitor</h4>
             <small>Last update: {{date('d-m-Y h:i:s')}}</small>
@@ -177,70 +184,13 @@ Dashboard
 
             </div>
           </div>
-        </div>
-
-      </div>
-      <div class="col-4">
-        <div class="card">
-          <div class="card-header">
-            <h4>Recent Activities</h4>
-          </div>
-          <div class="card-body">             
-            <ul class="list-unstyled list-unstyled-border">
-              @foreach ($data['logs'] as $item)
-              <li class="media">
-                <img class="mr-3 rounded-circle" width="50" src="{{ asset('assets/Stisla/img/avatar/avatar-'.rand(1,5).'.png') }}" alt="avatar">
-                <div class="media-body">
-                  <div class="float-right text-primary">{{ date('d-m h:i', strtotime($item->created_at)) }}</div>
-                  <div class="media-title">{{ucfirst($item->user['name'])}}</div>
-                  <span class="text-small text-muted">{{$item->msg}}</span>
-                </div>
-              </li>
-              @endforeach
-            </ul>
-            <div class="text-center pt-1 pb-1">
-              <a href="{{route('system-log.index')}}" class="btn btn-primary btn-lg btn-round">
-                View All
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-8">
-
-        {{-- <div class="card  card-statistic-2">
-          <div class="card-stats">
-            <div class="card-stats-title">Order Statistics - 
-              <div class="dropdown d-inline">
-                <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#" id="orders-month">{{date('M')}}</a>
-                <ul class="dropdown-menu dropdown-menu-sm">
-                  <li class="dropdown-title">Select Month</li>
-                  <li><a href="" class="dropdown-item" {{ date('M') == 'Jan' ? 'active' : '' }}>January</a></li>
-                  <li><a href="" class="dropdown-item" {{ date('M') == 'Feb' ? 'active' : '' }}>February</a></li>
-                  <li><a href="" class="dropdown-item" {{ date('M') == 'Mar' ? 'active' : '' }}>March</a></li>
-                  <li><a href="" class="dropdown-item" {{ date('M') == 'Apr' ? 'active' : '' }}>April</a></li>
-                  <li><a href="" class="dropdown-item {{ date('M') == 'May' ? 'active' : '' }}">May</a></li>
-                  <li><a href="" class="dropdown-item {{ date('M') == 'Jun' ? 'active' : '' }}">June</a></li>
-                  <li><a href="" class="dropdown-item {{ date('M') == 'Jul' ? 'active' : '' }}">July</a></li>
-                  <li><a href="" class="dropdown-item {{ date('M') == 'Aug' ? 'active' : '' }}">August</a></li>
-                  <li><a href="" class="dropdown-item {{ date('M') == 'Sep' ? 'active' : '' }}">September</a></li>
-                  <li><a href="" class="dropdown-item {{ date('M') == 'Oct' ? 'active' : '' }}">October</a></li>
-                  <li><a href="" class="dropdown-item {{ date('M') == 'Nov' ? 'active' : '' }}">November</a></li>
-                  <li><a href="" class="dropdown-item {{ date('M') == 'Dec' ? 'active' : '' }}">December</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-body">
-            <canvas id="myChart"></canvas>
-          </div>
         </div> --}}
 
-      </div>
+        
 
-      <div class="col-4">
+      </div>
+      
+      <div class="col-lg-4 col-md-4 col-sm-12">
         <div class="card card-hero">
           <div class="card-header">
             <div class="card-icon">
@@ -276,6 +226,76 @@ Dashboard
           </div>
         </div>
         
+      </div>
+      
+
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-8">
+
+        <div class="card">
+          <div class="card-header">
+            <h4>Top 10 Customer of The Year</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive table-invoice">
+              <table class="table table-striped">
+                <thead>
+                  <tr class="text-center">
+                    <th>Rank No</th>
+                    <th>Nama Perusahaan</th>
+                    <th>Nilai PO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @php
+                      $no = 1;
+                  @endphp 
+                  @foreach ($data['rank'] as $item)
+                  <tr class="text-center">
+                    <td>#{{$loop->iteration}}</td>
+                    <td>{{$item->nama_perusahaan}}</td>
+                    <td>
+                      {{Dit::Rupiah($item->total_sales)}}
+                    </td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>Recent Activities</h4>
+          </div>
+          <div class="card-body">             
+            <ul class="list-unstyled list-unstyled-border">
+              @foreach ($data['logs'] as $item)
+              <li class="media">
+                <img class="mr-3 rounded-circle" width="50" src="{{ asset('assets/Stisla/img/avatar/avatar-'.rand(1,5).'.png') }}" alt="avatar">
+                <div class="media-body">
+                  <div class="float-right text-primary">{{ date('d-m h:i', strtotime($item->created_at)) }}</div>
+                  <div class="media-title">{{ucfirst($item->user['name'])}}</div>
+                  <span class="text-small text-muted">{{$item->msg}}</span>
+                </div>
+              </li>
+              @endforeach
+            </ul>
+            <div class="text-center pt-1 pb-1">
+              <a href="{{route('system-log.index')}}" class="btn btn-primary btn-lg btn-round">
+                View All
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -327,7 +347,7 @@ Dashboard
 @endsection
 
 @push('scripts')
-    <script src="{{asset('assets/js/chart.min.js')}}"></script>
+    {{-- <script src="{{asset('assets/js/chart.min.js')}}"></script> --}}
     {{-- <script src="{{asset('assets/js/modules-chartjs.js')}}"></script> --}}
     {{-- <script src="{{asset('assets/js/index.js')}}"></script> --}}
 @endpush

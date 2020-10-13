@@ -104,6 +104,8 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::get('administrasi/lacak', 'Dashboard\AdministrasiController@lacak')->name('administrasi.lacak');
             Route::post('administrasi/lacak', 'Dashboard\AdministrasiController@letsLacak')->name('administrasi.lacak');
 
+            Route::get('administrasi/lag', 'Dashboard\AdministrasiController@lag')->name('administrasi.lag');
+
             Route::get('administrasi/transfer-of-doc', 'Dashboard\AdministrasiController@indexTD')->name('administrasi.tod');
             // Route::get('administrasi/transfer-of-doc/{id}/show', 'Dashboard\AdministrasiController@showTD')->name('administrasi.show.tod');
             // Route::post('administrasi/transfer-of-doc/{id}', 'Dashboard\AdministrasiController@storeTD')->name('administrasi.store.tod');
