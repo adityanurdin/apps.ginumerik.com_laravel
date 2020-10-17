@@ -16,13 +16,26 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Alat</th>
-                                        <th>Bidang</th>
-                                        <th>LAG</th>
+                                        <th>No Order</th>
+                                        <th>Nama Perusahaan</th>
+                                        <th>Alat</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    @foreach ($lag as $item)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$item->no_order}}</td>
+                                            <td>{{$item->customer['nama_perusahaan']}}</td>
+                                            <td>
+                                                <ul>
+                                                    <ol>sad</ol>
+                                                    <ol>sad</ol>
+                                                    <ol>sad</ol>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

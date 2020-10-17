@@ -113,6 +113,7 @@ Dashboard
                 <thead>
                   <tr>
                     <th>No</th>
+                    <th>No Order</th>
                     <th>Nama Alat</th>
                     <th>Bidang</th>
                     <th>LAG</th>
@@ -122,6 +123,7 @@ Dashboard
                   @forelse ($data['lag'] as $item)
                     <tr>
                       <td>{{$loop->iteration}}</td>
+                      <td>{{ $item->orders[0]['no_order']}}</td>
                       <td>{{$item->nama_barang}}</td>
                       <td>{{$item->sub_lab}}</td>
                       <td>{{$item->LAG}}</td>

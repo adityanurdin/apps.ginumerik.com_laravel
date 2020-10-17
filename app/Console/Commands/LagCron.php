@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 use \App\Models\Barang;
 use \App\Models\Order;
+use \App\Models\KartuAlat;
 use DateTime;
 
 class LagCron extends Command
@@ -41,48 +42,57 @@ class LagCron extends Command
      */
     public function handle()
     {
-        /* $barangs = Barang::get();
-        foreach ($barangs as $item) {
-            $barang =  Barang::find($item->id);
-            
-            $tgl_barang = date('Y-m-d', strtotime($barang->created_at));
-            $tanggal1 = new \DateTime($tgl_barang);
-            $tanggal2 = new \DateTime();
-            
-            $perbedaan = $tanggal2->diff($tanggal1)->format("%a");
-            if ($perbedaan == 0) {
-                $perbedaan = '?';
-            }
 
-            $barang->update([
-                'LAG' => $perbedaan
-            ]);
-        } */
+        $orders = Order::orderBy('created_at', 'ASC')
+                        ->get();
+        foreach($orders as $order) {
+            foreach($order->barangs as $item) {
+                $barang = Barang::whereId($item->id)
+                                ->where('status_batal', '0')
+                                ->first();
+                $kartu_alat = KartuAlat::where('barang_id', $barang->id)
+                                        ->first();
+                if ($kartu_alat->paraf_administrasi !== NULL) {
 
-        $orders = Order::all();
-        foreach ($orders as $order) {
-            foreach ($order->barangs as $barang) {
-                $barang =  Barang::find($barang->id);
-            
-                $tgl_barang = strtotime($barang->created_at);
-                $tgl_barang = strtotime("+".$order->hari_kerja." day", $tgl_barang);
-                $tgl_barang = date('Y-m-d', $tgl_barang);
-
-                // $tgl_barang = date('Y-m-d', strtotime($barang->created_at));
-                $tanggal1 = new \DateTime($tgl_barang);
-                $tanggal2 = new \DateTime();
-                
-                $perbedaan = $tanggal2->diff($tanggal1)->format("%a");
-                if ($perbedaan == 0) {
-                    $perbedaan = '?';
-                }
+                    if ($barang->status_alat === 'alat_datang') {
+                        
+                        $hari_kerja = $order->hari_kerja;
+                        $tgl_barang = strtotime($barang->created_at);
+                        $tgl_barang = strtotime("+". $hari_kerja ." day", $tgl_barang);
+                        $tgl_barang = date('Y-m-d', $tgl_barang);
     
-                $barang->update([
-                    'LAG' => $perbedaan
-                ]);
+                        $tanggal1 = new \DateTime($tgl_barang);
+                        $tanggal2 = new \DateTime();
+    
+                        $perbedaan = $tanggal2->diff($tanggal1)->format("%a");
+    
+                        if ($perbedaan == 0) {
+                            $perbedaan = NULL;
+                        }
+                        $barang->update([
+                            'LAG' => $perbedaan
+                        ]);
+                        
+                        \Log::info($barang->nama_barang . " status lag was update");
+                        
+                    } else if ($barang->status_alat === 'belum_datang') {
+
+                        $barang->update([
+                            'LAG' => NULL
+                        ]);
+                        \Log::info($barang->nama_barang . " belum datang");
+
+                    }
+
+                } else {
+
+                    \Log::info($barang->nama_barang . " belum selesai dikerjakan");
+
+                }
+
             }
         }
-        \Log::info("Updating status lag successfully");
+        // \Log::info("Updating status lag successfully");
      
         /*
            Write your database logic we bellow:

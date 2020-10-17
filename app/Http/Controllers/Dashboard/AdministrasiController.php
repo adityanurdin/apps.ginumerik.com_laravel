@@ -590,9 +590,10 @@ class AdministrasiController extends Controller
         $lag = Order::with('barangs')
                     ->whereHas('barangs', function(Builder $query) {
                             $query->where('LAG', '>=', 1);
-                        })
+                            // $query->whereNotIn('LAG', ['!%']);
+                    })
         ->get();
-                        return $lag;
+                        // return $lag;
         return view('admin.administrasi.lag', compact('lag'));
     }
 

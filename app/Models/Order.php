@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $guarded = [];
-    protected $appends = ['total_bayar_ppn'];
 
     /**
      * Many to many relationship
@@ -35,13 +34,6 @@ class Order extends Model
     public function tod()
     {
         return $this->hasMany('App\TransferOfDoc');
-    }
-
-    public function getTotalBayarPpnAttribute()
-    {
-
-        $lag = $this->attributes['LAG'];
-        return $lag;
     }
 
     protected $hidden = [
