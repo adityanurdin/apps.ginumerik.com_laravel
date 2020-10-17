@@ -28,6 +28,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('cron:lag')
                 ->hourly()
                 ->timezone('Asia/Jakarta');
+
+        // $schedule->command('backup:database')
+        //         ->everyMinute()
+        //         ->timezone('Asia/Jakarta');
     }
 
     /**
