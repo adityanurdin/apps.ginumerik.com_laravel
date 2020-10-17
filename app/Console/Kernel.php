@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('cron:lag')
-                ->everyMinute()
+                ->hourly()
                 ->timezone('Asia/Jakarta');
     }
 
