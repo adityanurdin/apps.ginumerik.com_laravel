@@ -30,10 +30,10 @@ class Kernel extends ConsoleKernel
                 ->hourly()
                 ->timezone('Asia/Jakarta');
 
-        $schedule->command('cron:gitpull')
-                // ->daily()
-                ->everyMinute()
-                ->timezone('Asia/Jakarta');
+        // $schedule->command('cron:gitpull')
+        //         // ->daily()
+        //         ->everyMinute()
+        //         ->timezone('Asia/Jakarta');
 
         // $schedule->command('backup:database')
         //         ->everyMinute()
