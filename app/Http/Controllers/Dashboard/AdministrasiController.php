@@ -92,6 +92,7 @@ class AdministrasiController extends Controller
             $order = Order::with('barangs')
                             ->where('no_order', session('no_order'))
                             ->first();
+            $finance = Finance::where('order_id', $order->id)->first();
             $barang_ids = [];
             foreach($order->barangs as $item) {
                 array_push($barang_ids, [
@@ -102,6 +103,7 @@ class AdministrasiController extends Controller
                 Barang::destroy($barang_ids);
             }
             $order->delete();
+            $finance->delete();
             $order->barangs()->detach();
             
             $request->session()->forget('wizardID');
@@ -158,14 +160,11 @@ class AdministrasiController extends Controller
 
         if ($request->lab == 'sub_con') {
             $request->merge([
-                // 'user_id'       => \Auth::user()->id,
                 'no_sertifikat' => '-',
                 'sub_lab'       => '-'
             ]);
         }
-
-        // $request->merge(['user_id' => \Auth::user()->id]);
-        // $request->merge(['ket_subcon', '-']);
+        
         $barang = Barang::create($request->except(['wizardID']));
         $order  = Order::where('no_order', session('no_order'))->first();
         $barang->orders()->attach($order->id);
