@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="{{asset('assets/bootstrap/css/bootstrap.min.css')}}">
   {{-- <link rel="stylesheet" href="{{asset('assets/fontawesome/all.css')}}"> --}}
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+  <link rel="shortcut icon" href="{{asset('assets/img/logo.jpg')}}" type="image/x-icon">
+
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/Stisla/css/style.css') }}">
