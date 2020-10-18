@@ -55,25 +55,29 @@ class LagCron extends Command
                 if ($kartu_alat->paraf_administrasi !== NULL) {
 
                     if ($barang->status_alat === 'alat_datang') {
-                        
-                        $hari_kerja = $order->hari_kerja;
-                        $tgl_barang = strtotime($barang->created_at);
-                        $tgl_barang = strtotime("+". $hari_kerja ." day", $tgl_barang);
-                        $tgl_barang = date('Y-m-d', $tgl_barang);
-    
-                        $tanggal1 = new \DateTime($tgl_barang);
-                        $tanggal2 = new \DateTime();
-    
-                        $perbedaan = $tanggal2->diff($tanggal1)->format("%a");
-    
-                        if ($perbedaan == 0) {
-                            $perbedaan = NULL;
+
+                        if ($barang->AS !== 'A-S') {
+                            
+                            $hari_kerja = $order->hari_kerja;
+                            $tgl_barang = strtotime($barang->created_at);
+                            $tgl_barang = strtotime("+". $hari_kerja ." day", $tgl_barang);
+                            $tgl_barang = date('Y-m-d', $tgl_barang);
+        
+                            $tanggal1 = new \DateTime($tgl_barang);
+                            $tanggal2 = new \DateTime();
+        
+                            $perbedaan = $tanggal2->diff($tanggal1)->format("%a");
+        
+                            if ($perbedaan == 0) {
+                                $perbedaan = NULL;
+                            }
+                            $barang->update([
+                                'LAG' => $perbedaan
+                            ]);
+                            
+                            \Log::info($barang->nama_barang . " status lag was update");
+
                         }
-                        $barang->update([
-                            'LAG' => $perbedaan
-                        ]);
-                        
-                        \Log::info($barang->nama_barang . " status lag was update");
                         
                     } else if ($barang->status_alat === 'belum_datang') {
 
