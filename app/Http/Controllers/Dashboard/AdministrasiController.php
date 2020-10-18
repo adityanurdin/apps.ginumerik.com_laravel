@@ -89,6 +89,28 @@ class AdministrasiController extends Controller
     {
         if ($wizardID == 1) {
             
+            // return '1';
+            $order = Order::with('barangs')
+                            ->where('no_order', session('no_order'))
+                            ->first();
+            // return $order;
+
+            $barang_ids = [];
+            foreach($order->barangs as $item) {
+                array_push($barang_ids, [
+                    $item->id,
+                ]);
+            }
+            if (!empty($barang_ids)) {
+                Barang::destroy($barang_ids);
+            }
+            $barang = Barang::whereIn('id', $barang_ids)->get();
+            $order->delete();
+            $order->barangs()->detach();
+            
+            $request->session()->forget('wizardID');
+            $request->session()->forget('no_order');
+            $request->session()->forget('customer');
             return redirect()->route('administrasi.create');
 
         } else if ($request->session()->has('wizardID') == false) {
