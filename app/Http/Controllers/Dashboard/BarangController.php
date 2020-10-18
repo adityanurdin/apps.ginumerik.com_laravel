@@ -36,7 +36,9 @@ class BarangController extends Controller
     public function create($order_id)
     {
         $labs = MsLab::all();
-        return view('admin.administrasi.barang.create', compact('order_id', 'labs'));
+        $order = Order::where('no_order' ,$order_id)
+                    ->first();
+        return view('admin.administrasi.barang.create', compact('order_id', 'labs', 'order'));
     }
 
     /**
