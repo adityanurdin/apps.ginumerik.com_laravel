@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="{{asset('assets/bootstrap/css/bootstrap.min.css')}}">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
 
+  <!-- icon -->
+  <link rel="shortcut icon" href="{{asset('assets/img/logo.jpg')}}" type="image/x-icon">
+
   <!-- CSS Libraries -->
   <link rel="stylesheet" href="{{asset('assets/dataTables/css/jquery.dataTables.min.css')}}">
   <link rel="stylesheet" href="{{asset('assets/dataTables/css/dataTables.bootstrap4.min.css')}}">
@@ -44,7 +47,7 @@
 
   <script src="{{asset('assets/bootstrap/js/jquery-3.3.1.min.js')}}"></script>
   <script src="{{ route('js.dynamic') }}"></script>
-  {{-- <script src="{{ asset('assets/js/app.js') }}?{{ uniqid() }}"></script> --}}
+  <script src="{{ asset('assets/js/app.js') }}?{{ uniqid() }}"></script>
   <script src="{{asset('assets/bootstrap/js/jquery.nicescroll.min.js')}}"></script>
   <script src="{{asset('assets/bootstrap/js/moment.min.js')}}"></script>
   <script src="{{ asset('assets/Stisla/js/stisla.js') }}"></script>
