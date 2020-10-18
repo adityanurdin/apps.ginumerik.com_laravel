@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -27,6 +28,11 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('cron:lag')
                 ->hourly()
+                ->timezone('Asia/Jakarta');
+
+        $schedule->command('cron:gitpull')
+                // ->daily()
+                ->everyMinute()
                 ->timezone('Asia/Jakarta');
 
         // $schedule->command('backup:database')
