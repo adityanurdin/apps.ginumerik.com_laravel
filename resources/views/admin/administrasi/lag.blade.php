@@ -17,23 +17,17 @@
                                     <tr>
                                         <th>No</th>
                                         <th>No Order</th>
-                                        <th>Nama Perusahaan</th>
                                         <th>Alat</th>
+                                        <th>Jumlah LAG</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($lag as $item)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$item->no_order}}</td>
-                                            <td>{{$item->customer['nama_perusahaan']}}</td>
-                                            <td>
-                                                <ul>
-                                                    <ol>sad</ol>
-                                                    <ol>sad</ol>
-                                                    <ol>sad</ol>
-                                                </ul>
-                                            </td>
+                                            <td>{{$item->orders[0]['no_order']}}</td>
+                                            <td>{{$item->nama_barang}}</td>
+                                            <td class="text-center">{{$item->LAG}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -45,3 +39,14 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+
+        $('#table-lag').DataTable({
+            "bLengthChange": false,
+            "iDisplayLength": 25,
+        })
+
+    </script>
+@endpush

@@ -583,16 +583,11 @@ class AdministrasiController extends Controller
 
     public function lag()
     {
-        // $lag = Barang::where('LAG', '>=', 1)
-        //                 ->limit(5)
-        //                 ->get();
-
-        $lag = Order::with('barangs')
-                    ->whereHas('barangs', function(Builder $query) {
-                            $query->where('LAG', '>=', 1);
-                            // $query->whereNotIn('LAG', ['!%']);
-                    })
-        ->get();
+        $lag = Barang::with('orders')
+                        ->where('AS', '!=', 'A-S')
+                        ->where('LAG', '>=', 1)
+                        ->orderBy('LAG', 'DESC')
+                        ->get();
                         // return $lag;
         return view('admin.administrasi.lag', compact('lag'));
     }
