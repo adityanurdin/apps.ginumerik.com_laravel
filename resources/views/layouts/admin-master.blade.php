@@ -44,7 +44,7 @@
 
   <script src="{{asset('assets/bootstrap/js/jquery-3.3.1.min.js')}}"></script>
   <script src="{{ route('js.dynamic') }}"></script>
-  <script src="{{ asset('assets/js/app.js') }}?{{ uniqid() }}"></script>
+  {{-- <script src="{{ asset('assets/js/app.js') }}?{{ uniqid() }}"></script> --}}
   <script src="{{asset('assets/bootstrap/js/jquery.nicescroll.min.js')}}"></script>
   <script src="{{asset('assets/bootstrap/js/moment.min.js')}}"></script>
   <script src="{{ asset('assets/Stisla/js/stisla.js') }}"></script>
