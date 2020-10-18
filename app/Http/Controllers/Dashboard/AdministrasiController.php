@@ -89,12 +89,9 @@ class AdministrasiController extends Controller
     {
         if ($wizardID == 1) {
             
-            // return '1';
             $order = Order::with('barangs')
                             ->where('no_order', session('no_order'))
                             ->first();
-            // return $order;
-
             $barang_ids = [];
             foreach($order->barangs as $item) {
                 array_push($barang_ids, [
@@ -104,7 +101,6 @@ class AdministrasiController extends Controller
             if (!empty($barang_ids)) {
                 Barang::destroy($barang_ids);
             }
-            $barang = Barang::whereIn('id', $barang_ids)->get();
             $order->delete();
             $order->barangs()->detach();
             
