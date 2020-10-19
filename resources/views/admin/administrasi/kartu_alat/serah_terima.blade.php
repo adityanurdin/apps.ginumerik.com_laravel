@@ -109,9 +109,7 @@
                                           <td class="pt-3">
                                               @if (!isset($order->serahterima['id_upk_penyerah']))
                                                     <button type="submit" class="btn btn-primary float-right btn-sm"><i class="fas fa-save"></i> Simpan</button>
-                                                @else 
-                                                    <button type="button" class="btn btn-primary float-right btn-sm"><i class="fas fa-pencil-alt"></i> Edit</button>
-                                                @endif
+                                            @endif
                                           </td>
                                       </tr>
                                   </table>

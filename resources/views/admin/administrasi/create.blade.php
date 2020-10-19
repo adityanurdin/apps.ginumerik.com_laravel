@@ -328,7 +328,9 @@ Data Administrasi
                     <div class="form-group row">
                       <div class="col-md-4"></div>
                       <div class="col-lg-4 col-md-6 text-right">
-                        <a href="{{route('administrasi.create-wizard' , $wizardID - 1)}}" class="btn btn-icon btn-outline-primary float-left"><i class="fas fa-arrow-left"></i> Back</a>
+                        @if (session('wizardID') > 1)
+                        <a href="{{route('administrasi.create-wizard' , $wizardID - 1)}}" class="btn btn-icon btn-outline-danger float-left"><i class="fas fa-arrow-left"></i> Cancel</a>
+                        @endif
                         @if (session('wizardID') < 2)
                         <button type="submit" class="btn btn-icon icon-right btn-primary">Next <i class="fas fa-arrow-right"></i></button>
                         @else
@@ -364,17 +366,26 @@ Data Administrasi
       $('#lab').change(function() {
         var selectedLab = $(this).children("option:selected").val()
         if ( selectedLab === 'sub_con' || selectedLab === 'lainnya') {
+
           $('.sub_con').hide();
+
           if (selectedLab === 'sub_con') {
+
             $('#block-subcon').show();
             $('#acceptance').show();
+
           } else {
+
             $('#block-subcon').hide();
             $('#acceptance').hide();
+
           }
+
         } else {
+
           $('.sub_con').show();
           $('#block-subcon').hide();
+
         }
       })
 
