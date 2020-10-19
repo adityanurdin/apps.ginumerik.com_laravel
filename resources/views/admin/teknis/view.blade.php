@@ -314,8 +314,6 @@ Data Teknis
                                             <td class="pt-3">
                                                 @if (!isset($order->serahterima['id_lab_penerima']))
                                                     <button type="submit" class="btn btn-primary float-right btn-sm"><i class="fas fa-save"></i> Simpan</button>
-                                                @else 
-                                                    <button type="button" class="btn btn-primary float-right btn-sm"><i class="fas fa-pencil-alt"></i> Edit</button>
                                                 @endif
                                             </td>
                                         </tr>

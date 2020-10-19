@@ -176,12 +176,6 @@
                                           <td>Nama</td>
                                           <td> : </td>
                                           <td class="pl-5">
-                                              {{-- <select disabled class="custom-select">
-                                                  <option disabled>-- Pilih --</option>
-                                                  @foreach ($user as $item)
-                                                      <option value="{{$item->id}}">{{$item->name}}</option>
-                                                  @endforeach
-                                                </select> --}}
                                                 {{isset($order->serahterima['id_lab_penyerah']) ? Dit::getUser($order->serahterima['id_lab_penyerah'])->name : '-'}}
                                           </td>
                                       </tr>
