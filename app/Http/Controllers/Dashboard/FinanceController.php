@@ -316,7 +316,7 @@ class FinanceController extends Controller
         if ($finance) {
             Dit::Log(1,'Merubah data finance pada order '.$order->no_order, 'Success');
             toast('Finance edit successfully.','success');
-            return redirect()->route('finance.index');
+            return redirect()->route('finance.show', $id);
         } else {
             Dit::Log(0,'Merubah data finance pada order '.$order->no_order, 'Error');
             toast('Finance edit failed.','error');
@@ -411,7 +411,7 @@ class FinanceController extends Controller
             ->addIndexColumn()
             ->editColumn('no_order', function($item) {
                 $result = ucfirst($item->no_order). '<br>';
-                $result .= '<a href='.route('administrasi.show.tod', $item->id).'>Documment</a>';
+                $result .= '<a href='.route('administrasi.show.tod', $item->id).'>Documment</a> <a href='.route('print.invoice', $item->finance['id']).'>Invoice</a> <a href='.route('print.kwitansi', $item->finance['id']).'>kwitansi</a>';
                 return $result;
             })
             ->addColumn('tgl_tagihan', function($item) {

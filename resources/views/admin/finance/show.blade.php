@@ -21,7 +21,9 @@ Data Finance
             <h4>Tagihan No Order: {{$order->no_order}}</h4>
           </div>
           <div class="card-body">
-            <a href="{{route('finance.edit', $order->id)}}" class="btn btn-primary float-right mb-4">Buat Invoice</a> 
+            @if ($order->finance['status'] !== 'sudah_bayar')
+              <a href="{{route('finance.edit', $order->id)}}" class="btn btn-primary float-right mb-4">Buat Invoice</a> 
+            @endif
             <table class="table table-sm" id="table-pembayaran">
               <thead>
                 <tr class="text-center">
@@ -41,17 +43,16 @@ Data Finance
                         Belum ada Tagihan.
                       </td>
                     </tr>
-                @else 
-                  @php
-                      $no = 1;
-                  @endphp
+                @else
                   @foreach ($history_pembayaran as $item)
                     <tr class="text-center {{$item->status == 'Batal' ? 'bg-light' : ''}}">
-                      <td>{{$no++}}</td>
+                      <td>{{$loop->iteration}}</td>
                       <td>
                         {{Dit::Rupiah($item->jumlah_bayar)}} <br>
                         <a href="" {!!$item->status == 'Lunas' ? 'style="display:none;"' : '' !!} {!!$item->status == 'Batal' ? 'style="display:none;"' : '' !!}  id="pembayaran-{{$item->id}}">Edit</a>
-                        <a href="{{route('finance.cancel', $item->id)}}" {!!$item->status == 'Batal' ? 'style="display:none;"' : '' !!}>Batalkan</a>
+                        @if ($order->finance['status'] !== 'sudah_bayar')
+                          <a href="{{route('finance.cancel', $item->id)}}" {!!$item->status == 'Batal' ? 'style="display:none;"' : '' !!}>Batalkan</a>
+                        @endif
                       </td>
                       <td>{{ is_null($item->tanggal_tagihan) ? '-' : date('d-m-Y', strtotime($item->tanggal_tagihan))}}</td>
                       <td>{!! $item->no_invoice.'<br>'. $item->no_kwitansi !!}</td>

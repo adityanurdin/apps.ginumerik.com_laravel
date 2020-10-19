@@ -88,6 +88,7 @@ class PrintController extends Controller
     public function kwitansi($id)
     {
         $pembayaran = HistoryPembayaran::findOrFail($id);
+        // return $pembayaran;
         
         $finance   = Finance::whereId($pembayaran->finance_id)->first();
 

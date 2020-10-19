@@ -218,6 +218,9 @@ Route::group(['prefix' => 'test'], function() {
     Route::get('form-adm-2', function() {
         return view('test.form-adm-2');
     });
+    Route::get('kwitansi', function() {
+        return view('test.kwitansi');
+    });
 
 }); 
 
