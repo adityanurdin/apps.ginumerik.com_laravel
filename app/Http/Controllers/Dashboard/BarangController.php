@@ -49,6 +49,7 @@ class BarangController extends Controller
      */
     public function store(Request $request, $order_id)
     {
+        // return $request->all();
         $valid = Validator::make($request->all(), [
             'nama_barang' => 'required',
             'alt'         => 'required',
@@ -63,7 +64,6 @@ class BarangController extends Controller
 
         if ($request->lab == 'sub_con') {
             $request->merge([
-                // 'user_id'       => \Auth::user()->id,
                 'no_sertifikat' => '-',
                 'sub_lab'       => '-'
             ]);
@@ -76,13 +76,21 @@ class BarangController extends Controller
         $finance = Finance::where('order_id', $order->id)->first();
 
         if ($barang) {
+
             $total_harga_barang = $request->harga_satuan * $request->alt;
-            $total_bayar = $total_harga_barang + $finance->total_bayar;
+            $total_bayar        = $total_harga_barang + $finance->total_bayar;
+
+            $subtotal = $total_bayar - $finance->discount;
+            $ppn      = $subtotal * 0.1;
+            $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
+            $tat      = $finance->tat;
+            $grand_total = $subtotal + $ppn + $pph + $tat;
+
             $finance->update([
                 'total_bayar' => $total_bayar,
-                'sisa_bayar'  => $total_bayar
+                'sisa_bayar'  => $grand_total,
+                'grand_total' => $grand_total,
             ]);
-
             $kartu_alat = KartuAlat::create([
                 'barang_id' => $barang->id
             ]);
@@ -139,8 +147,42 @@ class BarangController extends Controller
     {
         $barang = Barang::find($id);
         $order  = Order::find($barang->orders[0]['id']);
+        $finance = Finance::where('order_id', $barang->orders[0]['id'])->first();
+
+        if ($barang->harga_satuan != $request->harga_satuan) {
+            return response()->json([
+                'status' => false,
+                'message'    => 'Fitur ini masih terdapat bug, sehingga ditutup sementara',
+                'developer' => [
+                    'Nama'      => 'Muhammad Aditya Nurdin',
+                    'instagram' => 'https://instagram.com/abubakarr_ra',
+                    'facebook'  => 'https://facebook.com/adityanurdin0',
+                    'mail'      => 'adityanurdin0@gmail.com'
+                ]
+            ]);
+            $total_harga_barang = $request->harga_satuan * $request->alt;
+            $total_bayar        = $total_harga_barang + $finance->total_bayar;
+
+            $subtotal = $total_bayar - $finance->discount;
+            $ppn      = $subtotal * 0.1;
+            $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
+            $tat      = $finance->tat;
+            $grand_total = $subtotal + $ppn + $pph + $tat;
+            
+            $finance->update([
+                'total_bayar' => $total_bayar,
+                'sisa_bayar'  => $grand_total,
+                'grand_total' => $grand_total,
+            ]);
+        }
         
         if ($barang) {
+            $request->merge([
+                'fisik' => $request->fisik ? $request->fisik : NULL,
+                'fungsi' => $request->fungsi ? $request->fungsi : NULL,
+                'sdm' => $request->sdm ? $request->sdm : NULL,
+                'std' => $request->std ? $request->std : NULL,
+            ]);
             $barang->update($request->all());
 
             $msg = 'Merubah barang '.$barang->nama_barang.' pada order '. $order->no_order;
