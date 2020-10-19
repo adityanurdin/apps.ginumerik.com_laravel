@@ -104,7 +104,7 @@
                                         {{-- <input type="text" name="sub_lab" id="sub_lab" class="form-control @error('sub_lab') is-invalid @enderror"> --}}
                                         <select class="form-control select2" name="sub_lab">
                                             @foreach ($labs as $item)
-                                              <option value="{{$item->sub_lab}}">{{$item->sub_lab}}</option>
+                                              <option value="{{$item->sub_lab}}" {{Dit::Selected($item->sub_lab, $barang->sub_lab)}}>{{$item->sub_lab}}</option>
                                             @endforeach
                                           </select>
                                         <div class="invalid-feedback">
@@ -163,19 +163,19 @@
                                 <div class="form-group" id="acceptance">
                                     <label for="kan" class="mr-5">Acceptance</label><br>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="fisik" name="fisik" value="fisik">
+                                        <input class="form-check-input" {{Dit::Checked('fisik', $barang->fisik)}} type="checkbox" id="fisik" name="fisik" value="fisik">
                                         <label class="form-check-label" for="fisik">Fisik</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="fungsi" name="fungsi" value="fungsi">
+                                        <input class="form-check-input" {{Dit::Checked('fungsi', $barang->fungsi)}}  type="checkbox" id="fungsi" name="fungsi" value="fungsi">
                                         <label class="form-check-label" for="fungsi">Fungsi</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="sdm" name="sdm" value="sdm">
+                                        <input class="form-check-input" {{Dit::Checked('sdm', $barang->sdm)}}  type="checkbox" id="sdm" name="sdm" value="sdm">
                                         <label class="form-check-label" for="sdm">SDM</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="std" name="std" value="std">
+                                        <input class="form-check-input" {{Dit::Checked('std', $barang->std)}}  type="checkbox" id="std" name="std" value="std">
                                         <label class="form-check-label" for="std">STD</label>
                                         </div>
                                 </div>

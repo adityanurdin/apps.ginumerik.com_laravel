@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="alt">Alt</label>
+                                    <label for="alt">Jumlah Alat</label>
                                     <input type="number" name="alt" id="alt" class="form-control @error('alt') is-invalid @enderror">
                                     <div class="invalid-feedback">
                                         @error('alt')
@@ -62,7 +62,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="st">ST</label>
+                                    <label for="st">Satuan</label>
                                     <input type="text" name="st" id="st" class="form-control @error('st') is-invalid @enderror">
                                     <div class="invalid-feedback">
                                         @error('st')

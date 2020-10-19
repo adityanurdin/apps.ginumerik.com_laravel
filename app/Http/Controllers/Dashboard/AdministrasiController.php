@@ -99,8 +99,16 @@ class AdministrasiController extends Controller
                     $item->id,
                 ]);
             }
+            $kartu_alat = KartuAlat::whereIn('barang_id', $barang_ids)->get();
+            $kartu_alat_ids = [];
+            foreach($kartu_alat as $item) {
+                array_push($kartu_alat_ids, [
+                    $item->id,
+                ]);
+            }
             if (!empty($barang_ids)) {
                 Barang::destroy($barang_ids);
+                KartuAlat::destroy($kartu_alat_ids);
             }
             $order->delete();
             $finance->delete();
