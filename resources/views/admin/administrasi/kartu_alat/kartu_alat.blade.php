@@ -7,9 +7,9 @@
       <div class="table-responsive">
 
          No Order : {{$order->no_order}}
-         <div class="float-right">
+         {{-- <div class="float-right">
              Tanggal Terima : 
-         </div>
+         </div> --}}
 
          <div class="mt-5">
           <table class="table table-bordered table-striped table-sm">
