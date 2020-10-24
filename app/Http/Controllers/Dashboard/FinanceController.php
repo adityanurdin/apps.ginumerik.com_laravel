@@ -474,9 +474,6 @@ class FinanceController extends Controller
 
     public function dataSelesai()
     {
-        // $data = Finance::whereHas('HistoryPembayaran', function(Builder $query) {
-        //                     $query->where('status', 'Lunas');                
-        //                 })->get();
         $data = HistoryPembayaran::where('status', 'Lunas')
                                 ->get();
                         
@@ -491,6 +488,9 @@ class FinanceController extends Controller
                             $result = $item->no_kwitansi;
                             $result .= '<br> <a href='.route('print.kwitansi', $item->id).'>Print</a>';
                             return $result;
+                        })
+                        ->editColumn('jumlah_bayar', function($item) {
+                            return Dit::Rupiah($item->jumlah_bayar);
                         })
                         ->escapeColumns([])
                         ->make(true);

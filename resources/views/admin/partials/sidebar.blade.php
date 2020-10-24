@@ -33,7 +33,7 @@
           <li class="{{ Request::route()->getName() == 'finance.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.index')}}"><span>Data Finance</span></a></li>
           <li class="{{ Request::route()->getName() == 'administrasi.input' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.input')}}"><span>Data Input</span></a></li>
           <li class="{{ Request::route()->getName() == 'finance.selesai' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.selesai')}}"><span>Pembayaran Selesai</span></a></li>
-          <li class="{{ Request::route()->getName() == 'finance.batal' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.batal')}}"><span>Pembayaran Batal</span></a></li>
+          {{-- <li class="{{ Request::route()->getName() == 'finance.batal' ? ' active' : '' }}"><a class="nav-link" href="{{route('finance.batal')}}"><span>Pembayaran Batal</span></a></li> --}}
         </ul>
       </li>
   </ul>

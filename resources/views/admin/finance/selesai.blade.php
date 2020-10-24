@@ -7,13 +7,13 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>pembayaran Selesai</h1>
+            <h1>Pembayaran Selesai</h1>
         </div>
         <div class="section-body">
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
-                        <h4>List pembayaran Selesai</h4>
+                        <h4>List Pembayaran Selesai</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
