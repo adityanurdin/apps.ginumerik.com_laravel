@@ -502,7 +502,7 @@ class AdministrasiController extends Controller
                             ->addIndexColumn()
                             ->editColumn('no_order', function($item) {
                                 $result = ucfirst($item->no_order). '<br>';
-                                $result .= '<a href='.route('administrasi.show.tod', $item->id).'>Lihat</a> <a href="#">Print</a>';
+                                $result .= '<a href='.route('administrasi.show.tod', $item->id).'>Lihat</a>';
                                 return $result;
                             })
                             ->editColumn('tgl_masuk', function($item) {
