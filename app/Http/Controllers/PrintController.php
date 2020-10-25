@@ -32,7 +32,7 @@ class PrintController extends Controller
         $grand_total = $sum + $PPn;
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
-        $pdf = PDF::loadView('pdf.form-adm-2', compact('order', 'sum', 'terbilang'));
+        $pdf = PDF::loadView('pdf.FR-ADM-2', compact('order', 'sum', 'terbilang'));
         return $pdf->download($order->no_order.'-FORM-ADM-02 ('. date('d-m-y') .').pdf');
     }
 
