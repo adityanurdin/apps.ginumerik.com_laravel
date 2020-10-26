@@ -99,7 +99,7 @@
                                                     @if (Auth::user()->role == 'ADM')
                                                         <option value="Sertifikat">Sertifikat</option>
                                                         @foreach ($data->barangs as $item)
-                                                            <option value="{{$item->nama_barang}}">{{$item->nama_barang}} | {{$item->AS}}</option>
+                                                            <option value="{{$item->nama_barang}}">{{$item->nama_barang}} {{ is_null($item->AS) ? '' : '('.$item->AS.')' }}</option>
                                                         @endforeach
                                                     @elseif (Auth::user()->role == 'FIN')
                                                         <option value="Invoice">Invoice</option>
@@ -111,7 +111,7 @@
                                                         <option value="Kwitansi">Kwitansi</option>
                                                         <option value="Faktur Pajak">Faktur Pajak</option>
                                                         @foreach ($data->barangs as $item)
-                                                            <option value="{{$item->nama_barang}}">{{$item->nama_barang}} | {{$item->AS}}</option>
+                                                            <option value="{{$item->nama_barang}}">{{$item->nama_barang}} {{ is_null($item->AS) ? '' : '('.$item->AS.')' }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
