@@ -101,8 +101,8 @@ Data Administrasi
           </div>
         </div>
 
-        @include('admin.administrasi.form.form-adm-2')
-        {{-- @include('admin.administrasi.form.form-adm-1') --}}
+        @include('admin.administrasi.form.FR-ADM-2')
+        {{-- @include('admin.administrasi.form.form-adm-2') --}}
         @include('admin.administrasi.kartu_alat.kartu_alat')
         @include('admin.administrasi.kartu_alat.serah_terima')
         
