@@ -81,7 +81,7 @@ class PrintController extends Controller
         $total = $barangs->sum('harga_satuan');
 
         // return $total;
-        $pdf    = Pdf::loadView('pdf.invoice', compact('finance', 'order', 'pembayaran', 'barangs', 'total'));
+        $pdf    = Pdf::loadView('pdf.invoice-new', compact('finance', 'order', 'pembayaran', 'barangs', 'total'));
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).'-'.date('his').'.pdf' );
     }
 
