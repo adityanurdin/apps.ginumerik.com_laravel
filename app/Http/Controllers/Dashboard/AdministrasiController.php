@@ -329,16 +329,24 @@ class AdministrasiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $order = Order::find($id);
-        $order->update($request->all());
+        $order      = Order::find($id);
+        $finance    = Finance::where('order_id', $order->id)->first();
+        $order->update($request->except(['pph', 'discount', 'tat']));
         if ($order) {
-            Dit::Log(1,'Merubah data administrasi pada order '.$order->no_order, 'Success');
-            toast('Order updated successfully.','success');
-            return redirect()->route('administrasi.index');
+            $finance->update($request->only(['pph', 'discount', 'tat']));
+            if ($finance) {
+                Dit::Log(1,'Merubah data administrasi pada order '.$order->no_order, 'Success');
+                toast('Order updated successfully.','success');
+                return redirect()->route('administrasi.index');
+            } else {
+                toast('Order updated failed.','error');
+                return redirect()->route('administrasi.index');
+            }
         } else {
             toast('Order updated failed.','error');
             return redirect()->route('administrasi.index');
         }
+        
     }
 
     /**
@@ -425,9 +433,9 @@ class AdministrasiController extends Controller
     public function data()
     {
         $data = Order::with('customer', )
-                    ->whereHas('finance', function(Builder $query) {
-                        $query->where('status', '!=', 'sudah_bayar');
-                    })
+                    // ->whereHas('finance', function(Builder $query) {
+                    //     $query->where('status', '!=', 'sudah_bayar');
+                    // })
                     ->orderBy('created_at', 'DESC')
                     ->get();
         // return $data;
@@ -435,7 +443,10 @@ class AdministrasiController extends Controller
                             ->addIndexColumn()
                             ->editColumn('no_order', function($item) {
                                 $result = ucfirst($item->no_order). '<br>';
-                                $result .= '<a href='.route('administrasi.show', $item->id).'>Detail</a> <a href="'.route('administrasi.edit', $item->id).'">Edit</a>  <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
+                                $result .= '<a href='.route('administrasi.show', $item->id).'>Detail</a>';
+                                if ($item->finance['status'] !== 'sudah_bayar') {
+                                    $result .= ' <a href="'.route('administrasi.edit', $item->id).'">Edit</a>  <a href="javascript:void(0)" onclick="myConfirm('.$item->id.')">Delete</a> ';
+                                }
                                 return $result;
                             })
                             ->editColumn('tgl_masuk', function($item) {
