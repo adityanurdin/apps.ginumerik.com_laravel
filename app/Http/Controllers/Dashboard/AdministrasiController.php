@@ -624,7 +624,6 @@ class AdministrasiController extends Controller
                         ->where('LAG', '!=', NULL)
                         ->orderBy('LAG', 'DESC')
                         ->get();
-                        return $lag;
         return view('admin.administrasi.lag', compact('lag'));
     }
 
