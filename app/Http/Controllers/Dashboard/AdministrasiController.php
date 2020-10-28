@@ -413,8 +413,8 @@ class AdministrasiController extends Controller
 
     public function serahterima(Request $request, $id)
     {
-
         $serahterima = SerahTerima::where('id_order', $id)->first();
+        $order = Order::findOrFail($id);
         if ($serahterima) {
             $serahterima->update($request->all());
         } else {
@@ -422,7 +422,7 @@ class AdministrasiController extends Controller
             $serahterima = SerahTerima::create($request->all());
         }
 
-        // Dit::Log(1,'Merubah data administrasi pada order '.$order->no_order, 'Success');
+        Dit::Log(1, 'Sukses serah terima kartu alat pada order '. $order->no_order, 'success');
         toast('Kartu Alat updated successfully.','success');
         return back();
     }
@@ -433,10 +433,10 @@ class AdministrasiController extends Controller
     public function data()
     {
         $data = Order::with('customer', )
-                    // ->whereHas('finance', function(Builder $query) {
-                    //     $query->where('status', '!=', 'sudah_bayar');
-                    // })
-                    ->orderBy('created_at', 'DESC')
+                    ->whereHas('finance', function(Builder $query) {
+                        $query->where('status', '!=', 'sudah_bayar');
+                    })
+                    // ->orderBy('created_at', 'AS')
                     ->get();
         // return $data;
         return Datatables::of($data)
@@ -607,13 +607,22 @@ class AdministrasiController extends Controller
         $log = Log::where('status', 1)
                     ->where('msg', 'LIKE', '%'.$request->no_order)
                     ->orderBy('created_at', 'DESC')
-                    ->limit(5)
+                    // ->limit(5)
                     ->get();
+
+        $new_log = [];
+        foreach($log as $item) {
+            array_push($new_log, [
+                'user' => ucfirst(User::find($item->user_id)->name),
+                'msg'  => $item->msg,
+                'created_at' => $item->created_at
+            ]);
+        }
 
         return response()->json([
             'status' => true,
             'msg'    => 'Berhasil mencari data',
-            'data'   => $log->toArray()
+            'data'   => $new_log
         ]);
     }
 

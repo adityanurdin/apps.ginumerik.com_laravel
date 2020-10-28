@@ -53,7 +53,7 @@
                 data: form,
                 dataType: 'json',
                 success: function(res) {
-                    console.log(res)
+                    // console.log(res)
 
                     if (res.status === true) {
                         $('#aktifitas').show()
@@ -71,7 +71,7 @@
                                         </div>
                                         <div class="activity-detail">
                                             <span class="text-job text-primary">${tanggal}</span>
-                                            <p>${item.msg}</p>
+                                            <p> ${item.user} ${item.msg}</p>
                                         </div>
                                     </div>
                                 `)
