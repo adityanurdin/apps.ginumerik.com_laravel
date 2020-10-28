@@ -108,7 +108,7 @@ class Dit
 			'user_id' => $user_id,
 			'status'  => $status,
 			'msg'	  => $msg,
-			'status_log'  => $status_log,
+			'status_log'  => ucfirst($status_log),
 		]);
 
 		if ($log) {
