@@ -13,8 +13,9 @@ Data Administrasi
       <div class="container-fluid">
         <div class="card">
           <div class="card-body">
-            <div class="mt-3 mb-5 float-right">
-              <a href="{{route('administrasi.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Buat Order</a>
+            <div class="mt-3 mb-5 ">
+              <a href="#" class="btn btn-outline-primary"><i class="fas fa-archive"></i> Archived Data</a>
+              <a href="{{route('administrasi.create')}}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Buat Order</a>
             </div>
             <div class="table-responsive">
               <table class="table table-striped" id="myTable">
