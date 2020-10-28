@@ -26,9 +26,16 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('cron:lag')
-                ->hourly()
+        $debug = env('APP_DEBUG');
+        if ($debug === TRUE) {
+            $schedule->command('cron:lag')
+                ->everyMinute()
                 ->timezone('Asia/Jakarta');
+        }elseif ($debug === FALSE) {
+            $schedule->command('cron:lag')
+                    ->hourly()
+                    ->timezone('Asia/Jakarta');
+        }
 
         // $schedule->command('cron:gitpull')
         //         // ->daily()
