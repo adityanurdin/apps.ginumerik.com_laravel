@@ -21,18 +21,18 @@ Sertifikat
                 <table class="table table-striped table-sm">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama File</th>
                             <th>Tipe File</th>
-                            <th>Ukuran File</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($sertifikat as $item) 
                         <tr>
+                            <td>{{$loop->iteration}}</td>
                             <td>{{$item->nama_file}}</td>
                             <td>{{$item->tipe_file}}</td>
-                            <td>-</td>
                             <td>
                                 <a href="{{route('sertifikat.download', Dit::encode($item->file))}}" class="btn btn-outline-primary btn-sm"><i class="fas fa-download"></i> <span>Unduh</span></a>
                             </td>
@@ -49,6 +49,7 @@ Sertifikat
 <form action="{{route('sertifikat.upload')}}" class="modal-part" id="modal-login-part" method="POST" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="barang_id" id="" value="{{$barang->id}}">
+    <input type="hidden" name="order_id" id="" value="{{$order_id}}">
     <div class="form-group">
         <label for="">Nama File</label>
         <input type="text" name="nama_file" class="form-control" id="">
@@ -60,7 +61,7 @@ Sertifikat
         <input type="file" class="custom-file-input" name="file" id="customFile">
         <label class="custom-file-label" for="customFile">Choose file</label>
       </div>
-      <small>Ukuran maksimal 2MB | Hanya dapat upload file .PDF</small>
+      <small>Ukuran maksimal 5MB | Hanya dapat upload file .PDF</small>
     </div>
     <button type="submit" class="btn btn-primary float-right"><i class="fas fa-upload"></i> <span>Upload</span></button>
   </form>

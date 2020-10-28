@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use \App\Models\Order;
 use \App\Models\Barang;
 use \App\Models\Sertifikat;
 use Dit;
@@ -18,10 +19,13 @@ class SertifikatController extends Controller
     
     public function index()
     {
-        return view('admin.teknis.sertifikat.index');
+        $data = Barang::with('orders')
+                ->where('AS', '!=', NULL)
+                ->get();
+        return view('admin.teknis.sertifikat.index', compact('data'));
     }
 
-    public function show($id)
+    public function show($id, $order_id)
     {
         $no_sert = Dit::decode($id);
         $barang  = Barang::where('no_sertifikat', $no_sert)->first();
@@ -29,7 +33,7 @@ class SertifikatController extends Controller
         if (!$barang) {
             abort(404);
         }
-        return view('admin.teknis.sertifikat.show', compact('barang', 'sertifikat'));
+        return view('admin.teknis.sertifikat.show', compact('barang', 'sertifikat', 'order_id'));
     }
 
     public function upload(Request $request)
@@ -41,12 +45,9 @@ class SertifikatController extends Controller
         $barang  = Barang::findOrFail($request->barang_id);
 
         if ($validasi->fails()) {
-            toast('Gagal mengunggah file','error');
-            return redirect()->route('sertifikat.show', Dit::encode($barang->no_sertifikat));
+            toast('Gagal mengunggah file'. $validasi->errors(),'error');
+            return redirect()->route('sertifikat.show', [Dit::encode($barang->no_sertifikat), $request->order_id]);
         }
-        // $file_name 	= Str::of($request->nama_file)->slug('_');
-        // $new_name 	= $file_name.'_'.time().'.'.$request->file->extension();
-        // $request->file->move(public_path('uploads/'.$path), $new_name);
 
         // Path
         $path     = 'Sertifikat';
@@ -71,8 +72,12 @@ class SertifikatController extends Controller
         ]);
 
         if ($sert) {
+            $link = route('sertifikat.download', Dit::encode($store));
+            $order = Order::findOrFail($request->order_id);
+            Dit::Log(1, 'Mengunggah file <a href="'.$link.'">'.$request->nama_file.'</a> alat '.$barang->nama_barang.' pada order '.$order->no_order, 'success');
+
             toast('Berhasil mengunggah file','success');
-            return redirect()->route('sertifikat.show', Dit::encode($barang->no_sertifikat));
+            return redirect()->route('sertifikat.show', [Dit::encode($barang->no_sertifikat), $request->order_id]);
         }
   
     }

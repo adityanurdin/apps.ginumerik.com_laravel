@@ -109,7 +109,7 @@ Data Teknis
                                 {{$item->barang['no_sertifikat']}} <br>
                                 <div id="link_sertifikat_{{$item->id}}">
                                     @if ($item['paraf_selesai'] != NULL)
-                                    <a href="{{ route('sertifikat.show', Dit::encode($item->barang['no_sertifikat'], 0, 4)) }}">Upload</a>
+                                    <a href="{{ route('sertifikat.show', [Dit::encode($item->barang['no_sertifikat'], 0, 4), $order->id]) }}">Upload</a>
                                     @endif
                                 </div>
                             </td>

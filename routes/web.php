@@ -167,7 +167,7 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::get('teknis/summary', 'Dashboard\TeknisController@summary')->name('teknis.summary')->middleware('Admin');
 
             Route::get('teknis/sertifikat', 'Dashboard\SertifikatController@index')->name('sertifikat.index');
-            Route::get('teknis/sertifikat/{id}', 'Dashboard\SertifikatController@show')->name('sertifikat.show');
+            Route::get('teknis/sertifikat/{id}/{order_id}/show', 'Dashboard\SertifikatController@show')->name('sertifikat.show');
             Route::post('teknis/sertifikat/upload', 'Dashboard\SertifikatController@upload')->name('sertifikat.upload');
             Route::get('teknis/sertifikat/{id}/download', 'Dashboard\SertifikatController@download')->name('sertifikat.download');
 
