@@ -33,7 +33,7 @@ class PrintController extends Controller
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
         $pdf = PDF::loadView('pdf.FR-ADM-2', compact('order', 'sum', 'terbilang'));
-        return $pdf->download($order->no_order.'-FORM-ADM-02 ('. date('d-m-y') .').pdf');
+        return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-ADM-02 .pdf' );
     }
 
     public function formAdm1($id)
@@ -53,7 +53,7 @@ class PrintController extends Controller
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
         $pdf = PDF::loadView('pdf.form-adm-1', compact('order', 'sum', 'terbilang'));
-        return $pdf->download($order->no_order.'-FORM-ADM-01 ('. date('d-m-y') .').pdf');
+        return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-ADM-01 .pdf' );
     }
 
     public function TodPrint($order_id)
@@ -62,7 +62,7 @@ class PrintController extends Controller
         $order = Order::with('customer')->findOrFail($order_id);
 
         $pdf    = Pdf::loadView('pdf.tod', compact('data', 'order'));
-        return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).'-'.date('his').'.pdf' );
+        return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' Transfer of Document & Equipment .pdf' );
     }
 
     public function invoice($id)
@@ -82,7 +82,7 @@ class PrintController extends Controller
 
         // return $total;
         $pdf    = Pdf::loadView('pdf.invoice-new', compact('finance', 'order', 'pembayaran', 'barangs', 'total'));
-        return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).'-'.date('his').'.pdf' );
+        return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_invoice).'.pdf' );
     }
 
     public function kwitansi($id)
@@ -97,7 +97,7 @@ class PrintController extends Controller
                         ->first();
 
         $pdf    = Pdf::loadView('pdf.kwitansi', compact('finance', 'order', 'pembayaran'));
-        return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).'-'.date('his').'.pdf' );
+        return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_kwitansi).'.pdf' );
     }
 
 }
