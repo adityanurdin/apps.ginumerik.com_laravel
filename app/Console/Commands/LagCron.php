@@ -52,7 +52,7 @@ class LagCron extends Command
                                 ->first();
                 $kartu_alat = KartuAlat::where('barang_id', $barang->id)
                                         ->first();
-                if ($kartu_alat->paraf_administrasi !== NULL) {
+                if ($kartu_alat->paraf_administrasi === NULL) {
 
                     if ($barang->status_alat === 'alat_datang') {
 
@@ -90,7 +90,7 @@ class LagCron extends Command
 
                 } else {
 
-                    \Log::info($barang->nama_barang . " belum selesai dikerjakan");
+                    \Log::info($barang->nama_barang . " selesai dikerjakan");
 
                 }
 
