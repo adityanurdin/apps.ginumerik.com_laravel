@@ -621,10 +621,10 @@ class AdministrasiController extends Controller
     {
         $lag = Barang::with('orders')
                         ->where('AS', '!=', 'A-S')
-                        ->where('LAG', '>=', 1)
+                        ->where('LAG', '!=', NULL)
                         ->orderBy('LAG', 'DESC')
                         ->get();
-                        // return $lag;
+                        return $lag;
         return view('admin.administrasi.lag', compact('lag'));
     }
 
