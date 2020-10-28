@@ -124,25 +124,44 @@ class TeknisController extends Controller
          */
         $paraf = 'paraf_'.$check;
 
-        $kartu_alat = KartuAlat::find($id);
-        $barang     = Barang::find($id);
-        $finance      = Finance::find($order_id);
+        $kartu_alat = KartuAlat::findOrFail($id);
+        $barang     = Barang::findOrFail($id);
+        $finance      = Finance::findOrFail($order_id);
+        $order      = Order::findOrFail($order_id);
 
         if (is_null($kartu_alat->$paraf)) {
             $kartu_alat->update([
                 'paraf_'.$check => '*',
                 'tgl_'.$check   => date('d-m-Y')
             ]);
+            
+            if ($check == 'selesai') {
+                $check = 'sertifikat';
+            } else if ($check == 'sertifikat') {
+                $check = 'verif sertifikat';
+            }
+            $msg = 'Melakukan centang paraf ' .$check. ' ' .$barang->nama_barang. ' pada order ' .$order->no_order;
+            Dit::Log(1,$msg, 'success');
         } else {
             $kartu_alat->update([
                 'paraf_'.$check => NULL,
                 'tgl_'.$check   => NULL
             ]);
+            
+            if ($check == 'selesai') {
+                $check = 'sertifikat';
+            } else if ($check == 'sertifikat') {
+                $check = 'verif sertifikat';
+            }
+            $msg = 'Menghapus centang paraf ' .$check. ' ' .$barang->nama_barang. ' pada order ' .$order->no_order;
+            Dit::Log(1,$msg, 'success');
         }
 
-        if ($kartu_alat->paraf_alat !== NULL) {
+        if (!is_null($kartu_alat->paraf_alat)) {
             $user = Auth::user();
             $barang->update(['user_id' => $user->id]);
+        } else {
+            $barang->update(['user_id' => NULL]);
         }
 
         if($kartu_alat->paraf_administrasi != NULL) {
@@ -178,8 +197,8 @@ class TeknisController extends Controller
 
     public function serahterima(Request $request, $id)
     {
-
         $serahterima = SerahTerima::where('id_order', $id)->first();
+        $order = Order::findOrFail($id);
         if ($serahterima) {
             $serahterima->update($request->all());
         } else {
@@ -187,7 +206,7 @@ class TeknisController extends Controller
             $serahterima = SerahTerima::create($request->all());
         }
 
-        // Dit::Log(1,'Merubah data administrasi pada order '.$order->no_order, 'Success');
+        Dit::Log(1, 'Sukses serah terima kartu alat pada order '. $order->no_order, 'success');
         toast('Kartu Alat updated successfully.','success');
         return back();
     }

@@ -17,7 +17,7 @@ class CreateLogsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->boolean('status');
-            $table->string('msg')->nullable();
+            $table->text('msg')->nullable();
             $table->string('status_log');
             $table->timestamps();
         });
