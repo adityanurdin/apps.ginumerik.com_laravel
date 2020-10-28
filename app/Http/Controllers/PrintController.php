@@ -61,7 +61,7 @@ class PrintController extends Controller
         $data   = session('select_tod'.$order_id); 
         $order = Order::with('customer')->findOrFail($order_id);
 
-        $pdf    = Pdf::loadView('pdf.tod', compact('data', 'order'));
+        $pdf    = Pdf::loadView('pdf.transfer-of-doc', compact('data', 'order'));
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' Transfer of Document & Equipment .pdf' );
     }
 
