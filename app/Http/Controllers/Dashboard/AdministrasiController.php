@@ -599,7 +599,8 @@ class AdministrasiController extends Controller
 
     public function lacak()
     {
-        return view('admin.administrasi.lacak.index');
+        $order = Order::all();
+        return view('admin.administrasi.lacak.index', compact('order'));
     }
 
     public function letsLacak(Request $request)

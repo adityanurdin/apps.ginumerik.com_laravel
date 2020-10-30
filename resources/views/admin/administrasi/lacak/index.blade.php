@@ -17,7 +17,12 @@
                         @csrf
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="no_order" placeholder="20 G 000 01" aria-label="">
+                                {{-- <input type="text" class="form-control" name="no_order" placeholder="20 G 000 01" aria-label=""> --}}
+                                <select class="form-control select2" name="no_order">
+                                    @foreach ($order as $item)
+                                        <option value="{{$item->no_order}}">{{$item->no_order}}</option>
+                                    @endforeach
+                                </select>
                                 <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit" id="lacak-submit"><i class="fas fa-search"></i></button>
                                 </div>
