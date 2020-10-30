@@ -51,16 +51,7 @@ Edit Data Administrasi
                         <div class="form-group">
                           <label for="">Perjanjian Kerja</label>
                           <textarea name="perjanjian_kerja" id="" class="summernote-simple">
-                            1. Kalibrasi dilakukan di : <br>
-                            2. Waktu penyelesaian pekerjaan : 5 Hari Kerja <br>
-                            3. Formulir ini mohon dibawa pada saat pengambilan alat dan sertifikat yang sudah selesai. <br>
-                            4. Laboratorium Kalibrasi PT. Gaya Instrumentasi Numerik tidak bertanggung jawab atas kerusakan ataupun atas ketidaksesuaian jumlah alat yang dikirim atau diterima melalui Kiriman paket/POS. <br>
-                            5. Alat yang tidak diambil dalam 3 bulan sejak JO ini diterbitkan bukan merupakan tanggung jawab PT. Gaya Instrumentasi Numerik. <br>
-                            6. Cara pembayaran sesuai dengan SPK/PO yang telah diterbitkan atas persetujuan kedua belah pihak. <br>
-                            7. Biaya total kalibrasi / transaksi dibawah Rp. 3.000.000 dibayar tunai pada saat pengambilan sertifikat. <br>
-                            8. Invoice dikirimkan paling lambat 1 minggu setelah pengerjaan selesai. <br>
-                            9. Pembayaran dilakukan paling lambat 3 hari kerja sejak invoice diterima. <br>
-                            10. Pembayaran transfer : Bank Mandiri KCP Bandung Pasteur, ACC NUMBER : 132-00-1705362-1, AN: PT. Gaya Instrumentasi Numerik <br>
+                            {!! $order->perjanjian_kerja !!}
                           </textarea>
                         </div>
                         <div class="form-group">
