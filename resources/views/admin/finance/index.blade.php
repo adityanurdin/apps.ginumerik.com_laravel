@@ -42,6 +42,9 @@ Data Finance
             Finance finish
           </div>
           <div class="card-body">
+            <div class="mt-2 mb-4">
+              <a href="{{route('finance.selesai')}}" class="btn btn-outline-primary btn-sm"><i class="fas fa-database"></i> Data pembayaran selesai</a>
+            </div>
             <div class="table-responsive">
               <table class="table table-striped" id="finance_finish">
                 <thead>
@@ -49,7 +52,7 @@ Data Finance
                     <th>ID</th>
                     <th>No Order</th>
                     <th>Total Bayar (+PPn)</th>
-                    <th>Sisa Bayar (+PPn)</th>
+                    {{-- <th>Sisa Bayar (+PPn)</th> --}}
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -94,7 +97,7 @@ Data Finance
           {data: 'DT_RowIndex', name: 'DT_RowIndex'},
           {data: 'no_order', name: 'no_order'},
           {data: 'total_bayar', name: 'total_bayar'},
-          {data: 'sisa_bayar', name: 'sisa_bayar'},
+          // {data: 'sisa_bayar', name: 'sisa_bayar'},
           {data: 'status', name: 'status'},
         ]
       });
