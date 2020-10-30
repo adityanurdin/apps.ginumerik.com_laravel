@@ -41,6 +41,11 @@ Pembayaran
                             <input type="text" id="total_bayar" value="{{Dit::Rupiah(Dit::GrandTotal($finance->id))}}" readonly class="form-control">
                         </div>
                         <div class="form-group">
+                          <label for="">PPh</label>
+                          <br>
+                          <input type="checkbox" name="pph" id="" {{Dit::Checked('on', $finance->pph)}}> Include PPh
+                        </div>
+                        <div class="form-group">
                             <label for="discount">Discount</label>
                             <input type="number"  id="discount" {{isset($pembayaran) ? 'disabled' : ''}} value="{{ is_null($finance->discount) ? 0 : $finance->discount }}" name="discount" class="form-control">
                             <small>Note: Contoh format penulisan angka adalah 1000</small>

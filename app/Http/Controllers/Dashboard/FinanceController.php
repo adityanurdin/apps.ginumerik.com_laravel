@@ -127,14 +127,53 @@ class FinanceController extends Controller
 
     public function prosesEditPembayaran(Request $request, $id)
     {
+        // return $request->all();
         $finance = Finance::findOrFail($id);
         $order   = Order::findOrFail($finance->id);
+        
         if ($finance) {
+
+            if ($request->has('pph')) {
+
+                $total = [];
+                foreach($order->barangs as $item) {
+                    array_push($total, [
+                        (int)$item->harga_satuan * $item->alt
+                    ]);
+                }
+                $total = Arr::collapse($total);
+                $total = array_sum($total);
+                $sub_total = $total - $request->discount;
+                $ppn = $sub_total * 0.1;
+                $pph = $sub_total * 0.02;
+
+                $grand_total = $sub_total + $ppn + $pph + $request->tat;
+                
+                $request->merge(['pph' => 'on']);
+            } else {
+                $total = [];
+                foreach($order->barangs as $item) {
+                    array_push($total, [
+                        (int)$item->harga_satuan * $item->alt
+                    ]);
+                }
+                $total = Arr::collapse($total);
+                $total = array_sum($total);
+                $sub_total = $total - $request->discount;
+                $ppn = $sub_total * 0.1;
+
+                $grand_total = $sub_total + $ppn + $request->tat;
+
+                $request->merge(['pph' => NULL]);
+            }
+
             $finance->update($request->all());
+
             Dit::Log(1,'Merubah data pembayaran pada order '.$order->no_order, 'Success');
             toast('Berhasil merubah data pembayaran.','success');
             return redirect()->route('finance.index');
         } else {
+
             Dit::Log(0,'Merubah data pembayaran pada order '.$order->no_order, 'Error');
             toast('Gagal merubah data pembayaran.','error');
             return redirect()->route('finance.editPembayaran', $finance->id);
