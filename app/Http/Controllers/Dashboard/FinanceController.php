@@ -411,7 +411,7 @@ class FinanceController extends Controller
             ->addIndexColumn()
             ->editColumn('no_order', function($item) {
                 $result = ucfirst($item->no_order). '<br>';
-                $result .= '<a href='.route('administrasi.show.tod', $item->id).'>Documment</a> <a href='.route('print.invoice', $item->finance['id']).'>Invoice</a> <a href='.route('print.kwitansi', $item->finance['id']).'>kwitansi</a>';
+                $result .= '<a href='.route('administrasi.show.tod', $item->id).'>Documment</a>';
                 return $result;
             })
             ->addColumn('tgl_tagihan', function($item) {
@@ -428,25 +428,6 @@ class FinanceController extends Controller
                 $total_bayar = Dit::Rupiah($total_bayar);
 
                 return $total_bayar;
-            })
-            ->addColumn('sisa_bayar', function($item) {
-                // if ($item->finance['sisa_bayar'] == NULL) {
-                //     $sisa_bayar = 0;
-                // } else {
-                //     $pembayaran = HistoryPembayaran::where('finance_id', $item->finance['id'])
-                //                                     ->where('status', 'Lunas')
-                //                                     ->get();
-                //     // if (count($pembayaran) >= 1) {
-                //     //     $sisa_bayar = $item->finance['sisa_bayar'] * 0.1;
-                //     //     $sisa_bayar = $item->finance['sisa_bayar'] + $sisa_bayar;   
-                //     // } else {
-                //         $pra_sisa_bayar = $item->finance['sisa_bayar'] - $item->finance['discount'];
-                //         $ppn_sisa_bayar = $pra_sisa_bayar * 0.1;
-                //         $sisa_bayar = $pra_sisa_bayar + $ppn_sisa_bayar + $item->finance['tat'];
-                //     // }
-                // }
-                $sisa_bayar = $item->finance['sisa_bayar'];
-                return Dit::Rupiah($sisa_bayar);
             })
             ->addColumn('status', function($item) {
                 if ($item->finance['status'] == 'dalam_proses') {
