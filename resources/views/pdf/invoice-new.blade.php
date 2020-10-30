@@ -186,19 +186,19 @@
 		</tr>
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font color="#000000">Subtotal</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{Dit::Rupiah($total - $finance->discount)}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{Dit::Rupiah($subtotal)}}</font></td>
 		</tr>
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font color="#000000">PPN</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{Dit::Rupiah(Dit::PPn($finance->id))}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{Dit::Rupiah($ppn)}}</font></td>
 		</tr>
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font color="#000000">Transportasi dan Akomodasi Teknisi</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000"> {{Dit::Rupiah($finance->tat)}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000"> {{Dit::Rupiah($tat)}}</font></td>
 		</tr>
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="20" align="right" valign=middle><font color="#000000">Grand Total</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{Dit::Rupiah($finance->grand_total)}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{Dit::Rupiah($grand_total)}}</font></td>
 		</tr>
 	<tr>
 		<td height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
