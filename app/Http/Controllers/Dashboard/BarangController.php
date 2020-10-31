@@ -15,6 +15,7 @@ use App\SerahTerima;
 use Validator;
 use DataTables;
 use Dit;
+use Arr;
 
 class BarangController extends Controller
 {
@@ -148,33 +149,7 @@ class BarangController extends Controller
         $barang = Barang::find($id);
         $order  = Order::find($barang->orders[0]['id']);
         $finance = Finance::where('order_id', $barang->orders[0]['id'])->first();
-
-        if ($barang->harga_satuan != $request->harga_satuan) {
-            return response()->json([
-                'status' => false,
-                'message'    => 'Fitur ini masih terdapat bug, sehingga ditutup sementara',
-                'developer' => [
-                    'Nama'      => 'Muhammad Aditya Nurdin',
-                    'instagram' => 'https://instagram.com/abubakarr_ra',
-                    'facebook'  => 'https://facebook.com/adityanurdin0',
-                    'mail'      => 'adityanurdin0@gmail.com'
-                ]
-            ]);
-            $total_harga_barang = $request->harga_satuan * $request->alt;
-            $total_bayar        = $total_harga_barang + $finance->total_bayar;
-
-            $subtotal = $total_bayar - $finance->discount;
-            $ppn      = $subtotal * 0.1;
-            $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
-            $tat      = $finance->tat;
-            $grand_total = $subtotal + $ppn + $pph + $tat;
-            
-            $finance->update([
-                'total_bayar' => $total_bayar,
-                'sisa_bayar'  => $grand_total,
-                'grand_total' => $grand_total,
-            ]);
-        }
+        $harga_barang = $barang->harga_satuan;
         
         if ($barang) {
             $request->merge([
@@ -184,6 +159,40 @@ class BarangController extends Controller
                 'std' => $request->std ? $request->std : NULL,
             ]);
             $barang->update($request->all());
+
+            if ($harga_barang != $request->harga_satuan) {
+                /* return response()->json([
+                    'status' => false,
+                    'message'    => 'Fitur ini masih terdapat bug, sehingga ditutup sementara',
+                    'developer' => [
+                        'Nama'      => 'Muhammad Aditya Nurdin',
+                        'instagram' => 'https://instagram.com/abubakarr_ra',
+                        'facebook'  => 'https://facebook.com/adityanurdin0',
+                        'mail'      => 'adityanurdin0@gmail.com'
+                    ]
+                ]); */
+
+                $total = [];
+                foreach ($order->barangs as $item) {
+                    array_push($total, [
+                        (int)$item->harga_satuan * $item->alt
+                    ]);
+                }
+                $total = Arr::collapse($total);
+                $total      = array_sum($total);
+    
+                $subtotal = $total - $finance->discount;
+                $ppn      = $subtotal * 0.1;
+                $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
+                $tat      = $finance->tat;
+                $grand_total = $subtotal + $ppn + $pph + $tat;
+                
+                $finance->update([
+                    'total_bayar' => $total,
+                    'sisa_bayar'  => $grand_total,
+                    'grand_total' => $grand_total,
+                ]);
+            }
 
             $msg = 'Merubah barang '.$barang->nama_barang.' pada order '. $order->no_order;
             Dit::Log(1,$msg, 'success');
