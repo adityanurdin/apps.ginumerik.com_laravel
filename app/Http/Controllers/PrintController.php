@@ -158,4 +158,27 @@ class PrintController extends Controller
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
     }
 
+    public function input($id) 
+    {
+        $order      = Order::findOrFail($id);
+        $pembayaran = HistoryPembayaran::where('finance_id', $order->finance['id'])->first();
+
+        $nilai_satuan = [];
+        foreach ($order->barangs as $row) {
+            array_push($nilai_satuan, [
+                (int)$row->harga_satuan * $row->alt
+            ]);
+        }
+        $collapse = Arr::collapse($nilai_satuan);
+        $total      = array_sum($collapse);
+        $subtotal   = $total - $order->finance['discount'];
+        $ppn        = $subtotal * 0.1;
+        $pph        = $order->finance['pph'] == 'on' ? $subtotal * 0.02 : 0;
+        $grand_total = Dit::GrandTotal($order->finance['id']);
+
+        
+        $pdf = PDF::loadView('pdf.input', compact('order', 'total', 'subtotal', 'ppn', 'pph', 'grand_total', 'pembayaran'));
+        return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
+    }
+
 }

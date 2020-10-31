@@ -465,21 +465,23 @@ class AdministrasiController extends Controller
 
     public function showInput($id)
     {
-        $data       = Order::with('customer', 'barangs', 'finance')->find($id);
+        $order      = Order::findOrFail($id);
+        $pembayaran = HistoryPembayaran::where('finance_id', $order->finance['id'])->first();
 
         $nilai_satuan = [];
-        foreach ($data->barangs as $row) {
+        foreach ($order->barangs as $row) {
             array_push($nilai_satuan, [
                 (int)$row->harga_satuan * $row->alt
             ]);
         }
         $collapse = Arr::collapse($nilai_satuan);
-        $sum      = array_sum($collapse);
-        $grand_total = Dit::GrandTotal($data->finance['id']);
+        $total      = array_sum($collapse);
+        $subtotal   = $total - $order->finance['discount'];
+        $ppn        = $subtotal * 0.1;
+        $pph        = $order->finance['pph'] == 'on' ? $subtotal * 0.02 : 0;
+        $grand_total = Dit::GrandTotal($order->finance['id']);
 
-        $pembayaran = HistoryPembayaran::where('finance_id', $data->finance['id'])
-                                        ->first();
-        return view('admin.administrasi.input.show', compact('data', 'pembayaran', 'sum', 'grand_total'));
+        return view('admin.administrasi.input.show', compact('order', 'total', 'subtotal', 'ppn', 'pph', 'grand_total', 'pembayaran'));
     }
 
     public function dataInput()
@@ -490,7 +492,7 @@ class AdministrasiController extends Controller
                             ->addIndexColumn()
                             ->editColumn('no_order', function($item) {
                                 $result = ucfirst($item->no_order). '<br>';
-                                $result .= '<a href='.route('administrasi.show.input', $item->id).'>Lihat</a> <a href="#">Print</a>';
+                                $result .= '<a href='.route('administrasi.show.input', $item->id).'>Lihat</a> <a href="'.route('print.input', $item->id).'">Print</a>';
                                 return $result;
                             })
                             ->editColumn('tgl_masuk', function($item) {
