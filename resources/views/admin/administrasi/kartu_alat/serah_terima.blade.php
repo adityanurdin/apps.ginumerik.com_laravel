@@ -54,8 +54,6 @@
                                           <td class="pt-3">
                                               @if (!isset($order->serahterima['id_upk_penerima']))
                                                 <button type="submit" class="btn btn-primary float-right btn-sm"><i class="fas fa-save"></i> Simpan</button>
-                                              @else 
-                                                  <button type="button" class="btn btn-primary float-right btn-sm"><i class="fas fa-pencil-alt"></i> Edit</button>
                                               @endif
                                           </td>
                                       </tr>
@@ -80,12 +78,6 @@
                                           <td> : </td>
                                           <td class="pl-5">
                                               @if (!isset($order->serahterima['id_upk_penyerah']))
-                                                {{-- <select class="custom-select" name="id_upk_penyerah">
-                                                    <option disabled>-- Pilih --</option>
-                                                    @foreach ($user as $item)
-                                                        <option value="{{ $item->id == \Auth::user()->id ? \Auth::user()->id : $item->id }}" {{Dit::Selected($item->id, \Auth::user()->id)}}>{{ $item->id == \Auth::user()->id ? \Auth::user()->name : $item->name }}</option>
-                                                    @endforeach
-                                                  </select> --}}
                                                 <input type="text" readonly id="" class="form-control" value="{{\Auth::user()->name}}">
                                                 <input type="text" name="id_upk_penyerah" hidden id="" class="form-control" value="{{\Auth::user()->id}}">
                                               @else 
@@ -141,12 +133,6 @@
                                           <td>Nama</td>
                                           <td>:</td>
                                           <td class="pl-5">
-                                              {{-- <select disabled class="custom-select">
-                                                  <option disabled>-- Pilih --</option>
-                                                  @foreach ($user as $item)
-                                                      <option value="1">{{$item->name}}</option>
-                                                  @endforeach
-                                                </select> --}}
                                                 {{isset($order->serahterima['id_lab_penerima']) ? Dit::getUser($order->serahterima['id_lab_penerima'])->name : '-'}}
                                           </td>
                                       </tr>

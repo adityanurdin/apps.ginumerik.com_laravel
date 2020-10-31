@@ -139,6 +139,14 @@ Data Teknis
             </div>
 
           </div>
+          <div class="card-footer">
+            @if (Dit::checkSerahTerima($order->id) == false)
+                <div class="alert bg-info alert-sm">
+                    <strong>Info</strong> Kartu alat tidak bisa di cetak sebelum serah terima lengkap.
+                </div>
+            @endif
+            <a href="{{route('print.form-tk-1', $order->id)}}" class="btn btn-primary float-right {{Dit::checkSerahTerima($order->id) == true ? '' : 'disabled'}}"><i class="fas fa-print"></i> Print</a>
+        </div>
         </div>
 
         <div class="card">
@@ -262,8 +270,6 @@ Data Teknis
                                             <td class="pt-3">
                                                 @if (!isset($order->serahterima['id_lab_penerima']))
                                                     <button type="submit" class="btn btn-primary float-right btn-sm"><i class="fas fa-save"></i> Simpan</button>
-                                                @else 
-                                                    <button type="button" class="btn btn-primary float-right btn-sm"><i class="fas fa-pencil-alt"></i> Edit</button>
                                                 @endif
                                             </td>
                                         </tr>
@@ -288,12 +294,6 @@ Data Teknis
                                             <td> : </td>
                                             <td class="pl-5">
                                                 @if (!isset($order->serahterima['id_lab_penyerah']))
-                                                {{-- <select class="custom-select" name="id_lab_penyerah">
-                                                    <option disabled>-- Pilih --</option>
-                                                    @foreach ($user as $item)
-                                                        <option value="{{$item->id}}">{{$item->name}}</option>
-                                                    @endforeach
-                                                  </select> --}}
                                                   <input type="text" readonly id="" class="form-control" value="{{\Auth::user()->name}}">
                                                     <input type="text" name="id_lab_penyerah" hidden id="" value="{{\Auth::user()->id}}">
                                                 @else 
@@ -312,7 +312,7 @@ Data Teknis
                                             <td></td>
                                             <td></td>
                                             <td class="pt-3">
-                                                @if (!isset($order->serahterima['id_lab_penerima']))
+                                                @if (!isset($order->serahterima['id_lab_penyerah']))
                                                     <button type="submit" class="btn btn-primary float-right btn-sm"><i class="fas fa-save"></i> Simpan</button>
                                                 @endif
                                             </td>
