@@ -172,14 +172,24 @@ Invoice
                 if(check_discount) {
                     var discount = 0
                 } else {
-                    var discount = parseInt("{{$order->finance['discount']}}")
+                    var discount = "{{$order->finance['discount']}}"
+                    if (discount) {
+                        var discount = parseInt(discount)
+                    } else {
+                        var discount = 0
+                    }
                 }
 
                 var check_tat = "{{isset($pembayaran->tat)}}"
                 if (check_tat) {
                     var tat = 0
                 } else {
-                    var tat = parseInt("{{$order->finance['tat']}}")
+                    var tat = "{{$order->finance['tat']}}"
+                    if (tat) {
+                        var tat = parseInt(tat)
+                    } else {
+                        var tat = 0
+                    }
                 }
 
 
