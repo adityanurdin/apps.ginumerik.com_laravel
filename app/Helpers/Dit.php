@@ -7,6 +7,8 @@ use Auth;
 use \App\Log;
 use \App\Models\Finance;
 use \App\Models\HistoryPembayaran;
+use \App\Models\Order;
+use \App\SerahTerima;
 use \App\Setting;
 use Str;
 use Carbon\Carbon;
@@ -317,6 +319,23 @@ class Dit
 			return 'November';
 		} else if ($month === 12) {
 			return 'Desember';
+		}
+	}
+
+	public static function checkSerahTerima($id)
+	{
+		$order = Order::with('serahterima')->find($id);
+
+		if ($order->serahterima['id_upk_penerima'] == NULL) {
+			return false;
+		} else if ($order->serahterima['id_upk_penyerah'] == NULL) {
+			return false;
+		} else if ($order->serahterima['id_lab_penerima'] == NULL) {
+			return false;
+		} else if ($order->serahterima['id_lab_penyerah'] == NULL) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 
