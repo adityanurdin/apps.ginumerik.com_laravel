@@ -93,16 +93,20 @@ class FinanceController extends Controller
     public function edit($id)
     {
         $order = Order::findOrFail($id);
+        $finance    = Finance::where('order_id', $id)->first();
+        $pembayaran = HistoryPembayaran::where('finance_id', $finance->id)
+                                        ->first();
+                                        
         $alat  = Order::with('barangs')
                         ->whereId($id)
                         ->whereHas('barangs', function(Builder $query) {
                             $query->where('AS', '!=', NULL);
                         })
                         ->first();
-        // return $alat;
+        
         $PPn   = $order->finance['total_bayar'] * 0.1;
         $total_bayar = Dit::GrandTotal($order->finance['id']);
-        return view('admin.finance.edit', compact('order', 'total_bayar', 'alat'));
+        return view('admin.finance.edit', compact('order', 'total_bayar', 'alat', 'pembayaran'));
     }
 
     public function checkAlat(Request $request, $id)
@@ -127,7 +131,6 @@ class FinanceController extends Controller
 
     public function prosesEditPembayaran(Request $request, $id)
     {
-        // return $request->all();
         $finance = Finance::findOrFail($id);
         $order   = Order::findOrFail($finance->id);
         
@@ -327,6 +330,8 @@ class FinanceController extends Controller
             'tanggal_bayar'     => $request->bayar == NULL ? NULL : $request->tgl_bayar,
             'no_invoice'        => $no_invoice,
             'no_kwitansi'       => $no_kwitansi,
+            'discount'          => $request->discount,
+            'tat'               => $request->tat,
             'status'            => 'Belum Lunas', #$request->bayar == NULL ? 'Belum Lunas' : 'Lunas',
             'keterangan'        => $request->keterangan,
         ]);
@@ -347,7 +352,7 @@ class FinanceController extends Controller
         } */
 
         $finance->update(['status' => 'siap_tagih']);
-        $finance->update($request->except('keterangan','target_tagih', 'barang_ids'));
+        $finance->update($request->except('keterangan','target_tagih', 'barang_ids', 'discount', 'tat'));
         if ($finance->sisa_bayar == 0) {
             $finance->update(['status' => 'sudah_bayar']);
         }

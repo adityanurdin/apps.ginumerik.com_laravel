@@ -59,26 +59,12 @@ Invoice
                                 @if(isset($alat->barangs))
                                         <option value="" disabled selected> -Pilih Alat- </option>
                                     @foreach ($alat->barangs as $item)
-                                        <option value="{{$item->id}}">{{$item->nama_barang}} - ({{Dit::Rupiah($item->harga_satuan)}})</option>
+                                        <option value="{{$item->id}}" id="opt-{{$item->id}}" data-harga="{{$item->harga_satuan}}">{{$item->nama_barang}} - ({{Dit::Rupiah($item->harga_satuan)}})</option>
                                     @endforeach
                                 @else
                                     <option value="" disabled selected> -Belum ada alat yang selesai-</option>
                                 @endif
                             </select>
-                            {{-- <div class="input-group"  style="width: 100%;">
-                                <select name="check_alat[]" class="form-control select2" multiple id="check_alat">
-                                    @if(isset($alat->barangs))
-                                        @foreach ($alat->barangs as $item)
-                                            <option value="{{$item->id}}">{{$item->nama_barang}} - ({{Dit::Rupiah($item->harga_satuan)}})</option>
-                                        @endforeach
-                                    @else
-                                        <option value="" disabled selected> -Belum ada alat yang selesai-</option>
-                                    @endif
-                                </select>
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" id="simpanalat" type="button">Simpan</button>
-                                </div>
-                            </div> --}}
                             <small>Note: Hanya alat dengan status "A" / "A-S" yang akan ditampilkan</small>
                         </div>
                         <div class="form-group">
@@ -113,6 +99,14 @@ Invoice
                             <input type="number" name="sisa_bayar" id="sisa_bayar" value="{{$order->finance['sisa_bayar']}}" class="form-control">
                             <small>Note: Contoh format penulisan angka adalah 1000</small>
                         </div> --}}
+                        <div class="form-group">
+                            <label for="">Include</label>
+                            <br>
+                            <input type="checkbox" name="discount" id="check_discount" readonly> Include Discount <br>
+                            <input type="checkbox" name="tat" id="check_tat" id="" readonly> Include Transportasi dan Akomodasi Teknisi 
+                            <br>
+                            <small>Note: hanya bisa cantumkan di 1 invoice</small>
+                        </div>
                         <div class="form-group">
                             <label for="bayar">Nominal</label>
                             <input type="number" name="bayar" id="bayar" class="form-control" required>
@@ -155,21 +149,77 @@ Invoice
 
 @push('scripts')
     <script src="{{ asset('assets/js/jquery.selectric.min.js') }}"></script>
-    {{-- <script>
 
-        $('#simpanalat').on('click', function() {
-            var data = $('#check_alat').serialize()
-            $.ajax({
-                type: 'POST',
-                enctype: 'multipart/form-data',
-                url: "{{ route('finance.checkalat', $order->id) }}",
-                data: data,
-                dataType: 'json',
-                success: function(res) {
-                    console.log(res)
+    <script>
+
+        $(window).ready(function() {
+
+            $('#barang_ids').change(function(){
+                var barang_ids = $(this).val()
+
+
+                var total = []
+                barang_ids.forEach(item => {
+                    var harga = $('#opt-' + item).data('harga')
+                    total.push(harga)
+                });
+
+                var total = total.reduce(function(total, sum) {
+                    return total + sum
+                }, 0)
+
+                var check_discount = "{{isset($pembayaran->discount)}}"
+                if(check_discount) {
+                    var discount = 0
+                } else {
+                    var discount = parseInt("{{$order->finance['discount']}}")
                 }
+
+                var check_tat = "{{isset($pembayaran->tat)}}"
+                if (check_tat) {
+                    var tat = 0
+                } else {
+                    var tat = parseInt("{{$order->finance['tat']}}")
+                }
+
+
+
+                var pph = "{{$order->finance['pph']}}"
+                var subtotal = total - discount
+
+                alert(subtotal)
+
+                if (pph == null) {
+                    var pph = 0
+                } else {
+                    var pph = subtotal * 0.02
+                }
+
+                var ppn      = subtotal * 0.1
+                var grand_total = subtotal + ppn + pph + tat
+
+                $('#bayar').val(grand_total)
+
             })
+
+            var discount = "{{isset($pembayaran->discount)}}"
+            if (discount) {
+                $('#check_discount').attr("disabled", true)
+            } else {
+                $('#check_discount').prop('checked', true)
+            }
+
+
+            var tat = "{{isset($pembayaran->tat)}}"
+            if (tat) {
+                $('#check_tat').attr("disabled", true)
+            } else {
+                $('#check_tat').prop('checked', true)
+            }
+
+
+
         })
 
-    </script> --}}
+    </script>
 @endpush
