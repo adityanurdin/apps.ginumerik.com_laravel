@@ -444,6 +444,7 @@ class FinanceController extends Controller
     public function dataSelesai()
     {
         $data = HistoryPembayaran::where('status', 'Lunas')
+                                ->orderBy('created_at', 'DESC')
                                 ->get();
                         
             return DataTables::of($data)
@@ -467,10 +468,6 @@ class FinanceController extends Controller
     
     public function dataBatal()
     {
-        // $data = Finance::with('historyPembayaran')
-        //                 ->whereHas('HistoryPembayaran', function(Builder $query) {
-        //                     $query->where('status', 'Batal');                
-        //                 })->get();
         $data = HistoryPembayaran::where('status', 'Batal')
                                 ->get();
 
