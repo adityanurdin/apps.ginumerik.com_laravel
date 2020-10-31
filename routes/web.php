@@ -189,6 +189,10 @@ Route::group(['middleware' => 'SETUP'], function() {
         Route::get('print-fr-tk-1/{id}', 'PrintController@formTk1')->name('print.form-tk-1');
 
         Route::get('print-input/{id}', 'PrintController@input')->name('print.input');
+
+        // Archived Routing
+        Route::get('archive/tahun/{year}', 'Dashboard\ArchivedController@index')->name('archived.index');
+        Route::get('archive/tahun/{year}/data/{section}', 'Dashboard\ArchivedController@data')->name('archived.data');
     });
     
     /**
