@@ -185,6 +185,8 @@ Route::group(['middleware' => 'SETUP'], function() {
 
         Route::get('print-invoice/{id}', 'PrintController@invoice')->name('print.invoice');
         Route::get('print-kwitansi/{id}', 'PrintController@kwitansi')->name('print.kwitansi');
+
+        Route::get('print-fr-tk-1/{id}', 'PrintController@formTk1')->name('print.form-tk-1');
     });
     
     /**
