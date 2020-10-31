@@ -106,7 +106,7 @@
 	<tr>
 		<td colspan=2 rowspan=2 height="38" align="left" valign=middle><font size=3 color="#000000">Total</font></td>
 		<td rowspan=2 align="center" valign=middle><font color="#000000">:</font></td>
-		<td colspan=11 rowspan=2 align="left" valign=middle><b><i><font size=3 color="#000000"> {{Dit::penyebut($finance->grand_total)}}</font></i></b></td>
+		<td colspan=11 rowspan=2 align="left" valign=middle><b><i><font size=3 color="#000000"> {{Dit::penyebut($grand_total)}}</font></i></b></td>
 		</tr>
 	<tr>
 		</tr>
@@ -209,7 +209,7 @@
 	<tr>
 		<td colspan=2 rowspan=2 height="38" align="left" valign=middle><font color="#000000">Grand Total</font></td>
 		<td rowspan=2 align="center" valign=middle><font color="#000000">Rp.</font></td>
-		<td colspan=11 rowspan=2 align="left" valign=middle sdval="14500500" sdnum="1033;0;#,##0"><b><u><font size=4 color="#000000">{{Dit::Rupiah($finance->grand_total)}}</font></u></b></td>
+		<td colspan=11 rowspan=2 align="left" valign=middle sdval="14500500" sdnum="1033;0;#,##0"><b><u><font size=4 color="#000000">{{Dit::Rupiah($grand_total)}}</font></u></b></td>
 		</tr>
 	<tr>
 		</tr>
