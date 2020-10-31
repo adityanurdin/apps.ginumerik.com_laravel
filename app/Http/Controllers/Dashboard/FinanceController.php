@@ -185,32 +185,12 @@ class FinanceController extends Controller
 
     public function ProsesBayar(Request $request, $id)
     {
-        // return $request->all();
         $pembayaran = HistoryPembayaran::findOrFail($id);
         $finance    = Finance::findOrFail($pembayaran->finance_id);
+        $order      = Order::find($finance->order_id);
         
 
         if ($request->tanggal_bayar) {
-            
-            // $pra_sisa_bayar = $finance->sisa_bayar - $finance->discount;
-            // $ppn_sisa_bayar = $pra_sisa_bayar * 0.1;
-            // $sisa_bayar = ($pra_sisa_bayar + $ppn_sisa_bayar + $finance->tat) - $request->jumlah_bayar;
-            // $ppn        = $sisa_bayar * 0.1;
-            // $sisa_bayar = $sisa_bayar - $ppn;
-
-            /* if (isset($finance->discount) OR isset($finance->tat)) {
-                $bayar = $finance->sisa_bayar - $finance->discount;
-                $sisa_bayar = $bayar - $request->jumlah_bayar;
-            } else {
-
-            } */
-
-            /* if ($request->jumlah_bayar > ($finance->sisa_bayar * 0.1) + $finance->sisa_bayar) {
-                return response()->json([
-                    'status' => false,
-                    'msg'    => 'Gagal, Jumlah bayar melebihi sisa bayar'
-                ]);
-            } */
 
             if ($request->jumlah_bayar > $finance->sisa_bayar) {
                 return response()->json([
@@ -218,17 +198,13 @@ class FinanceController extends Controller
                     'msg'    => 'Gagal, Jumlah bayar melebihi sisa bayar'
                 ]);
             }
-
-
-
             $sisa_bayar = $finance->sisa_bayar - $request->jumlah_bayar;
-
-            // return $sisa_bayar;
-
             if ($sisa_bayar == 0) {
                 $status = 'sudah_bayar';
+                Dit::Log(1,'Mengubah status finance menjadi Sudah Bayar pada '.$order->no_order, 'Success');
             } else {
                 $status = 'tagih';
+                Dit::Log(1,'Mengubah data invoice finance pada '.$order->no_order, 'Success');
             }
             
             $finance->update(['sisa_bayar' => $sisa_bayar, 'status' => $status]);
@@ -253,9 +229,6 @@ class FinanceController extends Controller
             'status' => $status,
             'msg'    => $msg
         ]);
-            
-        
-        
     }
 
     /**
@@ -268,21 +241,8 @@ class FinanceController extends Controller
     public function update(Request $request, $id)
     {
         $request->merge(['barang_ids' => implode(',', $request->barang_ids)]);
-        // return $request->all();
         $finance = Finance::findOrFail($id);
         $order   = Order::findOrFail($finance->order_id);
-        
-        /* $financeSubtotal = $finance->sisa_bayar - $finance->discount;
-        $financePpn      = $financeSubtotal * 0.1;
-        $financeTotal    = $financeSubtotal + $financePpn + $finance->tat;
-        if($finance->sisa_bayar == 0) {
-            toast('Gagal, Pembayaran sudah lunas','error');
-            return back();
-        } elseif ($request->bayar > $financeTotal ) {
-            toast('Gagal, Jumlah bayar melebihi sisa bayar','error');
-            return back();
-        } */
-
         $roman =  Dit::Roman(date('m'));
         
         if (!HistoryPembayaran::first()) {
@@ -335,22 +295,6 @@ class FinanceController extends Controller
             'status'            => 'Belum Lunas', #$request->bayar == NULL ? 'Belum Lunas' : 'Lunas',
             'keterangan'        => $request->keterangan,
         ]);
-
-        /* if ($request->bayar) {
-            $jumlah_bayar = [];
-            $pembayaran = HistoryPembayaran::where('finance_id', $id)->get();
-            foreach($pembayaran as $item) {
-                array_push($jumlah_bayar, [
-                    (int)$item->jumlah_bayar
-                ]);
-            }
-            $collapse = Arr::collapse($jumlah_bayar);
-            $sum = array_sum($collapse);
-            $total_bayar = $sum;
-            $sisa_bayar  = Dit::GrandTotal($finance->id) - $total_bayar;
-            $request->merge(['sisa_bayar' => $sisa_bayar]);
-        } */
-
         $finance->update(['status' => 'siap_tagih']);
         $finance->update($request->except('keterangan','target_tagih', 'barang_ids', 'discount', 'tat'));
         if ($finance->sisa_bayar == 0) {
@@ -358,11 +302,11 @@ class FinanceController extends Controller
         }
 
         if ($finance) {
-            Dit::Log(1,'Merubah data finance pada order '.$order->no_order, 'Success');
+            Dit::Log(1,'Membuat invoice finance pada order '.$order->no_order, 'Success');
             toast('Finance edit successfully.','success');
             return redirect()->route('finance.show', $id);
         } else {
-            Dit::Log(0,'Merubah data finance pada order '.$order->no_order, 'Error');
+            Dit::Log(0,'Membuat invoice finance pada order '.$order->no_order, 'Error');
             toast('Finance edit failed.','error');
             return redirect()->route('finance.show', $id);
         }
