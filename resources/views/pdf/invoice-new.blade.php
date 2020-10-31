@@ -182,16 +182,20 @@
 		</tr>
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font color="#000000">{{$order->finance['discount'] != NULL ? 'Diskon' : '-'}}</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{$order->finance['discount'] != NULL ? Dit::Rupiah($order->finance['discount']) : '-'}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{$order->finance['discount'] != NULL ? Dit::Rupiah($discount) : '-'}}</font></td>
 		</tr>
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font color="#000000">Subtotal</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{Dit::Rupiah($subtotal)}}</font></td>
 		</tr>
 	<tr>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font color="#000000">PPN</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font color="#000000">PPn</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{Dit::Rupiah($ppn)}}</font></td>
 		</tr>
+	<tr>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font color="#000000">{{$order->finance['pph'] != NULL ? 'PPh' : '-'}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000">{{$order->finance['pph'] != NULL ? Dit::Rupiah($pph) : '-'}}</font></td>
+	</tr>
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font color="#000000">Transportasi dan Akomodasi Teknisi</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font color="#000000"> {{Dit::Rupiah($tat)}}</font></td>
