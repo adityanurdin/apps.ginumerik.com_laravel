@@ -187,8 +187,6 @@ Invoice
                 var pph = "{{$order->finance['pph']}}"
                 var subtotal = total - discount
 
-                alert(subtotal)
-
                 if (pph == null) {
                     var pph = 0
                 } else {
