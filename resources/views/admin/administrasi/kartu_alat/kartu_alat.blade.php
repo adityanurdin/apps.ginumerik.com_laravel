@@ -68,4 +68,7 @@
       </div>
 
     </div>
+    <div class="card-footer">
+        <a href="{{route('print.form-tk-1', $order->id)}}" class="btn btn-primary float-right"><i class="fas fa-print"></i> Print</a>
+    </div>
   </div>

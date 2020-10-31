@@ -11,6 +11,7 @@ use Arr;
 use App\Models\Order;
 use App\Models\Barang;
 use App\Models\Finance;
+use App\Models\KartuAlat;
 use App\Models\HistoryPembayaran;
 
 class PrintController extends Controller
@@ -80,15 +81,12 @@ class PrintController extends Controller
         }
         $collapse = Arr::collapse($nilai_satuan);
         $total      = array_sum($collapse);
-        $subtotal = $total - 0;
+        $discount   = $pembayaran->discount == 'on' ? $finance->discount : 0;
+        $subtotal = $total - $discount;
         $ppn      = $subtotal * 0.1;
         $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
-        $tat      = 0;
+        $tat      = $pembayaran->tat == 'on' ? $finance->tat : 0;
         $grand_total = $subtotal + $ppn + $pph + $tat;
-        // return Dit::Rupiah($grand_total);
-
-        
-        // $finance   = Finance::whereId($pembayaran->finance_id)->first();
 
         $order  = Order::with('customer', 'barangs')
                         ->whereId($finance->order_id)
@@ -96,10 +94,6 @@ class PrintController extends Controller
 
         $barang_ids = explode(',', $pembayaran->barang_ids);
         $barangs = Barang::whereIn('id', $barang_ids)->get();
-
-        // $total = $barangs->sum('harga_satuan');
-
-        // return $total;
         $data = [
             'finance',
             'order',
@@ -111,6 +105,7 @@ class PrintController extends Controller
             'pph',
             'tat',
             'grand_total',
+            'discount'
         ];
         $pdf    = Pdf::loadView('pdf.invoice-new', compact($data));
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_invoice).'.pdf' );
@@ -119,16 +114,48 @@ class PrintController extends Controller
     public function kwitansi($id)
     {
         $pembayaran = HistoryPembayaran::findOrFail($id);
-        // return $pembayaran;
-        
-        $finance   = Finance::whereId($pembayaran->finance_id)->first();
+        $finance    = Finance::findOrFail($pembayaran->finance_id);
+
+        $barang_ids = explode(',', $pembayaran->barang_ids);
+        $barang = Barang::whereIn('id', $barang_ids)->get();
+        $nilai_satuan = [];
+        foreach($barang as $item) {
+            array_push($nilai_satuan, [
+                (int)$item->harga_satuan * $item->alt
+            ]);
+        }
+        $collapse = Arr::collapse($nilai_satuan);
+        $total      = array_sum($collapse);
+        $discount   = $pembayaran->discount == 'on' ? $finance->discount : 0;
+        $subtotal = $total - $discount;
+        $ppn      = $subtotal * 0.1;
+        $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
+        $tat      = $pembayaran->tat == 'on' ? $finance->tat : 0;
+        $grand_total = $subtotal + $ppn + $pph + $tat;
 
         $order  = Order::with('customer', 'barangs')
                         ->whereId($finance->order_id)
                         ->first();
 
-        $pdf    = Pdf::loadView('pdf.kwitansi', compact('finance', 'order', 'pembayaran'));
+        $pdf    = Pdf::loadView('pdf.kwitansi', compact('finance', 'order', 'pembayaran', 'grand_total'));
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_kwitansi).'.pdf' );
+    }
+
+    public function formTk1($id)
+    {
+        $order = Order::findOrFail($id);
+        $barang_ids = [];
+        foreach($order->barangs as $item) {
+            array_push($barang_ids,[
+                $item->id
+            ]);
+        }
+        $barang_ids = Arr::collapse($barang_ids);
+        $barang = KartuAlat::with('barang')->whereIn('barang_id', $barang_ids)->get();
+
+
+        $pdf = PDF::loadView('pdf.FR-TK-1', compact('order', 'barang'));
+        return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
     }
 
 }
