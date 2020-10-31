@@ -326,17 +326,22 @@ class Dit
 	{
 		$order = Order::with('serahterima')->find($id);
 
-		if ($order->serahterima['id_upk_penerima'] == NULL) {
-			return false;
-		} else if ($order->serahterima['id_upk_penyerah'] == NULL) {
-			return false;
-		} else if ($order->serahterima['id_lab_penerima'] == NULL) {
-			return false;
-		} else if ($order->serahterima['id_lab_penyerah'] == NULL) {
-			return false;
+		if(isset($order->serahterima['id'])) {
+			if ($order->serahterima['id_upk_penerima'] == NULL) {
+				return false;
+			} else if ($order->serahterima['id_upk_penyerah'] == NULL) {
+				return false;
+			} else if ($order->serahterima['id_lab_penerima'] == NULL) {
+				return false;
+			} else if ($order->serahterima['id_lab_penyerah'] == NULL) {
+				return false;
+			} else {
+				return true;
+			}
 		} else {
-			return true;
+			return false;
 		}
+
 	}
 
 }
