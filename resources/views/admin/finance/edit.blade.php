@@ -197,7 +197,7 @@ Invoice
                 var pph = "{{$order->finance['pph']}}"
                 var subtotal = total - discount
 
-                if (pph == null) {
+                if (!pph) {
                     var pph = 0
                 } else {
                     var pph = subtotal * 0.02
@@ -205,7 +205,6 @@ Invoice
 
                 var ppn      = subtotal * 0.1
                 var grand_total = subtotal + ppn + pph + tat
-
                 $('#bayar').val(grand_total)
 
             })
