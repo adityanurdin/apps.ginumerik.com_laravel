@@ -91,7 +91,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::with('biodata')->find($id);
-        return view('admin.users.edit', compact('user'));
+        $username = explode('@', $user->email);
+        $username = $username[0];
+        
+        return view('admin.users.edit', compact('user', 'username'));
     }
 
     /**

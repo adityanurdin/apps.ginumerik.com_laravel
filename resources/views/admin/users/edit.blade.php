@@ -28,8 +28,8 @@ Edit Profile ({{ $user->name }})
                 <input type="text" class="form-control" name="name" value="{{ $user->name }}">
               </div>
               <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" class="form-control" readonly value="{{ $user->email }}">
+                <label for="email">Username</label>
+                <input type="text" class="form-control" readonly value="{{ $username }}">
               </div>
               <div class="form-group">
                 <label for="NIK">NIK</label>
