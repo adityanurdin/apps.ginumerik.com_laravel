@@ -84,23 +84,12 @@ class LagCron extends Command
                         $barang->update([
                             'LAG' => NULL
                         ]);
-                        \Log::info($barang->nama_barang . " belum datang");
 
                     }
-
-                } else {
-
-                    \Log::info($barang->nama_barang . " selesai dikerjakan");
 
                 }
 
             }
         }
-        // \Log::info("Updating status lag successfully");
-     
-        /*
-           Write your database logic we bellow:
-           Item::create(['name'=>'hello new']);
-        */
     }
 }

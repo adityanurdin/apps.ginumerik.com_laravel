@@ -25,7 +25,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
         $debug = env('APP_DEBUG');
         if ($debug === TRUE) {
             $schedule->command('cron:lag')
@@ -36,15 +35,6 @@ class Kernel extends ConsoleKernel
                     ->hourly()
                     ->timezone('Asia/Jakarta');
         }
-
-        // $schedule->command('cron:gitpull')
-        //         // ->daily()
-        //         ->everyMinute()
-        //         ->timezone('Asia/Jakarta');
-
-        // $schedule->command('backup:database')
-        //         ->everyMinute()
-        //         ->timezone('Asia/Jakarta');
     }
 
     /**
