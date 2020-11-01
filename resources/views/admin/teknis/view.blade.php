@@ -346,6 +346,7 @@ Data Teknis
                 enctype: 'multipart/form-data',
                 url: "{{route('teknis.checked', ['alat', $item->id, $order->id])}}",
                 success: function(res) {
+                    // console.log(res)
                     if(res.status === true) {
                         console.log(res.msg)
                         $('#tgl_alat_{{$item->id}}').load(location.href + " #tgl_alat_{{$item->id}}")

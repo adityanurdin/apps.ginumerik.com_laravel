@@ -130,6 +130,7 @@ class TeknisController extends Controller
         $order      = Order::findOrFail($order_id);
 
         if (is_null($kartu_alat->$paraf)) {
+
             $kartu_alat->update([
                 'paraf_'.$check => '*',
                 'tgl_'.$check   => date('d-m-Y')
@@ -142,7 +143,9 @@ class TeknisController extends Controller
             }
             $msg = 'Melakukan centang paraf ' .$check. ' ' .$barang->nama_barang. ' pada order ' .$order->no_order;
             Dit::Log(1,$msg, 'success');
+
         } else {
+
             $kartu_alat->update([
                 'paraf_'.$check => NULL,
                 'tgl_'.$check   => NULL
@@ -155,13 +158,12 @@ class TeknisController extends Controller
             }
             $msg = 'Menghapus centang paraf ' .$check. ' ' .$barang->nama_barang. ' pada order ' .$order->no_order;
             Dit::Log(1,$msg, 'success');
+
         }
 
-        if (!is_null($kartu_alat->paraf_alat)) {
+        if (is_null($kartu_alat->paraf_alat)) {
             $user = Auth::user();
             $barang->update(['user_id' => $user->id]);
-        } else {
-            $barang->update(['user_id' => NULL]);
         }
 
         if($kartu_alat->paraf_administrasi != NULL) {
