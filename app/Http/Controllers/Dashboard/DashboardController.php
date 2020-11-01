@@ -73,12 +73,19 @@ class DashboardController extends Controller
                         ->limit(5)
                         ->orderBy('LAG', 'DESC')
                         ->get();
+
+        $lag_count = Barang::with('orders')
+                        ->where('AS', NULL)
+                        ->where('LAG', '!=', NULL)
+                        ->orderBy('LAG', 'DESC')
+                        ->count();
         // return $lag;
 
         $data = array(
             'logs'      => $logs,
             'rank'      => $rank,
             'lag'       => $lag,
+            'lag_count'       => $lag_count,
             'users'     => User::all(),
             'orders'    => Order::all(),
             'alat'      => Barang::where('status_alat', 'alat_datang')->get(),

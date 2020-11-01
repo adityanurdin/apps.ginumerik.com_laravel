@@ -24,9 +24,9 @@ Dashboard
       @else 
         @include('admin.dashboard.role.adminsystem')
                         
+      @endif
     </div>
     
-    @endif
 
     @if (Auth::user()->role == 'ADMIN')
     <div class="row">
@@ -302,6 +302,167 @@ Dashboard
 
     </div>
 
+    @elseif (Auth::user()->role == 'ADM')
+
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card card-statistic-2">
+          <div class="card-stats">
+            <div class="card-stats-title">Order Minggu ini</div>
+            <div class="card-stats-items">
+              <div class="card-stats-item">
+                <div class="card-stats-item-count">{{$data['siap_tagih_minggu']->count()}}</div>
+                <div class="card-stats-item-label">Siap Tagih</div>
+              </div>
+              <div class="card-stats-item">
+                <div class="card-stats-item-count">{{$data['tagih_minggu']->count()}}</div>
+                <div class="card-stats-item-label">Tagih</div>
+              </div>
+              <div class="card-stats-item">
+                <div class="card-stats-item-count">{{$data['sudah_bayar_minggu']->count()}}</div>
+                <div class="card-stats-item-label">Sudah Bayar</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-icon shadow-primary bg-primary">
+            <i class="fas fa-archive"></i>
+          </div>
+          <div class="card-wrap">
+            <div class="card-header">
+              <h4>Statistics Minggu Ini</h4>
+            </div>
+            <div class="card-body">
+              {{$data['all_minggu']->count()}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card card-statistic-2">
+          <div class="card-chart">
+            <canvas id="balance-chart" height="80"></canvas>
+          </div>
+          <div class="card-icon shadow-primary bg-primary">
+            <i class="fas fa-archive"></i>
+          </div>
+          <div class="card-wrap">
+            <div class="card-header">
+              <h4>Statistics Bulan Ini</h4>
+            </div>
+            <div class="card-body">
+              {{$data['monthly_order']->count()}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card card-statistic-2">
+          <div class="card-chart">
+            <canvas id="sales-chart" height="80"></canvas>
+          </div>
+          <div class="card-icon shadow-primary bg-primary">
+            <i class="fas fa-archive"></i>
+          </div>
+          <div class="card-wrap">
+            <div class="card-header">
+              <h4>Statistics Tahun ini</h4>
+            </div>
+            <div class="card-body">
+              {{$data['yearly_order']->count()}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-8 col-md-4 col-sm-12">
+        
+        <div class="card">
+          <div class="card-header">
+            <h4>List alat dengan status LAG</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive table-invoice">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>No Order</th>
+                    <th>Nama Alat</th>
+                    <th>Bidang</th>
+                    <th>LAG</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @forelse ($data['lag'] as $item)
+                    <tr>
+                      <td>{{$loop->iteration}}</td>
+                      <td>{{ $item->orders[0]['no_order']}}</td>
+                      <td>{{$item->nama_barang}}</td>
+                      <td>{{$item->sub_lab}}</td>
+                      <td>{{$item->LAG}}</td>
+                    </tr>
+                  @empty
+                      <tr class="text-center">
+                        <td colspan="4">Tidak ada data.</td>
+                      </tr>
+                  @endforelse
+                </tbody>
+              </table>
+            </div>
+            <small class="mt-4">Note: Jika pada kolom bidang berisi "-", itu menandakan alat tsb pengerjaan sub con</small>
+          </div>
+            <div class="card-footer">
+              <a href="{{route('administrasi.lag')}}" class="float-right">Lihat lebih banyak</a>
+            </div>
+        </div>
+        
+
+      </div>
+      
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card card-hero">
+          <div class="card-header">
+            <div class="card-icon">
+              <i class="far fa-user-circle"></i>
+            </div>
+            <h4>{{$data['today_order']->count()}}</h4>
+            <div class="card-description">Today Order's</div>
+          </div>
+          <div class="card-body p-0">
+            <div class="tickets-list">
+              @forelse ($data['today_order'] as $item)
+                <a href="{{route('administrasi.show', $item->id)}}" class="ticket-item">
+                  <div class="ticket-title">
+                    <h4>{{$item->no_order}}</h4>
+                  </div>
+                  <div class="ticket-info">
+                    <div>{{$item->customer['nama_perusahaan']}}</div>
+                    <div class="bullet"></div>
+                    <div class="text-primary">{{date('h:i', strtotime($item->created_at))}}</div>
+                  </div>
+                </a>
+              @empty
+                <a class="ticket-item text-center">
+                  <div class="ticket-title">
+                    <h4>Belum ada order masuk</h4>
+                  </div>
+                </a>
+              @endforelse
+              <a href="{{route('administrasi.index')}}" class="ticket-item ticket-more">
+                View All <i class="fas fa-chevron-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+
+
+    </div>
+
     @elseif (Auth::user()->role == 'FIN')
 
     <div class="col-12">
@@ -311,7 +472,7 @@ Dashboard
         </div>
         <div class="card-body">
           <div class="table-responsive table-invoice">
-            <table class="table table-striped">
+            <table class="table table-striped" id="siap_tagih">
               <thead>
                 <tr class="text-center">
                   <th>No</th>
@@ -329,7 +490,7 @@ Dashboard
                   <td>{{$no++}}</td>
                   <td>{{$item->no_order}}</td>
                   <td>
-                    {{Dit::Rupiah($item->finance['total_bayar'])}}
+                    {{Dit::Rupiah(Dit::GrandTotal($item->finance['id']))}}
                   </td>
                   <td>
                     <a href="{{route('finance.show', $item->id)}}" class="btn btn-outline-primary">Detail</a>
@@ -342,6 +503,96 @@ Dashboard
         </div>
       </div>
     </div>
+
+    @elseif (Auth::user()->role == 'TEK')
+
+    <div class="row">
+      <div class="col-lg-8 col-md-4 col-sm-12">
+        
+        <div class="card">
+          <div class="card-header">
+            <h4>List alat dengan status LAG</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive table-invoice">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>No Order</th>
+                    <th>Nama Alat</th>
+                    <th>Bidang</th>
+                    <th>LAG</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @forelse ($data['lag'] as $item)
+                    <tr>
+                      <td>{{$loop->iteration}}</td>
+                      <td>{{ $item->orders[0]['no_order']}}</td>
+                      <td>{{$item->nama_barang}}</td>
+                      <td>{{$item->sub_lab}}</td>
+                      <td>{{$item->LAG}}</td>
+                    </tr>
+                  @empty
+                      <tr class="text-center">
+                        <td colspan="4">Tidak ada data.</td>
+                      </tr>
+                  @endforelse
+                </tbody>
+              </table>
+            </div>
+            <small class="mt-4">Note: Jika pada kolom bidang berisi "-", itu menandakan alat tsb pengerjaan sub con</small>
+          </div>
+            <div class="card-footer">
+              <a href="{{route('administrasi.lag')}}" class="float-right">Lihat lebih banyak</a>
+            </div>
+        </div>
+        
+
+      </div>
+      
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card card-hero">
+          <div class="card-header">
+            <div class="card-icon">
+              <i class="far fa-user-circle"></i>
+            </div>
+            <h4>{{$data['today_order']->count()}}</h4>
+            <div class="card-description">Today Order's</div>
+          </div>
+          <div class="card-body p-0">
+            <div class="tickets-list">
+              @forelse ($data['today_order'] as $item)
+                <a href="{{route('teknis.show', $item->id)}}" class="ticket-item">
+                  <div class="ticket-title">
+                    <h4>{{$item->no_order}}</h4>
+                  </div>
+                  <div class="ticket-info">
+                    <div>Waktu pekerjaan {{$item->hari_kerja}} hari</div>
+                    <div class="bullet"></div>
+                    <div class="text-primary">{{date('h:i', strtotime($item->created_at))}}</div>
+                  </div>
+                </a>
+              @empty
+                <a class="ticket-item text-center">
+                  <div class="ticket-title">
+                    <h4>Belum ada order masuk</h4>
+                  </div>
+                </a>
+              @endforelse
+              <a href="{{route('teknis.index')}}" class="ticket-item ticket-more">
+                View All <i class="fas fa-chevron-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+
+
+    </div>
     
     @endif
   </div>
@@ -352,4 +603,13 @@ Dashboard
     {{-- <script src="{{asset('assets/js/chart.min.js')}}"></script> --}}
     {{-- <script src="{{asset('assets/js/modules-chartjs.js')}}"></script> --}}
     {{-- <script src="{{asset('assets/js/index.js')}}"></script> --}}
+
+    <script>
+
+      $('#siap_tagih').DataTable({
+        "bLengthChange": false,
+        "iDisplayLength": 25,
+      })
+
+    </script>
 @endpush

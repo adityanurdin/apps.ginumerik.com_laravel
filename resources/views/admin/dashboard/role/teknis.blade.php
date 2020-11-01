@@ -1,4 +1,4 @@
-<div class="col-lg-3 col-md-6 col-sm-6 col-12">
+{{-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
     <div class="card card-statistic-1">
       <div class="card-icon bg-primary">
         <i class="fas fa-box"></i>
@@ -18,7 +18,7 @@
   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
     <div class="card card-statistic-1">
       <div class="card-icon bg-danger text-white" style="font-weight: bolder;">
-        {{-- <i class="fas fa-money-bill-wave-alt"></i> --}}
+        <i class="fas fa-money-bill-wave-alt"></i>
         KAN
       </div>
       <div class="card-wrap">
@@ -36,7 +36,7 @@
   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
     <div class="card card-statistic-1">
       <div class="card-icon bg-warning text-white"  style="font-weight: bolder;">
-        {{-- <i class="far fa-file"></i> --}}
+        <i class="far fa-file"></i>
         NON KAN
       </div>
       <div class="card-wrap">
@@ -47,6 +47,36 @@
           @isset($data['TEK'])
               {{$data['TEK']['non_kan']}}
           @endisset
+        </div>
+      </div>
+    </div>
+  </div> --}}
+  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+    <div class="card card-statistic-1">
+      <div class="card-icon bg-primary">
+        <i class="fas fa-cog"></i>
+      </div>
+      <div class="card-wrap">
+        <div class="card-header">
+          <h4>Alat</h4>
+        </div>
+        <div class="card-body">
+          {{$data['alat']->count()}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+    <div class="card card-statistic-1">
+      <div class="card-icon bg-primary">
+        <i class="fas fa-clock"></i>
+      </div>
+      <div class="card-wrap">
+        <div class="card-header">
+          <h4>LAG</h4>
+        </div>
+        <div class="card-body">
+          {{$data['lag_count']}}
         </div>
       </div>
     </div>
