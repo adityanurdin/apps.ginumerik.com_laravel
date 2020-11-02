@@ -113,7 +113,7 @@ class SystemReportController extends Controller
                 ->where('status', 'sudah_bayar')
                 ->whereYear('orders.created_at', '=', date('Y'))
                 ->groupBy('orders.customer_id')
-                ->orderBy('orders.grand_total', 'DESC')
+                ->orderBy('grand_total', 'DESC')
                 ->limit(5)
                 ->get();
                 return $result;
