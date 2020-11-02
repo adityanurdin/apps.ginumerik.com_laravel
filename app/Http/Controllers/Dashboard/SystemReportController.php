@@ -38,6 +38,7 @@ class SystemReportController extends Controller
                 ';
                 $result = \DB::select(\DB::raw($query));
                 $title  = 'Export Data - Jumlah order per bulan dalam satu tahun';
+                return $result;
 
                 $pdf    = Pdf::loadView('pdf.system-report', compact('result', 'title', 'request'));
                 return $pdf->download($title.' ('.date('Y').').pdf');
@@ -106,7 +107,7 @@ class SystemReportController extends Controller
                 return $pdf->download($title.' ('.date('Y').').pdf');
                 break;
             case 'top_cust':
-                $result = Order::select('*', \DB::raw('SUM(total_bayar) as total_sales'))
+                $result = Order::select('*', \DB::raw('SUM(grand_total) as total_sales'))
                 ->join('finances', 'orders.id', '=', 'finances.order_id')
                 ->join('customers', 'orders.customer_id', '=', 'customers.id')
                 ->where('status', 'sudah_bayar')
@@ -115,6 +116,7 @@ class SystemReportController extends Controller
                 ->orderBy('total_sales', 'DESC')
                 ->limit(5)
                 ->get();
+                return $result;
                 $title  = 'Export Data - Top 5 customer berdasarkan nilai PO terbesar';
 
                 $pdf    = Pdf::loadView('pdf.system-report', compact('result', 'title', 'request'));
