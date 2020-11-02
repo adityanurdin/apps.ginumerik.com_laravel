@@ -130,7 +130,7 @@ Dashboard
                     </tr>
                   @empty
                       <tr class="text-center">
-                        <td colspan="4">Tidak ada data.</td>
+                        <td colspan="5">Tidak ada data.</td>
                       </tr>
                   @endforelse
                 </tbody>
@@ -405,7 +405,7 @@ Dashboard
                     </tr>
                   @empty
                       <tr class="text-center">
-                        <td colspan="4">Tidak ada data.</td>
+                        <td colspan="5">Tidak ada data.</td>
                       </tr>
                   @endforelse
                 </tbody>
@@ -536,7 +536,7 @@ Dashboard
                     </tr>
                   @empty
                       <tr class="text-center">
-                        <td colspan="4">Tidak ada data.</td>
+                        <td colspan="5">Tidak ada data.</td>
                       </tr>
                   @endforelse
                 </tbody>
