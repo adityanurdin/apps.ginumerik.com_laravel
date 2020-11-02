@@ -116,7 +116,6 @@ class SystemReportController extends Controller
                 ->orderBy('grand_total', 'DESC')
                 ->limit(5)
                 ->get();
-                return $result;
                 $title  = 'Export Data - Top 5 customer berdasarkan nilai PO terbesar';
 
                 $pdf    = Pdf::loadView('pdf.system-report', compact('result', 'title', 'request'));
