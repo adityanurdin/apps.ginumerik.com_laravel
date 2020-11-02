@@ -175,7 +175,7 @@
                     <tr>
                         <td>{{$no++}}</td>
                         <td>{{$item->nama_perusahaan}}</td>
-                        <td>{{Dit::Rupiah($item->total_sales)}}</td>
+                        <td>{{Dit::Rupiah($item->grand_total)}}</td>
                     </tr>
                 @endforeach
             </tbody>
