@@ -59,23 +59,51 @@ class LagCron extends Command
                         if ($barang->AS !== 'A-S') {
                             
                             $hari_kerja = $order->hari_kerja;
-                            $tgl_barang = strtotime($barang->created_at);
-                            $tgl_barang = strtotime("+". $hari_kerja ." day", $tgl_barang);
-                            $tgl_barang = date('Y-m-d', $tgl_barang);
+
+                            // $tgl_barang = strtotime($barang->created_at);
+                            // $tgl_barang = strtotime("+". $hari_kerja ." day", $tgl_barang);
+                            // $tgl_barang = date('Y-m-d h:i:s', $tgl_barang);
         
-                            $tanggal1 = new \DateTime($tgl_barang);
-                            $tanggal2 = new \DateTime();
+                            // $tanggal1 = new \DateTime($tgl_barang);
+                            // $tanggal2 = new \DateTime();
         
-                            $perbedaan = $tanggal2->diff($tanggal1)->format("%a");
-        
-                            if ($perbedaan == 0) {
-                                $perbedaan = NULL;
+                            // $perbedaan = $tanggal1->diff($tanggal2)->format("%a");
+
+                            $tgl1 = date('Y-m-d');
+                            $tgl2 = strtotime($barang->created_at);
+                            if (strtotime($tgl1) >= $tgl2) {
+                                $to = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime($barang->created_at)));
+                                $to = $to->addDays($hari_kerja);
+                                $from = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
+                                $diff_in_days = $to->diffInDays($from);
+
+                                if ($diff_in_days == 0) {
+                                    $diff_in_days = NULL;
+                                }
+                                $barang->update([
+                                    'LAG' => $diff_in_days
+                                ]);
+                                
+                                \Log::info($barang->nama_barang . " status lag was update");
                             }
-                            $barang->update([
-                                'LAG' => $perbedaan
-                            ]);
+        
+                            // if ($perbedaan == 0) {
+                            //     $perbedaan = NULL;
+                            // }
+                            // $barang->update([
+                            //     'LAG' => $perbedaan
+                            // ]);
                             
-                            \Log::info($barang->nama_barang . " status lag was update");
+                            // \Log::info($barang->nama_barang . " status lag was update");
+
+
+                            // $from = \Carbon\Carbon::createFromFormat('Y-m-d h:i:s', '2020-11-08 3:30:34');
+                            
+                            // $to = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime($barang->created_at)));
+                            // $to = $to->addDays($hari_kerja);
+                            // $from = \Carbon\Carbon::createFromFormat('Y-m-d', '2020-11-08');
+                            // $diff_in_days = $to->diffInDays($from);
+                            // \Log::info('from '.$from . ' | to ' . $to . ' diff '. $diff_in_days);
 
                         }
                         
