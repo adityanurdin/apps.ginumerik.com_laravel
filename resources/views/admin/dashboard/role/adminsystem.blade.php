@@ -23,7 +23,7 @@
           <h4>Customers</h4>
         </div>
         <div class="card-body">
-          4
+          {{$data['customer']->count()}}
         </div>
       </div>
     </div>

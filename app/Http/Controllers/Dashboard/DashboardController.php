@@ -19,6 +19,7 @@ use App\User;
 use App\Models\Barang;
 use App\Models\Order;
 use App\Models\Finance;
+use App\Models\Customer;
 use App\Log;
 use Carbon\Carbon;
 
@@ -87,6 +88,7 @@ class DashboardController extends Controller
             'lag'       => $lag,
             'lag_count'       => $lag_count,
             'users'     => User::all(),
+            'customer'  => Customer::all(),
             'orders'    => Order::all(),
             'alat'      => Barang::where('status_alat', 'alat_datang')->get(),
 
