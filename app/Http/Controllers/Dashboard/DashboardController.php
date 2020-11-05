@@ -91,7 +91,7 @@ class DashboardController extends Controller
             'customer'  => Customer::all(),
             'orders'    => Order::all(),
             'alat'      => Barang::where('status_alat', 'alat_datang')->get(),
-
+            'alat_batal'=> Barang::where('status_batal', '1')->get(),
             
             'dalam_proses'  => self::financeStatus('dalam_proses')->get(),
             'siap_tagih'    => self::financeStatus('siap_tagih')->get(),
