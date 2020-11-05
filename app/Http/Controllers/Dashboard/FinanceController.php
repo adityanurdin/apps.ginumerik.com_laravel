@@ -133,13 +133,14 @@ class FinanceController extends Controller
     {
         $finance = Finance::findOrFail($id);
         $order   = Order::findOrFail($finance->id);
+        $barangs = Barang::where('status_batal', '0')->get();
         
         if ($finance) {
 
             if ($request->has('pph')) {
 
                 $total = [];
-                foreach($order->barangs as $item) {
+                foreach($barangs as $item) {
                     array_push($total, [
                         (int)$item->harga_satuan * $item->alt
                     ]);
@@ -155,7 +156,7 @@ class FinanceController extends Controller
                 $request->merge(['pph' => 'on']);
             } else {
                 $total = [];
-                foreach($order->barangs as $item) {
+                foreach($barangs as $item) {
                     array_push($total, [
                         (int)$item->harga_satuan * $item->alt
                     ]);
@@ -295,7 +296,7 @@ class FinanceController extends Controller
             'status'            => 'Belum Lunas', #$request->bayar == NULL ? 'Belum Lunas' : 'Lunas',
             'keterangan'        => $request->keterangan,
         ]);
-        $finance->update(['status' => 'siap_tagih']);
+        $finance->update(['status' => 'tagih']);
         $finance->update($request->except('keterangan','target_tagih', 'barang_ids', 'discount', 'tat'));
         if ($finance->sisa_bayar == 0) {
             $finance->update(['status' => 'sudah_bayar']);

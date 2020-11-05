@@ -171,9 +171,9 @@ class BarangController extends Controller
                         'mail'      => 'adityanurdin0@gmail.com'
                     ]
                 ]); */
-
+                $barangs = Barang::where('status_batal', '0')->get();
                 $total = [];
-                foreach ($order->barangs as $item) {
+                foreach ($barangs as $item) {
                     array_push($total, [
                         (int)$item->harga_satuan * $item->alt
                     ]);
@@ -215,31 +215,100 @@ class BarangController extends Controller
     {
         $barang = Barang::find($id);
         $SerahTerima = SerahTerima::find($id);
-
-        $barang->delete();
-        $barang->orders()->detach($order_id);
-        $SerahTerima->delete();
-        
-        $finance = Finance::where('order_id', $order_id)->first();
         $order   = Order::find($order_id);
+        $finance = Finance::where('order_id', $order_id)->first();
+        if ($barang->status_batal == '0') {
+            $barang->update([
+                'status_batal' => '1'
+            ]);
+            
+            $barangs = Barang::where('status_batal', '0')->get();
+            $total = [];
+            foreach ($barangs as $item) {
+                array_push($total, [
+                    (int)$item->harga_satuan * $item->alt
+                ]);
+            }
+            $total = Arr::collapse($total);
+            $total      = array_sum($total);
 
-        $total_harga_barang = $barang->harga_satuan * $barang->alt;
-        $total_bayar        = $finance->total_bayar - $total_harga_barang;
+            $subtotal = $total - $finance->discount;
+            $ppn      = $subtotal * 0.1;
+            $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
+            $tat      = $finance->tat;
+            $grand_total = $subtotal + $ppn + $pph + $tat;
+            
+            $finance->update([
+                'total_bayar' => $total,
+                'sisa_bayar'  => $grand_total,
+                'grand_total' => $grand_total,
+            ]);
 
-        $finance->update([
-            'total_bayar' => $total_bayar
-        ]);
-
-        if($barang) {
-            $msg = 'Menghapus barang '.$barang->nama_barang.' pada order '. $order->no_order;
+            $msg = 'Membatalkan barang '.$barang->nama_barang.' pada order '. $order->no_order;
             Dit::Log(1,$msg, 'success');
 
-            toast('Barang delete successfully.','success');
+            toast('Barang batal sukses.','success');
+            return redirect()->route('administrasi.show', $order_id);
+
+        } else {
+            $barang->update([
+                'status_batal' => '0'
+            ]);
+
+            $barangs = Barang::where('status_batal', '0')->get();
+            $total = [];
+            foreach ($barangs as $item) {
+                array_push($total, [
+                    (int)$item->harga_satuan * $item->alt
+                ]);
+            }
+            $total = Arr::collapse($total);
+            $total      = array_sum($total);
+
+            $subtotal = $total - $finance->discount;
+            $ppn      = $subtotal * 0.1;
+            $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
+            $tat      = $finance->tat;
+            $grand_total = $subtotal + $ppn + $pph + $tat;
+            
+            $finance->update([
+                'total_bayar' => $total,
+                'sisa_bayar'  => $grand_total,
+                'grand_total' => $grand_total,
+            ]);
+
+            $msg = 'Merestore barang '.$barang->nama_barang.' pada order '. $order->no_order;
+            Dit::Log(1,$msg, 'success');
+
+            toast('Barang restore sukses.','success');
+            return redirect()->route('administrasi.show', $order_id);
+        }
+
+        // $barang->delete();
+        // $barang->orders()->detach($order_id);
+        // if ($SerahTerima) {
+        //     $SerahTerima->delete();
+        // }
+        
+        // $finance = Finance::where('order_id', $order_id)->first();
+
+        // $total_harga_barang = $barang->harga_satuan * $barang->alt;
+        // $total_bayar        = $finance->total_bayar - $total_harga_barang;
+
+        // $finance->update([
+        //     'total_bayar' => $total_bayar
+        // ]);
+
+        if($barang) {
+            $msg = 'Membatalkan barang '.$barang->nama_barang.' pada order '. $order->no_order;
+            Dit::Log(1,$msg, 'success');
+
+            toast('Barang batal sukses.','success');
             return redirect()->route('administrasi.show', $order_id);
         } else {
-            $msg = 'Gagal menghapus barang '.$barang->nama_barang.' pada order '. $order->no_order;
+            $msg = 'Gagal Membatalkan barang '.$barang->nama_barang.' pada order '. $order->no_order;
             Dit::Log(1,$msg, 'error');
-            toast('Barang delete failed.','error');
+            toast('Barang batal failed.','error');
             return redirect()->route('administrasi.index');
         }
     }

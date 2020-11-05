@@ -284,12 +284,16 @@ class Dit
 		return $lab;
 	}
 
-	public static function getStatusTeknis($sub_role_block)
+	public static function getStatusTeknis($sub_role_block, $second = NULL)
 	{
 		$sub_role = Auth::user()->sub_role;
 		
 		if ($sub_role == $sub_role_block) {
 			return 'disabled';
+		} else if (!is_null($second)) {
+			if ($sub_role == $second) {
+				return 'disabled';
+			}
 		}
 	}
 

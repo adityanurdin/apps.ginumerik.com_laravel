@@ -275,9 +275,10 @@ class AdministrasiController extends Controller
     public function show($id)
     {
         $order = Order::with('serahterima')->findOrFail($id);
+        $barangs = Barang::where('status_batal', '0')->get();
 
         $nilai_satuan = [];
-        foreach ($order->barangs as $row) {
+        foreach ($barangs as $row) {
             array_push($nilai_satuan, [
                 (int)$row->harga_satuan * $row->alt
             ]);

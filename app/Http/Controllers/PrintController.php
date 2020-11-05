@@ -20,9 +20,10 @@ class PrintController extends Controller
     public function formAdm2($id)
     {
         $order = Order::find($id);
+        $barangs = Barang::where('status_batal', '0')->get();
 
         $nilai_satuan = [];
-        foreach ($order->barangs as $row) {
+        foreach ($barangs as $row) {
             array_push($nilai_satuan, [
                 (int)$row->harga_satuan * $row->alt
             ]);
@@ -40,9 +41,10 @@ class PrintController extends Controller
     public function formAdm1($id)
     {
         $order = Order::find($id);
+        $barangs = Barang::where('status_batal', '0')->get();
 
         $nilai_satuan = [];
-        foreach ($order->barangs as $row) {
+        foreach ($barangs as $row) {
             array_push($nilai_satuan, [
                 (int)$row->harga_satuan * $row->alt
             ]);
@@ -72,7 +74,7 @@ class PrintController extends Controller
         $finance    = Finance::findOrFail($pembayaran->finance_id);
 
         $barang_ids = explode(',', $pembayaran->barang_ids);
-        $barang = Barang::whereIn('id', $barang_ids)->get();
+        $barang = Barang::whereIn('id', $barang_ids)->where('status_batal', '0')->get();
         $nilai_satuan = [];
         foreach($barang as $item) {
             array_push($nilai_satuan, [
@@ -117,7 +119,7 @@ class PrintController extends Controller
         $finance    = Finance::findOrFail($pembayaran->finance_id);
 
         $barang_ids = explode(',', $pembayaran->barang_ids);
-        $barang = Barang::whereIn('id', $barang_ids)->get();
+        $barang = Barang::whereIn('id', $barang_ids)->where('status_batal', '0')->get();
         $nilai_satuan = [];
         foreach($barang as $item) {
             array_push($nilai_satuan, [
@@ -144,8 +146,10 @@ class PrintController extends Controller
     public function formTk1($id)
     {
         $order = Order::findOrFail($id);
+
+        $barangs = Barang::where('status_batal', '0')->get();
         $barang_ids = [];
-        foreach($order->barangs as $item) {
+        foreach($barangs as $item) {
             array_push($barang_ids,[
                 $item->id
             ]);
@@ -162,9 +166,10 @@ class PrintController extends Controller
     {
         $order      = Order::findOrFail($id);
         $pembayaran = HistoryPembayaran::where('finance_id', $order->finance['id'])->first();
+        $barangs = Barang::where('status_batal', '0')->get();
 
         $nilai_satuan = [];
-        foreach ($order->barangs as $row) {
+        foreach ($barangs as $row) {
             array_push($nilai_satuan, [
                 (int)$row->harga_satuan * $row->alt
             ]);

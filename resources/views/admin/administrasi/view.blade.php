@@ -52,7 +52,7 @@ Data Administrasi
                 @foreach ($order->barangs as $item)
                 @php
                     if ( $item->status_batal === '1' ) {
-                      $status = 'bg-danger text-dark';
+                      $status = 'bg-dark text-light';
                     } elseif ($item->status_alat === 'belum_datang') {
                       $status = 'bg-warning text-dark';
                     } else {
@@ -65,8 +65,11 @@ Data Administrasi
                   <td>{{$item->LAG}}</td>
                   <td>
                     {{$item->nama_barang .' ('. $item->KAN .')'}} <br>
-                    <div style="{{ $item->status_batal === '1' ? 'display: none;' : '' }}">
-                      <a href="{{route('barang.edit', [$order->no_order, $item->id])}}">Edit</a> <a href="javascript:void(0)" onclick="myConfirm()">Batal</a>
+                    <div>
+                      <a href="{{route('barang.edit', [$order->no_order, $item->id])}}"  style="{{ $item->status_batal === '1' ? 'display: none;' : '' }}">Edit</a>
+                       {{-- <a href="javascript:void(0)" onclick="myConfirm()">Batal</a> --}}
+                       <a href="{{route('barang.destroy', ['order_id' => $order->id, 'id' => $item->id])}}"  style="{{ $item->status_batal === '1' ? 'display: none;' : '' }}">Batal</a>
+                       <a href="{{route('barang.destroy', ['order_id' => $order->id, 'id' => $item->id])}}"  style="{{ $item->status_batal === '1' ? '' : 'display: none;' }}">Restore</a>
                     </div>
                   </td>
                   <td>{{$item->alt}}</td>
@@ -80,7 +83,7 @@ Data Administrasi
                 function myConfirm(id) {
                   var r = confirm("Yakin ingin membatalkan alat ? pastikan sudah merubah keterangan terlebih dahulu")
                   if (r) {
-                    window.location.href = "{{route('barang.destroy', [$order->id, $item->id])}}"
+                    window.location.href = "{{route('barang.destroy', ['order_id' => $order->id, 'id' => $item->id])}}"
                   }
                 }
                 
@@ -90,7 +93,7 @@ Data Administrasi
             </table>
             <small>Note: </small>
             <div class="row ml-3 text-dark text-center">
-              <div class="col-sm-1 bg-danger">
+              <div class="col-sm-1 bg-dark text-light">
                 Alat Batal
               </div>
               <div class="col-sm-2 bg-warning">

@@ -123,7 +123,7 @@ Data Teknis
                             </td>
                             <td align="center" valign=middle id="tgl_selesai_{{$item->id}}">{{$item['tgl_selesai']}}</td>
                             <td align="center" valign=middle>
-                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis') }} {!! Dit::Checked('*', $item['paraf_sertifikat']) !!} id="check_sertifikat_{{$item->id}}">
+                                <input type="checkbox" {{ Dit::getStatusTeknis('Staff Teknis', 'KA Unit Teknis') }} {!! Dit::Checked('*', $item['paraf_sertifikat']) !!} id="check_sertifikat_{{$item->id}}">
                             </td>
                             <td align="center" valign=middle id="tgl_sertifikat_{{$item->id}}">{{$item['tgl_sertifikat']}}</td>
                             <td align="center" valign=middle>
