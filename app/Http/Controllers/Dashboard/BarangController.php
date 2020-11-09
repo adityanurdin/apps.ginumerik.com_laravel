@@ -213,6 +213,9 @@ class BarangController extends Controller
      */
     public function destroy($order_id, $id)
     {
+        return response()->json([
+            'msg' => 'site under construction'
+        ]);
         $barang = Barang::find($id);
         $SerahTerima = SerahTerima::find($id);
         $order   = Order::find($order_id);
