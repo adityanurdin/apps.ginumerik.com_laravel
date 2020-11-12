@@ -213,13 +213,14 @@ class BarangController extends Controller
      */
     public function destroy($order_id, $id)
     {
-        return response()->json([
-            'msg' => 'site under construction'
-        ]);
+        // return response()->json([
+        //     'msg' => 'site under construction'
+        // ]);
         $barang = Barang::find($id);
         $SerahTerima = SerahTerima::find($id);
         $order   = Order::find($order_id);
         $finance = Finance::where('order_id', $order_id)->first();
+
         if ($barang->status_batal == '0') {
             $barang->update([
                 'status_batal' => '1'
@@ -253,7 +254,7 @@ class BarangController extends Controller
             toast('Barang batal sukses.','success');
             return redirect()->route('administrasi.show', $order_id);
 
-        } else {
+        } elseif ($barang->status_batal == '1') {
             $barang->update([
                 'status_batal' => '0'
             ]);
