@@ -82,7 +82,7 @@ class Dit
 
     public static function terbilang($nilai) {
 		if($nilai<0) {
-			$hasil = "minus ". trim(penyebut($nilai));
+			$hasil = "minus ". trim(Self::penyebut($nilai));
 		} else {
 			$hasil = trim(Self::penyebut($nilai));
 		}     		
@@ -144,7 +144,7 @@ class Dit
 			$pph		= $subtotal * 0.02;
 			$tat		= $finance->tat;
 			
-			if($finance->pph === 'on') {
+			if($finance->pph == 'on') {
 				$grand_total = ( $subtotal + $ppn ) + $pph + $tat;
 			} else {
 				$grand_total = ( $subtotal + $ppn ) + $tat;
