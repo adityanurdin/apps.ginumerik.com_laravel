@@ -56,10 +56,14 @@ Invoice
                         <div class="form-group">
                             <label for="">Check Alat</label>
                             <select name="barang_ids[]" class="form-control selectric" multiple id="barang_ids" required>
-                                @if(isset($alat->barangs))
+                                @if(isset($alat))
                                         <option value="" disabled selected> -Pilih Alat- </option>
-                                    @foreach ($alat->barangs as $item)
-                                        <option value="{{$item->id}}" id="opt-{{$item->id}}" data-harga="{{$item->harga_satuan}}">{{$item->nama_barang}} - ({{Dit::Rupiah($item->harga_satuan)}})</option>
+                                    @foreach ($alat as $item)
+                                        @if ($item->status_batal == '0')
+                                            <option value="{{$item->id}}" id="opt-{{$item->id}}" data-harga="{{$item->harga_satuan}}">{{$item->nama_barang}} - ({{Dit::Rupiah($item->harga_satuan)}})</option>
+                                        @else
+                                            <option disabled>{{$item->nama_barang}} - ({{Dit::Rupiah($item->harga_satuan)}}) (Alat Batal)</option>
+                                        @endif
                                     @endforeach
                                 @else
                                     <option value="" disabled selected> -Belum ada alat yang selesai-</option>
@@ -105,7 +109,7 @@ Invoice
                             <input type="checkbox" name="discount" id="check_discount" readonly> Include Discount <br>
                             <input type="checkbox" name="tat" id="check_tat" id="" readonly> Include Transportasi dan Akomodasi Teknisi 
                             <br>
-                            <small>Note: hanya bisa cantumkan di 1 invoice</small>
+                            <small>Note: hanya bisa cantumkan di 1 invoice ( invoice pertama )</small>
                         </div>
                         <div class="form-group">
                             <label for="bayar">Nominal</label>

@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Barang;
 use App\Models\Finance;
 use App\Models\KartuAlat;
+use App\Models\HistoryPembayaran;
 use App\MsLab;
 use App\SerahTerima;
 use Validator;
@@ -220,13 +221,36 @@ class BarangController extends Controller
         $SerahTerima = SerahTerima::find($id);
         $order   = Order::find($order_id);
         $finance = Finance::where('order_id', $order_id)->first();
+        // return $finance;
+        $pembayaran = HistoryPembayaran::where('finance_id', $finance->id)
+                                        ->first();
+        if (!is_null($pembayaran)) {
+            $ids = explode(',', $pembayaran->barang_ids);
+            $barang_ids = Barang::whereIn('id', $ids)
+                                    ->whereId($id)
+                                    ->first();
 
-        if ($barang->status_batal == '0') {
+            if(!is_null($barang_ids)) {
+                toast('Gagal, Alat sudah memiliki invoice.','error');
+                return redirect()->route('administrasi.show', $order_id);
+            }
+        }
+
+        // if ($barang->status_batal === '1') {
+        //     return 'is_string';
+        // } else if ($barang->status_batal === 1) {
+        //     return 'is_int';
+        // }
+
+        if ($barang->status_batal === '0') {
             $barang->update([
                 'status_batal' => '1'
             ]);
             
-            $barangs = Barang::where('status_batal', '0')->get();
+            $barangs = Order::find($order_id)
+                            ->barangs()
+                            ->where('status_batal', '0')
+                            ->get();
             $total = [];
             foreach ($barangs as $item) {
                 array_push($total, [
@@ -254,12 +278,15 @@ class BarangController extends Controller
             toast('Barang batal sukses.','success');
             return redirect()->route('administrasi.show', $order_id);
 
-        } elseif ($barang->status_batal == '1') {
+        } else if ($barang->status_batal === '1') {
             $barang->update([
                 'status_batal' => '0'
             ]);
 
-            $barangs = Barang::where('status_batal', '0')->get();
+            $barangs = Order::find($order_id)
+                            ->barangs()
+                            ->where('status_batal', '0')
+                            ->get();
             $total = [];
             foreach ($barangs as $item) {
                 array_push($total, [

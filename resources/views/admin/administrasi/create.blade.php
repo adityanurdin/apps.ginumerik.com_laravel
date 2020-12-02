@@ -185,10 +185,10 @@ Data Administrasi
                           <input type="text" id="no_seri" name="no_seri" class="form-control">
                         </div>
                       </div>
-                      <div class="form-group row align-items-center">
+                      <div class="form-group row align-items-center" style="display: none;">
                         <label class="col-md-4 text-md-right text-left">Jumlah Alat</label>
                         <div class="col-lg-4 col-md-6">
-                          <input type="text" id="alt" name="alt" class="form-control">
+                          <input type="hidden" value="1" id="alt" name="alt" class="form-control">
                         </div>
                       </div>
                       <div class="form-group row align-items-center">

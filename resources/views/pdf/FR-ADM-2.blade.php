@@ -194,7 +194,7 @@
     @foreach($order->barangs as $item)
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" height="19" align="center" valign=middle sdval="1" sdnum="1033;"><font face="Helvetica" color="#000000">{{$loop->iteration}}</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="center" valign=middle><font face="Helvetica" color="#000000">{{$item->nama_barang.' ('.$item->KAN.')'}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="center" valign=middle><font face="Helvetica" color="#000000">{{$item->nama_barang.' ('.$item->KAN.')'}} {{$item->status_batal == '0' ? '' : '(Alat Batal)'}}</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle><font face="Helvetica" color="#000000">{{$item->fisik != NULL ? '*' : ''}}</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle><font face="Helvetica" color="#000000">{{$item->fungsi != NULL ? '*' : ''}}</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle><font face="Helvetica" color="#000000">{{$item->sdm != NULL ? '*' : ''}}</font></td>
@@ -328,7 +328,7 @@
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
 		<td align="left" valign=top><font face="Helvetica" color="#000000"><br></font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font face="Helvetica" color="#000000">Grand Total</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font face="Helvetica" color="#000000">: {{Dit::Rupiah($order->finance['grand_total'])}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font face="Helvetica" color="#000000">: {{Dit::Rupiah($grand_total)}}</font></td>
 		</tr>
 	<tr>
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
@@ -368,7 +368,7 @@
 	<tr>
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font face="Helvetica" color="#000000">Terbilang</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 rowspan=2 align="left" valign=middle><b><font face="Helvetica" color="#000000">: {{ucfirst(Dit::Terbilang($order->finance['grand_total']))}} rupiah</font></b></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 rowspan=2 align="left" valign=middle><b><font face="Helvetica" color="#000000">: {{$terbilang}} {{is_null($terbilang) ? 'rupiah' : '-'}}</font></b></td>
 		<td align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>

@@ -20,10 +20,18 @@ class PrintController extends Controller
     public function formAdm2($id)
     {
         $order = Order::find($id);
-        $barangs = Barang::where('status_batal', '0')->get();
+        $barangs = Order::find($id)
+                            ->barangs()
+                            ->where('status_batal', '0')
+                            ->get();
+
+        $orders = Order::find($id)
+                        ->barangs()
+                        ->where('status_batal', '0')
+                        ->get();
 
         $nilai_satuan = [];
-        foreach ($barangs as $row) {
+        foreach ($orders as $row) {
             array_push($nilai_satuan, [
                 (int)$row->harga_satuan * $row->alt
             ]);
@@ -31,17 +39,21 @@ class PrintController extends Controller
         $collapse = Arr::collapse($nilai_satuan);
         $sum      = array_sum($collapse);
         $PPn      = $sum * 0.1;
-        $grand_total = $sum + $PPn;
+        // $grand_total = $sum + $PPn;
+        $grand_total = Dit::GrandTotal($order->finance['id']);
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
-        $pdf = PDF::loadView('pdf.FR-ADM-2', compact('order', 'sum', 'terbilang'));
+        $pdf = PDF::loadView('pdf.FR-ADM-2', compact('order', 'sum', 'terbilang', 'grand_total'));
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-ADM-02 .pdf' );
     }
 
     public function formAdm1($id)
     {
         $order = Order::find($id);
-        $barangs = Barang::where('status_batal', '0')->get();
+        $barangs = Order::find($id)
+                            ->barangs()
+                            ->where('status_batal', '0')
+                            ->get();
 
         $nilai_satuan = [];
         foreach ($barangs as $row) {
@@ -147,7 +159,10 @@ class PrintController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        $barangs = Barang::where('status_batal', '0')->get();
+        $barangs = Order::find($id)
+                            ->barangs()
+                            ->where('status_batal', '0')
+                            ->get();
         $barang_ids = [];
         foreach($barangs as $item) {
             array_push($barang_ids,[
@@ -166,7 +181,10 @@ class PrintController extends Controller
     {
         $order      = Order::findOrFail($id);
         $pembayaran = HistoryPembayaran::where('finance_id', $order->finance['id'])->first();
-        $barangs = Barang::where('status_batal', '0')->get();
+        $barangs = Order::find($id)
+                            ->barangs()
+                            ->where('status_batal', '0')
+                            ->get();
 
         $nilai_satuan = [];
         foreach ($barangs as $row) {

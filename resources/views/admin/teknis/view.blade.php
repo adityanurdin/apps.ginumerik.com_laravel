@@ -42,7 +42,7 @@ Data Teknis
                     <td class="text-center">{{$item->AS}}</td>
                     <td class="text-center">{{$item->LAG}}</td>
                     <td>
-                      {{$item->nama_barang .' ('. $item->KAN .')'}}
+                      {{$item->nama_barang .' ('. $item->KAN .')'}} {{$item->status_batal == '0' ? '' : '(Alat Batal)'}}
                     </td>
                     <td class="text-center">{{$item->alt}}</td>
                     <td class="text-center">{{ucfirst($item->st)}}</td>
@@ -73,7 +73,9 @@ Data Teknis
                         <tr>
                             <td rowspan=3 align="center" valign=middle>No</td>
                             <td rowspan=3 align="center" valign=middle>Nama</td>
-                            <td rowspan=3 align="center" valign=middle>Jumlah</td>
+                            {{-- <td rowspan=3 align="center" valign=middle>Jumlah</td> --}}
+                            <td rowspan=3 align="center" valign=middle>Merk</td>
+                            <td rowspan=3 align="center" valign=middle>No Seri</td>
                             <td rowspan=3 align="center" valign=middle>No Sertifikat</td>
                             <td align="center" valign=bottom>Pekerjaan</td>
                             <td colspan=8 align="center" valign=bottom>*Keterangan Selesai</td>
@@ -104,7 +106,9 @@ Data Teknis
                         <tr>
                             <td height="20" align="center" valign=middle sdval="1" sdnum="1033;">{{$no++}}</td>
                             <td align="center" valign=middle>{{$item->barang['nama_barang']}}</td>
-                            <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item->barang['alt']}}</td>
+                            {{-- <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item->barang['alt']}}</td> --}}
+                            <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item->barang['merk']}}</td>
+                            <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item->barang['no_seri']}}</td>
                             <td align="center" valign=middle>
                                 {{$item->barang['no_sertifikat']}} <br>
                                 <div id="link_sertifikat_{{$item->id}}">

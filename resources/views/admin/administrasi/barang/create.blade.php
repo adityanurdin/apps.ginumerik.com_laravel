@@ -52,9 +52,9 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" style="display: none;">
                                     <label for="alt">Jumlah Alat</label>
-                                    <input type="number" name="alt" id="alt" class="form-control @error('alt') is-invalid @enderror">
+                                    <input type="number" name="alt" id="alt" value="1" class="form-control @error('alt') is-invalid @enderror">
                                     <div class="invalid-feedback">
                                         @error('alt')
                                             {{ $message }}

@@ -13,7 +13,7 @@ class Order extends Model
      */
     public function barangs()
     {
-        return $this->belongsToMany('App\Models\Barang');
+        return $this->belongsToMany('App\Models\Barang', 'barang_order');
     }
 
     public function customer()

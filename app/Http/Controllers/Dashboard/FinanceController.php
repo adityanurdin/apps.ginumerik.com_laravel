@@ -97,12 +97,15 @@ class FinanceController extends Controller
         $pembayaran = HistoryPembayaran::where('finance_id', $finance->id)
                                         ->first();
                                         
-        $alat  = Order::with('barangs')
-                        ->whereId($id)
-                        ->whereHas('barangs', function(Builder $query) {
-                            $query->where('AS', '!=', NULL);
-                        })
-                        ->first();
+        $alat  = Order::find($id)
+                        ->barangs()
+                        // ->whereHas('barangs', function(Builder $query) {
+                        //     $query->where('AS', '!=', NULL);
+                        // })
+                        ->where('AS', '!=', NULL)
+                        // ->where('status_batal', '0')
+                        ->get();
+                        // return $alat;
         
         $PPn   = $order->finance['total_bayar'] * 0.1;
         $total_bayar = Dit::GrandTotal($order->finance['id']);

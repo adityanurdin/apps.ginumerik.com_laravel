@@ -275,10 +275,17 @@ class AdministrasiController extends Controller
     public function show($id)
     {
         $order = Order::with('serahterima')->findOrFail($id);
-        $barangs = Barang::where('status_batal', '0')->get();
+        $barangs = Barang::where('status_batal', '0')
+                        ->get();
+
+        $orders = Order::find($id)
+                        ->barangs()
+                        ->where('status_batal', '0')
+                        ->get();
+                        // return $orders;
 
         $nilai_satuan = [];
-        foreach ($barangs as $row) {
+        foreach ($orders as $row) {
             array_push($nilai_satuan, [
                 (int)$row->harga_satuan * $row->alt
             ]);
@@ -287,6 +294,8 @@ class AdministrasiController extends Controller
         $sum      = array_sum($collapse);
         $grand_total = Dit::GrandTotal($order->finance['id']);
         $terbilang = ucfirst(Dit::terbilang($grand_total));
+
+        // return $sum;
 
         $auth_id = \Auth::user()->id;
         $user = User::get();
@@ -470,7 +479,11 @@ class AdministrasiController extends Controller
         $pembayaran = HistoryPembayaran::where('finance_id', $order->finance['id'])->first();
 
         $nilai_satuan = [];
-        foreach ($order->barangs as $row) {
+        $barangs = Order::find($id)
+                            ->barangs()
+                            ->where('status_batal', '0')
+                            ->get();
+        foreach ($barangs as $row) {
             array_push($nilai_satuan, [
                 (int)$row->harga_satuan * $row->alt
             ]);
