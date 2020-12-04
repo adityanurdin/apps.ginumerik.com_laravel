@@ -37,7 +37,7 @@
 <table cellspacing="0" border="0">
 	<colgroup span="15" width="64"></colgroup>
 	<tr>
-		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=3 rowspan=6 height="115" align="center" valign=bottom><font color="#000000"><br><img src="{{asset('assets/img/logo.jpg')}}" width=141 height=97 hspace=26 vspace=11>
+		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=3 rowspan=6 height="115" align="center" valign=bottom><font color="#000000"><br><img src="{{asset('assets/img/logo2.jpg')}}" width=141 height=97 hspace=26 vspace=11>
 		</font></td>
 		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=9 rowspan=2 align="center" valign=middle><b><font face="Helvetica" size=5 color="#000000">Laboratorium Kalibrasi</font></b></td>
 		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=2 align="left" valign=middle><font color="#000000">No.</font></td>
