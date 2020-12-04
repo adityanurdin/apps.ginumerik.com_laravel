@@ -17,6 +17,12 @@ use App\Models\HistoryPembayaran;
 class PrintController extends Controller
 {
     
+    public function getFooter(Request $request) 
+    {
+    $query = $request->all();
+    return view('pdf.footer',compact('query'));
+    }
+    
     public function formAdm2($id)
     {
         $order = Order::find($id);
@@ -80,7 +86,7 @@ class PrintController extends Controller
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' Transfer of Document & Equipment .pdf' );
     }
 
-    public function invoice($id)
+    public function invoice($id, Request $request)
     {
         $pembayaran = HistoryPembayaran::findOrFail($id);
         $finance    = Finance::findOrFail($pembayaran->finance_id);
@@ -122,9 +128,10 @@ class PrintController extends Controller
             'discount'
         ];
         // $pdf    = Pdf::loadView('pdf.invoice-new', compact($data));
+        $query = $request->all();
         $pdf    = Pdf::loadView('pdf.invoice-new', compact($data))
-                            ->setOption('margin-bottom', 40)
-                            ->setOption('margin-top', 40);
+                            ->setOption('margin-bottom', 35)
+                            ->setOption('margin-top', 35);
                             // ->setPaper('f4'); 
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_invoice).'.pdf' );
     }
