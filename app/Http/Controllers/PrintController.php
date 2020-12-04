@@ -44,8 +44,8 @@ class PrintController extends Controller
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
         $pdf = PDF::loadView('pdf.FR-ADM-2', compact('order', 'sum', 'terbilang', 'grand_total'))
-                            ->setOption('margin-bottom', 42)
-                            ->setOption('margin-top', 42);
+                            ->setOption('margin-bottom', 20)
+                            ->setOption('margin-top', 20);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-ADM-02 .pdf' );
     }
 
@@ -70,8 +70,8 @@ class PrintController extends Controller
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
         $pdf = PDF::loadView('pdf.form-adm-1', compact('order', 'sum', 'terbilang'))
-                        ->setOption('margin-bottom', 42)
-                        ->setOption('margin-top', 42);
+                        ->setOption('margin-bottom', 20)
+                        ->setOption('margin-top', 20);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-ADM-01 .pdf' );
     }
 
@@ -81,8 +81,8 @@ class PrintController extends Controller
         $order = Order::with('customer')->findOrFail($order_id);
 
         $pdf    = Pdf::loadView('pdf.transfer-of-doc', compact('data', 'order'))
-                                ->setOption('margin-bottom', 42)
-                                ->setOption('margin-top', 42);
+                                ->setOption('margin-bottom', 20)
+                                ->setOption('margin-top', 20);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' Transfer of Document & Equipment .pdf' );
     }
 
@@ -213,8 +213,8 @@ class PrintController extends Controller
 
         
         $pdf = PDF::loadView('pdf.input', compact('order', 'total', 'subtotal', 'ppn', 'pph', 'grand_total', 'pembayaran'))
-                            ->setOption('margin-bottom', 42)
-                            ->setOption('margin-top', 42);
+                            ->setOption('margin-bottom', 20)
+                            ->setOption('margin-top', 20);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
     }
 
