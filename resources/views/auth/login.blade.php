@@ -13,9 +13,8 @@
               GINUMERIK
             </div> --}}
             <div class="login-brand" style="font-weight: bold;">
-                <img src="{{asset('assets/img/logo2.jpg')}}" draggable="false" alt="logo" width="100" class="shadow-light rounded-circle">
-                <br>
-                GINUMERIK
+                <img src="{{asset('assets/img/logo-gin.png')}}" draggable="false" alt="logo" width="200" class="">
+                <p class="mt-4" style="font-size: 12px; font-weight: bold;">PT GAYA INSTRUMENTASI NUMERIK</p style="font-size: 12px; font-weight: bold;">
             </div>
             @if(session()->has('info'))
             <div class="alert alert-primary">
