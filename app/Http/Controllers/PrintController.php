@@ -132,7 +132,6 @@ class PrintController extends Controller
         $pdf    = Pdf::loadView('pdf.invoice-new', compact($data))
                             ->setOption('margin-bottom', 42)
                             ->setOption('margin-top', 42);
-                            // ->setPaper('f4'); 
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_invoice).'.pdf' );
     }
 
