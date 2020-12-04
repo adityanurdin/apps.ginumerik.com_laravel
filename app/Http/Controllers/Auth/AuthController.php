@@ -14,6 +14,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Setting;
+
 use App\User;
 use Auth;
 use Validator;
@@ -77,7 +79,8 @@ class AuthController extends Controller
         $input['role']     = 'guest';
         $input['status']   = 'active';
 
-        if($request->secret_code == env('APP_SECRET_CODE')) {
+        $setting = Setting::where('key', 'secret_code')->first();
+        if($request->secret_code == $setting->value) {
             if (User::create($input)) {
                 $credentials = $request->only('email', 'password');
                 if(Auth::attempt($credentials)) {
