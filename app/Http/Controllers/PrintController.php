@@ -17,12 +17,6 @@ use App\Models\HistoryPembayaran;
 class PrintController extends Controller
 {
     
-    public function getFooter(Request $request) 
-    {
-    $query = $request->all();
-    return view('pdf.footer',compact('query'));
-    }
-    
     public function formAdm2($id)
     {
         $order = Order::find($id);
@@ -49,7 +43,9 @@ class PrintController extends Controller
         $grand_total = Dit::GrandTotal($order->finance['id']);
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
-        $pdf = PDF::loadView('pdf.FR-ADM-2', compact('order', 'sum', 'terbilang', 'grand_total'));
+        $pdf = PDF::loadView('pdf.FR-ADM-2', compact('order', 'sum', 'terbilang', 'grand_total'))
+                            ->setOption('margin-bottom', 42)
+                            ->setOption('margin-top', 42);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-ADM-02 .pdf' );
     }
 
@@ -73,7 +69,9 @@ class PrintController extends Controller
         $grand_total = $sum + $PPn;
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
-        $pdf = PDF::loadView('pdf.form-adm-1', compact('order', 'sum', 'terbilang'));
+        $pdf = PDF::loadView('pdf.form-adm-1', compact('order', 'sum', 'terbilang'))
+                        ->setOption('margin-bottom', 42)
+                        ->setOption('margin-top', 42);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-ADM-01 .pdf' );
     }
 
@@ -82,7 +80,9 @@ class PrintController extends Controller
         $data   = session('select_tod'.$order_id); 
         $order = Order::with('customer')->findOrFail($order_id);
 
-        $pdf    = Pdf::loadView('pdf.transfer-of-doc', compact('data', 'order'));
+        $pdf    = Pdf::loadView('pdf.transfer-of-doc', compact('data', 'order'))
+                                ->setOption('margin-bottom', 42)
+                                ->setOption('margin-top', 42);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' Transfer of Document & Equipment .pdf' );
     }
 
@@ -183,7 +183,9 @@ class PrintController extends Controller
         $barang = KartuAlat::with('barang')->whereIn('barang_id', $barang_ids)->get();
 
 
-        $pdf = PDF::loadView('pdf.FR-TK-1', compact('order', 'barang'));
+        $pdf = PDF::loadView('pdf.FR-TK-1', compact('order', 'barang'))
+                            ->setOption('margin-bottom', 42)
+                            ->setOption('margin-top', 42);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
     }
 
@@ -210,7 +212,9 @@ class PrintController extends Controller
         $grand_total = Dit::GrandTotal($order->finance['id']);
 
         
-        $pdf = PDF::loadView('pdf.input', compact('order', 'total', 'subtotal', 'ppn', 'pph', 'grand_total', 'pembayaran'));
+        $pdf = PDF::loadView('pdf.input', compact('order', 'total', 'subtotal', 'ppn', 'pph', 'grand_total', 'pembayaran'))
+                            ->setOption('margin-bottom', 42)
+                            ->setOption('margin-top', 42);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
     }
 
