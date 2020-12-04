@@ -342,6 +342,10 @@ class AdministrasiController extends Controller
     {
         $order      = Order::find($id);
         $finance    = Finance::where('order_id', $order->id)->first();
+
+        $jenis_pekerjaan = implode(' / ', $request->jenis_pekerjaan);
+        $request->merge(['jenis_pekerjaan' => $jenis_pekerjaan]);
+
         $order->update($request->except(['pph', 'discount', 'tat']));
         if ($order) {
             $finance->update($request->only(['pph', 'discount', 'tat']));
