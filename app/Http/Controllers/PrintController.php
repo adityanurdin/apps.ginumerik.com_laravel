@@ -212,9 +212,7 @@ class PrintController extends Controller
         $grand_total = Dit::GrandTotal($order->finance['id']);
 
         
-        $pdf = PDF::loadView('pdf.input', compact('order', 'total', 'subtotal', 'ppn', 'pph', 'grand_total', 'pembayaran'))
-                            ->setOption('margin-bottom', 20)
-                            ->setOption('margin-top', 20);
+        $pdf = PDF::loadView('pdf.input', compact('order', 'total', 'subtotal', 'ppn', 'pph', 'grand_total', 'pembayaran'));;
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
     }
 
