@@ -31,7 +31,7 @@
 <table cellspacing="0" border="0" style="width: 100%">
 	<colgroup span="11" width="64"></colgroup>
 	<tr>
-		<td colspan=14 rowspan=3 height="175" align="center" valign=middle><b><font size=6 color="#000000">KWITANSI</font></b></td>
+		<td colspan=14 rowspan=3 height="350" align="center" valign=middle><b><font size=6 color="#000000">KWITANSI</font></b></td>
 		</tr>
 	<tr>
 		</tr>
@@ -137,7 +137,7 @@
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 	</tr>
 	<tr>
-		<td colspan=2 rowspan=2 height="38" align="left" valign=middle><font color="#000000">For Transaction</font></td>
+		<td colspan=2 rowspan=2 height="38" align="left" valign=middle><font size=3 color="#000000">For Transaction</font></td>
 		<td rowspan=2 align="center" valign=middle><font color="#000000">:</font></td>
 		<td colspan=11 rowspan=2 align="left" valign=bottom><font color="#000000">________________________________________________________</font></td>
 		</tr>
@@ -160,25 +160,25 @@
 		<td height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td colspan=3 align="left" valign=middle><font color="#000000">Refer To PO Number</font></td>
+		<td colspan=3 align="left" valign=middle><font size=3 color="#000000">Refer To PO Number</font></td>
 		<td align="left" valign=middle><font color="#000000">:</font></td>
-		<td colspan=7 align="left" valign=middle sdval="1111" sdnum="1033;"><font color="#000000">{{$order->no_PO}}</font></td>
+		<td colspan=7 align="left" valign=middle sdval="1111" sdnum="1033;"><font size=3 color="#000000">{{$order->no_PO}}</font></td>
 		</tr>
 	<tr>
 		<td height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td colspan=3 align="left" valign=middle><font color="#000000">Refer To Order Number</font></td>
+		<td colspan=3 align="left" valign=middle><font size=3 color="#000000">Refer To Order Number</font></td>
 		<td align="left" valign=bottom><font color="#000000">:</font></td>
-		<td colspan=7 align="left" valign=middle><font color="#000000">{{$order->no_order}}</font></td>
+		<td colspan=7 align="left" valign=middle><font size=3 color="#000000">{{$order->no_order}}</font></td>
 		</tr>
 	<tr>
 		<td height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td colspan=3 align="left" valign=middle><font color="#000000">Refer To Number of Tax</font></td>
+		<td colspan=3 align="left" valign=middle><font size=3 color="#000000">Refer To Number of Tax</font></td>
 		<td align="left" valign=middle><font color="#000000">:</font></td>
-		<td colspan=7 align="left" valign=middle sdval="2222" sdnum="1033;"><font color="#000000">{{$pembayaran->no_pajak}}</font></td>
+		<td colspan=7 align="left" valign=middle sdval="2222" sdnum="1033;"><font size=3 color="#000000">{{$pembayaran->no_pajak}}</font></td>
 		</tr>
 	<tr>
 		<td height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
@@ -207,8 +207,8 @@
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 	</tr>
 	<tr>
-		<td colspan=2 rowspan=2 height="38" align="left" valign=middle><font color="#000000">Grand Total</font></td>
-		<td rowspan=2 align="center" valign=middle><font color="#000000">Rp.</font></td>
+		<td colspan=2 rowspan=2 height="38" align="left" valign=middle><font size=4 color="#000000">Grand Total</font></td>
+		<td rowspan=2 align="center" valign=middle><font size=4 color="#000000">Rp.</font></td>
 		<td colspan=11 rowspan=2 align="left" valign=middle sdval="14500500" sdnum="1033;0;#,##0"><b><u><font size=4 color="#000000">{{Dit::Rupiah($grand_total)}}</font></u></b></td>
 		</tr>
 	<tr>
@@ -327,7 +327,7 @@
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td colspan=4 align="center" valign=bottom><b><font color="#000000">___________ , __ ____________ _____</font></b></td>
+		<td colspan=4 align="center" valign=bottom><b><font size=2 color="#000000">Cimahi , {{date('d') . ' - ' . Dit::changeMonth((int)date('m')) . ' - ' . date('Y')}}</font></b></td>
 		</tr>
 	<tr>
 		<td height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
