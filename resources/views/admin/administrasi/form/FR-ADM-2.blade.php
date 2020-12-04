@@ -120,13 +120,13 @@
             </tr>
             <tr>
                 <td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=2 height="39" align="left" valign=middle><b><font face="Helvetica" color="#000000">Jenis Pekerjaan</font></b></td>
-                <td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 rowspan=2 align="left" valign=middle><font face="Helvetica" color="#000000">: CALIBRATION / TRAINING / TRADING / CONSULTING / REPAIR-MAINTENANCE</font></td>
+                <td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 rowspan=2 align="left" valign=middle><font face="Helvetica" color="#000000">: {{$order->jenis_pekerjaan}}</font></td>
                 <td align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
                 <td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=2 align="left" valign=middle><b><font face="Helvetica" color="#000000">Kontak</font></b></td>
                 <td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font face="Helvetica" color="#000000">: {{$order->customer['kontak_personel']}}</font></td>
                 <td align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
                 <td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=2 align="left" valign=middle><b><font face="Helvetica" color="#000000">Tgl Pesan</font></b></td>
-                <td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 rowspan=2 align="left" valign=middle><font face="Helvetica" color="#000000">: {{date('d-m-Y', strtotime($order->created_at)) }}</font></td>
+                <td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 rowspan=2 align="left" valign=middle><font face="Helvetica" color="#000000">: {{date('d - M - Y', strtotime($order->created_at)) }}</font></td>
                 </tr>
             <tr>
                 <td style="border-bottom: 2px solid #000000" align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>

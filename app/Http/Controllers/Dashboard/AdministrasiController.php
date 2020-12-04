@@ -221,7 +221,6 @@ class AdministrasiController extends Controller
      */
     public function storeWizard(Request $request, $next)
     {
-        // return $request->all();
 
         Validator::make($request->all(), [
             'no_order' => 'unique:orders'
@@ -235,6 +234,8 @@ class AdministrasiController extends Controller
 
         if (session('wizardID') == 2) {
 
+            $jenis_pekerjaan = implode(' / ', $request->jenis_pekerjaan);
+            $request->merge(['jenis_pekerjaan' => $jenis_pekerjaan]);
             $order = Order::create($request->except(['wizardID', 'pph', 'discount', 'tat']));
 
             /* $lama_kerja = $order->hari_kerja + 7;

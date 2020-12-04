@@ -91,6 +91,17 @@ Data Administrasi
                         </div>
                       </div>
                     </div>
+                    <div class="form-group row align-items-center">
+                      <label class="col-md-4 text-md-right text-left">Jenis Pekerjaan</label>
+                      <div class="col-lg-4 col-md-6">
+                        <select class="form-control select2" name="jenis_pekerjaan[]" multiple id="jenis_pekerjaan">
+                          <option value="Jasa Kalibrasi">Jasa Kalibrasi</option>
+                          <option value="Jasa Pelatihan">Jasa Pelatihan</option>
+                          <option value="Pengadaan Barang">Pengadaan Barang</option>
+                          <option value="Perbaikan">Perbaikan</option>
+                        </select>
+                      </div>
+                    </div>
                     <input type="date" hidden name="tgl_masuk" class="form-control" value="{{date('Y-m-d')}}" required>
                     <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left">Lama Hari Kerja</label>
