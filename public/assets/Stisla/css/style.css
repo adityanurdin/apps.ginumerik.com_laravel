@@ -88,7 +88,7 @@ a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fab {
 }
 
 .bg-success {
-    background-color: #01a23aimportant;
+    background-color: #01a23a !important;
 }
 
 .bg-info {
@@ -129,7 +129,7 @@ a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fab {
 .text-success-all *,
 .text-success-all *:before,
 .text-success-all *:after {
-    color: #01a23aimportant;
+    color: #01a23a !important;
 }
 
 .text-info,
@@ -682,7 +682,8 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .list-group-item-success {
-    background-color: #01a23a    color: #fff;
+    background-color: #01a23a;
+    color: #fff;
 }
 
 .list-group-item-danger {
@@ -756,7 +757,8 @@ select.form-control:not([size]):not([multiple]) {
     background-color: #cdd3d8;
 }
 .alert.alert-success {
-    background-color: #01a23a}
+    background-color: #01a23a;
+}
 .alert.alert-info {
     background-color: #3abaf4;
 }
@@ -967,7 +969,8 @@ select.form-control:not([size]):not([multiple]) {
     border-top: 2px solid #34395e;
 }
 .card.card-success {
-    border-top: 2px solid #01a23a}
+    border-top: 2px solid #01a23a;
+}
 .card.card-danger {
     border-top: 2px solid #fc544b;
 }
@@ -1479,7 +1482,8 @@ table tr:hover .table-links {
     background-color: #34395e;
 }
 .badge.badge-success {
-    background-color: #01a23a}
+    background-color: #01a23a;
+}
 .badge.badge-info {
     background-color: #3abaf4;
 }
@@ -1689,7 +1693,9 @@ h6 .badge {
 .btn-success,
 .btn-success.disabled {
     box-shadow: 0 2px 6px #a8f5b4;
-    background-color: #01a23a    border-color: #01a23a    color: #fff;
+    background-color: #01a23a;
+    border-color: #01a23a;
+    color: #fff;
 }
 .btn-success:hover,
 .btn-success:focus,
@@ -1707,7 +1713,7 @@ h6 .badge {
 .btn-outline-success.disabled:hover,
 .btn-outline-success.disabled:focus,
 .btn-outline-success.disabled:active {
-    background-color: #01a23aimportant;
+    background-color: #01a23a !important;
     color: #fff !important;
 }
 
@@ -2944,7 +2950,8 @@ pre {
 .is-online {
     width: 10px;
     height: 10px;
-    background-color: #01a23a    border-radius: 50%;
+    background-color: #01a23a;
+    border-radius: 50%;
     display: inline-block;
 }
 
