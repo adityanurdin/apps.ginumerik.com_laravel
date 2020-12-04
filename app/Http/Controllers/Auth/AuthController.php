@@ -49,7 +49,7 @@ class AuthController extends Controller
                                 ->with('error' , 'Akun anda sudah tidak aktif, silahkan hubungi admin.');
             } else {
                 Dit::Log(1,'Berhasil login ke dashboard', 'Success');
-                alert()->image('PT GAYA INSTRUMENTASI NUMERIK','Selamat datang',asset('assets/img/logo-gin.png'),'250','250');
+                alert()->image('PT GAYA INSTRUMENTASI NUMERIK','Selamat datang di SI MAUNG',asset('assets/img/logo-gin.png'),'250','250');
                 return redirect()->route('dashboard.index');
             }
         } else {
