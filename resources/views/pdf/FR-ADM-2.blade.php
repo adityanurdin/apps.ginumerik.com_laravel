@@ -37,23 +37,23 @@
 <table cellspacing="0" border="0">
 	<colgroup span="15" width="64"></colgroup>
 	<tr>
-		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=3 rowspan=6 height="115" align="center" valign=bottom><font size=2 color="#000000"><br><img src="{{asset('assets/img/logo2.jpg')}}" width=141 height=97 hspace=26 vspace=11>
+		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=3 rowspan=6 height="115" align="center" valign=bottom><font color="#000000"><br><img src="{{asset('assets/img/logo2.jpg')}}" width=141 height=97 hspace=26 vspace=11>
 		</font></td>
-		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=9 rowspan=2 align="center" valign=middle><b><font size=2 face="Helvetica" size=5 color="#000000">Laboratorium Kalibrasi</font></b></td>
+		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=9 rowspan=2 align="center" valign=middle><b><font face="Helvetica" size=5 color="#000000">Laboratorium Kalibrasi</font></b></td>
 		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=2 align="left" valign=middle><font size=2 color="#000000">No.</font></td>
 		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font size=2 color="#000000">: FR-ADM-02</font></td>
 		</tr>
 	<tr>
 		</tr>
 	<tr>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=9 rowspan=2 align="center" valign=middle><b><font size=2 face="Helvetica" size=5 color="#000000">PT. GAYA INSTRUMENTASI NUMERIK</font></b></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=9 rowspan=2 align="center" valign=middle><b><font face="Helvetica" size=5 color="#000000">PT. GAYA INSTRUMENTASI NUMERIK</font></b></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=2 align="left" valign=middle><font size=2 color="#000000">Revision</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font size=2 color="#000000">:</font></td>
 		</tr>
 	<tr>
 		</tr>
 	<tr>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=9 rowspan=2 align="center" valign=middle><font size=2 face="Helvetica" size=4 color="#000000">Form Order</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=9 rowspan=2 align="center" valign=middle><font face="Helvetica" size=4 color="#000000">Form Order</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" rowspan=2 align="left" valign=middle><font size=2 color="#000000">App. Date</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 rowspan=2 align="left" valign=middle><font size=2 color="#000000">:</font></td>
 		</tr>
@@ -278,61 +278,61 @@
 		<td align="left" valign=middle><font face="Helvetica" color="#000000">Nama</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 align="left" valign=middle><b><font face="Helvetica" color="#000000">: {{$order->customer['nama_sertifikat']}}</font></b></td>
 		<td align="left" valign=middle><font face="Helvetica" color="#000000"><br></font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1.4 face="Helvetica" color="#000000">Total</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1.4 face="Helvetica" color="#000000">: {{Dit::Rupiah($sum)}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1 face="Helvetica" color="#000000">Total</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1 face="Helvetica" color="#000000">: {{Dit::Rupiah($sum)}}</font></td>
 		</tr>
 	<tr>
-		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=middle><font size=1.4 face="Helvetica" color="#000000">Alamat</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 rowspan=3 align="left" valign=top><font size=1.4 face="Helvetica" color="#000000">: {{$order->customer['nama_sertifikat']}}</font></td>
-		<td align="left" valign=top><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1.4 face="Helvetica" color="#000000">{{$order->finance['discount'] != NULL ? 'Diskon' : '-'}}</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1.4 face="Helvetica" color="#000000">: {{$order->finance['discount'] != NULL ? Dit::Rupiah($order->finance['discount']) : '-'}}</font></td>
+		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=middle><font size=1 face="Helvetica" color="#000000">Alamat</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 rowspan=3 align="left" valign=top><font size=1 face="Helvetica" color="#000000">: {{$order->customer['nama_sertifikat']}}</font></td>
+		<td align="left" valign=top><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1 face="Helvetica" color="#000000">{{$order->finance['discount'] != NULL ? 'Diskon' : '-'}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1 face="Helvetica" color="#000000">: {{$order->finance['discount'] != NULL ? Dit::Rupiah($order->finance['discount']) : '-'}}</font></td>
 		</tr>
 	<tr>
-		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=top><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1.4 face="Helvetica" color="#000000">Sub Total</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1.4 face="Helvetica" color="#000000">: {{Dit::Rupiah($sum - $order->finance['discount'])}}</font></td>
+		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=top><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1 face="Helvetica" color="#000000">Sub Total</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1 face="Helvetica" color="#000000">: {{Dit::Rupiah($sum - $order->finance['discount'])}}</font></td>
 		</tr>
 	<tr>
-		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=top><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1.4 face="Helvetica" color="#000000">PPn</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1.4 face="Helvetica" color="#000000">: {{Dit::Rupiah(($sum - $order->finance['discount']) * 0.1)}}</font></td>
+		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=top><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1 face="Helvetica" color="#000000">PPn</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1 face="Helvetica" color="#000000">: {{Dit::Rupiah(($sum - $order->finance['discount']) * 0.1)}}</font></td>
 		</tr>
 	<tr>
-		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1.4 face="Helvetica" color="#000000">{{$order->finance['pph'] != NULL ? 'PPh' : '-'}}</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1.4 face="Helvetica" color="#000000">: {{$order->finance['pph'] != NULL ? Dit::Rupiah(($sum - $order->finance['discount']) * 0.02) : '-'}}</font></td>
+		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1 face="Helvetica" color="#000000">{{$order->finance['pph'] != NULL ? 'PPh' : '-'}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1 face="Helvetica" color="#000000">: {{$order->finance['pph'] != NULL ? Dit::Rupiah(($sum - $order->finance['discount']) * 0.02) : '-'}}</font></td>
 		</tr>
 	<tr>
-		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=8 rowspan=4 align="left" valign=top><font size=1.4 face="Helvetica" color="#000000">Catatan :</font></td>
-		<td align="left" valign=top><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1.4 face="Helvetica" color="#000000">Transportasi dan akomodasi teknis</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1.4 face="Helvetica" color="#000000">: {{Dit::Rupiah($order->finance['tat'])}}</font></td>
+		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=8 rowspan=4 align="left" valign=top><font size=1 face="Helvetica" color="#000000">Catatan :</font></td>
+		<td align="left" valign=top><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1 face="Helvetica" color="#000000">Transportasi dan akomodasi teknis</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1 face="Helvetica" color="#000000">: {{Dit::Rupiah($order->finance['tat'])}}</font></td>
 		</tr>
 	<tr>
-		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=top><font size=1.4 face="Helvetica" color="#000000"><br></font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1.4 face="Helvetica" color="#000000">Grand Total</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1.4 face="Helvetica" color="#000000">: {{Dit::Rupiah($grand_total)}}</font></td>
+		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=top><font size=1 face="Helvetica" color="#000000"><br></font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font size=1 face="Helvetica" color="#000000">Grand Total</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=1 face="Helvetica" color="#000000">: {{Dit::Rupiah($grand_total)}}</font></td>
 		</tr>
 	<tr>
-		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=2 face="Helvetica" color="#000000"><br></font></td>
-		<td align="left" valign=top><font size=2 face="Helvetica" color="#000000"><br></font></td>
+		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
+		<td align="left" valign=top><font face="Helvetica" color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
