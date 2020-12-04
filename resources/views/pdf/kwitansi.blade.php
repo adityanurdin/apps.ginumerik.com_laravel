@@ -31,7 +31,7 @@
 <table cellspacing="0" border="0" style="width: 100%">
 	<colgroup span="11" width="64"></colgroup>
 	<tr>
-		<td colspan=14 rowspan=3 height="58" align="center" valign=middle><b><font size=6 color="#000000">KWITANSI</font></b></td>
+		<td colspan=14 rowspan=3 height="175" align="center" valign=middle><b><font size=6 color="#000000">KWITANSI</font></b></td>
 		</tr>
 	<tr>
 		</tr>
