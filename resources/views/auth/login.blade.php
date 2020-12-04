@@ -15,6 +15,7 @@
             <div class="login-brand" style="font-weight: bold;">
                 <img src="{{asset('assets/img/logo-gin.png')}}" draggable="false" alt="logo" width="200" class="">
                 <p class="mt-4 text-bold">SIMAUNG</p>
+                <p class="mt-2" style="font-size: 10px;">Sistem Informasi Monitoring Aplikasi Unggul</p>
                 <p class="mt-4" style="font-size: 12px; font-weight: bold;">PT GAYA INSTRUMENTASI NUMERIK</p>
             </div>
             @if(session()->has('info'))
