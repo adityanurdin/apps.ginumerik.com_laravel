@@ -41,6 +41,16 @@ Edit Data Administrasi
                             <input type="text" name="no_order" id="no_order" readonly value="{{$order->no_order}}" class="form-control">
                         </div>
                         <div class="form-group">
+                          <label>Jenis Pekerjaan</label>
+                            <select class="form-control select2" name="jenis_pekerjaan[]" multiple id="jenis_pekerjaan">
+                              <option value="Jasa Kalibrasi">Jasa Kalibrasi</option>
+                              <option value="Jasa Pelatihan">Jasa Pelatihan</option>
+                              <option value="Pengadaan Barang">Pengadaan Barang</option>
+                              <option value="Perbaikan">Perbaikan</option>
+                            </select>
+                            <small>Jenis pekerjaan yang saat ini : {{$jenis_pekerjaan}}</small>
+                        </div>
+                        <div class="form-group">
                             <label for="tgl_masuk">Tanggal Masuk</label>
                             <input type="date" name="tgl_masuk" id="tgl_masuk" value="{{$order->tgl_masuk}}" class="form-control">
                         </div>

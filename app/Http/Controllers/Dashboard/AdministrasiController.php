@@ -327,8 +327,8 @@ class AdministrasiController extends Controller
     public function edit($id)
     {
         $order = Order::find($id);
-
-        return view('admin.administrasi.edit', compact('order'));
+        $jenis_pekerjaan = str_replace(' / ',', ', $order->jenis_pekerjaan);
+        return view('admin.administrasi.edit', compact('order', 'jenis_pekerjaan'));
     }
 
     /**
