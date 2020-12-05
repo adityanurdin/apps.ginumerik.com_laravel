@@ -71,7 +71,7 @@
                                             <div class="input-group">
                                                 <input type="text" form="form3" name="keterangan" placeholder="..." class="form-control form-control-sm" placeholder="" aria-label="">
                                                 <div class="input-group-append">
-                                                <button type="submit" form="form3" class="btn btn-primary btn-sm">Simpan</button>
+                                                <button type="submit" form="form3" class="btn btn-primary btn-sm">Tambah</button>
                                                 </div>
                                             </div>
                                         </td>
@@ -95,11 +95,11 @@
                                 </div>
                                 <div class="card-body">
                                             <div class="form-group">
-                                                <select class="form-control selectric" form="form" name="select_tod[]" id="select_tod" multiple data-height="350px">
+                                                <select class="form-control selectric" form="form" name="select_tod[]" id="select_tod" required multiple data-height="350px">
                                                     @if (Auth::user()->role == 'ADM')
                                                         <option value="Sertifikat">Sertifikat</option>
                                                         @foreach ($data->barangs as $item)
-                                                            <option value="{{$item->nama_barang}}">{{$item->nama_barang}} {{ is_null($item->AS) ? '' : '('.$item->AS.')' }} {{ $item->status_batal == '0' ? '' : '(Alat Batal)' }}</option>
+                                                            <option value="{{$item->nama_barang}} {{ $item->status_batal == '0' ? '' : '(Alat Batal)' }}">{{$item->nama_barang}} {{ is_null($item->AS) ? '' : '('.$item->AS.')' }} {{ $item->status_batal == '0' ? '' : '(Alat Batal)' }}</option>
                                                         @endforeach
                                                     @elseif (Auth::user()->role == 'FIN')
                                                         <option value="Invoice">Invoice</option>
@@ -111,7 +111,7 @@
                                                         <option value="Kwitansi">Kwitansi</option>
                                                         <option value="Faktur Pajak">Faktur Pajak</option>
                                                         @foreach ($data->barangs as $item)
-                                                            <option value="{{$item->nama_barang}}">{{$item->nama_barang}} {{ is_null($item->AS) ? '' : '('.$item->AS.')' }} {{ $item->status_batal == '0' ? '' : '(Alat Batal)' }}</option>
+                                                            <option value="{{$item->nama_barang}} {{ $item->status_batal == '0' ? '' : '(Alat Batal)' }}">{{$item->nama_barang}} {{ is_null($item->AS) ? '' : '('.$item->AS.')' }} {{ $item->status_batal == '0' ? '' : '(Alat Batal)' }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
