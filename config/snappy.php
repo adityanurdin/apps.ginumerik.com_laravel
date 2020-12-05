@@ -38,7 +38,7 @@ return [
         'binary'  => env('OS') == 'windows' ? '/usr/local/bin/wkhtmltopdf' : '"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf"',
         'timeout' => false,
         'options' => array(
-            'footer-left' => 'Page [page] of [toPage]',
+            // 'footer-left' => 'Page [page] of [toPage]',
             'footer-font-size' => 8,
         ),
         'env'     => [],

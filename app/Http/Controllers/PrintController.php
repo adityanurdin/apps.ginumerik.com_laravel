@@ -82,7 +82,8 @@ class PrintController extends Controller
 
         $pdf    = Pdf::loadView('pdf.transfer-of-doc', compact('data', 'order'))
                                 ->setOption('margin-bottom', 20)
-                                ->setOption('margin-top', 20);
+                                ->setOption('margin-top', 20)
+                                ->setOption('footer-left', 'Page [page] of [toPage] - Transfer of Document & Equipment ' . $order->no_order);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' Transfer of Document & Equipment .pdf' );
     }
 
@@ -134,7 +135,8 @@ class PrintController extends Controller
         $query = $request->all();
         $pdf    = Pdf::loadView('pdf.invoice-new', compact($data))
                             ->setOption('margin-bottom', 32)
-                            ->setOption('margin-top', 52);
+                            ->setOption('margin-top', 52)
+                            ->setOption('footer-left', 'Page [page] of [toPage] - ' . $pembayaran->no_invoice);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_invoice).'.pdf' );
     }
 
@@ -168,7 +170,8 @@ class PrintController extends Controller
 
         $pdf    = Pdf::loadView('pdf.kwitansi', compact('finance', 'order', 'pembayaran', 'grand_total', 'tempat_tanggal'))
                         ->setOption('margin-bottom', 32)
-                        ->setOption('margin-top', 52);
+                        ->setOption('margin-top', 52)
+                        ->setOption('footer-left', 'Page [page] of [toPage] - ' . $pembayaran->no_kwitansi);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_kwitansi).'.pdf' );
     }
 
@@ -190,7 +193,8 @@ class PrintController extends Controller
         $barang = KartuAlat::with('barang')->whereIn('barang_id', $barang_ids)->get();
 
 
-        $pdf = PDF::loadView('pdf.FR-TK-1', compact('order', 'barang'));
+        $pdf = PDF::loadView('pdf.FR-TK-1', compact('order', 'barang'))
+                ->setOption('footer-left', 'Page [page] of [toPage] - Kartu Alat ' . $order->no_order);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
     }
 
