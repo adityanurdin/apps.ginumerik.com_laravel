@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="card-body">
                                             <div class="form-group">
-                                                <select class="form-control selectric" form="form" name="select_tod[]" id="select_tod" required multiple data-height="350px">
+                                                <select class="form-control" form="form" name="select_tod[]" id="select_tod" required multiple data-height="100%">
                                                     @if (Auth::user()->role == 'ADM')
                                                         <option value="Sertifikat">Sertifikat</option>
                                                         @foreach ($data->barangs as $item)

@@ -55,7 +55,7 @@ Invoice
                         </div> --}}
                         <div class="form-group">
                             <label for="">Check Alat</label>
-                            <select name="barang_ids[]" class="form-control selectric" multiple id="barang_ids" required>
+                            <select name="barang_ids[]" class="form-control" multiple id="barang_ids" data-height="100%" required>
                                 @if(isset($alat))
                                         <option value="" disabled selected> -Pilih Alat- </option>
                                     @foreach ($alat as $item)
