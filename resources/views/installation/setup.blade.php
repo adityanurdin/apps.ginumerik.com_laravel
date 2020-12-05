@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('title')
@@ -11,10 +12,17 @@
 
         <div class="col-12">
             <div class="card">
-              <div class="card-header">
+              {{-- <div class="card-header">
                 <h4>Installation</h4>
-              </div>
+              </div> --}}
               <div class="card-body">
+                <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                  <div class="login-brand">
+                    <img src="{{asset('assets/img/logo-gin.png')}}" draggable="false" alt="logo" width="200" class="">
+                    <p class="mt-4 text-bold">SIMAUNG</p>
+                    <p class="mt-4" style="font-size: 10px; font-weight: bold;">PT GAYA INSTRUMENTASI NUMERIK</p>
+                  </div>
+                </div>
                 <div class="row mt-4">
                   <div class="col-12 col-lg-8 offset-lg-2">
                     <div class="wizard-steps">
