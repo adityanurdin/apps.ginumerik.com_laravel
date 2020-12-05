@@ -190,9 +190,7 @@ class PrintController extends Controller
         $barang = KartuAlat::with('barang')->whereIn('barang_id', $barang_ids)->get();
 
 
-        $pdf = PDF::loadView('pdf.FR-TK-1', compact('order', 'barang'))
-                            ->setOption('margin-bottom', 42)
-                            ->setOption('margin-top', 42);
+        $pdf = PDF::loadView('pdf.FR-TK-1', compact('order', 'barang'));
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
     }
 

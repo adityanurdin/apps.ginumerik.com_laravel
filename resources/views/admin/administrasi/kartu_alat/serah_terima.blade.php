@@ -40,7 +40,7 @@
                                           </td>
                                       </tr>
                                       <tr>
-                                          <td>Instansi</td>
+                                          <td>Jabatan</td>
                                           <td>:</td>
                                           <td class="pl-5">
                                               @if (isset($order->serahterima['id_upk_penerima']))
@@ -87,7 +87,7 @@
                                           </td>
                                       </tr>
                                       <tr>
-                                          <td>Instansi</td>
+                                          <td>Jabatan</td>
                                           <td> : </td>
                                           <td class="pl-5">
                                             @if(isset($order->serahterima['id_upk_penyerah']))
@@ -137,7 +137,7 @@
                                           </td>
                                       </tr>
                                       <tr>
-                                          <td>Instansi</td>
+                                          <td>Jabatan</td>
                                           <td>:</td>
                                           <td class="pl-5">
                                                 {{isset($order->serahterima['id_lab_penerima']) ? Dit::getRole($order->serahterima['id_lab_penerima']) : '-'}}
@@ -166,7 +166,7 @@
                                           </td>
                                       </tr>
                                       <tr>
-                                          <td>Instansi</td>
+                                          <td>Jabatan</td>
                                           <td> : </td>
                                           <td class="pl-5">
                                                 {{isset($order->serahterima['id_lab_penyerah']) ? Dit::getRole($order->serahterima['id_lab_penyerah']) : '-'}}
