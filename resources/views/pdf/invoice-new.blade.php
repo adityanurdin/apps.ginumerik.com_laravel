@@ -30,7 +30,7 @@
 <table cellspacing="0" border="0">
 	<colgroup span="15" width="64"></colgroup>
 	<tr>
-		<td height="65" align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
+		<td height="58" align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
@@ -407,7 +407,7 @@
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 	</tr>
 	<tr>
-		<td colspan=5 height="19" align="left" valign=middle><font size=3 color="#000000">Cimahi, {{date('d') . ' - ' . Dit::changeMonth((int)date('m')) . ' - ' . date('Y')}}</font></td>
+		<td colspan=5 height="19" align="left" valign=middle><font size=3 color="#000000">{{$tempat_tanggal}}</font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>

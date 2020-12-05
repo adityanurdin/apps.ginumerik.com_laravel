@@ -88,6 +88,8 @@ class PrintController extends Controller
 
     public function invoice($id, Request $request)
     {
+        $tempat_tanggal = $request->tempat . ', ' . date('d - M - Y', strtotime($request->tanggal));
+        // return $request->all();
         $pembayaran = HistoryPembayaran::findOrFail($id);
         $finance    = Finance::findOrFail($pembayaran->finance_id);
 
@@ -125,17 +127,18 @@ class PrintController extends Controller
             'pph',
             'tat',
             'grand_total',
-            'discount'
+            'discount',
+            'tempat_tanggal'
         ];
         // $pdf    = Pdf::loadView('pdf.invoice-new', compact($data));
         $query = $request->all();
         $pdf    = Pdf::loadView('pdf.invoice-new', compact($data))
-                            ->setOption('margin-bottom', 42)
-                            ->setOption('margin-top', 42);
+                            ->setOption('margin-bottom', 32)
+                            ->setOption('margin-top', 52);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_invoice).'.pdf' );
     }
 
-    public function kwitansi($id)
+    public function kwitansi($id, Request $request)
     {
         $pembayaran = HistoryPembayaran::findOrFail($id);
         $finance    = Finance::findOrFail($pembayaran->finance_id);
@@ -157,11 +160,15 @@ class PrintController extends Controller
         $tat      = $pembayaran->tat == 'on' ? $finance->tat : 0;
         $grand_total = $subtotal + $ppn + $pph + $tat;
 
+        $tempat_tanggal = $request->tempat . ', ' . date('d - M - Y', strtotime($request->tanggal));
+
         $order  = Order::with('customer', 'barangs')
                         ->whereId($finance->order_id)
                         ->first();
 
-        $pdf    = Pdf::loadView('pdf.kwitansi', compact('finance', 'order', 'pembayaran', 'grand_total'));
+        $pdf    = Pdf::loadView('pdf.kwitansi', compact('finance', 'order', 'pembayaran', 'grand_total', 'tempat_tanggal'))
+                        ->setOption('margin-bottom', 32)
+                        ->setOption('margin-top', 52);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_kwitansi).'.pdf' );
     }
 

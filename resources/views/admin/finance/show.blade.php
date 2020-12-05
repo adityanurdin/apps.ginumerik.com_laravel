@@ -59,8 +59,10 @@ Data Finance
                       <td>{{$item->status}}</td>
                       <td>{{$item->keterangan}}</td>
                       <td>
-                        <a href="{{route('print.invoice', $item->id)}}" class="btn btn-sm btn-outline-primary {{$item->status === 'Batal' ? 'disabled' : ''}}"><i class="fas fa-print"></i> Invoice</a> 
-                        <a href="{{route('print.kwitansi', $item->id)}}" class="btn btn-sm btn-outline-primary {{$item->status === 'Batal' ? 'disabled' : ''}}" ><i class="fas fa-print"></i> Kwitansi</a> 
+                        {{-- <a href="{{route('print.invoice', $item->id)}}" class="btn btn-sm btn-outline-primary {{$item->status === 'Batal' ? 'disabled' : ''}}"><i class="fas fa-print"></i> Invoice</a>  --}}
+                        <a href="#" class="btn btn-sm btn-outline-primary {{$item->status === 'Batal' ? 'disabled' : ''}}" id="date-modal-{{$item->id}}-inv"><i class="fas fa-print"></i> Invoice</a> 
+                        {{-- <a href="{{route('print.kwitansi', $item->id)}}" class="btn btn-sm btn-outline-primary {{$item->status === 'Batal' ? 'disabled' : ''}}" ><i class="fas fa-print"></i> Kwitansi</a>  --}}
+                        <a href="#" class="btn btn-sm btn-outline-primary {{$item->status === 'Batal' ? 'disabled' : ''}}" id="date-modal-{{$item->id}}-kwi"><i class="fas fa-print"></i> Kwitansi</a> 
                       </td>
                     </tr>
                   @endforeach
@@ -74,6 +76,8 @@ Data Finance
 </section>
 
 @foreach ($history_pembayaran as $item)   
+
+{{-- Pembayaran --}}
 <form class="modal-part" id="modal-pembayaran-{{$item->id}}">
   @csrf
   @method('PUT')
@@ -110,6 +114,58 @@ Data Finance
     <div class="modal-message"></div>  
   </div>
 </form>
+
+<form class="modal-part" id="modal-date-{{$item->id}}-inv">
+  <div class="form-group">
+    <label>Tempat</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+      </div>
+      <input type="text" class="form-control" value="Cimahi" name="tempat">
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Tanggal</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fas fa-calendar"></i>
+        </div>
+      </div>
+      <input type="date" class="form-control" value="{{date('Y-m-d')}}" name="tanggal">
+    </div>
+    <small>note: format tanggal di atas adalah bulan-tanggal-tahun</small>
+  </div>
+</form>
+
+<form class="modal-part" id="modal-date-{{$item->id}}-kwi">
+  <div class="form-group">
+    <label>Tempat</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+      </div>
+      <input type="text" class="form-control" value="Cimahi" name="tempat">
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Tanggal</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="fas fa-calendar"></i>
+        </div>
+      </div>
+      <input type="date" class="form-control" value="{{date('Y-m-d')}}" name="tanggal">
+    </div>
+    <small>note: format tanggal di atas adalah bulan-tanggal-tahun</small>
+  </div>
+</form>
 @endforeach
 
 @endsection
@@ -125,6 +181,7 @@ Data Finance
 
     @foreach ($history_pembayaran as $item)
       <script>
+        // pembayaran
         $("#pembayaran-{{$item->id}}").fireModal({
           title: 'Edit History Pembayaran',
           body: $("#modal-pembayaran-{{$item->id}}"),
@@ -132,13 +189,6 @@ Data Finance
           autoFocus: true,
           onFormSubmit: function(modal, e, form) {
               let form_data = $(e.target).serialize();
-              // DO AJAX HERE
-              // let fake_ajax = setTimeout(function() {
-              //   form.stopProgress();
-              //   modal.find('.modal-body').prepend('<div class="alert alert-info"><b>{{$item->no_invoice}}</b> telah lunas</div>')
-
-              //   clearInterval(fake_ajax);
-              // }, 1500);
 
               $.ajax({
                 type: "POST",
@@ -181,6 +231,111 @@ Data Finance
               }
             ]
         })
+
+
+        // date modal invoice
+        $("#date-modal-{{$item->id}}-inv").fireModal({
+        title: 'INVOICE - {{$item->no_invoice}}',
+        body: $("#modal-date-{{$item->id}}-inv"),
+        footerClass: 'bg-whitesmoke',
+        autoFocus: false,
+        onFormSubmit: function(modal, e, form) {
+          // Form Data
+          let form_data = $(e.target).serialize();
+
+          $.ajax({
+              type: "POST",
+              enctype: 'multipart/form-data',
+              url: "{{ route('print.invoice', $item->id) }}",
+              data: form_data,
+              dataType: 'json',
+              success: function(res) {
+                form.stopProgress();
+                console.log(res)
+
+                // if (res.status === true) {
+                //   // modal.find('.modal-message').prepend('<div class="alert alert-info">'+ res.msg +'</div>')
+                  setTimeout(function() {
+                    window.location.href = "{{route('finance.show', $item->finance_id)}}";
+                  }, 500)
+                // } else {
+                //   modal.find('.modal-message').prepend('<div class="alert alert-danger"> Gagal Print, silahkan coba lagi </div>')
+                // }
+
+
+              },
+              error: function(err) {
+                console.log('error: ' + err)
+              }
+            })
+
+          e.preventDefault();
+        },
+        shown: function(modal, form) {
+          console.log(form)
+        },
+        buttons: [
+          {
+            text: '<i class="fas fa-print"></i> Print Invoice',
+            submit: true,
+            class: 'btn btn-primary btn-shadow',
+            handler: function(modal) {
+            }
+          }
+        ]
+      });
+      
+      // date modal Kwitansi
+      $("#date-modal-{{$item->id}}-kwi").fireModal({
+      title: 'KWITANSI - {{$item->no_kwitansi}}',
+      body: $("#modal-date-{{$item->id}}-kwi"),
+      footerClass: 'bg-whitesmoke',
+      autoFocus: false,
+      onFormSubmit: function(modal, e, form) {
+        // Form Data
+        let form_data = $(e.target).serialize();
+
+        $.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url: "{{ route('print.kwitansi', $item->id) }}",
+            data: form_data,
+            dataType: 'json',
+            success: function(res) {
+              form.stopProgress();
+              console.log(res)
+
+              // if (res.status === true) {
+              //   // modal.find('.modal-message').prepend('<div class="alert alert-info">'+ res.msg +'</div>')
+                setTimeout(function() {
+                  window.location.href = "{{route('finance.show', $item->finance_id)}}";
+                }, 500)
+              // } else {
+              //   modal.find('.modal-message').prepend('<div class="alert alert-danger"> Gagal Print, silahkan coba lagi </div>')
+              // }
+
+
+            },
+            error: function(err) {
+              console.log('error: ' + err)
+            }
+          })
+
+        e.preventDefault();
+      },
+      shown: function(modal, form) {
+        console.log(form)
+      },
+      buttons: [
+        {
+          text: '<i class="fas fa-print"></i> Print Kwitansi',
+          submit: true,
+          class: 'btn btn-primary btn-shadow',
+          handler: function(modal) {
+          }
+        }
+      ]
+    });
       </script>
     @endforeach
 
