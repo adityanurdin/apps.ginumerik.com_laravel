@@ -6,6 +6,7 @@ Data Administrasi
 
 @section('css')
     <link rel="stylesheet" href="{{asset('assets/css/summernote-bs4.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 @endsection
 
 @section('content')
@@ -165,7 +166,7 @@ Data Administrasi
                     @elseif($wizardID == 2)
                     <div id="dynamicForm">
 
-                      <div class="form-group row align-items-center">
+                      {{-- <div class="form-group row align-items-center">
                         <label class="col-md-4 text-md-right text-left"></label>
                         <div class="col-lg-4 col-md-6">
                           <div class="alert alert-warning alert-dismissible show fade">
@@ -177,9 +178,9 @@ Data Administrasi
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="form-group row align-items-center">
-                        <label class="col-md-4 text-md-right text-left">Nama Barang</label>
+                      </div> --}}
+                      <div class="form-group row align-items-center mt-5">
+                        <label class="col-md-4 text-md-right text-left">Nama Alat</label>
                         <div class="col-lg-4 col-md-6">
                           <input type="text" id="nama_barang" name="nama_barang" class="form-control" autocomplete="off">
                         </div>
@@ -329,6 +330,7 @@ Data Administrasi
                       <div class="col-lg-4 col-md-6">
                         <button id="btnSimpan" class="btn btn-outline-primary btn-block"><i class="fas fa-save"></i> Simpan</button>
                         {{-- <button class="btn btn-outline-primary float-right"  style="width: 48%"><i class="fas fa-save"></i> Preview</button> --}}
+                        <small id="small-msg" style="display: none;"><strong>Note: </strong> Alat wajib disimpan sebelum menekan tombol finish</small>
                       </div>
                     </div>
                         
@@ -365,6 +367,8 @@ Data Administrasi
 
 @push('scripts')
 <script src=" {{asset('assets/js/summernote-bs4.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     @if ( isset($order) ? count($order->barangs) < 1 : '')
         <script>
@@ -373,6 +377,28 @@ Data Administrasi
     @endif
 
     <script>
+
+      toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
+      var nama_barang = $('#nama_barang').change(function(e) {
+        $('#finish').addClass('disabled')
+        $('#small-msg').show()
+      })
 
       $('#lab').change(function() {
         var selectedLab = $(this).children("option:selected").val()
@@ -424,7 +450,13 @@ Data Administrasi
 
         $('#refresh_sert').on('click', function(e) {
             $('#no_sertifikat').val(sert())
-            alert('Nomer sertifikat telah update menjadi ' + sert())
+            // alert('Nomer sertifikat telah update menjadi ' + sert())
+            Swal.fire({
+              title: 'Info',
+              text: 'Nomer sertifikat telah update menjadi ' + sert(),
+              icon: 'info',
+              confirmButtonText: 'OK'
+            })
         })
 
       $('#btnSimpan').click(function(e) {
@@ -449,8 +481,11 @@ Data Administrasi
                 $('#no_sertifikat').val(no_sertifikat)
 
                 $('#btnSimpan').html('<i class="fas fa-save"></i> Simpan')
-                alert(res.msg)
+                toastr.success(res.msg)
+                // alert(res.msg)
                 $('#finish').show();
+                $('#finish').removeClass('disabled');
+                $('#small-msg').hide()
               } else {
                 $.each( res.msg, function( key, value ) {
                   alert( key + ": " + value );
