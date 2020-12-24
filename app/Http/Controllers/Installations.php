@@ -61,7 +61,7 @@ class Installations extends Controller
             if (User::create($input)) {
                 User::create([
                     'name'      => 'Developer',
-                    'email'     => 'dev',
+                    'email'     => 'dev@ginumerik.com',
                     'password'  => Hash::make('@DeveloperGIN'),
                     'role'      => 'ADMIN',
                     'status'    => 'active'
