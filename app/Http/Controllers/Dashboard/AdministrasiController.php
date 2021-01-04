@@ -60,12 +60,16 @@ class AdministrasiController extends Controller
             $get_order = Setting::where('key', 'no_order')->first();
             $no_order  = $get_order->value;
         } else {
-            $unique_number = (int)substr($order->no_order, 8);
-            $number = intval($unique_number) + 1;
+            $tahun = (int)substr($order->no_order, 0, 2);
             $year = date('y');
+            if ( $tahun != $year) {
+                $unique_number = 0;
+            } else {
+                $unique_number = (int)substr($order->no_order, 8);
+            }
+            $number = intval($unique_number) + 1;
             $no_order = $year.' G '.str_pad($number, 5, 0, STR_PAD_LEFT);
             $no_order = substr_replace($no_order, ' ', 8).str_pad($number, 2, 0, STR_PAD_LEFT);
-            // return $no_order;
         }
 
         // 20 G 000 01
