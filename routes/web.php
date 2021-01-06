@@ -44,6 +44,9 @@ Route::group(['middleware' => 'SETUP'], function() {
         
         Route::get('register' , 'Auth\AuthController@registerPage')->name('register');
         Route::post('register' , 'Auth\AuthController@register')->name('register');
+
+        Route::get('lupa-password', 'Auth\AuthController@lupas')->name('lupas');
+        Route::post('lupa-password', 'Auth\AuthController@goLupas')->name('lupas');
     });
     
     Route::get('logout', 'Auth\AuthController@logout')->name('logout');

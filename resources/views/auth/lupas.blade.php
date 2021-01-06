@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Login
+    Lupa Password
 @endsection
 
 @section('content')
@@ -9,15 +9,6 @@
     <div class="container mt-5">
       <div class="row">
         <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-          {{-- <div class="login-brand" style="font-weight: bold;">
-              GINUMERIK
-            </div> --}}
-            <div class="login-brand" style="font-weight: bold;">
-                <img src="{{asset('assets/img/logo-gin.png')}}" draggable="false" alt="logo" width="200" class="">
-                <p class="mt-4 text-bold">SIMAUNG</p>
-                <p class="mt-2" style="font-size: 10px;">Sistem Informasi Monitoring Aplikasi Unggul</p>
-                <p class="mt-4" style="font-size: 12px; font-weight: bold;">PT GAYA INSTRUMENTASI NUMERIK</p>
-            </div>
             @if(session()->has('info'))
             <div class="alert alert-primary">
                 {{ session()->get('info') }}
@@ -38,7 +29,7 @@
                     <h4>Login</h4>
                 </div> --}}
                 <div class="card-body">
-                    <form method="POST" action="">
+                    <form method="POST" action="{{route('lupas')}}">
                         @csrf  
                         <div class="form-group">
                             <label for="email">Username</label>
@@ -49,38 +40,42 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="d-block">
-                                <label for="password" class="control-label">Password</label>
-                                <div class="float-right">
-                                <a href="{{route('lupas')}}" class="text-small">
-                                    Forgot Password?
-                                </a>
-                                </div>
+                            <label for="password" class="control-label">New Password</label>
+                            <input id="password" type="password" class="form-control" placeholder="Set account password" name="password" tabindex="2" required>
+                            <div class="invalid-feedback">
+                              
                             </div>
-                            <input aria-describedby="passwordHelpBlock" id="password" type="password" placeholder="Password" class="form-control" name="password" tabindex="2">
+                          </div>
+          
+                          <div class="form-group">
+                            <label for="password_confirmation" class="control-label">Confirm New Password</label>
+                            <input id="password_confirmation" type="password" placeholder="Confirm account password" class="form-control" name="password_confirmation" tabindex="2" required>
+                            <div class="invalid-feedback">
+                              
+                            </div>
+                          </div>
+
+                        <div class="form-group">
+                            <div class="d-block">
+                                <label for="secret_code" class="control-label">Secret Code</label>
+                            </div>
+                            <input aria-describedby="secret_codeHelpBlock" id="secret_code" type="password" placeholder="Secret Code" class="form-control" name="secret_code" tabindex="2">
                             <div class="invalid-feedback">
                                 
                             </div>
                         </div>
 
                         <div class="form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember">
-                            <label class="custom-control-label" for="remember">Remember Me</label>
-                        </div>
-                        </div>
-
-                        <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                            Login
-                        </button>
-                        <a href="{{route('register')}}" class="btn btn-outline-primary btn-lg btn-block" tabindex="4">
-                            Register
-                        </a>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                Submit
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
+            <div class="mt-5 text-muted text-center">
+                Already have an account? <a href="{{route('login')}}">Sign In</a>
+                </div>
           <div class="simple-footer">
             {{-- Build with ❤ by <a href="https://labs.litecloud.id" target="__blank">labs.litecloud.id</a>  --}}
           </div>

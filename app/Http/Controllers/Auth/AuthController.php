@@ -100,6 +100,38 @@ class AuthController extends Controller
         }
     }
 
+    public function lupas()
+    {
+        return view('auth.lupas');
+    }
+    
+    public function goLupas(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'email'         => 'unique:users|required',
+            'password'      => 'confirmed|required',
+            'secret_code'   => 'required|min:6|max:6',
+        ])->validate();
+
+        $setting = Setting::where('key', 'secret_code')->first();
+        if ($request->secret_code == $setting->value) {
+            $email    = $request->email.'@ginumerik.com';
+            $user = User::where('email', $email)->first();
+            if ($user) {
+                $user->update([
+                    'password' => Hash::make($request->password)
+                ]);
+                return redirect()->route('login');
+            } else {
+                return redirect()->route('lupas')
+                                ->with('error', 'Username tidak ditemukan');
+            }
+        } else {
+            return redirect()->route('lupas')
+                                ->with('error', 'User created failed, Secret Code is invalid.');
+        }
+    }
+
     public function logout()
     {
         Auth::logout();
