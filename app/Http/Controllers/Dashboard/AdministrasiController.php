@@ -410,17 +410,31 @@ class AdministrasiController extends Controller
             $no_sertifikat = $no_urut.'.G.Sert/'.date('m/y');
         } else {
             if ($barang->no_sertifikat == '-') {
+                $tahun = date('y');
                 $new_barang = Barang::where('no_sertifikat', 'like' , '%.G.Sert%')->latest()->first();
+                // return $new_barang;
                 $number = $new_barang->no_sertifikat;
+                $year   = substr($number, 15);
                 $number = substr($number, 0, 4);
+                if ($tahun > $year) {
+                    if ($number > '0001') {
+                        $number = '0000';
+                    }
+                }
                 // return $number;
                 $no_urut = str_pad($number + 1, 4, 0, STR_PAD_LEFT);
                 $no_sertifikat = $no_urut.'.G.Sert/'.date('m/y');
                 return $no_sertifikat;
             } else {
+                $tahun = date('m/y');
                 $number = $barang->no_sertifikat;
+                $year   = substr($number, 12);
                 $number = substr($number, 0, 4);
-                // return $number;
+                if ($tahun == $year) {
+                    if ($number > '0001') {
+                        $number = '0000';
+                    }
+                }
                 $no_urut = str_pad($number + 1, 4, 0, STR_PAD_LEFT);
                 $no_sertifikat = $no_urut.'.G.Sert/'.date('m/y');
             }
