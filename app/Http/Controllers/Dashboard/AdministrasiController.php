@@ -421,32 +421,42 @@ class AdministrasiController extends Controller
         } else {
             if ($barang->no_sertifikat == '-') {
                 $tahun = date('y');
-                $new_barang = Barang::where('no_sertifikat', 'like' , '%.G.Sert%')->latest()->first();
+                $new_barang = Barang::where('no_sertifikat', 'like' , '%.G.Sert%')
+                                    ->whereYear(date('Y'))->latest()->first();
                 // return $new_barang;
+                $check_barang = Barang::whereYear('created_at', date('Y'))->first();
                 $number = $new_barang->no_sertifikat;
-                $year   = substr($number, 15);
-                $number = substr($number, 0, 4);
-                if ($tahun > $year) {
-                    if ($number > '0001') {
-                        $number = '0000';
-                    }
+                // $year   = substr($number, 15);
+                if (!$check_barang) {
+                    $number = '0000';
+                }else {
+                    $number = substr($number, 0, 4);
                 }
                 // return $number;
                 $no_urut = str_pad($number + 1, 4, 0, STR_PAD_LEFT);
                 $no_sertifikat = $no_urut.'.G.Sert/'.date('m/y');
                 return $no_sertifikat;
             } else {
-                $tahun = date('m/y');
+                $check_barang = Barang::whereYear('created_at', date('Y'))->first();
+                $tahun = date('y');
                 $number = $barang->no_sertifikat;
-                $year   = substr($number, 12);
-                $number = substr($number, 0, 4);
-                if ($tahun == $year) {
-                    if ($number > '0001') {
-                        $number = '0000';
-                    }
+                // $year   = substr($number, 15);
+                if (!$check_barang) {
+                    $number = '0000';
+                }else {
+                    $number = substr($number, 0, 4);
                 }
+                // return $number;
+                // if ($tahun == $year) {
+                //     if ($number >= 0001) {
+                //         $number = '0000';
+                //     } else {
+                //         $number = $number;
+                //     }
+                // }
                 $no_urut = str_pad($number + 1, 4, 0, STR_PAD_LEFT);
                 $no_sertifikat = $no_urut.'.G.Sert/'.date('m/y');
+                return $no_sertifikat;
             }
 
         }
