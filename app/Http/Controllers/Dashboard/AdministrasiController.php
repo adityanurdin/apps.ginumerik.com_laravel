@@ -456,7 +456,7 @@ class AdministrasiController extends Controller
                 // }
                 $no_urut = str_pad($number + 1, 4, 0, STR_PAD_LEFT);
                 $no_sertifikat = $no_urut.'.G.Sert/'.date('m/y');
-                return $no_sertifikat;
+                // return $no_sertifikat;
             }
 
         }
