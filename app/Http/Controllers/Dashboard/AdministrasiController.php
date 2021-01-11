@@ -422,7 +422,7 @@ class AdministrasiController extends Controller
             if ($barang->no_sertifikat == '-') {
                 $tahun = date('y');
                 $new_barang = Barang::where('no_sertifikat', 'like' , '%.G.Sert%')
-                                    ->whereYear(date('Y'))->latest()->first();
+                                    ->whereYear('created_at', date('Y'))->latest()->first();
                 // return $new_barang;
                 $check_barang = Barang::whereYear('created_at', date('Y'))->first();
                 $number = $new_barang->no_sertifikat;

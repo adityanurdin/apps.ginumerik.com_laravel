@@ -151,7 +151,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="no_sertifikat">No Sertifikat</label>
-                                        <input type="text" name="no_sertifikat" id="no_sertifikat" {{$barang->no_sertifikat != '-' ? 'disabled' : ''}} class="form-control @error('no_sertifikat') is-invalid @enderror" value="{{$barang->no_sertifikat}}">
+                                        <input type="text" name="no_sertifikat" id="no_sertifikat" class="form-control @error('no_sertifikat') is-invalid @enderror" value="{{$barang->no_sertifikat}}">
                                         <div class="invalid-feedback">
                                             @error('no_sertifikat')
                                                 {{ $message }}
