@@ -112,8 +112,8 @@ Data Teknis
                             <td align="center" valign=middle>
                                 {{$item->barang['no_sertifikat']}} <br>
                                 <div id="link_sertifikat_{{$item->id}}">
-                                    @if ($item['paraf_selesai'] != NULL)
-                                    <a href="{{ route('sertifikat.show', [Dit::encode($item->barang['no_sertifikat'], 0, 4), $order->id]) }}">Upload</a>
+                                    @if ($item['paraf_alat'] != NULL)
+                                    <a href="{{ route('sertifikat.show', [Dit::encode($item->barang['no_sertifikat'], 0, 4), $order->id]) }}">Lihat</a>
                                     @endif
                                 </div>
                             </td>
@@ -354,6 +354,7 @@ Data Teknis
                     if(res.status === true) {
                         console.log(res.msg)
                         $('#tgl_alat_{{$item->id}}').load(location.href + " #tgl_alat_{{$item->id}}")
+                        $('#link_sertifikat_{{$item->id}}').load(location.href + " #link_sertifikat_{{$item->id}}")
                     } else {
                         alert(res.msg)
                         console.log(res.data)
@@ -382,7 +383,7 @@ Data Teknis
                             })
                         }
                         $('#tgl_selesai_{{$item->id}}').load(location.href + " #tgl_selesai_{{$item->id}}")
-                        $('#link_sertifikat_{{$item->id}}').load(location.href + " #link_sertifikat_{{$item->id}}")
+                        // $('#link_sertifikat_{{$item->id}}').load(location.href + " #link_sertifikat_{{$item->id}}")
                     } else {
                         alert(res.msg)
                         console.log(res.data)

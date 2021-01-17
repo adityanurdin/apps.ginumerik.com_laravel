@@ -696,4 +696,9 @@ class AdministrasiController extends Controller
         return view('admin.administrasi.lag', compact('lag'));
     }
 
+    public function subcon()
+    {
+        return view('admin.administrasi.sub_con');
+    }
+
 }

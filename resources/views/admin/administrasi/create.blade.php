@@ -247,7 +247,7 @@ Data Administrasi
                             </select>
                           </div>
                         </div>
-                        <div class="form-group row align-items-center">
+                        {{-- <div class="form-group row align-items-center">
                           <label class="col-md-4 text-md-right text-left">KAN</label>
                           <div class="col-lg-4 col-md-6">
                             <div class="selectgroup w-100">
@@ -276,15 +276,53 @@ Data Administrasi
                               </label>
                             </div>
                           </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group row align-items-center">
                           <label class="col-md-4 text-md-right text-left">No Sertifikat</label>
                           <div class="col-lg-4 col-md-6">
-                            <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control" readonly>
-                            <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small>
+                            <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control">
+                            {{-- <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small> --}}
+                            <small>Rekomendasi: </small><small id="no_sertifikat_sm"></small>
                           </div>
                         </div>
 
+                      </div>
+                      
+                      <div class="form-group row align-items-center">
+                        <label class="col-md-4 text-md-right text-left">Bidang</label>
+                        <div class="col-lg-4 col-md-6">
+                          <input type="text" id="bidang" name="bidang" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group row align-items-center">
+                        <label class="col-md-4 text-md-right text-left">KAN</label>
+                        <div class="col-lg-4 col-md-6">
+                          <div class="selectgroup w-100">
+                            <label class="selectgroup-item">
+                              <input type="radio" name="KAN" value="KAN" class="selectgroup-input">
+                              <span class="selectgroup-button">KAN</span>
+                            </label>
+                            <label class="selectgroup-item">
+                              <input type="radio" name="KAN" value="NON KAN" class="selectgroup-input" checked>
+                              <span class="selectgroup-button">NON KAN</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row align-items-center">
+                        <label class="col-md-4 text-md-right text-left">Status Alat</label>
+                        <div class="col-lg-4 col-md-6">
+                          <div class="selectgroup w-100">
+                            <label class="selectgroup-item">
+                              <input type="radio" name="status_alat" value="alat_datang" class="selectgroup-input" checked>
+                              <span class="selectgroup-button">Alat Datang</span>
+                            </label>
+                            <label class="selectgroup-item">
+                              <input type="radio" name="status_alat" value="belum_datang" class="selectgroup-input">
+                              <span class="selectgroup-button">Belum Datang</span>
+                            </label>
+                          </div>
+                        </div>
                       </div>
 
                       <div class="form-group row align-items-center">
@@ -446,7 +484,8 @@ Data Administrasi
             return no_sertifikat
         }
 
-        $('#no_sertifikat').val(sert())
+        // $('#no_sertifikat').val(sert())
+        $('#no_sertifikat_sm').html(sert())
 
         $('#refresh_sert').on('click', function(e) {
             $('#no_sertifikat').val(sert())
@@ -478,7 +517,8 @@ Data Administrasi
                 $('#formSimpan').trigger("reset");
                 
                 var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;
-                $('#no_sertifikat').val(no_sertifikat)
+                // $('#no_sertifikat').val(no_sertifikat)
+                $('#no_sertifikat_sm').html(no_sertifikat)
 
                 $('#btnSimpan').html('<i class="fas fa-save"></i> Simpan')
                 toastr.success(res.msg)

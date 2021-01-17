@@ -485,4 +485,18 @@ class FinanceController extends Controller
     {
         return view('admin.finance.batal');
     }
+
+    public function pendapatan(Request $request)
+    {
+        if ($request->has('date_range')) {
+            $date_range = $request->date_range;
+            $range = explode(' - ', $request->date_range);
+            
+            
+            $data = Barang::whereBetween('created_at', $range)
+                            ->get();
+            return view('admin.finance.pendapatan', compact('data', 'date_range'));
+        }
+        return view('admin.finance.pendapatan');
+    }
 }

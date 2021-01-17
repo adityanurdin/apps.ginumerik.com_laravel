@@ -138,6 +138,11 @@ Route::group(['middleware' => 'SETUP'], function() {
                 Route::get('customer/data', 'Dashboard\CustomerController@data')->name('customer.data');
                 Route::get('customer/{id}/delete/', 'Dashboard\CustomerController@destroy')->name('customer.destroy');
                 Route::resource('customer' , 'Dashboard\CustomerController')->except(['destroy']);
+
+                // Sub Con
+                Route::get('sub-con', 'Dashboard\AdministrasiController@subcon')->name('subcon');
+
+                
             });
         });
     
@@ -216,6 +221,9 @@ Route::group(['middleware' => 'SETUP'], function() {
 
         Route::get('system-log/data', 'LogController@data')->name('system-log.data');
         Route::resource('system-log', 'LogController')->only(['index', 'store']);
+
+        Route::get('pendapatan', 'Dashboard\FinanceController@pendapatan')->name('pendapatan');
+        Route::post('pendapatan', 'Dashboard\FinanceController@pendapatan')->name('pendapatan');
         
     });
 

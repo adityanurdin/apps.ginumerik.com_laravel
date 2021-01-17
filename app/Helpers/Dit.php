@@ -284,6 +284,17 @@ class Dit
 		return $lab;
 	}
 
+	public static function getStatusAlat($alat)
+	{
+		if ($alat == 'alat_datang') {
+			$result = 'Alat Datang';
+		} elseif ($alat == 'belum_datang') {
+			$result = 'Belum Datang';
+		}
+
+		return $result;
+	}
+
 	public static function getStatusTeknis($sub_role_block, $second = NULL)
 	{
 		$sub_role = Auth::user()->sub_role;

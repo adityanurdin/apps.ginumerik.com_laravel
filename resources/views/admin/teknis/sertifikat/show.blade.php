@@ -14,9 +14,85 @@ Sertifikat
       <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h4>Sertifikat {{$barang->nama_barang}}</h4>
+                <h4>Sertifikat {{ucfirst($barang->nama_barang)}}</h4>
             </div>
             <div class="card-body">
+                <div class="card">
+                    <div class="card-body">
+                        <button class="btn btn-primary mb-3 btn-block dropdown-toggle" type="button" data-toggle="collapse" data-target="#collapseAlat" aria-expanded="false" aria-controls="collapseAlat">
+                            Detail Alat
+                          </button>
+                        <div class="row collapse" id="collapseAlat">
+                            <div class="col-lg-6">
+
+                                <div class="form-group">
+                                    <label for="">Nama Alat</label>
+                                    <input type="text" value="{{$barang->nama_barang}}" class="form-control form-control-sm" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">No Sertifikat</label>
+                                    <input type="text" value="{{$barang->no_sertifikat}}" class="form-control form-control-sm" disabled>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="">No Seri</label>
+                                    <input type="text" value="{{$barang->no_seri}}" class="form-control form-control-sm" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Sub LAB</label>
+                                    <input type="text" value="{{$barang->sub_lab}}" class="form-control form-control-sm" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Bidang</label>
+                                    <input type="text" value="{{is_null($barang->bidang) ? '-' : $barang->bidang}}" class="form-control form-control-sm" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Nama Perusahaan</label>
+                                    <input type="text" value="{{$barang->nama_perusahaan}}" class="form-control form-control-sm" disabled>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-6">
+
+                                <div class="form-group">
+                                    <label for="">Satuan</label>
+                                    <input type="text" value="{{$barang->st}}" class="form-control form-control-sm" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Merk</label>
+                                    <input type="text" value="{{$barang->merk}}" class="form-control form-control-sm" disabled>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="">KAN</label>
+                                    <input type="text" value="{{$barang->KAN}}" class="form-control form-control-sm" disabled>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="">LAB</label>
+                                    <input type="text" value="{{Dit::getLab($barang->lab)}}" class="form-control form-control-sm" disabled>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="">Status Kedatangan</label>
+                                    <input type="text" value="{{Dit::getStatusAlat($barang->status_alat)}}" class="form-control form-control-sm" disabled>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="">Alamat Perusahaan</label>
+                                    <input type="text" value="{{$barang->alamat_perusahaan}}" class="form-control form-control-sm" disabled>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <a href="javascript:void(0)" id="modal-5" class="btn btn-primary float-right mb-3"><i class="fas fa-upload"></i> <span>Unggah File</span></a>
                 <table class="table table-striped table-sm">
                     <thead>
@@ -34,7 +110,7 @@ Sertifikat
                             <td>{{$item->nama_file}}</td>
                             <td>{{$item->tipe_file}}</td>
                             <td>
-                                <a href="{{route('sertifikat.download', Dit::encode($item->file))}}" class="btn btn-outline-primary btn-sm"><i class="fas fa-download"></i> <span>Unduh</span></a>
+                                <a href="{{route('sertifikat.download', Dit::encode($item->file))}}" target="_blank" class="btn btn-outline-primary btn-sm"><i class="fas fa-download"></i> <span>Unduh</span></a>
                             </td>
                         </tr>
                         @endforeach

@@ -84,7 +84,9 @@ class SertifikatController extends Controller
 
     public function download($id)
     {
+        // return \Dit::decode($id);
         $link = \Storage::disk('public')->url(\Dit::decode($id));
+        // return Storage::download(\Dit::decode($id));
         return redirect($link);
     }
 
