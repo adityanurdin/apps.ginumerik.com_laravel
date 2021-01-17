@@ -88,6 +88,10 @@
                                         <option value="lainnya">Lainnya</option>
                                       </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="">Bidang</label>
+                                    <input type="text" name="bidang" class="form-control">
+                                </div>
                             </div>
                             <div class="col-lg-6">
 
@@ -112,47 +116,13 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="kan">KAN</label>
-                                        <div class="selectgroup w-100">
-                                            <label class="selectgroup-item">
-                                              <input type="radio" name="KAN" value="KAN" class="selectgroup-input" checked>
-                                              <span class="selectgroup-button">KAN</span>
-                                            </label>
-                                            <label class="selectgroup-item">
-                                              <input type="radio" name="KAN" value="NON KAN" class="selectgroup-input">
-                                              <span class="selectgroup-button">NON KAN</span>
-                                            </label>
-                                          </div>
-                                        <div class="invalid-feedback">
-                                            @error('sub_lab')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="status_alat">Status Alat</label>
-                                        <div class="selectgroup w-100">
-                                            <label class="selectgroup-item">
-                                              <input type="radio" name="status_alat" checked value="alat_datang" class="selectgroup-input">
-                                              <span class="selectgroup-button">Alat Datang</span>
-                                            </label>
-                                            <label class="selectgroup-item">
-                                              <input type="radio" name="status_alat" value="belum_datang" class="selectgroup-input">
-                                              <span class="selectgroup-button">Belum Datang</span>
-                                            </label>
-                                          </div>
-                                        <div class="invalid-feedback">
-                                            @error('status_alat')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
+                                    
                                     <div class="form-group">
                                         <label for="no_sertifikat">No Sertifikat</label>
                                         {{-- <input type="text" name="no_sertifikat" id="no_sertifikat" class="form-control @error('no_sertifikat') is-invalid @enderror"> --}}
-                                        <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control" readonly>
-                                        <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small>
+                                        <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control">
+                                        <small>Rekomendasi: </small><small id="no_sertifikat_sm"></small>
+                                        {{-- <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small> --}}
                                         
                                         <div class="invalid-feedback">
                                             @error('no_sertifikat')
@@ -161,6 +131,43 @@
                                         </div>
                                     </div>
                                     
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="kan">KAN</label>
+                                    <div class="selectgroup w-100">
+                                        <label class="selectgroup-item">
+                                          <input type="radio" name="KAN" value="KAN" class="selectgroup-input" checked>
+                                          <span class="selectgroup-button">KAN</span>
+                                        </label>
+                                        <label class="selectgroup-item">
+                                          <input type="radio" name="KAN" value="NON KAN" class="selectgroup-input">
+                                          <span class="selectgroup-button">NON KAN</span>
+                                        </label>
+                                      </div>
+                                    <div class="invalid-feedback">
+                                        @error('sub_lab')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="status_alat">Status Alat</label>
+                                    <div class="selectgroup w-100">
+                                        <label class="selectgroup-item">
+                                          <input type="radio" name="status_alat" checked value="alat_datang" class="selectgroup-input">
+                                          <span class="selectgroup-button">Alat Datang</span>
+                                        </label>
+                                        <label class="selectgroup-item">
+                                          <input type="radio" name="status_alat" value="belum_datang" class="selectgroup-input">
+                                          <span class="selectgroup-button">Belum Datang</span>
+                                        </label>
+                                      </div>
+                                    <div class="invalid-feedback">
+                                        @error('status_alat')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
 
                                 <div class="form-group" id="acceptance">
@@ -243,7 +250,8 @@
             return no_sertifikat
         }
 
-        $('#no_sertifikat').val(sert())
+        // $('#no_sertifikat').val(sert())
+        $('#no_sertifikat_sm').html(sert())
 
         $('#refresh_sert').on('click', function(e) {
             $('#no_sertifikat').val(sert())
