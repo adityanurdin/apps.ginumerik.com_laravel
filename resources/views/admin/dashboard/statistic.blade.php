@@ -63,10 +63,10 @@
                         @foreach ($statistic as $item)
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$item->order['no_order']}}</td>
-                            <td>{{$item->order['customer']['nama_perusahaan']}}</td>
-                            <td>{{$item->order['no_PO']}}</td>
-                            <td>{{date('d-M-y', strtotime($item->order['created_at']))}}</td>
+                            <td>{{is_null($item->order['no_order']) ? '-' : $item->order['no_order']}}</td>
+                            <td>{{is_null($item->order) ? '-' : $item->order['customer']['nama_perusahaan']}}</td>
+                            <td>{{is_null($item->order) ? '-' : $item->order['no_PO']}}</td>
+                            <td>{{is_null($item->order) ? '-' : date('d-M-y', strtotime($item->order['created_at']))}}</td>
                         </tr>
                         @endforeach
                     </tbody>
