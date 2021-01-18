@@ -332,7 +332,7 @@ Dashboard
           </div>
           <div class="card-wrap">
             <div class="card-header">
-              <h4>Statistics Minggu Ini</h4>
+              <h4>Statistics Minggu Ini <a href="{{route('statistic', 'mingguan')}}">Detail</a></h4>
             </div>
             <div class="card-body">
               {{$data['all_minggu']->count()}}
@@ -350,7 +350,7 @@ Dashboard
           </div>
           <div class="card-wrap">
             <div class="card-header">
-              <h4>Statistics Bulan Ini</h4>
+              <h4>Statistics Bulan Ini <a href="{{route('statistic', 'bulanan')}}">Detail</a></h4>
             </div>
             <div class="card-body">
               {{$data['monthly_order']->count()}}
@@ -368,7 +368,7 @@ Dashboard
           </div>
           <div class="card-wrap">
             <div class="card-header">
-              <h4>Statistics Tahun ini</h4>
+              <h4>Statistics Tahun ini <a href="{{route('statistic', 'tahunan')}}">Detail</a></h4>
             </div>
             <div class="card-body">
               {{$data['yearly_order']->count()}}
