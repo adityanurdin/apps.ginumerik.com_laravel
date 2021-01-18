@@ -60,13 +60,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($statistic as $item)
+                        @foreach ($orders as $item)
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td>{{is_null($item->order['no_order']) ? '-' : $item->order['no_order']}}</td>
-                            <td>{{is_null($item->order) ? '-' : $item->order['customer']['nama_perusahaan']}}</td>
-                            <td>{{is_null($item->order) ? '-' : $item->order['no_PO']}}</td>
-                            <td>{{is_null($item->order) ? '-' : date('d-M-y', strtotime($item->order['created_at']))}}</td>
+                            <td>{{$item['no_order']}}</td>
+                            <td>{{$item['customer']}}</td>
+                            <td>{{$item['no_PO']}}</td>
+                            <td>{{date('d-M-y', strtotime($item['tgl_masuk']))}}</td>
                         </tr>
                         @endforeach
                     </tbody>

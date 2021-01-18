@@ -184,7 +184,7 @@ class DashboardController extends Controller
                 $statistic = Finance::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
                 break;
             case 'bulanan':
-                $statistic = Finance::with('order')->whereMonth('created_at', date('m'))->get();
+                $statistic = Finance::whereMonth('created_at', date('m'))->get();
                 break;
             case 'tahunan':
                 $statistic = Finance::whereYear('created_at', date('Y'))->get();
@@ -193,10 +193,24 @@ class DashboardController extends Controller
                 return redirect()->route('dashboard.index');
                 break;
         }
-        
+        $orders = [];
+        foreach($statistic as $item) {
+            $order = Order::whereId($item->order_id)->get();
+            foreach($order as $row) {
+                array_push($orders, [
+                    'id'        => $row->id,
+                    'no_order'  => $row->no_order,
+                    'customer'  => $row->customer['nama_perusahaan'],
+                    'no_PO'     => $row->no_PO,
+                    'tgl_masuk' => $row->tgl_masuk
+                ]);
+            }
+        }
+        // return $orders;
+
         $sum = $statistic->sum('total_bayar') + $statistic->sum('tat');
 
-        return view('admin.dashboard.statistic', compact('statistic', 'param', 'sum'));
+        return view('admin.dashboard.statistic', compact('statistic', 'param', 'sum', 'orders'));
     }
 
     /**
