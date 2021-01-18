@@ -20,4 +20,9 @@ class Finance extends Model
     {
         return $this->hasMany('App\Models\HistoryPembayaran');
     }
+
+    public function order()
+    {
+        return $this->belongsTo('App\Models\Order', 'order_id', 'id');
+    }
 }

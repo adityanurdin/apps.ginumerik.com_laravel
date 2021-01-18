@@ -173,6 +173,32 @@ class DashboardController extends Controller
         }
     }
 
+    public function statistic($param)
+    {
+        if (is_null($param)) {
+            return redirect()->route('dashboard.index');
+        }
+
+        switch ($param) {
+            case 'mingguan':
+                $statistic = Finance::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
+                break;
+            case 'bulanan':
+                $statistic = Finance::with('order')->whereMonth('created_at', date('m'))->get();
+                break;
+            case 'tahunan':
+                $statistic = Finance::whereYear('created_at', date('Y'))->get();
+                break;
+            default:
+                return redirect()->route('dashboard.index');
+                break;
+        }
+        
+        $sum = $statistic->sum('total_bayar') + $statistic->sum('tat');
+
+        return view('admin.dashboard.statistic', compact('statistic', 'param', 'sum'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

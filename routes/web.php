@@ -142,6 +142,9 @@ Route::group(['middleware' => 'SETUP'], function() {
                 // Sub Con
                 Route::get('sub-con', 'Dashboard\AdministrasiController@subcon')->name('subcon');
 
+                // Statistik
+                Route::get('statistic/{param}', 'Dashboard\DashboardController@statistic')->name('statistic');
+
                 
             });
         });

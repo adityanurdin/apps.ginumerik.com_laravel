@@ -42,7 +42,7 @@
                         <div class="table-responsive mt-5">
                             <p>
                                 Range Tanggal : {{$date_range}} <br>
-                                Pendapatan Pokok : <strong>{{Dit::Rupiah($data->sum('harga_satuan'))}}</strong>
+                                Pendapatan Pokok : <strong><u>{{Dit::Rupiah($data->sum('harga_satuan'))}}</u></strong>
                             </p>
                             <table class="table table-striped">
                                 <thead>
