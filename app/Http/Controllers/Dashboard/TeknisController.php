@@ -161,9 +161,11 @@ class TeknisController extends Controller
 
         }
 
-        if (is_null($kartu_alat->paraf_alat)) {
+        if (!is_null($kartu_alat->paraf_alat)) {
             $user = Auth::user();
             $barang->update(['user_id' => $user->id]);
+        } else {
+            $barang->update(['user_id' => NULL]);
         }
 
         if($kartu_alat->paraf_administrasi != NULL) {
