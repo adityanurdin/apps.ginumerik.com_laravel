@@ -247,7 +247,7 @@ class FinanceController extends Controller
         $request->merge(['barang_ids' => implode(',', $request->barang_ids)]);
         $finance = Finance::findOrFail($id);
         $order   = Order::findOrFail($finance->order_id);
-        $roman =  Dit::Roman(date('m', strtotime($order->tgl_masuk)));
+        $roman =  Dit::Roman(date('m'));
 
         $ref_order = str_replace(' ','', $order->no_order);
         $ref_order = substr($ref_order, 5);
@@ -256,8 +256,8 @@ class FinanceController extends Controller
             $no_kwitansi = Setting::where('key', 'no_kwitansi')->first();
             $no_invoice  = Setting::where('key', 'no_invoice')->first();
             
-            $no_kwitansi = 'G'.date('m', strtotime($order->created_at)).'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
-            $no_invoice = 'G'.date('m', strtotime($order->created_at)).'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y');
+            $no_kwitansi = 'G'.date('m', strtotime($order->tgl_masuk)).'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
+            $no_invoice = 'G'.date('m', strtotime($order->tgl_masuk)).'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y');
         } else {
 
             $tahun = date('Y');
