@@ -28,11 +28,11 @@ class Kernel extends ConsoleKernel
         $debug = env('APP_DEBUG');
         if ($debug === TRUE) {
             $schedule->command('cron:lag')
-                ->everyMinute()
+                ->everyThirtyMinutes()
                 ->timezone('Asia/Jakarta');
         }elseif ($debug === FALSE) {
             $schedule->command('cron:lag')
-                    ->hourly()
+                    ->daily()
                     ->timezone('Asia/Jakarta');
         }
     }
