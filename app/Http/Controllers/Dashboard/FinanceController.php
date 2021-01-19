@@ -256,6 +256,11 @@ class FinanceController extends Controller
             $no_kwitansi = 'G'.date('m', strtotime($order->created_at)).'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
             $no_invoice = 'G'.date('m', strtotime($order->created_at)).'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y');
         } else {
+
+            $tahun = date('Y');
+            $check_pembayaran = HistoryPembayaran::where('status', '!=', 'Batal')
+                                                ->whereYear('created_at', $tahun)->first();
+
             $history_pembayaran = HistoryPembayaran::where('finance_id', $id)
                                                     ->where('status', '!=', 'Batal')
                                                     ->get();
@@ -272,11 +277,20 @@ class FinanceController extends Controller
                 //new invoce number
                 $slice_invoice = explode('/', $last_number->no_invoice);
                 $new_no_invoice = substr($slice_invoice[0], 4) + 1;
+                
+                if (!$check_pembayaran) {
+                    $new_no_invoice = '001';
+                }
                 $no_invoice  = 'G'.date('m').'-'.$new_no_invoice.'/INV/'.$roman.'/'.date('y');
 
                 //new kwitansi number
                 $slice_kwitansi = explode('/', $last_number->no_kwitansi);
                 $new_no_kwitansi = substr($slice_kwitansi[0], 4) + 1;
+
+                if (!$check_pembayaran) {
+                    $new_no_kwitansi = '001';
+                }
+
                 $no_kwitansi  = 'G'.date('m').'-'.$new_no_kwitansi.'/KWI/'.$roman.'/'.date('y');
             } else {
                 $part_number = count($history_pembayaran) + 1;
