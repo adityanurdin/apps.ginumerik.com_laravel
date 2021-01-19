@@ -272,7 +272,43 @@ class TeknisController extends Controller
         ORDER BY jumlah_alat DESC;
          ';
         $teknis = \DB::select(\DB::raw($query));
+        // return $teknis;
 
         return view('admin.teknis.summary.index', compact('teknis'));
     }
+
+    public function summary_detail($id)
+    {
+        $barang = Barang::where('user_id', $id)->get();
+        $user = User::find($id);
+        
+        return view('admin.teknis.summary.detail', compact('barang', 'user'));
+    }
+
+    // public function summary_data(Request $request)
+    // {
+    //     if (request()->ajax()) {
+    //         if (!empty($request->from_date)) {
+    //             $query  = '
+    //             SELECT
+    //             count(*) AS jumlah_alat, users.*
+    //             from barangs
+    //             inner join users on barangs.user_id = users.id where year(barangs.created_at) = '.date('Y').' group by barangs.user_id
+    //             ORDER BY jumlah_alat DESC;
+    //             ';
+    //             $data = \DB::select(\DB::raw($query));
+    //         } else {
+    //             $query  = '
+    //             SELECT
+    //             count(*) AS jumlah_alat, users.*
+    //             from barangs
+    //             inner join users on barangs.user_id = users.id where year(barangs.created_at) = '.date('Y').' group by barangs.user_id
+    //             ORDER BY jumlah_alat DESC;
+    //             ';
+    //             $data = \DB::select(\DB::raw($query));
+    //         }
+    //         return Datatables::of($data)
+    //                         ->make(true);
+    //     }
+    // }
 }

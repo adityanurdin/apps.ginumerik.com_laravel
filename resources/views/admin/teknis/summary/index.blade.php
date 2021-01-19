@@ -12,7 +12,7 @@
         <div class="section-body">
             <div class="card">
                 <div class="card-header">
-                    <h4>Summary tahun {{date('Y')}}</h4>
+                    <h4>Summary Tahun {{date('Y')}}</h4>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped text-center" id="table-teknis">
@@ -28,7 +28,10 @@
                             @foreach ($teknis as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{$item->name}}</td>
+                                    <td>
+                                        {{$item->name}} <br>
+                                        <a href="{{route('teknis.summary.detail', $item->id)}}">Detail</a>
+                                    </td>
                                     <td>{{$item->sub_role}}</td>
                                     <td>{{$item->jumlah_alat}}</td>
                                 </tr>
@@ -46,7 +49,7 @@
 
         var table = $('#table-teknis').DataTable({
             "bLengthChange": false,
-            "iDisplayLength": 10,
+            "iDisplayLength": 25,
         })
 
     </script>

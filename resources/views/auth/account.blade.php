@@ -21,7 +21,7 @@
 
             <div class="row mt-sm-4">
               <div class="col-12 col-md-12 col-lg-5">
-                <div class="card profile-widget">
+                {{-- <div class="card profile-widget">
                   <div class="profile-widget-header">                     
                     <img alt="image" src="{{ asset('assets/Stisla/img/avatar/avatar-'.rand(1,5).'.png') }}" class="rounded-circle profile-widget-picture">
                     <div class="profile-widget-items">
@@ -33,6 +33,34 @@
                   </div>
                   <div class="profile-widget-description">
                     <div class="profile-widget-name">{{$user->name}} <div class="text-muted d-inline font-weight-normal"><div class="slash"></div> {{$user->sub_role}}</div></div>
+                  </div>
+                </div> --}}
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Completed Works </h4>
+                    <div class="card-header-action">
+                      <h4>Total : {{$barang->count()}}</h4>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th class="text-center">No</th>
+                          <th>Nama Alat</th>
+                          <th>No Sertifikat</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach ($barang as $item)
+                        <tr>
+                          <td class="text-center">{{$loop->iteration}}</td>
+                          <td>{{$item->nama_barang}}</td>
+                          <td>{{$item->no_sertifikat}}</td>
+                        </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -86,3 +114,12 @@
           </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+      $('.table').dataTable({
+        "bLengthChange": false,
+        "iDisplayLength": 25,
+      })
+    </script>
+@endpush

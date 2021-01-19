@@ -176,6 +176,7 @@ Route::group(['middleware' => 'SETUP'], function() {
         Route::group(['middleware' => 'Teknis'], function() {
 
             Route::get('teknis/summary', 'Dashboard\TeknisController@summary')->name('teknis.summary')->middleware('Admin');
+            Route::get('teknis/summary/{id}/detail', 'Dashboard\TeknisController@summary_detail')->name('teknis.summary.detail')->middleware('Admin');
 
             Route::get('teknis/sertifikat', 'Dashboard\SertifikatController@index')->name('sertifikat.index');
             Route::get('teknis/sertifikat/{id}/{order_id}/show', 'Dashboard\SertifikatController@show')->name('sertifikat.show');
