@@ -248,6 +248,9 @@ class FinanceController extends Controller
         $finance = Finance::findOrFail($id);
         $order   = Order::findOrFail($finance->order_id);
         $roman =  Dit::Roman(date('m'));
+
+        $ref_order = str_replace(' ','', $order->no_order);
+        $ref_order = substr($ref_order, 5);
         
         if (!HistoryPembayaran::first()) {
             $no_kwitansi = Setting::where('key', 'no_kwitansi')->first();
@@ -275,22 +278,25 @@ class FinanceController extends Controller
             if (count($history_pembayaran) < 1) {
 
                 //new invoce number
-                $slice_invoice = explode('/', $last_number->no_invoice);
-                $new_no_invoice = substr($slice_invoice[0], 4) + 1;
+                // $slice_invoice = explode('/', $last_number->no_invoice);
+                // $new_no_invoice = substr($slice_invoice[0], 4) + 1;
                 
-                if (!$check_pembayaran) {
-                    $new_no_invoice = '001';
-                }
+                // if (!$check_pembayaran) {
+                //     $new_no_invoice = '001';
+                // }
+
+                $new_no_invoice = $ref_order;
                 $no_invoice  = 'G'.date('m').'-'.$new_no_invoice.'/INV/'.$roman.'/'.date('y');
 
                 //new kwitansi number
-                $slice_kwitansi = explode('/', $last_number->no_kwitansi);
-                $new_no_kwitansi = substr($slice_kwitansi[0], 4) + 1;
+                // $slice_kwitansi = explode('/', $last_number->no_kwitansi);
+                // $new_no_kwitansi = substr($slice_kwitansi[0], 4) + 1;
 
-                if (!$check_pembayaran) {
-                    $new_no_kwitansi = '001';
-                }
+                // if (!$check_pembayaran) {
+                //     $new_no_kwitansi = '001';
+                // }
 
+                $new_no_kwitansi = $ref_order;
                 $no_kwitansi  = 'G'.date('m').'-'.$new_no_kwitansi.'/KWI/'.$roman.'/'.date('y');
             } else {
                 $part_number = count($history_pembayaran) + 1;
