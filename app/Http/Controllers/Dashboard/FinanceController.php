@@ -256,8 +256,8 @@ class FinanceController extends Controller
             $no_kwitansi = Setting::where('key', 'no_kwitansi')->first();
             $no_invoice  = Setting::where('key', 'no_invoice')->first();
             
-            $no_kwitansi = 'G'.date('m', strtotime($order->tgl_masuk)).'-'.$no_kwitansi->value.'/KWI/'.$roman.'/'.date('y');
-            $no_invoice = 'G'.date('m', strtotime($order->tgl_masuk)).'-'.$no_invoice->value.'/INV/'.$roman.'/'.date('y');
+            $no_kwitansi = 'G'.date('m', strtotime($order->tgl_masuk)).'-'.$ref_order.'/KWI/'.$roman.'/'.date('y');
+            $no_invoice = 'G'.date('m', strtotime($order->tgl_masuk)).'-'.$ref_order.'/INV/'.$roman.'/'.date('y');
         } else {
 
             $tahun = date('Y');
