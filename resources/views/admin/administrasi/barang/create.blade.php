@@ -121,7 +121,7 @@
                                         <label for="no_sertifikat">No Sertifikat</label>
                                         {{-- <input type="text" name="no_sertifikat" id="no_sertifikat" class="form-control @error('no_sertifikat') is-invalid @enderror"> --}}
                                         <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control">
-                                        <small>Rekomendasi: </small><small id="no_sertifikat_sm"></small>
+                                        {{-- <small>Rekomendasi: </small><small id="no_sertifikat_sm"></small> --}}
                                         {{-- <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small> --}}
                                         
                                         <div class="invalid-feedback">

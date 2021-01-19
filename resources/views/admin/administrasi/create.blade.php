@@ -282,7 +282,7 @@ Data Administrasi
                           <div class="col-lg-4 col-md-6">
                             <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control">
                             {{-- <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small> --}}
-                            <small>Rekomendasi: </small><small id="no_sertifikat_sm"></small>
+                            {{-- <small>Rekomendasi: </small><small id="no_sertifikat_sm"></small> --}}
                           </div>
                         </div>
 
