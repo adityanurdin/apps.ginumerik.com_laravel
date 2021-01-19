@@ -247,7 +247,7 @@ class FinanceController extends Controller
         $request->merge(['barang_ids' => implode(',', $request->barang_ids)]);
         $finance = Finance::findOrFail($id);
         $order   = Order::findOrFail($finance->order_id);
-        $roman =  Dit::Roman(date('m'));
+        $roman =  Dit::Roman(date('m', strtotime($order->tgl_masuk)));
 
         $ref_order = str_replace(' ','', $order->no_order);
         $ref_order = substr($ref_order, 5);
@@ -304,6 +304,8 @@ class FinanceController extends Controller
                 $no_kwitansi= $data_finance->no_kwitansi.'-['.$part_number.']';
             }
         }
+
+        // return $no_invoice;
 
         HistoryPembayaran::create([
             'finance_id'        => $id,
