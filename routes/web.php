@@ -195,6 +195,13 @@ Route::group(['middleware' => 'SETUP'], function() {
 
         Route::get('print-transfer-of-doc/{id}', 'PrintController@TodPrint')->name('print.tod');
 
+        Route::get('print-invoice/{id}/{type}', function($id, $type) {
+            if($type != 'invoice' && $type != 'kwitansi') {
+                abort('404');
+            }
+            return view('admin.finance.print', compact('id', 'type'));
+        })->name('print');
+
         Route::post('print-invoice/{id}', 'PrintController@invoice')->name('print.invoice');
         Route::post('print-kwitansi/{id}', 'PrintController@kwitansi')->name('print.kwitansi');
 
