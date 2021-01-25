@@ -30,7 +30,7 @@
 <table cellspacing="0" border="0">
 	<colgroup span="15" width="64"></colgroup>
 	<tr>
-		<td height="58" align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
+		<td height="20" align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
@@ -47,7 +47,7 @@
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 	</tr>
 	<tr>
-		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=15 rowspan=2 height="39" align="center" valign=middle><b><font size=6 color="#000000">INVOICE</font></b></td>
+		<td style="border-top: 2px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 2px solid #000000" colspan=15 rowspan=2 height="20" align="center" valign=middle><b><font size=6 color="#000000">INVOICE</font></b></td>
 		</tr>
 	<tr>
 		</tr>
@@ -197,16 +197,12 @@
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000">{{$order->finance['pph'] != NULL ? Dit::Rupiah($pph) : '-'}}</font></td>
 	</tr>
 	<tr>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font size=3 color="#000000">Transportasi dan Akomodasi Teknisi</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000"> {{Dit::Rupiah($tat)}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font size=3 color="#000000">{{$order->finance['tat'] != NULL ? 'Transportasi dan Akomodasi Teknisi' : '-'}} </font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000"> {{$order->finance['tat'] != NULL ? Dit::Rupiah($tat) : '-'}}</font></td>
 		</tr>
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="20" align="right" valign=middle><font size=3 color="#000000">Grand Total</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000">{{Dit::Rupiah($grand_total)}}</font></td>
-	</tr>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="20" align="right" valign=middle><font size=3 color="#000000">Terbilang</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000">{{Dit::terbilang($grand_total)}}</font></td>
 	</tr>
 	<tr>
 		<td height="19" align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
