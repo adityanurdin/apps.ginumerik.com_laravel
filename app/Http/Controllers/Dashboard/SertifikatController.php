@@ -72,7 +72,7 @@ class SertifikatController extends Controller
         if ($sert) {
             $link = route('sertifikat.download', Dit::encode($store));
             $order = Order::findOrFail($request->order_id);
-            Dit::Log(1, 'Mengunggah file <a href="'.$link.'">'.$request->nama_file.'</a> alat '.$barang->nama_barang.' pada order '.$order->no_order, 'success');
+            Dit::Log(1, 'Mengunggah file pada order '.$order->no_order, 'success');
 
             toast('Berhasil mengunggah file','success');
             return redirect()->route('sertifikat.show', [Dit::encode($barang->no_sertifikat), $request->order_id]);
