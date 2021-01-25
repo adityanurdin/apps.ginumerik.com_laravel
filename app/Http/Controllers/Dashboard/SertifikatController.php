@@ -19,9 +19,7 @@ class SertifikatController extends Controller
     
     public function index()
     {
-        $data = Barang::with('orders')
-                ->where('AS', '!=', NULL)
-                ->get();
+        $data = Barang::with('orders')->get();
         return view('admin.teknis.sertifikat.index', compact('data'));
     }
 

@@ -16,21 +16,23 @@ Sertifikat
           <table class="table table-striped" id="table">
             <thead>
               <tr>
-                <th>No</th>
-                <th>No Order</th>
+                <th style="width: 15px;">No</th>
                 <th>Nama Alat</th>
-                <th>Action</th>
+                <th>No Order</th>
+                <th>No Sertifikat</th>
               </tr>
             </thead>
             <tbody>
               @foreach ($data as $item)
                   <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$item->orders[0]['no_order']}}</td>
-                    <td>{{$item->nama_barang}}</td>
+                    <td class="text-center">{{$loop->iteration}}</td>
                     <td>
-                      <a href="{{route('sertifikat.show', [Dit::encode($item->no_sertifikat), $item->orders[0]['id']])}}" class="btn btn-primary">Detail</a>
+                      {{$item->nama_barang}}
+                      <br>
+                      <a href="{{route('sertifikat.show', [Dit::encode($item->no_sertifikat), $item->orders[0]['id']])}}">Detail</a>
                     </td>
+                    <td>{{$item->orders[0]['no_order']}}</td>
+                    <td>{{$item->no_sertifikat}}</td>
                   </tr>
               @endforeach
             </tbody>
