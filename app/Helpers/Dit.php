@@ -41,12 +41,18 @@ class Dit
         return $full_path;
     } */
 
-    public static function Rupiah($value) 
+    public static function Rupiah($value, $rp = true) 
     {
 		if ($value > 0) {
-			return "Rp. " . number_format($value,2,',','.');
+			$result = number_format($value,2,',','.');
 		} else {
-			return "Rp. #N/A";
+			$result = "#N/A";
+		}
+
+		if ($rp == true) {
+			return "Rp. ".$result;
+		} else {
+			return $result;
 		}
 
     }

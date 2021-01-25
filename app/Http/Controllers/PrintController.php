@@ -172,8 +172,8 @@ class PrintController extends Controller
 
         $pdf    = Pdf::loadView('pdf.kwitansi', compact('finance', 'order', 'pembayaran', 'grand_total', 'tempat_tanggal'))
                         ->setOption('margin-bottom', 32)
-                        ->setOption('margin-top', 52)
-                        ->setOption('footer-left', 'Page [page] of [toPage] - ' . $pembayaran->no_kwitansi);
+                        ->setOption('margin-top', 52);
+                        // ->setOption('footer-left', 'Page [page] of [toPage] - ' . $pembayaran->no_kwitansi);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_kwitansi).'.pdf' );
     }
 
