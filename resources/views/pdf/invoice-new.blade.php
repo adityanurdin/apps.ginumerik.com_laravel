@@ -69,23 +69,6 @@
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 	</tr>
 	<tr>
-		<td height="19" align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-	</tr>
-	<tr>
 		<td colspan=2 height="19" align="left" valign=middle><font size=3 color="#000000">No Invoice</font></td>
 		<td colspan=7 align="left" valign=middle><font size=3 color="#000000">: {{$pembayaran->no_invoice}}</font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
@@ -180,10 +163,12 @@
 		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font size=3 color="#000000">Total</font></td>
 		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000">{{Dit::Rupiah($total)}}</font></td>
 		</tr>
+	@isset($order->finance['discount'])
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font size=3 color="#000000">{{$order->finance['discount'] != NULL ? 'Diskon' : '-'}}</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000">{{$order->finance['discount'] != NULL ? Dit::Rupiah($discount) : '-'}}</font></td>
-		</tr>
+	</tr>
+	@endisset
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font size=3 color="#000000">Subtotal</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000">{{Dit::Rupiah($subtotal)}}</font></td>
@@ -192,14 +177,18 @@
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font size=3 color="#000000">PPn</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000">{{Dit::Rupiah($ppn)}}</font></td>
 		</tr>
+	@isset($order->finance['pph'])
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font size=3 color="#000000">{{$order->finance['pph'] != NULL ? 'PPh' : '-'}}</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000">{{$order->finance['pph'] != NULL ? Dit::Rupiah($pph) : '-'}}</font></td>
 	</tr>
+	@endisset
+	@isset($order->finance['tat'])
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font size=3 color="#000000">{{$order->finance['tat'] != NULL ? 'Transportasi dan Akomodasi Teknisi' : '-'}} </font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000"> {{$order->finance['tat'] != NULL ? Dit::Rupiah($tat) : '-'}}</font></td>
-		</tr>
+	</tr>
+	@endisset
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="20" align="right" valign=middle><font size=3 color="#000000">Grand Total</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 2px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000">{{Dit::Rupiah($grand_total)}}</font></td>
@@ -283,40 +272,6 @@
 		<td colspan=2 align="left" valign=middle><font size=3 color="#000000">Name</font></td>
 		<td colspan=4 align="left" valign=middle><font size=3 color="#000000">: PT. GAYA INSTRUMENTASI NUMERIK</font></td>
 		</tr>
-	<tr>
-		<td height="19" align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-	</tr>
-	<tr>
-		<td height="19" align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-	</tr>
 	<tr>
 		<td height="19" align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>

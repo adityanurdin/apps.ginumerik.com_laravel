@@ -135,8 +135,10 @@ class PrintController extends Controller
         $query = $request->all();
         $pdf    = Pdf::loadView('pdf.invoice-new', compact($data))
                             ->setOption('margin-bottom', 32)
-                            ->setOption('margin-top', 50)
-                            ->setOption('footer-left', 'Page [page] of [toPage] - ' . $pembayaran->no_invoice);
+                            ->setOption('margin-top', 40);
+                            // ->setOption('disable-smart-shrinking', true)
+                            // ->setOption('enable-smart-shrinking', false)
+                            // ->setOption('footer-left', 'Page [page] of [toPage] - ' . $pembayaran->no_invoice);?
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' '.str_replace('/', '', $pembayaran->no_invoice).'.pdf' );
     }
 
