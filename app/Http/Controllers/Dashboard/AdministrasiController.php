@@ -183,7 +183,7 @@ class AdministrasiController extends Controller
         if ($request->lab == 'sub_con') {
             $request->merge([
                 'no_sertifikat' => '-',
-                'sub_lab'       => '-'
+                // 'sub_lab'       => '-'
             ]);
         }
         
