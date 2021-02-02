@@ -233,20 +233,21 @@ Data Administrasi
                           <input type="text" id="ket_subcon" name="ket_subcon" class="form-control">
                         </div>
                       </div>
+                      <div class="form-group row align-items-center">
+                        <label class="col-md-4 text-md-right text-left">Sub Lab</label>
+                        <div class="col-lg-4 col-md-6">
+                          {{-- <input type="text" id="sub_lab" name="sub_lab" class="form-control"> --}}
+                          <select class="form-control select2" name="sub_lab">
+                            @foreach ($labs as $item)
+                              <option value="{{$item->sub_lab}}">{{$item->sub_lab}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
 
                       <div class="sub_con">
 
-                        <div class="form-group row align-items-center">
-                          <label class="col-md-4 text-md-right text-left">Sub Lab</label>
-                          <div class="col-lg-4 col-md-6">
-                            {{-- <input type="text" id="sub_lab" name="sub_lab" class="form-control"> --}}
-                            <select class="form-control select2" name="sub_lab">
-                              @foreach ($labs as $item)
-                                <option value="{{$item->sub_lab}}">{{$item->sub_lab}}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                        </div>
+                        
                         {{-- <div class="form-group row align-items-center">
                           <label class="col-md-4 text-md-right text-left">KAN</label>
                           <div class="col-lg-4 col-md-6">

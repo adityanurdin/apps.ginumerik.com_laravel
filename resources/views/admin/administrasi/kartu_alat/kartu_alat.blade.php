@@ -73,11 +73,12 @@
 
     </div>
     <div class="card-footer">
-        @if (Dit::checkSerahTerima($order->id) == false)
+        {{-- @if (Dit::checkSerahTerima($order->id) == false)
             <div class="alert bg-info alert-sm">
                 <strong>Info</strong> Kartu alat tidak bisa di cetak sebelum serah terima lengkap.
             </div>
-        @endif
-        <a href="{{route('print.form-tk-1', $order->id)}}" class="btn btn-primary float-right {{Dit::checkSerahTerima($order->id) == true ? '' : 'disabled'}}"><i class="fas fa-print"></i> Print</a>
+        @endif --}}
+        <a href="{{route('print.form-tk-1', $order->id)}}" class="btn btn-primary float-right"><i class="fas fa-print"></i> Print</a>
+        {{-- <a href="{{route('print.form-tk-1', $order->id)}}" class="btn btn-primary float-right {{Dit::checkSerahTerima($order->id) == true ? '' : 'disabled'}}"><i class="fas fa-print"></i> Print</a> --}}
     </div>
   </div>

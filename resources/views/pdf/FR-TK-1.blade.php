@@ -402,16 +402,32 @@
 	</tr>
 	<tr>
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=middle><font size=2 color="#000000">Nama</font></td>
+		@if(isset($order->serahterima['id_upk_penerima']))
 		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: {{ucfirst(Dit::getUser($order->serahterima['id_upk_penerima'])->name)}}</font></td>
+		@else
+		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: - </font></td>
+		@endif
 		<td align="left" valign=middle><font size=2 color="#000000"><br></font></td>
 		<td style="border-left: 2px solid #000000" align="left" valign=middle><font size=2 color="#000000">Nama</font></td>
+		@if (isset($order->serahterima['id_upk_penyerah']))
 		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: {{ucfirst(Dit::getUser($order->serahterima['id_upk_penyerah'])->name)}}</font></td>
+		@else 
+		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: - </font></td>
+		@endif
 		<td align="left" valign=bottom><font size=2 color="#000000"><br></font></td>
 		<td style="border-left: 2px solid #000000" align="left" valign=middle><font size=2 color="#000000">Nama</font></td>
+		@if (isset($order->serahterima['id_lab_penerima']))
 		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: {{ucfirst(Dit::getUser($order->serahterima['id_lab_penerima'])->name)}}</font></td>
+		@else 
+		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: - </font></td>
+		@endif
 		<td align="left" valign=middle><font size=2 color="#000000"><br></font></td>
 		<td style="border-left: 2px solid #000000" align="left" valign=middle><font size=2 color="#000000">Nama</font></td>
+		@if (isset($order->serahterima['id_lab_penyerah']))
 		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: {{ucfirst(Dit::getUser($order->serahterima['id_lab_penyerah'])->name)}}</font></td>
+		@else
+		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: - </font></td>
+		@endif
 		</tr>
 	<tr>
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=middle><font color="#000000"><br></font></td>
@@ -432,16 +448,32 @@
 	</tr>
 	<tr>
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=middle><font size=2 color="#000000">Jabatan</font></td>
+		@if (isset($order->serahterima['id_upk_penerima']))
 		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: {{Dit::getRole($order->serahterima['id_upk_penerima'])}}</font></td>
+		@else
+		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: - </font></td>
+		@endif
 		<td align="left" valign=middle><font size=2 color="#000000"><br></font></td>
 		<td style="border-left: 2px solid #000000" align="left" valign=middle><font size=2 color="#000000">Jabatan</font></td>
+		@if (isset($order->serahterima['id_upk_penyerah']))
 		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: {{Dit::getRole($order->serahterima['id_upk_penyerah'])}}</font></td>
+		@else
+		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: - </font></td>
+		@endif
 		<td align="left" valign=bottom><font size=2 color="#000000"><br></font></td>
 		<td style="border-left: 2px solid #000000" align="left" valign=middle><font size=2 color="#000000">Jabatan</font></td>
+		@if (isset($order->serahterima['id_lab_penerima']))
 		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: {{Dit::getRole($order->serahterima['id_lab_penerima'])}}</font></td>
+		@else
+		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: - </font></td>
+		@endif
 		<td align="left" valign=middle><font size=2 color="#000000"><br></font></td>
 		<td style="border-left: 2px solid #000000" align="left" valign=middle><font size=2 color="#000000">Jabatan</font></td>
+		@if (isset($order->serahterima['id_lab_penyerah']))
 		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: {{Dit::getRole($order->serahterima['id_lab_penyerah'])}}</font></td>
+		@else
+		<td style="border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 color="#000000">: - </font></td>
+		@endif
 		</tr>
 	<tr>
 		<td style="border-bottom: 2px solid #000000; border-left: 2px solid #000000" height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
