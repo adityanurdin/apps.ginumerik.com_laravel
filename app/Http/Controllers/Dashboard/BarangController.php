@@ -343,4 +343,45 @@ class BarangController extends Controller
             return redirect()->route('administrasi.index');
         }
     }
+
+    public function serah_barang($order_id, $id, $item)
+    {
+        switch ($item) {
+            case 'alat':
+                $x = true;
+                break;
+            case 'sertifikat':
+                $x = true;
+                $item = 'sert';
+                break;
+            default:
+                $x = false;
+                break;
+        }
+        $x === false ? abort('500') : '';
+
+        $barang = Barang::find($id);
+        $order   = Order::find($order_id);
+
+        $item = 'serah_'.$item;
+
+        if ($barang->$item === NULL) {
+            try {
+                $barang->update([$item => 'diserahkan']);
+            } catch (\Throwable $th) {
+                abort('500');
+                \Log::info('Error: ' . $th);
+                // throw $th;
+            }
+        } else {
+            try {
+                $barang->update([$item => NULL]);
+            } catch (\Throwable $th) {
+                abort('500');
+                \Log::info('Error: ' . $th);
+            }
+        }
+
+        return redirect()->route('administrasi.show', $order->id);
+    }
 }

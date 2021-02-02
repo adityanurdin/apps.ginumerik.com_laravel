@@ -128,6 +128,7 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::group(['prefix' => 'administrasi'], function() {
     
                 //Barang
+                Route::get('{order_id}/barang/{id}/serahkan/{item}', 'Dashboard\BarangController@serah_barang')->name('serah.barang');
                 Route::get('{order_id}/barang/{id}/edit', 'Dashboard\BarangController@edit')->name('barang.edit');
                 Route::get('{order_id}/barang/{id}/delete', 'Dashboard\BarangController@destroy')->name('barang.destroy');
                 Route::post('{order_id}/barang/store', 'Dashboard\BarangController@store')->name('barang.store');

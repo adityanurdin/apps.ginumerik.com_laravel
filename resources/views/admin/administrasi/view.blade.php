@@ -31,7 +31,7 @@ Data Administrasi
               <thead>
                 <tr class="text-center text-dark" style="font-weight: 800;">
                   <td rowspan=2>No</td>
-                  <td colspan=2>Status</td>
+                  <td colspan=4>Status</td>
                   <td rowspan=2>Nama Alat</td>
                   <td colspan=2>Jumlah</td>
                   <td colspan=2>Biaya (Rp.)</td>
@@ -39,6 +39,8 @@ Data Administrasi
                 <tr class="text-center text-dark" style="font-weight: 800;">
                   <td >A-S</td>
                   <td >Lag</td>
+                  <td >Alat</td>
+                  <td >Sert</td>
                   <td>Alt.</td>
                   <td>St.</td>
                   <td>Satuan</td>
@@ -46,9 +48,6 @@ Data Administrasi
                 </tr>
               </thead>
               <tbody>
-                @php
-                    $no = 1;
-                @endphp
                 @foreach ($order->barangs as $item)
                 @php
                     if ( $item->status_batal === '1' ) {
@@ -60,9 +59,19 @@ Data Administrasi
                     }
                 @endphp
                 <tr class="{{$status}}" >
-                  <td>{{$no++}}</td>
+                  <td>{{$loop->iteration}}</td>
                   <td>{{$item->AS}}</td>
                   <td>{{$item->LAG}}</td>
+                  <td class="text-center">
+                      {{!is_null($item->serah_alat) ? ucfirst($item->serah_alat) : '-'}} <br>
+                      <a href="{{route('serah.barang', ['order_id' => $order->id, 'id' => $item->id, 'item' => 'alat'])}}" style="{{!is_null($item->serah_alat) ? '' : 'display: none;'}}">Batal</a>
+                      <a href="{{route('serah.barang', ['order_id' => $order->id, 'id' => $item->id, 'item' => 'alat'])}}" style="{{!is_null($item->serah_alat) ? 'display: none;' : ''}}">Serahkan</a>
+                  </td>
+                  <td class="text-center">
+                    {{!is_null($item->serah_sert) ? ucfirst($item->serah_sert) : '-'}} <br>
+                    <a href="{{route('serah.barang', ['order_id' => $order->id, 'id' => $item->id, 'item' => 'sertifikat'])}}" style="{{!is_null($item->serah_sert) ? '' : 'display: none;'}}">Batal</a>
+                      <a href="{{route('serah.barang', ['order_id' => $order->id, 'id' => $item->id, 'item' => 'sertifikat'])}}" style="{{!is_null($item->serah_sert) ? 'display: none;' : ''}}">Serahkan</a>
+                  </td>
                   <td>
                     {{$item->nama_barang .' ('. $item->KAN .')'}} <br>
                     <div>
@@ -72,7 +81,7 @@ Data Administrasi
                        <a href="{{route('barang.destroy', ['order_id' => $order->id, 'id' => $item->id])}}"  style="{{ $item->status_batal === '1' ? '' : 'display: none;' }}">Restore</a>
                     </div>
                   </td>
-                  <td>{{$item->alt}}</td>
+                  <td class="text-center">{{$item->alt}}</td>
                   <td>{{ucfirst($item->st)}}</td>
                   <td>{{Dit::Rupiah($item->harga_satuan)}}</td>
                   <td sdval="250000" sdnum="1033;">{{Dit::Rupiah($item->harga_satuan * $item->alt)}}</td>
