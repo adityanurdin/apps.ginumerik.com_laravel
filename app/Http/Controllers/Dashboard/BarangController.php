@@ -363,11 +363,13 @@ class BarangController extends Controller
         $barang = Barang::find($id);
         $order   = Order::find($order_id);
 
-        $item = 'serah_'.$item;
+        $query = 'serah_'.$item;
 
-        if ($barang->$item === NULL) {
+        if ($barang->$query === NULL) {
             try {
-                $barang->update([$item => 'diserahkan']);
+                $barang->update([$query => 'diserahkan']);
+                $msg = 'Melakukan penyerahan '.ucfirst($item).' ' .$barang->nama_barang. ' pada order ' .$order->no_order;
+                Dit::Log(1,$msg, 'success');
             } catch (\Throwable $th) {
                 abort('500');
                 \Log::info('Error: ' . $th);
@@ -375,7 +377,9 @@ class BarangController extends Controller
             }
         } else {
             try {
-                $barang->update([$item => NULL]);
+                $barang->update([$query => NULL]);
+                $msg = 'Melakukan pembatalan penyerahan '.ucfirst($item).' ' .$barang->nama_barang. ' pada order ' .$order->no_order;
+                Dit::Log(1,$msg, 'success');
             } catch (\Throwable $th) {
                 abort('500');
                 \Log::info('Error: ' . $th);
