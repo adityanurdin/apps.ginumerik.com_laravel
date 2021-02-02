@@ -154,7 +154,7 @@ class FinanceController extends Controller
                 $ppn = $sub_total * 0.1;
                 $pph = $sub_total * 0.02;
 
-                $grand_total = $sub_total + $ppn + $pph + $request->tat;
+                $grand_total = $sub_total + $ppn - $pph + $request->tat;
                 
                 $request->merge(['pph' => 'on']);
             } else {

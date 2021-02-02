@@ -201,7 +201,7 @@ class AdministrasiController extends Controller
             $ppn      = $subtotal * 0.1;
             $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
             $tat      = $finance->tat;
-            $grand_total = $subtotal + $ppn + $pph + $tat;
+            $grand_total = $subtotal + $ppn - $pph + $tat;
 
             $finance->update([
                 'total_bayar' => $total_bayar,

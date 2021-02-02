@@ -151,7 +151,7 @@ class Dit
 			$tat		= $finance->tat;
 			
 			if($finance->pph == 'on') {
-				$grand_total = ( $subtotal + $ppn ) + $pph + $tat;
+				$grand_total = ( $subtotal + $ppn ) - $pph + $tat;
 			} else {
 				$grand_total = ( $subtotal + $ppn ) + $tat;
 			}

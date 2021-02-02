@@ -109,7 +109,7 @@ class PrintController extends Controller
         $ppn      = $subtotal * 0.1;
         $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
         $tat      = $pembayaran->tat == 'on' ? $finance->tat : 0;
-        $grand_total = $subtotal + $ppn + $pph + $tat;
+        $grand_total = $subtotal + $ppn - $pph + $tat;
 
         $order  = Order::with('customer', 'barangs')
                         ->whereId($finance->order_id)
@@ -162,7 +162,7 @@ class PrintController extends Controller
         $ppn      = $subtotal * 0.1;
         $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
         $tat      = $pembayaran->tat == 'on' ? $finance->tat : 0;
-        $grand_total = $subtotal + $ppn + $pph + $tat;
+        $grand_total = $subtotal + $ppn - $pph + $tat;
 
         $tempat_tanggal = $request->tempat . ', ' . date('d - M - Y', strtotime($request->tanggal));
 
