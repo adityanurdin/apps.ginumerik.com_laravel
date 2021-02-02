@@ -281,7 +281,13 @@ Data Administrasi
                         <div class="form-group row align-items-center">
                           <label class="col-md-4 text-md-right text-left">No Sertifikat</label>
                           <div class="col-lg-4 col-md-6">
-                            <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control">
+                            @if (Dit::Setting('status_sert') == 'enable')
+                              <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control">
+                              <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small>
+                            @else
+                              <input type="text" name="no_sertifikat" class="form-control">
+                            @endif
+                            {{-- <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control"> --}}
                             {{-- <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small> --}}
                             {{-- <small>Rekomendasi: </small><small id="no_sertifikat_sm"></small> --}}
                           </div>
@@ -485,7 +491,7 @@ Data Administrasi
             return no_sertifikat
         }
 
-        // $('#no_sertifikat').val(sert())
+        $('#no_sertifikat').val(sert())
         $('#no_sertifikat_sm').html(sert())
 
         $('#refresh_sert').on('click', function(e) {
@@ -518,7 +524,7 @@ Data Administrasi
                 $('#formSimpan').trigger("reset");
                 
                 var no_sertifikat =  $.ajax({type: "GET", url: "{{route('administrasi.sertifikat')}}", async: false}).responseText;
-                // $('#no_sertifikat').val(no_sertifikat)
+                $('#no_sertifikat').val(no_sertifikat)
                 $('#no_sertifikat_sm').html(no_sertifikat)
 
                 $('#btnSimpan').html('<i class="fas fa-save"></i> Simpan')

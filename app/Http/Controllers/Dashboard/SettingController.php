@@ -23,13 +23,15 @@ class SettingController extends Controller
         $no_invoice = Dit::Setting('no_invoice');
         $no_kwitansi = Dit::Setting('no_kwitansi');
         $no_sertifikat = Dit::Setting('no_sertifikat');
+        $status_sert = Dit::Setting('status_sert');
         
         $data = array(
             'no_order'      => $no_order,
             'secret_code'   => $secret_code,
             'no_invoice'    => $no_invoice,
             'no_kwitansi'   => $no_kwitansi,
-            'no_sertifikat' => $no_sertifikat
+            'no_sertifikat' => $no_sertifikat,
+            'status_sert'   => $status_sert,
         );
         return view('admin.settings.index', compact('data'));
     }
@@ -69,6 +71,7 @@ class SettingController extends Controller
         Dit::setSetting($request, 'no_invoice');
         Dit::setSetting($request, 'no_kwitansi');
         Dit::setSetting($request, 'secret_code');
+        Dit::setSetting($request, 'status_sert');
 
         return redirect()->route('settings.index');
     }

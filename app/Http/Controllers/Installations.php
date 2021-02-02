@@ -88,6 +88,10 @@ class Installations extends Controller
                 'key'   => 'secret_code',
                 'value' => $request->secret_code
             ]);
+            Setting::create([
+                'key'   => 'status_sert',
+                'value' => 'disable'
+            ]);
 
             return redirect()->route('installations.index', 'finish');
         }

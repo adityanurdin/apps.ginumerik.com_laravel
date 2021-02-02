@@ -114,13 +114,10 @@ class DashboardController extends Controller
             
             'today_order'       => Order::with('customer')
                                     ->whereDay('created_at',date('d'))
-                                    ->orderBy('created_at', 'DESC')
                                     ->get(),
-            'monthly_order'     => Order::with('customer')
-                                    ->whereMonth('created_at',date('m'))
+            'monthly_order'     => Order::whereMonth('created_at',date('m'))
                                     ->get(),
-            'yearly_order'      => Order::with('customer')
-                                    ->whereYear('created_at',date('Y'))
+            'yearly_order'      => Order::whereYear('created_at',date('Y'))
                                     ->get(),
             
             'FIN'   => [

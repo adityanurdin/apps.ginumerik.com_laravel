@@ -1,7 +1,7 @@
 @extends('layouts.admin-master')
 
 @section('title')
-Data Administrasi
+Setting Application
 @endsection
 
 @section('content')
@@ -29,6 +29,20 @@ Data Administrasi
                     <label for="no_kwitansi">Set Nomer Kwitansi</label>
                     <input type="text" name="no_kwitansi" id="no_kwitansi" value="{{ isset($data['no_kwitansi']) ? $data['no_kwitansi'] : ''}}" class="form-control" required>
                     <small>note: cukup mengisi nomor nya saja, contoh : 421 hasilnya akan G08-421/KWI/VIII/20</small>
+                </div>
+                <div class="form-group">
+                    <label for="no_sertifikat">Set Status Nomer Setifikat</label>
+                    <div class="selectgroup w-100">
+                      <label class="selectgroup-item">
+                        <input type="radio" name="status_sert" value="enable" class="selectgroup-input" {{ isset($data['status_sert']) ? Dit::Checked('enable', $data['status_sert']) : ''}}>
+                        <span class="selectgroup-button">Enable</span>
+                      </label>
+                      <label class="selectgroup-item">
+                        <input type="radio" name="status_sert" value="disable" class="selectgroup-input" {{ isset($data['status_sert']) ? Dit::Checked('disable', $data['status_sert']) : ''}}>
+                        <span class="selectgroup-button">Disable</span>
+                      </label>
+                    </div>
+                    <small>note: </small>
                 </div>
                 <div class="form-group">
                     <label for="no_sertifikat">Set Nomer Setifikat</label>

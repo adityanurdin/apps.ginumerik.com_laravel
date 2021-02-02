@@ -122,9 +122,13 @@
                                     <div class="form-group">
                                         <label for="no_sertifikat">No Sertifikat</label>
                                         {{-- <input type="text" name="no_sertifikat" id="no_sertifikat" class="form-control @error('no_sertifikat') is-invalid @enderror"> --}}
+                                        @if (Dit::Setting('status_sert') == 'enable')
                                         <input type="text" id="no_sertifikat" name="no_sertifikat" class="form-control">
+                                        <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small>
+                                        @else
+                                        <input type="text" name="no_sertifikat" class="form-control">
+                                        @endif
                                         {{-- <small>Rekomendasi: </small><small id="no_sertifikat_sm"></small> --}}
-                                        {{-- <small><a href="javascript:void(0)" id="refresh_sert"><i class="fas fa-sync-alt"></i> <span>Refresh</span></a></small> --}}
                                         
                                         <div class="invalid-feedback">
                                             @error('no_sertifikat')
@@ -252,7 +256,7 @@
             return no_sertifikat
         }
 
-        // $('#no_sertifikat').val(sert())
+        $('#no_sertifikat').val(sert())
         $('#no_sertifikat_sm').html(sert())
 
         $('#refresh_sert').on('click', function(e) {
