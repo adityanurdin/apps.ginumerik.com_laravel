@@ -90,6 +90,9 @@ class PrintController extends Controller
     public function invoice($id, Request $request)
     {
         $tempat_tanggal = $request->tempat . ', ' . date('d - M - Y', strtotime($request->tanggal));
+
+        $penandatangan  = $request->penandatangan;
+        $jabatan        = $request->jabatan;
         // return $request->all();
         $pembayaran = HistoryPembayaran::findOrFail($id);
         $finance    = Finance::findOrFail($pembayaran->finance_id);
@@ -129,7 +132,9 @@ class PrintController extends Controller
             'tat',
             'grand_total',
             'discount',
-            'tempat_tanggal'
+            'tempat_tanggal',
+            'penandatangan',
+            'jabatan'
         ];
         // $pdf    = Pdf::loadView('pdf.invoice-new', compact($data));
         $query = $request->all();
@@ -166,11 +171,14 @@ class PrintController extends Controller
 
         $tempat_tanggal = $request->tempat . ', ' . date('d - M - Y', strtotime($request->tanggal));
 
+        $penandatangan  = $request->penandatangan;
+        $jabatan        = $request->jabatan;
+
         $order  = Order::with('customer', 'barangs')
                         ->whereId($finance->order_id)
                         ->first();
 
-        $pdf    = Pdf::loadView('pdf.kwitansi', compact('finance', 'order', 'pembayaran', 'grand_total', 'tempat_tanggal'))
+        $pdf    = Pdf::loadView('pdf.kwitansi', compact('finance', 'order', 'pembayaran', 'grand_total', 'tempat_tanggal', 'penandatangan', 'jabatan'))
                         ->setOption('margin-bottom', 32)
                         ->setOption('margin-top', 52);
                         // ->setOption('footer-left', 'Page [page] of [toPage] - ' . $pembayaran->no_kwitansi);

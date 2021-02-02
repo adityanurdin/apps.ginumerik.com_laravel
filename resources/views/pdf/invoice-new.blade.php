@@ -486,7 +486,7 @@
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 	</tr>
 	<tr>
-		<td colspan=4 height="19" align="center" valign=bottom><b><font size=3 color="#000000">(______________________________)</font></b></td>
+		<td colspan=4 height="19" align="center" valign=bottom><b><font size=3 color="#000000">({{$penandatangan}})</font></b></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
@@ -495,7 +495,7 @@
 		<td colspan=6 align="left" valign=middle><i><font size=3 color="#000000">Mohon agar menginformasikan apabila Invoice</font></i></td>
 		</tr>
 	<tr>
-		<td colspan=4 height="19" align="center" valign=bottom><font size=3 color="#000000">Finance</font></td>
+		<td colspan=4 height="19" align="center" valign=bottom><font size=3 color="#000000">{{$jabatan}}</font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>

@@ -415,20 +415,7 @@
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td colspan=4 align="center" valign=bottom><font color="#000000">_________________________________</font></td>
-		</tr>
-	<tr>
-		<td height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
+		<td colspan=4 align="center" valign=bottom><font color="#000000">{{$penandatangan}}</font></td>
 	</tr>
 	<tr>
 		<td height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
@@ -440,8 +427,7 @@
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td colspan=2 align="center" valign=bottom><font color="#000000">_________________</font></td>
+		<td colspan=4 align="center" valign=bottom><font color="#000000">{{$jabatan}}</font></td>
 	</tr>
 </table>
 <!-- ************************************************************************** -->

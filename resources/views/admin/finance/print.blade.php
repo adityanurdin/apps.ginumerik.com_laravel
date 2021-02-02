@@ -16,6 +16,28 @@ Print {{$type == 'invoice' ? 'Invoice' : 'Kwitansi'}}
                     <form action="{{$type == 'invoice' ? route('print.invoice', $id) : route('print.kwitansi', $id)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
+                          <label>Penandatangan</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-user"></i>
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" value="{{$type == 'invoice' ? 'Dedi Kurniadi' : 'Baben Safrulloh., S.Pd'}}" name="penandatangan">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Jabatan</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-user"></i>
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" value="{{$type == 'invoice' ? 'KA Keuangan' : '-'}}" name="jabatan">
+                          </div>
+                        </div>
+                        <div class="form-group">
                           <label>Tempat</label>
                           <div class="input-group">
                             <div class="input-group-prepend">
