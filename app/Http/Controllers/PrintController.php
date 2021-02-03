@@ -89,7 +89,7 @@ class PrintController extends Controller
 
     public function invoice($id, Request $request)
     {
-        $tempat_tanggal = $request->tempat . ', ' . date('d - M - Y', strtotime($request->tanggal));
+        $tempat_tanggal = $request->tempat . ', ' . date('d-m-Y', strtotime($request->tanggal));
 
         $penandatangan  = $request->penandatangan;
         $jabatan        = $request->jabatan;
