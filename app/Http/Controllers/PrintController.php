@@ -169,7 +169,7 @@ class PrintController extends Controller
         $tat      = $pembayaran->tat == 'on' ? $finance->tat : 0;
         $grand_total = $subtotal + $ppn - $pph + $tat;
 
-        $tempat_tanggal = $request->tempat . ', ' . date('d - M - Y', strtotime($request->tanggal));
+        $tempat_tanggal = $request->tempat . ', ' . date('d-m-Y', strtotime($request->tanggal));
 
         $penandatangan  = $request->penandatangan;
         $jabatan        = $request->jabatan;
