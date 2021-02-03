@@ -143,23 +143,6 @@
     </tr>
     @endforeach
 	<tr>
-		<td height="20" align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-		<td align="left" valign=bottom><font size=3 color="#000000"><br></font></td>
-	</tr>
-	<tr>
 		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 2px solid #000000; border-right: 1px solid #000000" colspan=12 height="19" align="right" valign=middle><font size=3 color="#000000">Total</font></td>
 		<td style="border-top: 2px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=3 align="center" valign=bottom><font size=3 color="#000000">{{Dit::Rupiah($total)}}</font></td>
 		</tr>
