@@ -325,7 +325,7 @@
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
-		<td colspan=4 align="left" valign=bottom><b><font size=2 color="#000000">{{$tempat_tanggal}}</font></b></td>
+		<td colspan=4 align="left" valign=bottom><b><font color="#000000">{{$tempat_tanggal}}</font></b></td>
 		</tr>
 	<tr>
 		<td height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
