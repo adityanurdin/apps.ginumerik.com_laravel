@@ -10,6 +10,6 @@ class KartuAlat extends Model
 
     public function barang()
     {
-        return $this->hasOne('App\Models\Barang', 'id');
+        return $this->hasOne('App\Models\Barang', 'id', 'barang_id');
     }
 }
