@@ -85,7 +85,7 @@ Sertifikat
                                 
                                 <div class="form-group">
                                     <label for="">Alamat Perusahaan</label>
-                                    <input type="text" value="{{$barang->alamat_perusahaan}}" class="form-control form-control-sm" disabled>
+                                    <textarea name="" id="" class="form-control" readonly>{{$barang->alamat_perusahaan}}</textarea>
                                 </div>
 
                             </div>
