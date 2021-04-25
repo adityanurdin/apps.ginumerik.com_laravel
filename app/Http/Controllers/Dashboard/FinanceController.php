@@ -211,7 +211,11 @@ class FinanceController extends Controller
                 Dit::Log(1,'Mengubah data invoice finance pada '.$order->no_order, 'Success');
             }
             
-            $finance->update(['sisa_bayar' => $sisa_bayar, 'status' => $status]);
+            $finance->update([
+                    'bayar' => $finance->bayar + $request->jumlah_bayar,
+                    'sisa_bayar' => $sisa_bayar,
+                    'status' => $status
+                ]);
 
 
             $request->merge(['status' => 'Lunas']);
@@ -248,6 +252,13 @@ class FinanceController extends Controller
         $finance = Finance::findOrFail($id);
         $order   = Order::findOrFail($finance->order_id);
         $roman =  Dit::Roman(date('m'));
+
+        if ($request->bayar > $finance->sisa_bayar) {
+            Dit::Log(0,'Error membuat invoice finance pada order '.$order->no_order, 'Error');
+            toast('Nominal bayar melebihi sisa bayar.','error');
+            // return 'kelebihan';
+            return redirect()->back();
+        }
 
         $ref_order = str_replace(' ','', $order->no_order);
         $ref_order = substr($ref_order, 5);
@@ -286,7 +297,7 @@ class FinanceController extends Controller
                 // }
 
                 $new_no_invoice = $ref_order;
-                $no_invoice  = 'G'.date('m').'-'.$new_no_invoice.'/INV/'.$roman.'/'.date('y');
+                $no_invoice  = 'G'.date('m', strtotime($order->tgl_masuk)).'-'.$new_no_invoice.'/INV/'.$roman.'/'.date('y');
 
                 //new kwitansi number
                 // $slice_kwitansi = explode('/', $last_number->no_kwitansi);
@@ -297,7 +308,7 @@ class FinanceController extends Controller
                 // }
 
                 $new_no_kwitansi = $ref_order;
-                $no_kwitansi  = 'G'.date('m').'-'.$new_no_kwitansi.'/KWI/'.$roman.'/'.date('y');
+                $no_kwitansi  = 'G'.date('m', strtotime($order->tgl_masuk)).'-'.$new_no_kwitansi.'/KWI/'.$roman.'/'.date('y');
             } else {
                 $part_number = count($history_pembayaran) + 1;
                 $no_invoice = $data_finance->no_invoice.'-['.$part_number.']';
@@ -477,12 +488,12 @@ class FinanceController extends Controller
                         ->addIndexColumn()
                         ->editColumn('no_invoice', function($item) {
                             $result = $item->no_invoice;
-                            $result .= '<br> <a href='.route('print.invoice', $item->id).'>Print</a> ';
+                            $result .= '<br> <a href='.route('print', [$item->id, 'invoice']).'>Print</a> ';
                             return $result;
                         })
                         ->editColumn('no_kwitansi', function($item) {
                             $result = $item->no_kwitansi;
-                            $result .= '<br> <a href='.route('print.kwitansi', $item->id).'>Print</a>';
+                            $result .= '<br> <a href='.route('print', [$item->id, 'kwitansi']).'>Print</a>';
                             return $result;
                         })
                         ->editColumn('jumlah_bayar', function($item) {
@@ -508,16 +519,36 @@ class FinanceController extends Controller
         return view('admin.finance.batal');
     }
 
-    public function pendapatan(Request $request)
+    public function pendapatan(Request $request, $all = NULL)
     {
         if ($request->has('date_range')) {
             $date_range = $request->date_range;
             $range = explode(' - ', $request->date_range);
             
             
-            $data = Barang::whereBetween('created_at', $range)
-                            ->get();
-            return view('admin.finance.pendapatan', compact('data', 'date_range'));
+            // $data = Barang::whereBetween('created_at', $range)
+            //                 ->get();
+            $data = Order::with(['finance', 'customer'])->whereBetween('created_at', $range)->get();
+                            // return $data;
+            $finance = Finance::whereBetween('created_at', $range)->get();
+            $sum = $finance->sum('grand_total');
+            return view('admin.finance.pendapatan', compact('data', 'date_range', 'sum'));
+        }
+        
+        if ($all == 'all') {
+            $data = Order::with(['finance', 'customer'])->get();
+            
+            $grand_total_satuan = [];
+            foreach ($data as $item) {
+                array_push($grand_total_satuan, [
+                    (int)$item->finance['grand_total']
+                ]);
+            }
+            $collapse = Arr::collapse($grand_total_satuan);
+            // return $collapse;
+            $sum      = array_sum($collapse);
+            
+            return view('admin.finance.pendapatan', compact('data', 'sum'));
         }
         return view('admin.finance.pendapatan');
     }

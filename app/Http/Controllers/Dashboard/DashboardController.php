@@ -69,7 +69,7 @@ class DashboardController extends Controller
         Carbon::setWeekEndsAt(Carbon::SUNDAY);
 
         $lag = Barang::with('orders')
-                        ->where('AS', NULL)
+                        ->where('AS', 'A-S')
                         ->where('LAG', '!=', NULL)
                         ->limit(5)
                         ->orderBy('LAG', 'DESC')
@@ -80,7 +80,30 @@ class DashboardController extends Controller
                         ->where('LAG', '!=', NULL)
                         ->orderBy('LAG', 'DESC')
                         ->count();
-        // return $lag;
+        // return $lag
+
+        $quick_access = array();
+        $quick_access_array = Order::with('finance')
+                        ->whereHas('finance', function(Builder $query) {
+                            $query->where('status', '!=', 'sudah_bayar');
+                        })
+                        ->get();
+        foreach($quick_access_array as $item) {
+            if ($item->finance['status'] == 'dalam_proses') {
+                $badge = 'secondary';
+            } else if ($item->finance['status'] == 'siap_tagih') {
+                $badge = 'info';
+            } else if ($item->finance['status'] == 'tagih') {
+                $badge = 'success';
+            } else {
+                $badge = 'danger';
+            }
+            array_push($quick_access, [
+                $item,
+                'badge' => $badge
+            ]);
+        }
+        // return $quick_access;
 
         $data = array(
             'logs'      => $logs,
@@ -108,7 +131,7 @@ class DashboardController extends Controller
             'tagih_minggu'          => self::financeStatus('tagih')
                                             ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
                                             ->get(),
-            'all_minggu'            => Finance::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            'all_minggu'            => Order::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
                                             ->get(),
             
             
@@ -121,15 +144,10 @@ class DashboardController extends Controller
                                     ->get(),
             
             'FIN'   => [
-                'siap_tagih'    => Order::with('finance')
-                                ->whereHas('finance', function(Builder $query) {
-                                    $query->where('status', '!=' , 'sudah_bayar');
-                                    $query->where('status', '!=' , 'dalam_proses');
-                                    $query->where('status', '!=' , 'sudah_bayar');
-                                })
-                                ->get(),
+                'quick_access'    => $quick_access,
             ]
         );
+        // return $data;
 
         return view('admin.dashboard.index', compact('data'));
     }
@@ -190,22 +208,25 @@ class DashboardController extends Controller
                 return redirect()->route('dashboard.index');
                 break;
         }
-        $orders = [];
-        foreach($statistic as $item) {
-            $order = Order::whereId($item->order_id)->get();
-            foreach($order as $row) {
-                array_push($orders, [
-                    'id'        => $row->id,
-                    'no_order'  => $row->no_order,
-                    'customer'  => $row->customer['nama_perusahaan'],
-                    'no_PO'     => $row->no_PO,
-                    'tgl_masuk' => $row->tgl_masuk
-                ]);
-            }
+        $orders_id = [];
+        foreach ($statistic as $item) {
+            array_push($orders_id, [
+                $item->order_id
+            ]);
         }
-        // return $orders;
+        $orders_id  = \Arr::collapse($orders_id);
+        $orders     = Order::with('finance')->whereIn('id', $orders_id)->get();
+        $finances   = [];
+        foreach ($orders as $row) {
+            array_push($finances, [
+                (int)$row->finance['grand_total']
+            ]);
+        }
+        $finances   = \Arr::collapse($finances);
+        // return $finances;
+        $sum        = array_sum($finances);
 
-        $sum = $statistic->sum('total_bayar') + $statistic->sum('tat');
+        // $sum = $orders->sum('total_bayar') + $orders->sum('tat');
 
         return view('admin.dashboard.statistic', compact('statistic', 'param', 'sum', 'orders'));
     }

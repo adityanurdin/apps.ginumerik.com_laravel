@@ -468,44 +468,7 @@ Dashboard
 
     @elseif (Auth::user()->role == 'FIN')
 
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h4>Order Siap Tagih</h4>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive table-invoice">
-            <table class="table table-striped" id="siap_tagih">
-              <thead>
-                <tr class="text-center">
-                  <th>No</th>
-                  <th>No Order</th>
-                  <th>Total Bayar</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                @php
-                    $no = 1;
-                @endphp 
-                @foreach ($data['FIN']['siap_tagih'] as $item)
-                <tr class="text-center">
-                  <td>{{$no++}}</td>
-                  <td>{{$item->no_order}}</td>
-                  <td>
-                    {{Dit::Rupiah(Dit::GrandTotal($item->finance['id']))}}
-                  </td>
-                  <td>
-                    <a href="{{route('finance.show', $item->id)}}" class="btn btn-outline-primary">Detail</a>
-                  </td>
-                </tr>
-                @endforeach
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+    @include('admin.dashboard.section.FIN')
 
     @elseif (Auth::user()->role == 'TEK')
 

@@ -33,6 +33,7 @@
                                         <a href="{{route('pendapatan')}}" class="btn btn-warning mt-2"><i class="fas fa-redo-alt"></i> Reset</a>
                                       @endisset
                                       <button type="submit" class="btn btn-primary mt-2 float-right"><i class="fas fa-search"></i> Search</button>
+                                      <a href="{{route('pendapatan.all', 'all')}}" class="btn btn-info mt-2 mr-2 float-right"><i class="fas fa-database"></i> All Data</a>
                                 </div>
                             </form>
                         </div>
@@ -40,12 +41,14 @@
 
                     @isset($data)
                         <div class="table-responsive mt-5">
+                            @isset($date_range) 
                             <p>
                                 Range Tanggal : {{$date_range}} <br>
-                                Pendapatan Pokok : <strong><u>{{Dit::Rupiah($data->sum('harga_satuan'))}}</u></strong>
+                                @endisset
+                                Pendapatan : <strong><u>{{Dit::Rupiah($sum)}}</u></strong> <i class="fas fa-question-circle" data-toggle="tooltip" title="Pendapatan adalah hasil dari semua grand total yang ada disetiap order"></i>
                             </p>
                             <table class="table table-striped">
-                                <thead>
+                                {{-- <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Alat</th>
@@ -64,6 +67,26 @@
                                         <td>{{$item->no_seri}}</td>
                                         <td>{{Dit::Rupiah($item->harga_satuan)}}</td>
                                         <td>{{$item->created_at}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody> --}}
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No Order</th>
+                                        <th>Nama Perusahaan</th>
+                                        <th>Grand Total</th>
+                                        <th>Tanggal Masuk</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data as $item)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$item->no_order}}</td>
+                                        <td>{{$item->customer['nama_perusahaan']}}</td>
+                                        <td>{{Dit::Rupiah($item->finance['grand_total'])}}</td>
+                                        <td>{{date('d-m-Y', strtotime($item->created_at))}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

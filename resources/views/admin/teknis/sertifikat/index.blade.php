@@ -18,7 +18,6 @@ Sertifikat
               <tr>
                 <th style="width: 15px;">No</th>
                 <th>Nama Alat</th>
-                <th>No Order</th>
                 <th>No Sertifikat</th>
               </tr>
             </thead>
@@ -29,9 +28,9 @@ Sertifikat
                     <td>
                       {{$item->nama_barang}}
                       <br>
-                      <a href="{{route('sertifikat.show', [Dit::encode($item->no_sertifikat), $item->orders[0]['id']])}}">Detail</a>
+                      {{-- <a href="{{route('sertifikat.show', [Dit::encode($item->no_sertifikat), $item->orders[0]['id']])}}">Detail</a> --}}
+                      <a href="#">Detail</a>
                     </td>
-                    <td>{{$item->orders[0]['no_order']}}</td>
                     <td>{{$item->no_sertifikat}}</td>
                   </tr>
               @endforeach

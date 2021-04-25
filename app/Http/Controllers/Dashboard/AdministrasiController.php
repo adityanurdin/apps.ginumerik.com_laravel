@@ -75,11 +75,54 @@ class AdministrasiController extends Controller
             if ( $tahun != $year) {
                 $unique_number = 0;
             } else {
-                $unique_number = (int)substr($order->no_order, 8);
+                $unique_number = substr($order->no_order, 5);
             }
+            $unique_number = str_replace(' ', '', $unique_number);
             $number = intval($unique_number) + 1;
-            $no_order = $year.' G '.str_pad($number, 5, 0, STR_PAD_LEFT);
-            $no_order = substr_replace($no_order, ' ', 8).str_pad($number, 2, 0, STR_PAD_LEFT);
+            // $number = 123456;
+            $check_length_number = strlen($number);
+            if ($check_length_number < 3) {
+                $no_order = $year. ' G '.str_pad($number, 5, 0, STR_PAD_LEFT);
+                $no_order = substr_replace($no_order, ' ', 8).str_pad($number, 2, 0, STR_PAD_LEFT);
+            } else if ($check_length_number == 3) {
+                $no_order   = $year. ' G '.str_pad($number, 5, 0, STR_PAD_LEFT);
+                $new_number = str_pad($number, 2, 0, STR_PAD_LEFT);
+                $no_order   = substr_replace($no_order, '', 7).substr($new_number, 0, 1). " " .substr($new_number, 1);
+            } else if ($check_length_number == 4) {
+                $no_order   = $year. ' G '.str_pad($number, 5, 0, STR_PAD_LEFT);
+                $new_number = str_pad($number, 2, 0, STR_PAD_LEFT);
+                $no_order   = substr_replace($no_order, '', 6).substr($new_number, 0, 2). " " .substr($new_number, 2);
+            } else if ($check_length_number >= 5) {
+                $no_order   = $year. ' G '.str_pad($number, 5, 0, STR_PAD_LEFT);
+                $new_number = str_pad($number, 2, 0, STR_PAD_LEFT);
+                $no_order   = substr_replace($no_order, '', 5).substr($new_number, 0, 3). " " .substr($new_number, 3);
+            }
+
+            /*
+            //Testing
+            $a = $order->no_order;
+            $b = substr($a, 5);
+            $c = str_replace(' ', '', $b);
+            $d = intval($c) + 1;
+            $dd = strlen($d);
+            if ($dd < 3) {
+                $e = '21 G '.str_pad($d, 5, 0, STR_PAD_LEFT);
+                $f =  substr_replace($e, ' ', 8).str_pad($d, 2, 0, STR_PAD_LEFT);
+            } elseif($dd == 3) {
+                $e = '21 G '.str_pad($d, 5, 0, STR_PAD_LEFT);
+                $new_d = str_pad($d, 2, 0, STR_PAD_LEFT);
+                $f = substr_replace($e, '', 7).substr($new_d, 0, 1). " " .substr($new_d, 1);
+            } elseif($dd == 4) {
+                $e = '21 G '.str_pad($d, 5, 0, STR_PAD_LEFT);
+                $new_d = str_pad($d, 2, 0, STR_PAD_LEFT);
+                $f = substr_replace($e, '', 6).substr($new_d, 0, 2). " " .substr($new_d, 2);
+            } elseif($dd >= 5) {
+                $e = '21 G '.str_pad($d, 5, 0, STR_PAD_LEFT);
+                $new_d = str_pad($d, 2, 0, STR_PAD_LEFT);
+                $f = substr_replace($e, '', 5).substr($new_d, 0, 3). " " .substr($new_d, 3);
+            } */
+
+
         }
 
         // 20 G 000 01
@@ -89,7 +132,6 @@ class AdministrasiController extends Controller
                 return redirect()->route('administrasi.create-wizard', session('wizardID'));
             }
         }
-
 
         return view('admin.administrasi.create', compact('customer', 'wizardID', 'no_order'));
     }
@@ -186,6 +228,10 @@ class AdministrasiController extends Controller
                 // 'sub_lab'       => '-'
             ]);
         }
+
+        if($request->status_alat == 'alat_datang') {
+            $request->merge(['tgl_terima_alat' => date('d-m-Y')]);
+        }
         
         $barang = Barang::create($request->except(['wizardID']));
         $order  = Order::where('no_order', session('no_order'))->first();
@@ -195,7 +241,7 @@ class AdministrasiController extends Controller
         $finance = Finance::where('order_id', $order->id)->first();
         if ($barang) {
             $total_harga_barang = $request->harga_satuan * $request->alt;
-            $total_bayar        = $total_harga_barang + $finance->total_bayar;
+            $total_bayar        = $finance->total_bayar + $total_harga_barang;
 
             $subtotal = $total_bayar - $finance->discount;
             $ppn      = $subtotal * 0.1;
@@ -289,7 +335,8 @@ class AdministrasiController extends Controller
      */
     public function show($id)
     {
-        $order = Order::with('serahterima')->findOrFail($id);
+        $order = Order::with(['serahterima', 'finance'])->findOrFail($id);
+        // return Dit::checkKartuAlatByBarang(1203);
         $barangs = Barang::where('status_batal', '0')
                         ->get();
 
@@ -297,7 +344,7 @@ class AdministrasiController extends Controller
                         ->barangs()
                         ->where('status_batal', '0')
                         ->get();
-                        // return $orders;
+                        // return $order->finance['status'];
 
         $nilai_satuan = [];
         foreach ($orders as $row) {
@@ -357,8 +404,10 @@ class AdministrasiController extends Controller
         $order      = Order::find($id);
         $finance    = Finance::where('order_id', $order->id)->first();
 
-        $jenis_pekerjaan = implode(' / ', $request->jenis_pekerjaan);
-        $request->merge(['jenis_pekerjaan' => $jenis_pekerjaan]);
+        if ($request->has('jenis_pekerjaan')) {
+            $jenis_pekerjaan = implode(' / ', $request->jenis_pekerjaan);
+            $request->merge(['jenis_pekerjaan' => $jenis_pekerjaan]);
+        }
 
         $order->update($request->except(['pph', 'discount', 'tat']));
         if ($order) {
@@ -390,13 +439,14 @@ class AdministrasiController extends Controller
         $id_barang = [];
         foreach($order->barangs as $item) {
             array_push($id_barang, [
-                'id' => $item->id
+                $item->id
             ]);
         }
+        $ids = Arr::collapse($id_barang);
         $order->delete();
         $order->barangs()->detach();
 
-        Barang::destroy(collect($id_barang));
+        Barang::destroy($ids);
 
         if ($order) {
             Dit::Log(1,'Menghapus order '.$order->no_order, 'success');
@@ -675,17 +725,139 @@ class AdministrasiController extends Controller
 
     public function lag()
     {
-        $lag = Barang::with('orders')
-                        ->where('AS', NULL)
+        $lag = Barang::where('AS', 'A-S')
                         ->where('LAG', '!=', NULL)
                         ->orderBy('LAG', 'DESC')
                         ->get();
+                        // return $lag;
         return view('admin.administrasi.lag', compact('lag'));
     }
 
     public function subcon()
     {
-        return view('admin.administrasi.sub_con');
+        $barangs = Barang::select(\DB::raw('count(*) as barang_count, ket_subcon'))
+                    ->where('lab', 'sub_con')
+                    ->groupBy('ket_subcon')
+                    ->get();
+        return view('admin.administrasi.sub_con', compact('barangs'));
+    }
+
+    public function subconData($subcon = NULL)
+    {
+        $data = Barang::where('lab', 'sub_con')->where('ket_subcon', $subcon)->get();
+        return Datatables::of($data)
+                            ->addIndexColumn()
+                            ->escapeColumns([])
+                            ->make(true);
+    }
+
+    public function update_status_order(Request $request)
+    {
+        try {
+            $order = Order::findOrFail($request->order_id);
+            Finance::where('order_id', $request->order_id)->update(['status' => $request->status]);
+            Dit::Log(1, 'Sukses update status order pada order '. $order->no_order, 'success');
+            toast('Status order updated successfully.','success');
+            return redirect()->route('administrasi.show', $request->order_id);
+        } catch (\Throwable $th) {
+            $order = Order::findOrFail($request->order_id);
+            Dit::Log(0, 'Error update status order pada order '. $order->no_order, 'error');
+            toast('Status order update has been error.','error');
+            return redirect()->route('administrasi.show', $request->order_id);
+        }
+    }
+
+    public function recalculate($order_id)
+    {
+        $order = Order::with(['finance', 'barangs'])->findOrFail($order_id);
+        $finance = $order->finance;
+
+        $history = $order->finance()->with(['HistoryPembayaran'])->first();
+        $history_pembayaran = $history->HistoryPembayaran()->where('status', 'Lunas')->get();
+        $jumlah_bayar_lunas = [];
+        foreach ($history_pembayaran as $item_pembayaran) {
+            if ($item_pembayaran->status == 'Lunas') {
+                array_push($jumlah_bayar_lunas, [
+                    (int)$item_pembayaran->jumlah_bayar
+                ]);
+            }
+        }
+        $collapse_lunas = Arr::collapse($jumlah_bayar_lunas);
+        $total_pembayaran_lunas = array_sum($collapse_lunas);
+
+        // return $history_pembayaran;
+
+        $nilai_satuan = [];
+        $barangs = $order->barangs()
+                            ->where('status_batal', '0')
+                            ->get();
+        foreach ($barangs as $row) {
+            array_push($nilai_satuan, [
+                (int)$row->harga_satuan * $row->alt
+            ]);
+        }
+        $collapse = Arr::collapse($nilai_satuan);
+        
+        #Rumus Grandtotal (+pph2%) = total - diskon - pph 2% + ppn 10% + transport
+        
+        $total      = array_sum($collapse);
+        $discount   = $finance->discount;
+        $subtotal	= $total - $discount;
+        $ppn		= $subtotal * 0.1;
+        $pph		= $subtotal * 0.02;
+        $tat        = $finance->tat;
+
+        if (is_null($finance->pph)) {
+            $grand_total = $subtotal + $ppn + $tat;
+        } else {
+            $grand_total = $subtotal - $pph + $ppn + $tat;
+        }
+
+        if (!is_null($finance->bayar)) {
+            $sisa_bayar = $grand_total - $total_pembayaran_lunas;
+            if($finance->sisa_bayar == 0) {
+                $status = 'sudah_bayar';
+            } else {
+                $status = $finance->status;
+            }
+        } else {
+            $sisa_bayar = $grand_total;
+            $status = $finance->status;
+        }
+
+        try {
+            Finance::find($finance->id)
+                    ->update([
+                        'total_bayar' => $total,
+                        'grand_total' => $grand_total,
+                        'sisa_bayar'  => $sisa_bayar
+                    ]);
+            Dit::Log(1, 'Sukses recalculate order pada order '. $order->no_order, 'success');
+            toast('Recalculate order has been successfully.','success');
+            return redirect()->route('administrasi.show', $order_id);
+        } catch (\Throwable $th) {
+            Dit::Log(0, 'Error recalculate order pada order '. $order->no_order, 'error');
+            toast('Recalculate order has been error.','error');
+            return redirect()->route('administrasi.show', $order_id);
+        }
+
+    }
+
+    public function forceAS($id, $order_id)
+    {
+        $order = Order::findOrFail($order_id);
+        $barang = Barang::findOrFail($id);
+        try {
+            $barang->update(['AS' => 'A-S']);
+            Dit::Log(1, 'Sukses force AS alat '.$barang->nama_barang.' pada order '. $order->no_order, 'success');
+            toast('Force AS alat '.$barang->nama_barang.' has been successfully.','success');
+            return redirect()->route('administrasi.show', $order_id);
+        } catch (\Throwable $th) {
+            throw $th;
+            Dit::Log(0, 'Error force AS alat '.$barang->nama_barang.' pada order '. $order->no_order, 'error');
+            toast('Force AS alat '.$barang->nama_barang.' has been error.','error');
+            return redirect()->route('administrasi.show', $order_id);
+        }
     }
 
 }

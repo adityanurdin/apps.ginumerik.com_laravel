@@ -202,8 +202,15 @@ class PrintController extends Controller
         $barang_ids = Arr::collapse($barang_ids);
         $barang = KartuAlat::with('barang')->whereIn('barang_id', $barang_ids)->get();
 
-
-        $pdf = PDF::loadView('pdf.FR-TK-1', compact('order', 'barang'))
+        $tgl_terima_alats = [];
+        foreach ($barang as $item) {
+            array_push($tgl_terima_alats, [
+                    $item->barang['tgl_terima_alat']
+            ]);
+        }
+        $tgl_terima_alat = Arr::collapse($tgl_terima_alats);
+        $tgl_terima_alat = implode(',', $tgl_terima_alat);
+        $pdf = PDF::loadView('pdf.FR-TK-1', compact('order', 'barang', 'tgl_terima_alat'))
                 ->setOption('footer-left', 'Page [page] of [toPage] - Kartu Alat ' . $order->no_order);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
     }

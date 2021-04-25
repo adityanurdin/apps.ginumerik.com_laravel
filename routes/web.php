@@ -79,6 +79,11 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::get('users/data' , 'Dashboard\UserController@data')->name('user.data');
             Route::get('users/{id}/delete/', 'Dashboard\UserController@destroy')->name('user.destroy');
             Route::resource('users', 'Dashboard\UserController')->except(['destroy']);
+
+            //Tools Panel
+            Route::get('tools-panel/recalculate', 'Dashboard\ToolsPanelController@recalculate')->name('tools-panel.recalculate');
+            Route::get('tools-panel/lag-checking', 'Dashboard\ToolsPanelController@lagChecking')->name('tools-panel.lag-checking');
+            Route::resource('tools-panel', 'Dashboard\ToolsPanelController')->only(['index']);
         
             // Settings
             Route::resource('settings', 'Dashboard\SettingController');
@@ -98,6 +103,10 @@ Route::group(['middleware' => 'SETUP'], function() {
         Route::post('administrasi/transfer-of-doc/{id}', 'Dashboard\AdministrasiController@storeTD')->name('administrasi.store.tod');
         Route::get('administrasi/transfer-of-doc/{id}/destroy', 'Dashboard\AdministrasiController@destroyTD')->name('administrasi.destroy.tod');
         Route::get('teknis/checked/{check}/{id}/{order_id}', 'Dashboard\TeknisController@checked')->name('teknis.checked');
+    
+        Route::group(['prefix' => 'system'], function() {
+            Route::get('recalculate-grandtotal/{no_order}', 'Dashboard\AdministrasiController@recalculate')->name('system.recalculate');
+        });
 
 
         
@@ -118,6 +127,8 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::post('administrasi/serahterima/{id}', 'Dashboard\AdministrasiController@serahterima')->name('administrasi.serahterima');
             Route::get('administrasi/sertifikat', 'Dashboard\AdministrasiController@sertifikat')->name('administrasi.sertifikat');
             
+            Route::post('administrasi/update-status-order', 'Dashboard\AdministrasiController@update_status_order')->name('administrasi.update_status_order');
+            Route::get('administrasi/force-as/{id}/{order_id}', 'Dashboard\AdministrasiController@forceAS')->name('administrasi.force-as');
             Route::get('administrasi/data', 'Dashboard\AdministrasiController@data')->name('administrasi.data');
             Route::get('administrasi/{id}/detail', 'Dashboard\AdministrasiController@show')->name('administrasi.show');
             Route::post('administrasi/wizard/{next}', 'Dashboard\AdministrasiController@storeWizard')->name('administrasi.wizard');
@@ -142,6 +153,7 @@ Route::group(['middleware' => 'SETUP'], function() {
 
                 // Sub Con
                 Route::get('sub-con', 'Dashboard\AdministrasiController@subcon')->name('subcon');
+                Route::get('sub-con/data/{subcon?}', 'Dashboard\AdministrasiController@subconData')->name('subcon.data');
 
                 // Statistik
                 Route::get('statistic/{param}', 'Dashboard\DashboardController@statistic')->name('statistic');
@@ -234,6 +246,7 @@ Route::group(['middleware' => 'SETUP'], function() {
         Route::get('system-log/data', 'LogController@data')->name('system-log.data');
         Route::resource('system-log', 'LogController')->only(['index', 'store']);
 
+        Route::get('pendapatan/{all}', 'Dashboard\FinanceController@pendapatan')->name('pendapatan.all');
         Route::get('pendapatan', 'Dashboard\FinanceController@pendapatan')->name('pendapatan');
         Route::post('pendapatan', 'Dashboard\FinanceController@pendapatan')->name('pendapatan');
         

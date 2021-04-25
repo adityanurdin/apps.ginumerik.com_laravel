@@ -2,12 +2,15 @@
 
 namespace App\Helpers;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 use Auth;
 use \App\Log;
 use \App\Models\Finance;
 use \App\Models\HistoryPembayaran;
 use \App\Models\Order;
+use \App\Models\KartuAlat;
+use \App\Models\Barang;
 use \App\SerahTerima;
 use \App\Setting;
 use Str;
@@ -218,13 +221,18 @@ class Dit
 		}
 	}
 	
-	public static function Selected($name, $value)
+	public static function Selected($name, $value, $option = '')
 	{
 		if ($name == $value) {
-			return 'Selected';
+			return 'Selected '.$option;
 		} else {
 			return '';
 		}
+	}
+
+	public static function Remove_($text, $opt = '')
+	{
+		return ucfirst(str_replace('_', ' ', $text));
 	}
 
 	public static function Setting($value)
@@ -363,6 +371,83 @@ class Dit
 			return false;
 		}
 
+	}
+
+	public static function getOrderByBarang($id)
+	{
+		$order = Barang::with(['barangs'])->find($id);
+		return $order;
+	}
+
+	public static function checkKartuAlatByBarang($id, $order_id)
+	{
+		$barang = Barang::with(['KartuAlat'])->find($id);
+		$kartu_alat = $barang->KartuAlat;
+		if (is_null($barang->AS)) {
+			// check kartu alat
+			if ($kartu_alat['paraf_alat'] == '*') {
+				if($kartu_alat['paraf_sertifikat'] == '*') {
+					return '<a href="'.route('administrasi.force-as', [$id, $order_id]).'" data-toggle="tooltip" title="Klik jika bermasalah dengan AS ?"><i class="fas fa-question-circle"></i></a>';
+				} else {
+					return 'A';
+				}
+			}
+		} else {
+			return $barang->AS;
+		}
+	}
+
+	public static function lagChecking()
+	{
+		try {
+
+			// ambil data $orders diurutkan dari tanggal tertua ke termuda
+			$orders = Order::orderBy('created_at', 'ASC')->get();
+			// Melalukan perulangan terhadap data $orders
+			foreach ($orders as $order) {
+				
+				// Melakukang perulangan terhadap data barang
+				foreach($order->barangs as $item) {
+					// Ambil data $barang berdasarkan id barang dan status batal = 0
+					$barang = Barang::whereId($item->id)
+                                ->where('status_batal', '0')
+								->where('status_alat', 'belum_datang')
+                                ->first();
+
+					$kartu_alat = KartuAlat::where('barang_id', $item->id)->first();
+					\Log::info($kartu_alat);
+
+					// Melakukan validasi paraf alat
+					/* if ($barang->KartuAlat['paraf_alat'] == NULL) {
+
+						// Melakukan validasi status kedatangan alat
+						if ($barang->status_alat == "alat_datang") {
+
+							# Inisialisasi lama hari kerja
+							$hari_kerja = $order->hari_kerja;
+							# Inisialisasi hari ini 
+							$hari_ini = strtotime(date('Y-m-d'));
+							# Inisialisasi tgl masuk barang
+							$tgl_barang_masuk = strtotime($barang->created_at);
+
+							\Log::info('lag bertambah pada id '.$barang->id.': ' . $tgl_barang_masuk);
+							
+						} else {
+							// Alat belum datang
+							\Log::info('Alat belum datang');
+						}
+					} else {
+						// alat sudah di paraf oleh teknis
+						\Log::info('Alat sudah di paraf oleh teknis');
+					} */
+
+				}
+
+			}
+
+		} catch (\Throwable $th) {
+			\Log::error($th);
+		}
 	}
 
 }

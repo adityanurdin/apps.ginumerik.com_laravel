@@ -295,12 +295,12 @@ Data Administrasi
 
                       </div>
                       
-                      <div class="form-group row align-items-center">
+                      {{-- <div class="form-group row align-items-center">
                         <label class="col-md-4 text-md-right text-left">Bidang</label>
                         <div class="col-lg-4 col-md-6">
                           <input type="text" id="bidang" name="bidang" class="form-control">
                         </div>
-                      </div>
+                      </div> --}}
                       <div class="form-group row align-items-center">
                         <label class="col-md-4 text-md-right text-left">KAN</label>
                         <div class="col-lg-4 col-md-6">

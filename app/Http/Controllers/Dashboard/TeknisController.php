@@ -128,6 +128,7 @@ class TeknisController extends Controller
         $barang     = Barang::findOrFail($id);
         $finance      = Finance::findOrFail($order_id);
         $order      = Order::findOrFail($order_id);
+        $user = Auth::user();
 
         if (is_null($kartu_alat->$paraf)) {
 
@@ -161,24 +162,26 @@ class TeknisController extends Controller
 
         }
 
-        if (!is_null($kartu_alat->paraf_alat)) {
-            $user = Auth::user();
-            $barang->update(['user_id' => $user->id]);
-        } else {
-            $barang->update(['user_id' => NULL]);
-        }
-
-        if($kartu_alat->paraf_administrasi != NULL) {
-            if ($kartu_alat->paraf_sertifikat != NULL) {
+        if ($paraf == 'paraf_alat') {
+            if ($kartu_alat->paraf_alat == NULL) {
                 $barang->update([
-                    'AS' => 'A-S'
-                ]);
-                $finance->update([
-                    'status' => 'siap_tagih'
+                    'AS' => NULL,
+                    'user_id' => NULL
                 ]);
             } else {
                 $barang->update([
+                    'AS' => 'A',
+                    'user_id' => $user->id
+                ]);
+            }
+        } else if($paraf = 'paraf_sertifikat') {
+            if ($kartu_alat->paraf_sertifikat == NULL) {
+                $barang->update([
                     'AS' => 'A'
+                ]);
+            } else {
+                $barang->update([
+                    'AS' => 'A-S'
                 ]);
             }
         }

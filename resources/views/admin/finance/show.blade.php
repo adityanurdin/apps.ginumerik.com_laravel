@@ -24,6 +24,10 @@ Data Finance
             @if ($order->finance['status'] !== 'sudah_bayar')
               <a href="{{route('finance.edit', $order->id)}}" class="btn btn-primary float-right mb-4">Buat Invoice</a> 
             @endif
+
+            Sisa Bayar: {{Dit::Rupiah($order->finance['sisa_bayar'])}} <br>
+            Sudah Terbayar: {{Dit::Rupiah($order->finance['bayar'])}} 
+            
             <table class="table table-sm" id="table-pembayaran">
               <thead>
                 <tr class="text-center">

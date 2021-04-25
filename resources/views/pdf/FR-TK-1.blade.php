@@ -88,7 +88,7 @@
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td colspan=2 align="left" valign=middle><font size=2 color="#000000">Tanggal Terima</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="left" valign=middle><font size=2 color="#000000">: _______________________</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="left" valign=middle><font size=2 color="#000000">: {{$tgl_terima_alat}}</font></td>
 		</tr>
 	<tr>
 		<td height="7" align="left" valign=bottom><font color="#000000"><br></font></td>
@@ -217,13 +217,13 @@
 	<tr>
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td colspan=2 align="left" valign=middle><b><font size=2 color="#000000">Sertifikat a/n.</font></b></td>
-		<td style="border-bottom: 1px solid #000000" colspan=11 align="left" valign=middle><font size=2 color="#000000">: {{$order->customer['nama_perusahaan']}}</font></td>
+		<td style="border-bottom: 1px solid #000000" colspan=11 align="left" valign=middle><font size=2 color="#000000">: {{$order->customer['nama_sertifikat']}}</font></td>
 		<td style="border-right: 2px solid #000000" align="left" valign=middle><font color="#000000"><br></font></td>
 	</tr>
 	<tr>
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td colspan=2 align="left" valign=middle><b><font size=2 color="#000000">Alamat</font></b></td>
-		<td style="border-bottom: 1px solid #000000" colspan=11 align="left" valign=middle><font size=2 color="#000000">: {{$order->customer['alamat']}}</font></td>
+		<td style="border-bottom: 1px solid #000000" colspan=11 align="left" valign=middle><font size=2 color="#000000">: {{$order->customer['alamat_sertifikat']}}</font></td>
 		<td style="border-right: 2px solid #000000" align="left" valign=middle><font color="#000000"><br></font></td>
 	</tr>
 	<tr>

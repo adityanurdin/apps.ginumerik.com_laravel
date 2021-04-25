@@ -257,7 +257,7 @@
             <tr>
                 <td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
                 <td align="left" valign=middle><font face="Helvetica" color="#000000">Alamat</font></td>
-                <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 rowspan=3 align="left" valign=top><font face="Helvetica" color="#000000">: {{$order->customer['nama_sertifikat']}}</font></td>
+                <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 rowspan=3 align="left" valign=top><font face="Helvetica" color="#000000">: {{$order->customer['alamat_sertifikat']}}</font></td>
                 <td align="left" valign=top><font face="Helvetica" color="#000000"><br></font></td>
                 <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font face="Helvetica" color="#000000">{{$order->finance['discount'] != NULL ? 'Diskon' : '-'}}</font></td>
                 <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle bgcolor="#FFFF00"><font face="Helvetica" color="#000000">: {{$order->finance['discount'] != NULL ? Dit::Rupiah($order->finance['discount']) : '-'}}</font></td>
@@ -301,7 +301,7 @@
                 <td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
                 <td align="left" valign=top><font face="Helvetica" color="#000000"><br></font></td>
                 <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font face="Helvetica" color="#000000">Grand Total</font></td>
-                <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font face="Helvetica" color="#000000">: {{Dit::Rupiah($grand_total)}}</font></td>
+                <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font face="Helvetica" color="#000000">: {{Dit::Rupiah($grand_total)}} <a href="{{route('system.recalculate', $order->id)}}"><i class="fas fa-calculator" data-toggle="tooltip" title="Klik jika terjadi salah perhitungan"></i></a></font></td>
                 </tr>
             <tr>
                 <td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
@@ -524,7 +524,6 @@
 
     </div>
     <div class="card-footer">
-        {{-- <a href="{{url()->previous()}}" class="btn btn-outline-primary float-left"><i class="fas fa-arrow-left"></i> Back</a> --}}
         <a href="{{route('print.form-adm-2', $order->id)}}" class="btn btn-primary float-right"><i class="fas fa-print"></i> Print</a>
       </div>
 

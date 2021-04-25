@@ -60,20 +60,27 @@ Data Administrasi
                 @endphp
                 <tr class="{{$status}}" >
                   <td>{{$loop->iteration}}</td>
-                  <td>{{$item->AS}}</td>
+                  <td>
+                    {!!Dit::checkKartuAlatByBarang($item->id, $order->id)!!}
+                  </td>
                   <td>{{$item->LAG}}</td>
                   <td class="text-center">
-                      {{!is_null($item->serah_alat) ? ucfirst($item->serah_alat) : '-'}} <br>
+                      {!!!is_null($item->serah_alat) ? ucfirst($item->serah_alat). '<br> ('.$item->tgl_serah_alat.')'  : '-'!!} <br>
                       <a href="{{route('serah.barang', ['order_id' => $order->id, 'id' => $item->id, 'item' => 'alat'])}}" style="{{!is_null($item->serah_alat) ? '' : 'display: none;'}}">Batal</a>
                       <a href="{{route('serah.barang', ['order_id' => $order->id, 'id' => $item->id, 'item' => 'alat'])}}" style="{{!is_null($item->serah_alat) ? 'display: none;' : ''}}">Serahkan</a>
                   </td>
                   <td class="text-center">
-                    {{!is_null($item->serah_sert) ? ucfirst($item->serah_sert) : '-'}} <br>
+                    {!!!is_null($item->serah_sert) ? ucfirst($item->serah_sert). '<br> ('.$item->tgl_serah_sert.')'  : '-'!!} <br>
                     <a href="{{route('serah.barang', ['order_id' => $order->id, 'id' => $item->id, 'item' => 'sertifikat'])}}" style="{{!is_null($item->serah_sert) ? '' : 'display: none;'}}">Batal</a>
                       <a href="{{route('serah.barang', ['order_id' => $order->id, 'id' => $item->id, 'item' => 'sertifikat'])}}" style="{{!is_null($item->serah_sert) ? 'display: none;' : ''}}">Serahkan</a>
                   </td>
                   <td>
-                    {{$item->nama_barang .' ('. $item->KAN .')'}} <br>
+                    {{-- {{$item->nama_barang .' ('. $item->KAN .')'}} <br> --}}
+                    @if ($item->tgl_terima_alat)
+                      {!!$item->nama_barang .'<br> ('. $item->tgl_terima_alat .')'!!} <br>
+                    @else
+                      {{$item->nama_barang}} <br>
+                    @endif
                     <div>
                       <a href="{{route('barang.edit', [$order->no_order, $item->id])}}"  style="{{ $item->status_batal === '1' ? 'display: none;' : '' }}">Edit</a>
                        {{-- <a href="javascript:void(0)" onclick="myConfirm()">Batal</a> --}}

@@ -19,7 +19,7 @@
                     </div>
                     <div class="card-wrap">
                     <div class="card-header">
-                        <h4>Jumlah Nominal</h4>
+                        <h4>Jumlah Grand Total <i class="fas fa-question-circle" data-toggle="tooltip" title="Jumlah grand total adalah hasil dari semua grand total yang ada disetiap order"></i></h4>
                     </div>
                     <div class="card-body">
                         {{Dit::Rupiah($sum)}}
@@ -37,7 +37,7 @@
                         <h4>Total Order</h4>
                     </div>
                     <div class="card-body">
-                        {{$statistic->count()}}
+                        {{$orders->count()}}
                     </div>
                     </div>
                 </div>
@@ -56,6 +56,7 @@
                             <th>No Order</th>
                             <th>Nama Perusahaan</th>
                             <th>No PO</th>
+                            <th>Grand Total</th>
                             <th>Tanggal Masuk</th>
                         </tr>
                     </thead>
@@ -63,9 +64,13 @@
                         @foreach ($orders as $item)
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$item['no_order']}}</td>
-                            <td>{{$item['customer']}}</td>
+                            <td>
+                                {{$item['no_order']}} <br>
+                                <a href="{{route('administrasi.show', $item['id'])}}">Detail</a>
+                            </td>
+                            <td>{{$item['customer']['nama_perusahaan']}}</td>
                             <td>{{$item['no_PO']}}</td>
+                            <td>{{Dit::Rupiah($item['finance']['grand_total'])}}</td>
                             <td>{{date('d-M-y', strtotime($item['tgl_masuk']))}}</td>
                         </tr>
                         @endforeach

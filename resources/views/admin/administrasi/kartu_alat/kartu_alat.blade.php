@@ -6,12 +6,33 @@
 
       <div class="table-responsive">
 
-         No Order : {{$order->no_order}}
-         {{-- <div class="float-right">
-             Tanggal Terima : 
-         </div> --}}
+        <div class="row">
+            <div class="col-lg-8">
+            </div>
+            <div class="col-lg-4">
+            <form action="{{route('administrasi.update_status_order')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="order_id" value="{{$order->id}}">
+                <div class="form-group">
+                    <label>Update status order</label>
+                    <div class="input-group">
+                        <select class="custom-select" id="inputGroupSelect04" name="status">
+                            <option disabled>Choose...</option>
+                            <option value="dalam_proses">Dalam Proses</option>
+                            <option value="siap_tagih">Siap Tagih</option>
+                            <option value="tagih">Tagih</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary" type="button">Update</button>
+                        </div>
+                    </div>
+                    <small>Status order saat ini: <strong>{{Dit::Remove_($order->finance['status'])}}</strong></small>
+                </div>
+            </form>
+            </div>
+        </div>
 
-         <div class="mt-5">
+         <div class="mt-2">
           <table class="table table-bordered table-striped table-sm">
               <thead>
                   <tr>

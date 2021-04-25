@@ -153,6 +153,9 @@ class BarangController extends Controller
         $harga_barang = $barang->harga_satuan;
         
         if ($barang) {
+            if($request->status_alat == 'alat_datang') {
+                $request->merge(['tgl_terima_alat' => date('d-m-Y')]);
+            }
             $request->merge([
                 'fisik' => $request->fisik ? $request->fisik : NULL,
                 'fungsi' => $request->fungsi ? $request->fungsi : NULL,
@@ -367,7 +370,10 @@ class BarangController extends Controller
 
         if ($barang->$query === NULL) {
             try {
-                $barang->update([$query => 'diserahkan']);
+                $barang->update([
+                    $query => 'diserahkan',
+                    'tgl_'.$query => date('d-m-Y')
+                    ]);
                 $msg = 'Melakukan penyerahan '.ucfirst($item).' ' .$barang->nama_barang. ' pada order ' .$order->no_order;
                 Dit::Log(1,$msg, 'success');
             } catch (\Throwable $th) {
@@ -377,7 +383,10 @@ class BarangController extends Controller
             }
         } else {
             try {
-                $barang->update([$query => NULL]);
+                $barang->update([
+                    $query => NULL,
+                    'tgl_'.$query => NULL
+                    ]);
                 $msg = 'Melakukan pembatalan penyerahan '.ucfirst($item).' ' .$barang->nama_barang. ' pada order ' .$order->no_order;
                 Dit::Log(1,$msg, 'success');
             } catch (\Throwable $th) {

@@ -115,7 +115,8 @@ Invoice
                             <label for="bayar">Nominal</label>
                             <input type="number" name="bayar" id="bayar" class="form-control" required>
                             <small>Note: Contoh format penulisan angka adalah 1000</small><br>
-                            <small>Total nominal yang harus dibayarkan : {{Dit::Rupiah($order->finance['grand_total'])}} (Grand Total)</small>
+                            <small>Total nominal yang harus dibayarkan : {{Dit::Rupiah($order->finance['grand_total'])}} (Grand Total)</small><br>
+                            <small>Sisa bayar yang harus dibayarkan : {{Dit::Rupiah($order->finance['sisa_bayar'])}}</small>
                         </div>
                         {{-- <div class="form-group">
                             <label for="tgl_bayar">Tanggal Bayar</label>

@@ -15,18 +15,25 @@
                             <table class="table" id="table-lag">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th style="width: 35px; text-align: center;">No</th>
                                         <th>No Order</th>
                                         <th>Alat</th>
+                                        <th>Merk</th>
+                                        <th>No Seri</th>
                                         <th>Jumlah LAG</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($lag as $item)
                                         <tr>
-                                            <td>{{$loop->iteration}}</td>
-                                            <td>{{$item->orders[0]['no_order']}}</td>
+                                            <td class="text-center">{{$loop->iteration}}</td>
+                                            <td>
+                                                {{$item->orders[0]['no_order']}} <br>
+                                                <a href="{{route('administrasi.show', $item->orders[0]['id'])}}">Details</a>
+                                            </td>
                                             <td>{{$item->nama_barang}}</td>
+                                            <td>{{$item->merk}}</td>
+                                            <td>{{$item->no_seri}}</td>
                                             <td class="text-center">{{$item->LAG}}</td>
                                         </tr>
                                     @endforeach
