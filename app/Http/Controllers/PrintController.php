@@ -209,7 +209,9 @@ class PrintController extends Controller
             ]);
         }
         $tgl_terima_alat = Arr::collapse($tgl_terima_alats);
-        $tgl_terima_alat = implode(',', $tgl_terima_alat);
+        $tgl_terima_alat = count($tgl_terima_alat) >= 1 ? $tgl_terima_alat[0] : '-';
+        // $tgl_terima_alat = implode(',', $tgl_terima_alat);
+        
         $pdf = PDF::loadView('pdf.FR-TK-1', compact('order', 'barang', 'tgl_terima_alat'))
                 ->setOption('footer-left', 'Page [page] of [toPage] - Kartu Alat ' . $order->no_order);
         return $pdf->download($order->no_order.' - '.strtoupper($order->customer['nama_perusahaan']).' FR-TK-01.pdf' );
