@@ -167,6 +167,9 @@ Route::group(['middleware' => 'SETUP'], function() {
 
             // Route::post('finance/{finance}/check_alat', 'Dashboard\FinanceController@checkAlat')->name('finance.checkalat');
 
+            Route::get('finance/menu/{menu}', 'Dashboard\FinanceController@menu')->name('finance.menu');
+            Route::get('finance/menu/{menu}/data', 'Dashboard\FinanceController@data_menu')->name('finance.data_menu');
+
             Route::get('finance/input', 'Dashboard\AdministrasiController@inputIndex')->name('administrasi.input');
             Route::get('finance/input/{id}', 'Dashboard\AdministrasiController@showInput')->name('administrasi.show.input');
             Route::get('finance/data-input', 'Dashboard\AdministrasiController@dataInput')->name('administrasi.data.input');
