@@ -12,7 +12,7 @@ class Finance extends Model
 
     public function getTotalBayarPpnAttribute()
     {
-        $PPn = $this->attributes['total_bayar'] * 0.1;
+        $PPn = $this->attributes['total_bayar'] * 0.11;
         return $this->attributes['total_bayar'] + $PPn;
     }
 

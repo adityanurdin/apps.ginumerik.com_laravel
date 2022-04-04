@@ -107,7 +107,7 @@ class FinanceController extends Controller
                         ->get();
                         // return $alat;
         
-        $PPn   = $order->finance['total_bayar'] * 0.1;
+        $PPn   = $order->finance['total_bayar'] * 0.11;
         $total_bayar = Dit::GrandTotal($order->finance['id']);
         return view('admin.finance.edit', compact('order', 'total_bayar', 'alat', 'pembayaran'));
     }
@@ -151,7 +151,7 @@ class FinanceController extends Controller
                 $total = Arr::collapse($total);
                 $total = array_sum($total);
                 $sub_total = $total - $request->discount;
-                $ppn = $sub_total * 0.1;
+                $ppn = $sub_total * 0.11;
                 $pph = $sub_total * 0.02;
 
                 $grand_total = $sub_total + $ppn - $pph + $request->tat;
@@ -167,7 +167,7 @@ class FinanceController extends Controller
                 $total = Arr::collapse($total);
                 $total = array_sum($total);
                 $sub_total = $total - $request->discount;
-                $ppn = $sub_total * 0.1;
+                $ppn = $sub_total * 0.11;
 
                 $grand_total = $sub_total + $ppn + $request->tat;
 

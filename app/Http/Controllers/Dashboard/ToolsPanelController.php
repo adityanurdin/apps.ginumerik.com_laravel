@@ -144,7 +144,7 @@ class ToolsPanelController extends Controller
                 $total      = array_sum($collapse);
                 $discount   = $finance->discount;
                 $subtotal	= $total - $discount;
-                $ppn		= $subtotal * 0.1;
+                $ppn		= $subtotal * 0.11;
                 $pph		= $subtotal * 0.02;
                 $tat        = $finance->tat;
     

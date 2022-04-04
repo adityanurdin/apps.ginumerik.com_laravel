@@ -186,7 +186,7 @@ class AdministrasiController extends Controller
             $request->session()->forget('customer');
 
             // $finance = Finance::where('order_id', $order->id)->first();
-            // $total_bayar     = $finance->total_bayar + ($finance->total_bayar * 0.1);
+            // $total_bayar     = $finance->total_bayar + ($finance->total_bayar * 0.11);
             // $finance->update(['total_bayar' => $total_bayar]);
 
             toast('Order has been finished.','success');
@@ -244,7 +244,7 @@ class AdministrasiController extends Controller
             $total_bayar        = $finance->total_bayar + $total_harga_barang;
 
             $subtotal = $total_bayar - $finance->discount;
-            $ppn      = $subtotal * 0.1;
+            $ppn      = $subtotal * 0.11;
             $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
             $tat      = $finance->tat;
             $grand_total = $subtotal + $ppn - $pph + $tat;
@@ -571,7 +571,7 @@ class AdministrasiController extends Controller
         $collapse = Arr::collapse($nilai_satuan);
         $total      = array_sum($collapse);
         $subtotal   = $total - $order->finance['discount'];
-        $ppn        = $subtotal * 0.1;
+        $ppn        = $subtotal * 0.11;
         $pph        = $order->finance['pph'] == 'on' ? $subtotal * 0.02 : 0;
         $grand_total = Dit::GrandTotal($order->finance['id']);
 
@@ -803,7 +803,7 @@ class AdministrasiController extends Controller
         $total      = array_sum($collapse);
         $discount   = $finance->discount;
         $subtotal	= $total - $discount;
-        $ppn		= $subtotal * 0.1;
+        $ppn		= $subtotal * 0.11;
         $pph		= $subtotal * 0.02;
         $tat        = $finance->tat;
 

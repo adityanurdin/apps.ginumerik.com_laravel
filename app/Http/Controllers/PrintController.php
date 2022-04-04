@@ -38,7 +38,7 @@ class PrintController extends Controller
         }
         $collapse = Arr::collapse($nilai_satuan);
         $sum      = array_sum($collapse);
-        $PPn      = $sum * 0.1;
+        $PPn      = $sum * 0.11;
         // $grand_total = $sum + $PPn;
         $grand_total = Dit::GrandTotal($order->finance['id']);
         $terbilang = ucfirst(Dit::terbilang($grand_total));
@@ -65,7 +65,7 @@ class PrintController extends Controller
         }
         $collapse = Arr::collapse($nilai_satuan);
         $sum      = array_sum($collapse);
-        $PPn      = $sum * 0.1;
+        $PPn      = $sum * 0.11;
         $grand_total = $sum + $PPn;
         $terbilang = ucfirst(Dit::terbilang($grand_total));
 
@@ -109,7 +109,7 @@ class PrintController extends Controller
         $total      = array_sum($collapse);
         $discount   = $pembayaran->discount == 'on' ? $finance->discount : 0;
         $subtotal = $total - $discount;
-        $ppn      = $subtotal * 0.1;
+        $ppn      = $subtotal * 0.11;
         $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
         $tat      = $pembayaran->tat == 'on' ? $finance->tat : 0;
         $grand_total = $subtotal + $ppn - $pph + $tat;
@@ -164,7 +164,7 @@ class PrintController extends Controller
         $total      = array_sum($collapse);
         $discount   = $pembayaran->discount == 'on' ? $finance->discount : 0;
         $subtotal = $total - $discount;
-        $ppn      = $subtotal * 0.1;
+        $ppn      = $subtotal * 0.11;
         $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
         $tat      = $pembayaran->tat == 'on' ? $finance->tat : 0;
         $grand_total = $subtotal + $ppn - $pph + $tat;
@@ -235,7 +235,7 @@ class PrintController extends Controller
         $collapse = Arr::collapse($nilai_satuan);
         $total      = array_sum($collapse);
         $subtotal   = $total - $order->finance['discount'];
-        $ppn        = $subtotal * 0.1;
+        $ppn        = $subtotal * 0.11;
         $pph        = $order->finance['pph'] == 'on' ? $subtotal * 0.02 : 0;
         $grand_total = Dit::GrandTotal($order->finance['id']);
 

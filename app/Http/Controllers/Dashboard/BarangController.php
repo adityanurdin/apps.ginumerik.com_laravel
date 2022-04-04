@@ -83,7 +83,7 @@ class BarangController extends Controller
             $total_bayar        = $total_harga_barang + $finance->total_bayar;
 
             $subtotal = $total_bayar - $finance->discount;
-            $ppn      = $subtotal * 0.1;
+            $ppn      = $subtotal * 0.11;
             $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
             $tat      = $finance->tat;
             $grand_total = $subtotal + $ppn - $pph + $tat;
@@ -186,7 +186,7 @@ class BarangController extends Controller
                 $total      = array_sum($total);
     
                 $subtotal = $total - $finance->discount;
-                $ppn      = $subtotal * 0.1;
+                $ppn      = $subtotal * 0.11;
                 $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
                 $tat      = $finance->tat;
                 $grand_total = $subtotal + $ppn - $pph + $tat;
@@ -264,7 +264,7 @@ class BarangController extends Controller
             $total      = array_sum($total);
 
             $subtotal = $total - $finance->discount;
-            $ppn      = $subtotal * 0.1;
+            $ppn      = $subtotal * 0.11;
             $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
             $tat      = $finance->tat;
             $grand_total = $subtotal + $ppn - $pph + $tat;
@@ -300,7 +300,7 @@ class BarangController extends Controller
             $total      = array_sum($total);
 
             $subtotal = $total - $finance->discount;
-            $ppn      = $subtotal * 0.1;
+            $ppn      = $subtotal * 0.11;
             $pph      = $finance->pph == 'on' ? $subtotal * 0.02 : 0;
             $tat      = $finance->tat;
             $grand_total = $subtotal + $ppn - $pph + $tat;

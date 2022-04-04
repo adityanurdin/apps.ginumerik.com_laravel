@@ -149,7 +149,7 @@ class Dit
 			$total 		= $finance->total_bayar;
 			$discount 	= $finance->discount;
 			$subtotal	= $total - $discount;
-			$ppn		= $subtotal * 0.1;
+			$ppn		= $subtotal * 0.11;
 			$pph		= $subtotal * 0.02;
 			$tat		= $finance->tat;
 			
@@ -183,7 +183,7 @@ class Dit
 
 			//remove PPH
 			$subtotal = $finance->total_bayar - $finance->discount;
-			$ppn	  = $subtotal * 0.1;
+			$ppn	  = $subtotal * 0.11;
 			return $ppn;
 		} else {
 			exit();
