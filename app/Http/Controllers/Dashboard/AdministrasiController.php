@@ -737,8 +737,10 @@ class AdministrasiController extends Controller
     {
         $barangs = Barang::select(\DB::raw('count(*) as barang_count, ket_subcon'))
                     ->where('lab', 'sub_con')
+                    ->whereYear('created_at', date('Y'))
                     ->groupBy('ket_subcon')
                     ->get();
+                    // ->get();
         return view('admin.administrasi.sub_con', compact('barangs'));
     }
 
