@@ -67,7 +67,7 @@
       </ul>
     </li>
   </ul>
-  @if (Auth::user()->role == 'ADMIN')
+  
   <ul class="sidebar-menu">
       <li class="menu-header">Admin System</li>
       <li class="dropdown">
@@ -76,6 +76,7 @@
           <li class="{{ Request::route()->getName() == 'labs.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('labs.index')}}"><span>Internal Lab</span></a></li>
         </ul>
       </li>
+      @if (Auth::user()->role == 'ADMIN')
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-cog"></i> <span>System Menus</span></a>
         <ul class="dropdown-menu">
@@ -87,7 +88,7 @@
           <li class="{{ Request::route()->getName() == 'logs' ? ' active' : '' }}"><a class="nav-link" href="{{route('logs')}}" target="__blink"><span>Engine Logs</span></a></li>
         </ul>
       </li>
-      
+      @endif
   </ul>
-  @endif
+  
 </aside>
