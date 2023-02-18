@@ -110,16 +110,16 @@ class DashboardController extends Controller
             'rank'      => $rank,
             'lag'       => $lag,
             'lag_count'       => $lag_count,
-            'users'     => User::all(),
-            'customer'  => Customer::all(),
-            'orders'    => Order::all(),
-            'alat'      => Barang::where('status_alat', 'alat_datang')->get(),
-            'alat_batal'=> Barang::where('status_batal', '1')->get(),
+            'users'     => User::whereYear('created_at', date('Y'))->get(),
+            'customer'  => Customer::whereYear('created_at', date('Y'))->get(),
+            'orders'    => Order::whereYear('created_at', date('Y'))->get(),
+            'alat'      => Barang::where('status_alat', 'alat_datang')->whereYear('created_at', date('Y'))->get(),
+            'alat_batal'=> Barang::where('status_batal', '1')->whereYear('created_at', date('Y'))->get(),
             
-            'dalam_proses'  => self::financeStatus('dalam_proses')->get(),
-            'siap_tagih'    => self::financeStatus('siap_tagih')->get(),
-            'tagih'         => self::financeStatus('tagih')->get(),
-            'sudah_bayar'   => self::financeStatus('sudah_bayar')->get(),
+            'dalam_proses'  => self::financeStatus('dalam_proses')->whereYear('created_at', date('Y'))->get(),
+            'siap_tagih'    => self::financeStatus('siap_tagih')->whereYear('created_at', date('Y'))->get(),
+            'tagih'         => self::financeStatus('tagih')->whereYear('created_at', date('Y'))->get(),
+            'sudah_bayar'   => self::financeStatus('sudah_bayar')->whereYear('created_at', date('Y'))->get(),
 
             
             'sudah_bayar_minggu'    => self::financeStatus('sudah_bayar')
