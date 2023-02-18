@@ -252,6 +252,8 @@ Route::group(['middleware' => 'SETUP'], function() {
         Route::get('pendapatan/{all}', 'Dashboard\FinanceController@pendapatan')->name('pendapatan.all');
         Route::get('pendapatan', 'Dashboard\FinanceController@pendapatan')->name('pendapatan');
         Route::post('pendapatan', 'Dashboard\FinanceController@pendapatan')->name('pendapatan');
+
+        Route::post('search', 'Dashboard\SearchController@search')->name('search');
         
     });
 

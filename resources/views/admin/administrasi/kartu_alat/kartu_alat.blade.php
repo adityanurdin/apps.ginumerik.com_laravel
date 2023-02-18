@@ -75,7 +75,10 @@
                       <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item->barang['merk']}}</td>
                       <td align="center" valign=middle sdval="1" sdnum="1033;">{{$item->barang['no_seri']}}</td>
                       <td align="center" valign=middle>{{$item->barang['no_sertifikat']}}</td>
-                      <td align="center" valign=middle>{{Dit::getLab($item->barang['lab'])}}</td>
+                      <td align="center" valign=middle>
+                        {{Dit::getLab($item->barang['lab'])}} <br>
+                        <small>{{$item->barang['ket_subcon']}}</small>
+                    </td>
                       <td align="center" valign=middle><input type="checkbox" {{ $item->barang['lab'] == 'sub_con' ? '' : 'disabled' }}  {!! Dit::Checked('*', $item['paraf_alat']) !!} id="check_alat_{{$item['id']}}"></td>
                       <td align="center" valign=middle id="tgl_alat_{{$item['id']}}">{{$item['tgl_alat']}}</td>
                       <td align="center" valign=middle><input type="checkbox" disabled {!! Dit::Checked('*', $item['paraf_selesai']) !!} id="check_selesai_{{$item['id']}}"></td>

@@ -38,7 +38,7 @@
       </li>
   </ul>
   @endif
-  @if (Auth::user()->role == 'TEK' || Auth::user()->role == 'ADMIN')
+  {{-- @if (Auth::user()->role == 'TEK' || Auth::user()->role == 'ADMIN') --}}
   <ul class="sidebar-menu">
       <li class="menu-header">Teknis</li>
       @if (Auth::user()->role == 'ADMIN')
@@ -52,7 +52,7 @@
         </ul>
       </li>
   </ul>
-  @endif
+  {{-- @endif --}}
   <ul class="sidebar-menu">
     <li class="menu-header">Data Archived</li>
     <li class="dropdown">
