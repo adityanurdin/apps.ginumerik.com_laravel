@@ -80,19 +80,21 @@
           <li class="{{ Request::route()->getName() == 'labs.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('labs.index')}}"><span>Internal Lab</span></a></li>
         </ul>
       </li>
-      @if (Auth::user()->role == 'ADMIN')
+      {{-- @if (Auth::user()->role == 'ADMIN') --}}
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-cog"></i> <span>System Menus</span></a>
         <ul class="dropdown-menu">
+          @if (Auth::user()->role == 'ADMIN')
           <li class="{{ Request::route()->getName() == 'users.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('users.index')}}"><span>Data Users</span></a></li>
           <li class="{{ Request::route()->getName() == 'system-report.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('system-report.index')}}"><span>System Reports</span></a></li>
-          <li class="{{ Request::route()->getName() == 'tools-panel.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('tools-panel.index')}}"><span>Tools Panel</span></a></li>
           <li class="{{ Request::route()->getName() == 'settings.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('settings.index')}}"><span>Settings</span></a></li>
           <li class="{{ Request::route()->getName() == 'system-log.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('system-log.index')}}"><span>System Logs</span></a></li>
           <li class="{{ Request::route()->getName() == 'logs' ? ' active' : '' }}"><a class="nav-link" href="{{route('logs')}}" target="__blink"><span>Engine Logs</span></a></li>
+          @endif
+          <li class="{{ Request::route()->getName() == 'tools-panel.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('tools-panel.index')}}"><span>Tools Panel</span></a></li>
         </ul>
       </li>
-      @endif
+      {{-- @endif --}}
   </ul>
   
 </aside>

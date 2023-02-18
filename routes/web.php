@@ -81,10 +81,6 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::get('users/{id}/delete/', 'Dashboard\UserController@destroy')->name('user.destroy');
             Route::resource('users', 'Dashboard\UserController')->except(['destroy']);
 
-            //Tools Panel
-            Route::get('tools-panel/recalculate', 'Dashboard\ToolsPanelController@recalculate')->name('tools-panel.recalculate');
-            Route::get('tools-panel/lag-checking', 'Dashboard\ToolsPanelController@lagChecking')->name('tools-panel.lag-checking');
-            Route::resource('tools-panel', 'Dashboard\ToolsPanelController')->only(['index']);
         
             // Settings
             Route::resource('settings', 'Dashboard\SettingController');
@@ -100,6 +96,10 @@ Route::group(['middleware' => 'SETUP'], function() {
 
         // Master Data
         Route::resource('labs', 'LabController')->except(['view']);
+        //Tools Panel
+        Route::get('tools-panel/recalculate', 'Dashboard\ToolsPanelController@recalculate')->name('tools-panel.recalculate');
+        Route::get('tools-panel/lag-checking', 'Dashboard\ToolsPanelController@lagChecking')->name('tools-panel.lag-checking');
+        Route::resource('tools-panel', 'Dashboard\ToolsPanelController')->only(['index']);
 
         // Route Khusus
         Route::get('administrasi/transfer-of-doc/{id}/show', 'Dashboard\AdministrasiController@showTD')->name('administrasi.show.tod');
