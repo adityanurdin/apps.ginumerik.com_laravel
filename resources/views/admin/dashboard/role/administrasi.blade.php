@@ -6,7 +6,7 @@
       </div>
       <div class="card-wrap">
         <div class="card-header">
-          <h4>Customers</h4>
+          <h4>New Customers</h4>
         </div>
         <div class="card-body">
           {{$data['customer']->count()}}
