@@ -189,8 +189,10 @@ Route::group(['middleware' => 'SETUP'], function() {
             Route::resource('finance', 'Dashboard\FinanceController')->except(['edit']);
         });
 
-        Route::get('teknis/summary', 'Dashboard\TeknisController@summary')->name('teknis.summary')->middleware('Admin');
-        Route::get('teknis/summary/{id}/detail', 'Dashboard\TeknisController@summary_detail')->name('teknis.summary.detail')->middleware('Admin');
+        Route::get('teknis/summary', 'Dashboard\TeknisController@summary')->name('teknis.summary');
+        Route::get('teknis/summary', 'Dashboard\TeknisController@summary')->name('teknis.summary');
+        // Route::get('teknis/summary/{id}/detail', 'Dashboard\TeknisController@summary_detail')->name('teknis.summary.detail')->middleware('Admin');
+        // Route::get('teknis/summary/{id}/detail', 'Dashboard\TeknisController@summary_detail')->name('teknis.summary.detail')->middleware('Admin');
 
         // Teknis
         Route::group(['middleware' => 'Teknis'], function() {
