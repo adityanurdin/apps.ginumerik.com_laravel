@@ -41,9 +41,10 @@
   {{-- @if (Auth::user()->role == 'TEK' || Auth::user()->role == 'ADMIN') --}}
   <ul class="sidebar-menu">
       <li class="menu-header">Teknis</li>
-      @if (Auth::user()->role == 'ADMIN')
+      {{-- @if (Auth::user()->role == 'ADMIN') --}}
         <li><a href="{{route('teknis.summary')}}" class="nav-link"><i class="fas fa-desktop"></i> <span>Summary Teknis</span></a></li>
-      @endif
+      {{-- @endif --}}
+      @if (Auth::user()->role == 'TEK' || Auth::user()->role == 'ADMIN')
       <li class="dropdown  {{ Auth::user()->role == 'TEK' ? 'active' : ''}}">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i> <span>Teknis</span></a>
         <ul class="dropdown-menu">
@@ -51,6 +52,7 @@
           <li class="{{ Request::route()->getName() == 'sertifikat.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('sertifikat.index')}}"><span>Sertifikat</span></a></li>
         </ul>
       </li>
+      @endif
   </ul>
   {{-- @endif --}}
   <ul class="sidebar-menu">
