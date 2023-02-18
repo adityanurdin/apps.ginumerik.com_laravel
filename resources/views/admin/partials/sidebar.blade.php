@@ -9,21 +9,23 @@
       <li class="menu-header">Dashboard</li>
       <li class="{{ Request::route()->getName() == 'dashboard.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('dashboard.index')}}"><i class="fas fa-columns"></i> <span>Dashboard</span></a></li>
   </ul>
-  @if (Auth::user()->role == 'ADM' || Auth::user()->role == 'ADMIN')
+  {{-- @if (Auth::user()->role == 'ADM' || Auth::user()->role == 'ADMIN') --}}
   <ul class="sidebar-menu">
       <li class="menu-header">Administrasi</li>
       <li class="dropdown {{ Auth::user()->role == 'ADM' ? 'active' : ''}}">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-database"></i>  <span>Administrasi</span></a>
         <ul class="dropdown-menu">
+          @if (Auth::user()->role == 'ADM' || Auth::user()->role == 'ADMIN')
           <li class="{{ Request::route()->getName() == 'administrasi.create' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.create')}}"><span>Buat Order</span></a></li>
           <li class="{{ Request::route()->getName() == 'administrasi.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.index')}}"><span>Data Administrasi</span></a></li>
           <li class="{{ Request::route()->getName() == 'administrasi.tod' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.tod')}}"><span>Transfer of Doc</span></a></li>
-          <li class="{{ Request::route()->getName() == 'administrasi.lacak' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.lacak')}}"><span>Lacak Order</span></a></li>
           <li class="{{ Request::route()->getName() == 'customer.index' ? ' active' : '' }}"><a class="nav-link" href="{{route('customer.index')}}"><span>Customers</span></a></li>
+          @endif
+          <li class="{{ Request::route()->getName() == 'administrasi.lacak' ? ' active' : '' }}"><a class="nav-link" href="{{route('administrasi.lacak')}}"><span>Lacak Order</span></a></li>
         </ul>
       </li>
   </ul>
-  @endif
+  {{-- @endif --}}
   @if (Auth::user()->role == 'FIN' || Auth::user()->role == 'ADMIN')
   <ul class="sidebar-menu">
       <li class="menu-header">Finance</li>

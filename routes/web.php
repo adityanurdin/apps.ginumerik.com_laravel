@@ -116,8 +116,8 @@ Route::group(['middleware' => 'SETUP'], function() {
         // Administrasi
         Route::group(['middleware' => 'ADM'], function() {
 
-            Route::get('administrasi/lacak', 'Dashboard\AdministrasiController@lacak')->name('administrasi.lacak');
-            Route::post('administrasi/lacak', 'Dashboard\AdministrasiController@letsLacak')->name('administrasi.lacak');
+            // Route::get('administrasi/lacak', 'Dashboard\AdministrasiController@lacak')->name('administrasi.lacak');
+            // Route::post('administrasi/lacak', 'Dashboard\AdministrasiController@letsLacak')->name('administrasi.lacak');
 
             Route::get('administrasi/lag', 'Dashboard\AdministrasiController@lag')->name('administrasi.lag');
 
@@ -195,6 +195,9 @@ Route::group(['middleware' => 'SETUP'], function() {
         // Route::get('teknis/summary', 'Dashboard\TeknisController@summary')->name('teknis.summary')->middleware('Admin');
         // Route::get('teknis/summary/{id}/detail', 'Dashboard\TeknisController@summary_detail')->name('teknis.summary.detail')->middleware('Admin');
         Route::get('teknis/summary/{id}/detail', 'Dashboard\TeknisController@summary_detail')->name('teknis.summary.detail');
+
+        Route::get('administrasi/lacak', 'Dashboard\AdministrasiController@lacak')->name('administrasi.lacak');
+        Route::post('administrasi/lacak', 'Dashboard\AdministrasiController@letsLacak')->name('administrasi.lacak');
 
         // Teknis
         Route::group(['middleware' => 'Teknis'], function() {
