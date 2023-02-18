@@ -136,7 +136,7 @@ class DashboardController extends Controller
             
             
             'today_order'       => Order::with('customer')
-                                    ->whereDay('created_at',date('d'))
+                                    ->where('tgl_masuk', date('Y-m-d'))
                                     ->get(),
             'monthly_order'     => Order::whereMonth('created_at',date('m'))
                                     ->get(),
@@ -147,7 +147,7 @@ class DashboardController extends Controller
                 'quick_access'    => $quick_access,
             ]
         );
-        // return $data;
+        // return date('d-m-Y');
 
         return view('admin.dashboard.index', compact('data'));
     }
