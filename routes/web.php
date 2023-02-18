@@ -95,9 +95,11 @@ Route::group(['middleware' => 'SETUP'], function() {
                 Route::post('/', 'Dashboard\SystemReportController@export')->name('system-report.export');
             });
 
-            // Master Data
-            Route::resource('labs', 'LabController')->except(['view']);
+            
         });
+
+        // Master Data
+        Route::resource('labs', 'LabController')->except(['view']);
 
         // Route Khusus
         Route::get('administrasi/transfer-of-doc/{id}/show', 'Dashboard\AdministrasiController@showTD')->name('administrasi.show.tod');
