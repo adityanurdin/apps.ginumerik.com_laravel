@@ -7,7 +7,7 @@ Data Administrasi
 @section('content')
 <section class="section">
   <div class="section-header">
-    <h1>Data Administrasi</h1>
+    <h1>Data Administrasi {{$request->year}}</h1>
   </div>
   <div class="section-body">
       <div class="container-fluid">
@@ -48,9 +48,12 @@ Data Administrasi
           var table = $('#myTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('administrasi.data') }}",
+            ajax: "{{ route('administrasi.data', ['year' => $request->year]) }}",
             "bLengthChange": false,
             "iDisplayLength": 25,
+            "columnDefs": [
+              { "searchable": false, "targets": 3 }
+            ],
             columns: [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
               {data: 'no_order', name: 'no_order'},

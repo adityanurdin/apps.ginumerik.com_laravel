@@ -280,7 +280,7 @@
 	<tr>
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font color="#000000"><br></font></td>
 		<td colspan=2 align="left" valign=middle><b><font size=2 color="#000000">Keterangan</font></b></td>
-		<td style="border-bottom: 1px solid #000000" colspan=11 align="left" valign=middle><font color="#000000">: </font></td>
+		<td style="border-bottom: 1px solid #000000" colspan=11 align="left" valign=middle><font color="#000000">: {!! $order->catatan_kartu_alat !!}</font></td>
 		<td style="border-right: 2px solid #000000" align="left" valign=middle><font color="#000000"><br></font></td>
 	</tr>
 	<tr>

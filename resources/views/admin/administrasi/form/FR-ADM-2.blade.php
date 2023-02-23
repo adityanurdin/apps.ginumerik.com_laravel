@@ -292,7 +292,7 @@
                 </tr>
             <tr>
                 <td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
-                <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=8 rowspan=4 align="left" valign=top><font face="Helvetica" color="#000000">Catatan :</font></td>
+                <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=8 rowspan=4 align="left" valign=top><font face="Helvetica" color="#000000">Catatan : {!!$order->catatan_job_order!!}</font></td>
                 <td align="left" valign=top><font face="Helvetica" color="#000000"><br></font></td>
                 <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=bottom><font face="Helvetica" color="#000000">Transportasi dan akomodasi teknis</font></td>
                 <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle bgcolor="#FFFF00"><font face="Helvetica" color="#000000">: {{Dit::Rupiah($order->finance['tat'])}}</font></td>

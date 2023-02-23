@@ -18,9 +18,9 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.administrasi.customer.index');
+        return view('admin.administrasi.customer.index', compact('request'));
     }
 
     /**
@@ -135,10 +135,15 @@ class CustomerController extends Controller
     /**
      * Return data json for datatables serverside
      */
-    public function data()
+    public function data(Request $request)
     {
-        $data = Customer::all();
-        return DataTables::of($data)
+        $data = Customer::query();
+
+        if ($request->has('year')) {
+            $data->whereYear('created_at', $request->year);
+        }
+
+        return DataTables::of($data->get())
                             ->addIndexColumn()
                             ->editColumn('nama_perusahaan', function($item) {
                                 $result = $item->nama_perusahaan. '<br>';

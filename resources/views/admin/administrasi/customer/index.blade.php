@@ -7,7 +7,7 @@ Data Customer
 @section('content')
 <section class="section">
   <div class="section-header">
-    <h1>Data Customer</h1>
+    <h1>Data Customer {{$request->year}}</h1>
   </div>
   <div class="section-body">
       <div class="container-fluid">
@@ -47,7 +47,7 @@ Data Customer
           var table = $('#myTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('customer.data') }}",
+            ajax: "{{ route('customer.data', ['year' => $request->year]) }}",
             columns: [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
               {data: 'nama_perusahaan', name: 'nama_perusahaan'},

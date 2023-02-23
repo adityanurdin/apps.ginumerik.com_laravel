@@ -138,9 +138,11 @@ class DashboardController extends Controller
             'today_order'       => Order::with('customer')
                                     ->where('tgl_masuk', date('Y-m-d'))
                                     ->get(),
-            'monthly_order'     => Order::whereMonth('created_at',date('m'))
+            // 'monthly_order'     => Order::whereMonth('created_at',date('m'))
+            'monthly_order'     => Order::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
                                     ->get(),
-            'yearly_order'      => Order::whereYear('created_at',date('Y'))
+            // 'yearly_order'      => Order::whereYear('created_at',date('Y'))
+            'yearly_order'      => Order::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
                                     ->get(),
             
             'FIN'   => [
@@ -199,10 +201,12 @@ class DashboardController extends Controller
                 $statistic = Finance::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
                 break;
             case 'bulanan':
-                $statistic = Finance::whereMonth('created_at', date('m'))->get();
+                // $statistic = Finance::whereMonth('created_at', date('m'))->get();
+                $statistic = Finance::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
                 break;
             case 'tahunan':
-                $statistic = Finance::whereYear('created_at', date('Y'))->get();
+                $statistic = Finance::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
+                // $statistic = Finance::whereYear('created_at', date('Y'))->get();
                 break;
             default:
                 return redirect()->route('dashboard.index');

@@ -32,6 +32,7 @@ use Validator;
 use DataTables;
 use Arr;
 use Dit;
+use Carbon\Carbon;
 
 class AdministrasiController extends Controller
 {
@@ -40,9 +41,9 @@ class AdministrasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.administrasi.index');
+        return view('admin.administrasi.index', compact('request'));
     }
 
     /**
@@ -520,16 +521,18 @@ class AdministrasiController extends Controller
      /**
      * Return data json for datatables serverside
      */
-    public function data()
+    public function data(Request $request)
     {
-        $data = Order::with('customer', )
+        $data = Order::query()->with('customer', )
                     ->whereHas('finance', function(Builder $query) {
                         $query->where('status', '!=', 'sudah_bayar');
-                    })
+                    });
                     // ->orderBy('created_at', 'AS')
-                    ->get();
-        // return $data;
-        return Datatables::of($data)
+
+                    if ($request->has('year')) {
+                        $data->whereYear('created_at', $request->year);
+                    }
+        return Datatables::of($data->get())
                             ->addIndexColumn()
                             ->editColumn('no_order', function($item) {
                                 $result = ucfirst($item->no_order). '<br>';
@@ -746,7 +749,10 @@ class AdministrasiController extends Controller
 
     public function subconData($subcon = NULL)
     {
-        $data = Barang::where('lab', 'sub_con')->where('ket_subcon', $subcon)->get();
+        $data = Barang::where('lab', 'sub_con')
+                        ->where('ket_subcon', $subcon)
+                        ->whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+                        ->get();
         return Datatables::of($data)
                             ->addIndexColumn()
                             ->escapeColumns([])

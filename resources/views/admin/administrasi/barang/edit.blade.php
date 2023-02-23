@@ -95,7 +95,7 @@
                                
                                 <div class="form-group" style="display: none;" id="block-subcon">
                                     <label for="">Ket. Sub Con</label>
-                                    <input type="text" id="ket_subcon" name="ket_subcon" class="form-control">
+                                    <input type="text" id="ket_subcon" name="ket_subcon" value="{{$barang->ket_subcon}}" class="form-control">
                                 </div>
                                 <div class="sub_con">
 

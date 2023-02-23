@@ -7,7 +7,7 @@ Manage Users
 @section('content')
 <section class="section">
   <div class="section-header">
-    <h1>Manage Users</h1>
+    <h1>Manage Users {{$request->year}}</h1>
   </div>
   <div class="section-body">
       <div class="container-fluid">
@@ -46,7 +46,7 @@ Manage Users
           var table = $('#myTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('user.data') }}",
+            ajax: "{{ route('user.data', ['year' => $request->year]) }}",
             columns: [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
               {data: 'name', name: 'name'},

@@ -105,11 +105,17 @@ class LogController extends Controller
         //
     }
 
-    public function data()
+    public function data(Request $request)
     {
-        $log = Log::with('user')->orderBy('created_at', 'DESC')->get();
+        $log = Log::query()
+                    ->with('user')
+                    ->orderBy('created_at', 'DESC');
 
-        return Datatables::of($log)
+        if ($request->has('year')) {
+            $log->whereYear('created_at', $request->year);
+        }
+
+        return Datatables::of($log->get())
                     ->addIndexColumn()
                     ->editColumn('created_at', function($item) {
                         return date('d-M-y h:i', strtotime($item->created_at));

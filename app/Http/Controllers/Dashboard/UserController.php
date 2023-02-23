@@ -29,9 +29,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.users.index');
+        return view('admin.users.index', compact('request'));
     }
 
     /**
@@ -163,10 +163,15 @@ class UserController extends Controller
     /**
      * Return data json for datatables serverside
      */
-    public function data()
+    public function data(Request $request)
     {
-        $data = User::all();
-        return DataTables::of($data)
+        $data = User::query();
+
+        if ($request->has('year')) {
+            $data->whereYear('created_at', $request->year);
+        }
+
+        return DataTables::of($data->get())
                             ->addIndexColumn()
                             ->editColumn('name', function($item) {
                                 $result = ucfirst($item->name). '<br>';

@@ -125,7 +125,7 @@ class TeknisController extends Controller
         $paraf = 'paraf_'.$check;
 
         $kartu_alat = KartuAlat::findOrFail($id);
-        $barang     = Barang::findOrFail($id);
+        $barang     = Barang::findOrFail($kartu_alat->barang_id);
         $finance      = Finance::findOrFail($order_id);
         $order      = Order::findOrFail($order_id);
         $user = Auth::user();

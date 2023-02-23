@@ -128,6 +128,18 @@ Data Administrasi
                       </div>
                     </div>
                     <div class="form-group row align-items-center">
+                      <label class="col-md-4 text-md-right text-left">Catatan Job Order</label>
+                      <div class="col-lg-4 col-md-6">
+                        <textarea name="catatan_job_order" id="" class="summernote-simple"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label class="col-md-4 text-md-right text-left">Catatan Kartu Alat</label>
+                      <div class="col-lg-4 col-md-6">
+                        <textarea name="catatan_kartu_alat" id="" class="summernote-simple"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
                       <label class="col-md-4 text-md-right text-left">Additional</label>
                       <div class="col-lg-4 col-md-6">
                         <div class="form-check">

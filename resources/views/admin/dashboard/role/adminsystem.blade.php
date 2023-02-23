@@ -1,5 +1,5 @@
 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-<a href="{{route('users.index')}}">
+<a href="{{route('users.index', ['year' => date('Y')])}}">
       <div class="card card-statistic-1">
         <div class="card-icon bg-primary">
           <i class="fas fa-users"></i>
@@ -17,7 +17,7 @@
 </div>
   
   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-    <a href="{{route('customer.index')}}">
+    <a href="{{route('customer.index', ['year' => date('Y')])}}">
       <div class="card card-statistic-1">
         <div class="card-icon bg-primary">
           <i class="fas fa-user-tie"></i>
@@ -34,7 +34,7 @@
     </a>
   </div>
   <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-    <a href="{{route('administrasi.index')}}">
+    <a href="{{route('administrasi.index', ['year' => date('Y')])}}">
       <div class="card card-statistic-1">
         <div class="card-icon bg-primary">
           <i class="fas fa-box"></i>
@@ -68,7 +68,7 @@
 
   
 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-  <a href="{{route('finance.index')}}">
+  <a href="{{route('finance.index', ['year' => date('Y')])}}">
     <div class="card card-statistic-1">
       <div class="card-icon bg-primary">
         <i class="fas fa-spinner"></i>

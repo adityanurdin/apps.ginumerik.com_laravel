@@ -43,7 +43,7 @@ System Logs
           var table = $('#myTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('system-log.data') }}",
+            ajax: "{{ route('system-log.data', ['year' => date('Y')]) }}",
             columns: [
               {data: 'DT_RowIndex', name: 'DT_RowIndex'},
               {data: 'user.name', name: 'user.name'},
