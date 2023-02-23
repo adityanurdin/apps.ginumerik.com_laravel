@@ -44,7 +44,7 @@ Invoice
                             <label for="nama_perusahaan">Nama Perusahaan</label>
                             <input type="text" id="nama_perusahaan" value="{{$order->customer['nama_perusahaan']}}" readonly class="form-control">
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="nama_perusahaan">No. NPWP Perusahaan</label>
                             <input type="text" id="nama_perusahaan" value="{{$order->customer['no_npwp']}}" class="form-control">
                         </div>
@@ -55,7 +55,8 @@ Invoice
                         <div class="form-group">
                             <label for="nama_perusahaan">No. Seri Faktur Pajak</label>
                             <input type="text" id="nama_perusahaan" class="form-control">
-                        </div>
+                        </div> --}}
+                        
                         {{-- <div class="form-group">
                             <label for="total_bayar">Total Bayar (+PPn)</label>
                             <input type="text"  id="total_bayar" value="{{ Dit::Rupiah($total_bayar) }}" readonly class="form-control">
