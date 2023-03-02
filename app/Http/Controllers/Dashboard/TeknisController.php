@@ -275,14 +275,13 @@ class TeknisController extends Controller
         ORDER BY jumlah_alat DESC;
          ';
         $teknis = \DB::select(\DB::raw($query));
-        // return $teknis;
 
         return view('admin.teknis.summary.index', compact('teknis'));
     }
 
     public function summary_detail($id)
     {
-        $barang = Barang::where('user_id', $id)->get();
+        $barang = Barang::where('user_id', $id)->whereYear('created_at', date('Y'))->get();
         $user = User::find($id);
         
         return view('admin.teknis.summary.detail', compact('barang', 'user'));

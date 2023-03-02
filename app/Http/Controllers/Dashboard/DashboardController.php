@@ -157,7 +157,7 @@ class DashboardController extends Controller
     public function account()
     {
         $user   = Auth::user();
-        $barang = Barang::where('user_id', $user->id)->get();
+        $barang = Barang::where('user_id', $user->id)->whereYear('created_at', date('Y'))->get();
 
         return view('auth.account', compact('user', 'barang'));
     }
