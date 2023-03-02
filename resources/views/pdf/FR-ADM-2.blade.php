@@ -276,7 +276,7 @@
 	<tr>
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font face="Helvetica" color="#000000"><br></font></td>
 		<td align="left" valign=middle><font face="Helvetica" color="#000000">Nama</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 align="left" valign=middle><b><font face="Helvetica" color="#000000">: {{$order->customer['nama_sertifikat']}}</font></b></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 align="left" valign=middle><b><font face="Helvetica" color="#000000">: {{$order->barangs[0]['nama_perusahaan']}}</font></b></td>
 		<td align="left" valign=middle><font face="Helvetica" color="#000000"><br></font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="left" valign=bottom><font size=2 face="Helvetica" color="#000000">Total</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 face="Helvetica" color="#000000">: {{Dit::Rupiah($sum)}}</font></td>
@@ -284,7 +284,7 @@
 	<tr>
 		<td style="border-left: 2px solid #000000" height="19" align="left" valign=bottom><font size=2 face="Helvetica" color="#000000"><br></font></td>
 		<td align="left" valign=middle><font size=2 face="Helvetica" color="#000000">Alamat</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 rowspan=3 align="left" valign=top><font size=2 face="Helvetica" color="#000000">: {{$order->customer['alamat_sertifikat']}}</font></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 rowspan=3 align="left" valign=top><font size=2 face="Helvetica" color="#000000">: {{$order->barangs[0]['alamat_perusahaan']}}</font></td>
 		<td align="left" valign=top><font size=2 face="Helvetica" color="#000000"><br></font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="left" valign=bottom><font size=2 face="Helvetica" color="#000000">{{$order->finance['discount'] != NULL ? 'Diskon' : '-'}}</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 2px solid #000000" colspan=2 align="left" valign=middle><font size=2 face="Helvetica" color="#000000">: {{$order->finance['discount'] != NULL ? Dit::Rupiah($order->finance['discount']) : '-'}}</font></td>
