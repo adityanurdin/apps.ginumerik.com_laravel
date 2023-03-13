@@ -44,18 +44,18 @@ Invoice
                             <label for="nama_perusahaan">Nama Perusahaan</label>
                             <input type="text" id="nama_perusahaan" value="{{$order->customer['nama_perusahaan']}}" readonly class="form-control">
                         </div>
-                        {{-- <div class="form-group">
+                        <div class="form-group">
                             <label for="nama_perusahaan">No. NPWP Perusahaan</label>
-                            <input type="text" id="nama_perusahaan" value="{{$order->customer['no_npwp']}}" class="form-control">
+                            <input type="text" id="no_npwp" name="no_npwp" value="{{$order->customer['no_npwp']}}" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="nama_perusahaan">Alamat NPWP Perusahaan</label>
-                            <input type="text" id="nama_perusahaan" value="{{$order->customer['alamat_npwp']}}" class="form-control">
+                            <input type="text" id="alamat_npwp" name="alamat_npwp" value="{{$order->customer['alamat_npwp']}}" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="nama_perusahaan">No. Seri Faktur Pajak</label>
-                            <input type="text" id="nama_perusahaan" class="form-control">
-                        </div> --}}
+                            <input type="text" id="no_pajak" name="no_pajak" class="form-control">
+                        </div>
                         
                         {{-- <div class="form-group">
                             <label for="total_bayar">Total Bayar (+PPn)</label>
@@ -75,7 +75,7 @@ Invoice
                                         @if ($item->status_batal == '0')
                                             <option value="{{$item->id}}" id="opt-{{$item->id}}" data-harga="{{$item->harga_satuan}}">{{$item->nama_barang}} - ({{Dit::Rupiah($item->harga_satuan)}})</option>
                                         @else
-                                            <option disabled>{{$item->nama_barang}} - ({{Dit::Rupiah($item->harga_satuan)}}) (Alat Batal)</option>
+                                            <option disabled>{{$item->nama_barang}}(Alat Batal)</option>
                                         @endif
                                     @endforeach
                                 @else

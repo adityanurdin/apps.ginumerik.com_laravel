@@ -251,6 +251,7 @@ class FinanceController extends Controller
         $request->merge(['barang_ids' => implode(',', $request->barang_ids)]);
         $finance = Finance::findOrFail($id);
         $order   = Order::findOrFail($finance->order_id);
+        $customer = Customer::findOrFail($order->customer_id);
         $roman =  Dit::Roman(date('m'));
 
         if ($request->bayar > $finance->sisa_bayar) {
@@ -327,13 +328,18 @@ class FinanceController extends Controller
             'tanggal_bayar'     => $request->bayar == NULL ? NULL : $request->tgl_bayar,
             'no_invoice'        => $no_invoice,
             'no_kwitansi'       => $no_kwitansi,
+            'no_pajak'          => $request->no_pajak,
             'discount'          => $request->discount,
             'tat'               => $request->tat,
             'status'            => 'Belum Lunas', #$request->bayar == NULL ? 'Belum Lunas' : 'Lunas',
             'keterangan'        => $request->keterangan,
         ]);
         $finance->update(['status' => 'tagih']);
-        $finance->update($request->except('keterangan','target_tagih', 'barang_ids', 'discount', 'tat'));
+        $finance->update($request->except('keterangan','target_tagih', 'barang_ids', 'discount', 'tat', 'no_npwp', 'alamat_npwp'));
+        $customer->update([
+            'no_npwp' => $request->no_npwp,
+            'alamat_npwp' => $request->alamat_npwp,
+        ]);
         if ($finance->sisa_bayar == 0) {
             $finance->update(['status' => 'sudah_bayar']);
         }
